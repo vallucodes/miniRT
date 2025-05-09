@@ -1,8 +1,8 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
-// # include "MLX42/MLX42.h"
-// # include "libft.h"
+# include "../lib/MLX42/include/MLX42/MLX42.h"
+# include "../lib/libft/inc/libft.h"
 // # include <stdlib.h>
 # include <stdio.h>
 
