@@ -37,7 +37,7 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADERS)
 	@$(CC) $(CFLAGS) -o $@ -c $< $(INCLUDES)
 
 $(NAME): $(LIBFT) $(MLX) $(OBJS) $(HEADERS)
-	@$(CC) $(CFLAGS) $(OBJS) $(MLXLIB) $(LIBFT) -o $(NAME)
+	@$(CC) $(OBJS) $(MLXLIB) $(LIBFT) -o $(NAME)
 	@echo "\033[0;32mMiniRT built successfully ✅\033[0m"
 
 clean:
