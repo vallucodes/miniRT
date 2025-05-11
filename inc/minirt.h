@@ -3,7 +3,7 @@
 
 # include "../lib/MLX42/include/MLX42/MLX42.h"
 # include "../lib/libft/inc/libft.h"
-# include <math.h> //abs
+# include <math.h> //sqrt
 // # include <bool.h>
 # include <stdio.h>
 # include "raytracing.h"
