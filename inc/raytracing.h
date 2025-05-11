@@ -14,6 +14,11 @@ t_tuple	create_point(float x, float y, float z);
 t_tuple	addition_tuples(t_tuple *tuple1, t_tuple *tuple2);
 t_tuple substraction_tuples(t_tuple tuple1, t_tuple tuple2);
 t_tuple negate_tuple(t_tuple tuple1);
+t_tuple scalar_multiply_tuple(t_tuple tuple1, float scalar);
+t_tuple scalar_divide_tuple(t_tuple tuple1, float scalar);
+float	magnitude_tuple(t_tuple tuple);
+t_tuple	normalize_tuple(t_tuple tuple);
+float	dot_tuple(t_tuple tuple1, t_tuple tuple2);
 
 int	is_equal(float a, float b);
 
