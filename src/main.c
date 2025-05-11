@@ -5,10 +5,10 @@ int	main()
 	t_env	env;
 	t_proj	proj;
 
-	env.g = create_vector(0, -0.1, 0);
+	env.g = create_vector(0, -0.3, 0);
 	env.w = create_vector(-0.01, 0, 0);
 	proj.pos = create_point(0, 1, 0);
-	proj.v = create_vector(1, 11, 0);
+	proj.v = create_vector(6, 11, 0);
 	while (proj.pos.y > 0)
 	{
 		tick(env, &proj);
