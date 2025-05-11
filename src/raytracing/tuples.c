@@ -22,14 +22,14 @@ t_tuple	create_point(float x, float y, float z)
 	return (new_vector);
 }
 
-t_tuple	addition_tuples(t_tuple *tuple1, t_tuple *tuple2)
+t_tuple	addition_tuples(t_tuple tuple1, t_tuple tuple2)
 {
 	t_tuple	new_tuple;
 
-	new_tuple.x = tuple1->x + tuple2->x;
-	new_tuple.y = tuple1->y + tuple2->y;
-	new_tuple.z = tuple1->z + tuple2->z;
-	new_tuple.w = tuple1->w + tuple2->w;
+	new_tuple.x = tuple1.x + tuple2.x;
+	new_tuple.y = tuple1.y + tuple2.y;
+	new_tuple.z = tuple1.z + tuple2.z;
+	new_tuple.w = tuple1.w + tuple2.w;
 	return(new_tuple);
 }
 
@@ -108,4 +108,11 @@ float	dot_tuple(t_tuple tuple1, t_tuple tuple2)
 			tuple1.z * tuple2.z +
 			tuple1.w * tuple2.w;
 	return(dot);
+}
+
+t_tuple	cross_tuple(t_tuple tuple1, t_tuple tuple2)
+{
+	return(create_vector(tuple1.y * tuple2.z - tuple1.z * tuple2.y,
+						tuple1.z * tuple2.x - tuple1.x * tuple2.z,
+						tuple1.x * tuple2.y - tuple1.y * tuple2.x));
 }
