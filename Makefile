@@ -16,7 +16,9 @@ LIBFTH		= $(LIBFT_DIR)/inc/libft.h
 HEADERS		=	inc/minirt.h
 MLXLIB		= $(MLX_DIR)/build/libmlx42.a -ldl -lglfw -pthread -lm
 
-SRC			=	main.c
+SRC			=	main.c \
+				raytracing/tuples.c \
+				raytracing/math.c
 
 OBJS		= $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 
