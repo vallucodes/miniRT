@@ -10,6 +10,6 @@ int	file_check(char **av, t_parse ps)
 {
 	ps.fd = open(av[1], O_RDONLY);
 	if (ps.fd == -1)
-		perror("Scene file open failed: ");
+		perror("Error\nScene file open failed: ");
 	return (ps.fd);
 }
