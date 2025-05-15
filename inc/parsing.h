@@ -1,21 +1,33 @@
 #ifndef PARSING_H
 # define PARSING_H
 
+//Shortened typedef to satisfy norm
+typedef unsigned char t_rgb;
+
+//Enums
+typedef enum e_limit_vals
+{
+	RGB_MIN = 0,
+	RGB_MAX = 255,
+	FOV_MIN = 0,
+	FOV_MAX = 180
+}	t_limit_vals;
+
 //Struct handling all elementes related to parsing. 
 typedef struct s_parse
 {
 	int	fd;
 	int	obj_count;
 	bool	amb_b;
-	bool	diff_b;
-	bool	cam_b;
-	t_light	diff_s;
+	unsigned char	lig_b;
+	unsigned char	cam_b;
 	t_ambient	amb_s;
+	t_light	lig_s;
 	t_camera	cam_s;
 	t_list	*objects;
 }	t_parse;
 
-//Structs for scene objects. 
+//Structs for optical objects. 
 typedef struct s_ambient
 {
 	float	ratio;
@@ -32,7 +44,7 @@ typedef struct s_camera
 	float	ox;
 	float	oy;
 	float	oz;
-	float	fov;
+	unsigned char	fov;
 }	t_camera;
 
 typedef struct s_light
@@ -46,6 +58,7 @@ typedef struct s_light
 	unsigned char	B;
 }	t_light;
 
+//Structs for scene objects. 
 typedef struct s_sphere
 {
 	float	cx;
@@ -89,6 +102,26 @@ typedef struct s_cylinder
 int		file_check(char **av, t_parse ps);
 
 //parsing.c
-bool	parsing_gateway(int ac, char **av);
+bool	parsing_gateway(t_parse ps);
+
+//parse_obj_type.c
+bool	char_optical_object(char c, t_parse ps);
+bool	char_scene_object(char *s, t_parse ps);
+
+//parse_check_opt_obj.c
+bool	parse_check_amb(char *line, t_parse ps);
+bool	parse_check_cam(char *line, t_parse ps);
+bool	parse_check_light(char *line, t_parse ps);
+
+//parse_check_scene_obj.c
+
+//parse_check_attributes_1.c
+bool	parse_check_ratio(char *str, float *num);
+bool	parse_check_RGB(char *str, t_rgb *R, t_rgb *G, t_rgb *B);
+bool	parse_check_coords(char *str, float *cx, float *cy, float *cz);
+bool	parse_check_orient(char *str, float *ox, float *oy, float *oz);
+bool	parse_check_fov(char *str, unsigned char *num);
+
+//parse_check_attributes_2.c
 
 #endif
