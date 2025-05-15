@@ -11,7 +11,7 @@ bool	string_to_double(char *str, double *num)
 	double	left;
 	double	right;
 	double	sign;
-	int	dec;
+	int		dec;
 
 	left = 0.0;
 	right = 0.0;
@@ -25,11 +25,11 @@ bool	string_to_double(char *str, double *num)
 	}
 	else
 		return (false);
-	if (*str == '.' && ft_isdigit(*(str+1)))
+	if (*str == '.' && ft_isdigit(*(str + 1)))
 	{
 		dec = -1;
 		while (ft_isdigit(*str))
-			right = right + (pow(10, dec--)* (*str++ - '0'));
+			right = right + (pow(10, dec--) * (*str++ - '0'));
 	}
 	*num = ((left + right) * sign);
 	return (true);

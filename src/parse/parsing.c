@@ -7,16 +7,16 @@
  */
 bool	parsing_gateway(t_parse ps)
 {
-	char *line;
+	char	*line;
 
 	line = "";
 	while (line != NULL)
 	{
 		line = get_next_line(ps.fd);
 		if (char_optical_object(line, ps))
-			//code
+			;
 		else if (char_scene_object(line, ps))
-			//code	
+			;
 		else
 		{
 			free(line);

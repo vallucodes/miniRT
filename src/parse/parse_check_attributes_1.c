@@ -22,24 +22,24 @@ bool	parse_check_ratio(char *str, float *num)
  * @param [in] *str: the string containing the values. 
  * @param [in] *R, G or B: pointer to where the values should be stored. 
  */
-bool	parse_check_RGB(char *str, t_rgb *R, t_rgb *G, t_rgb *B)
+bool	parse_check_rgb(char *str, t_rgb *r, t_rgb *g, t_rgb *b)
 {
-	char **tuple;
-	int tmp;
+	char	**tuple;
+	int		tmp;
 
 	tuple = ft_split(str, ',');
 	tmp = ft_atoi(tuple[0]);
 	if (tmp < RGB_MIN || tmp > RGB_MAX)
 		return (false);
-	*R = (t_rgb)tmp;
+	*r = (t_rgb)tmp;
 	tmp = ft_atoi(tuple[1]);
 	if (tmp < RGB_MIN || tmp > RGB_MAX)
 		return (false);
-	*G = (t_rgb)tmp;
+	*g = (t_rgb)tmp;
 	tmp = ft_atoi(tuple[2]);
 	if (tmp < RGB_MIN || tmp > RGB_MAX)
 		return (false);
-	*B = (t_rgb)tmp;
+	*b = (t_rgb)tmp;
 	free_matrix(tuple);
 	return (true);
 }
@@ -51,7 +51,7 @@ bool	parse_check_RGB(char *str, t_rgb *R, t_rgb *G, t_rgb *B)
  */
 bool	parse_check_coords(char *str, float *cx, float *cy, float *cz)
 {
-	char **tuple;
+	char	**tuple;
 	float	*tmp;
 
 	tuple = ft_split(str, ',');
@@ -69,14 +69,14 @@ bool	parse_check_coords(char *str, float *cx, float *cy, float *cz)
 }
 
 /**
- * @brief Checks given orientation tuple is within the range [-1,1][-1,1][-1,1].  
+ * @brief Checks given orientation tuple is within range [-1,1][-1,1][-1,1].  
  * @param [in] *str: the string containing the orientation coordinates. 
  * @param [in] *ox, oy or oz: pointer to where the values should be stored. 
  */
 bool	parse_check_orient(char *str, float *ox, float *oy, float *oz)
 {
-	char **tuple;
-	float *tmp;
+	char	**tuple;
+	float	*tmp;
 
 	tuple = ft_split(str, ',');
 	if (!string_to_double(tuple[0], &tmp) || *tmp < -1.0 || *tmp > 1.0)

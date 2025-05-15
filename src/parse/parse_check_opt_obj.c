@@ -9,12 +9,12 @@
  */
 bool	parse_check_amb(char *line, t_parse ps)
 {
-	char **words;
+	char	**words;
 
 	words = line_split_set(line, " \t");
 	if (!parse_check_ratio(words[1], &ps.amb_s.ratio))
 		return (false);
-	if (!parse_check_RGB(words[2], &ps.amb_s.R, &ps.amb_s.G, &ps.amb_s.B))
+	if (!parse_check_RGB(words[2], &ps.amb_s.r, &ps.amb_s.g, &ps.amb_s.b))
 		return (false);
 	ps.amb_b = true;
 	return (true);
@@ -25,11 +25,11 @@ bool	parse_check_amb(char *line, t_parse ps)
  * @param [in] *line: current line. 
  * @param [in] ps: t_parse type. 
  * @return True if the line is a proper C line, false otherwise. 
- * @note Pattern is: C	 [x],[y],[z]	 [-1.0,1.0],[-1.0,1.0],[-1.0,1.0]	 [0,180]
+ * @note Pattern is: C [x],[y],[z] [-1.0,1.0],[-1.0,1.0],[-1.0,1.0] [0,180]
  */
 bool	parse_check_cam(char *line, t_parse ps)
 {
-	char **words;
+	char	**words;
 
 	words = line_split_set(line, " \t");
 	if (!parse_check_coords(words[1], &ps.cam_s.cx, &ps.cam_s.cy, &ps.cam_s.cz))
@@ -51,7 +51,7 @@ bool	parse_check_cam(char *line, t_parse ps)
  */
 bool	parse_check_light(char *line, t_parse ps)
 {
-	char **words;
+	char	**words;
 
 	words = line_split_set(line, " \t");
 	if (!parse_check_coords(words[1], &ps.lig_s.cx, &ps.lig_s.cy, &ps.lig_s.cz))

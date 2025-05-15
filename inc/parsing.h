@@ -2,7 +2,7 @@
 # define PARSING_H
 
 //Shortened typedef to satisfy norm
-typedef unsigned char t_rgb;
+typedef unsigned char	t_rgb;
 
 //Enums
 typedef enum e_limit_vals
@@ -16,86 +16,86 @@ typedef enum e_limit_vals
 //Struct handling all elementes related to parsing. 
 typedef struct s_parse
 {
-	int	fd;
-	int	obj_count;
-	bool	amb_b;
+	int				fd;
+	int				obj_count;
+	bool			amb_b;
 	unsigned char	lig_b;
 	unsigned char	cam_b;
-	t_ambient	amb_s;
-	t_light	lig_s;
-	t_camera	cam_s;
-	t_list	*objects;
+	t_ambient		amb_s;
+	t_light			lig_s;
+	t_camera		cam_s;
+	t_list			*objects;
 }	t_parse;
 
 //Structs for optical objects. 
 typedef struct s_ambient
 {
-	float	ratio;
-	unsigned char	R;
-	unsigned char	G;
-	unsigned char	B;
+	float			ratio;
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
 }	t_ambient;
 
 typedef struct s_camera
 {
-	float	cx;
-	float	cy;
-	float	cz;
-	float	ox;
-	float	oy;
-	float	oz;
+	float			cx;
+	float			cy;
+	float			cz;
+	float			ox;
+	float			oy;
+	float			oz;
 	unsigned char	fov;
 }	t_camera;
 
 typedef struct s_light
 {
-	float	cx;
-	float	cy;
-	float	cz;
-	float	ratio;
-	unsigned char	R;
-	unsigned char	G;
-	unsigned char	B;
+	float			cx;
+	float			cy;
+	float			cz;
+	float			ratio;
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
 }	t_light;
 
 //Structs for scene objects. 
 typedef struct s_sphere
 {
-	float	cx;
-	float	cy;
-	float	cz;
-	float	dia;
-	unsigned char	R;
-	unsigned char	G;
-	unsigned char	B;
+	float			cx;
+	float			cy;
+	float			cz;
+	float			dia;
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
 }	t_sphere;
 
 typedef struct s_plane
 {
-	float	cx;
-	float	cy;
-	float	cz;
-	float	nx;
-	float	ny;
-	float	nz;
-	unsigned char	R;
-	unsigned char	G;
-	unsigned char	B;
+	float			cx;
+	float			cy;
+	float			cz;
+	float			nx;
+	float			ny;
+	float			nz;
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
 }	t_plane;
 
 typedef struct s_cylinder
 {
-	float	cx;
-	float	cy;
-	float	cz;
-	float	nx;
-	float	ny;
-	float	nz;
-	float	dia;
-	float	height;
-	unsigned char	R;
-	unsigned char	G;
-	unsigned char	B;
+	float			cx;
+	float			cy;
+	float			cz;
+	float			nx;
+	float			ny;
+	float			nz;
+	float			dia;
+	float			height;
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
 }	t_cylinder;
 
 //file_operations.c
@@ -114,6 +114,7 @@ bool	parse_check_cam(char *line, t_parse ps);
 bool	parse_check_light(char *line, t_parse ps);
 
 //parse_check_scene_obj.c
+bool	parse_check_sphere(char *line, t_parse ps);
 
 //parse_check_attributes_1.c
 bool	parse_check_ratio(char *str, float *num);
