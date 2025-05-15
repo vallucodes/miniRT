@@ -9,15 +9,9 @@ int	main(int ac, char **av)
 		ft_putstr_fd("Error\nUsage: ./miniRT <scene file>.rt\n", STDERR_FILENO);
 		return 1;
 	}
-	
-	if (file_check(av, ps) == -1)
-	{
-		ft_putstr_fd("Exiting: Scene file failed filesystem checks.\n", STDERR_FILENO);
-		return 1;
-	}
+	file_check(av, ps);
 
-
-	parsing_gateway(ac, av);
+	parsing_gateway(ps);
 	
 	return 0;
 }

@@ -1,6 +1,7 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
+
 //System includes. 
 # include <errno.h>
 # include <fcntl.h> 
@@ -17,5 +18,6 @@
 //Project includes. 
 # include "parsing.h"
 # include "raytracing.h"
+# include "utils.h"
 
 #endif

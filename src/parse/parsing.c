@@ -2,11 +2,26 @@
 
 /**
  * @brief Launchpad for parsing operations. 
- * @param [in] **ac: program argument count. 
- * @param [in] **av: program argument vector. 
+ * @param [in] ps: t_parse type, parsing struct. 
  * @return false on fail, true on success. 
  */
-bool	parsing_gateway(int ac, char **av)
+bool	parsing_gateway(t_parse ps)
 {
-	
+	char *line;
+
+	line = "";
+	while (line != NULL)
+	{
+		line = get_next_line(ps.fd);
+		if (char_optical_object(line, ps))
+			//code
+		else if (char_scene_object(line, ps))
+			//code	
+		else
+		{
+			free(line);
+			return (false);
+		}
+		free(line);
+	}
 }
