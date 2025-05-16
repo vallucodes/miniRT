@@ -21,6 +21,7 @@ bool	parse_check_ratio(char *str, float *num)
  * @brief Checks a given RGB tuple is within the range [0,255][0,255][0,255].  
  * @param [in] *str: the string containing the values. 
  * @param [in] *R, G or B: pointer to where the values should be stored. 
+ * @note Allocates memory to **tuple via ft_split(). 
  */
 bool	parse_check_rgb(char *str, t_rgb *r, t_rgb *g, t_rgb *b)
 {
@@ -48,6 +49,7 @@ bool	parse_check_rgb(char *str, t_rgb *r, t_rgb *g, t_rgb *b)
  * @brief Checks a given coordinate tuple is valid. 
  * @param [in] *str: the string containing the coordinates. 
  * @param [in] *cx, xy or xz: pointer to where the values should be stored. 
+ * @note Allocates memory to **tuple via ft_split(). 
  */
 bool	parse_check_coords(char *str, float *cx, float *cy, float *cz)
 {
@@ -72,6 +74,7 @@ bool	parse_check_coords(char *str, float *cx, float *cy, float *cz)
  * @brief Checks given orientation tuple is within range [-1,1][-1,1][-1,1].  
  * @param [in] *str: the string containing the orientation coordinates. 
  * @param [in] *ox, oy or oz: pointer to where the values should be stored. 
+ * @note Allocates memory to **tuple via ft_split(). 
  */
 bool	parse_check_orient(char *str, float *ox, float *oy, float *oz)
 {

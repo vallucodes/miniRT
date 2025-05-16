@@ -1,12 +1,12 @@
 #include "../../inc/minirt.h"
 
 /**
- * @brief Checks current character for match with optical object.
+ * @brief Checks first line character for match with optical object.
  * @param [in] *line: the current line of the scene file. 
- * @param [in] ps: t_parse. 
- * @return True if good, false otherwise.  
+ * @param [in] ps: t_parse, parsing struct. 
+ * @return True on success, false otherwise.  
  */
-bool	char_optical_object(char *line, t_parse ps)
+bool	parse_optical_object(char *line, t_parse ps)
 {
 	if (*line == 65 && ft_isspace(*(line + 1)))
 		return (parse_check_amb(line, ps));
@@ -18,12 +18,12 @@ bool	char_optical_object(char *line, t_parse ps)
 }
 
 /**
- * @brief Checks current (and next) character for match with scene object. 
+ * @brief Checks first and second characters for match with scene object. 
  * @param [in] *line: the current line of the scene file. 
- * @param [in] ps: t_parse. 
- * @return True if good, false otherwise.  
+ * @param [in] ps: t_parse, parsing struct. 
+ * @return True on success, false otherwise.  
  */
-bool	char_scene_object(char *line, t_parse ps)
+bool	parse_scene_object(char *line, t_parse ps)
 {
 	if (*line == 115 && *(line + 1) == 112 && ft_isspace(*(line + 2)))
 		return (parse_check_sphere(line, ps));

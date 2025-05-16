@@ -11,6 +11,7 @@ int	main(int ac, char **av)
 	}
 	file_check(av, ps);
 
+	ft_memset(&ps, 0, sizeof(t_parse));
 	parsing_gateway(ps);
 
 	return (0);

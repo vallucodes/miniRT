@@ -3,7 +3,8 @@
 /**
  * @brief Launchpad for parsing operations. 
  * @param [in] ps: t_parse type, parsing struct. 
- * @return false on fail, true on success. 
+ * @return True on success.
+ * @note Allocates memory to *line via get_next_line().  
  */
 bool	parsing_gateway(t_parse ps)
 {
@@ -13,9 +14,9 @@ bool	parsing_gateway(t_parse ps)
 	while (line != NULL)
 	{
 		line = get_next_line(ps.fd);
-		if (char_optical_object(line, ps))
+		if (parse_optical_object(line, ps))
 			;
-		else if (char_scene_object(line, ps))
+		else if (parse_scene_object(line, ps))
 			;
 		else
 		{
