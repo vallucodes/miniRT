@@ -75,9 +75,9 @@ typedef struct s_plane
 	float			cx;
 	float			cy;
 	float			cz;
-	float			nx;
-	float			ny;
-	float			nz;
+	float			ox;
+	float			oy;
+	float			oz;
 	unsigned char	r;
 	unsigned char	g;
 	unsigned char	b;
@@ -88,9 +88,9 @@ typedef struct s_cylinder
 	float			cx;
 	float			cy;
 	float			cz;
-	float			nx;
-	float			ny;
-	float			nz;
+	float			ox;
+	float			oy;
+	float			oz;
 	float			dia;
 	float			height;
 	unsigned char	r;
@@ -105,8 +105,8 @@ int		file_check(char **av, t_parse ps);
 bool	parsing_gateway(t_parse ps);
 
 //parse_obj_type.c
-bool	char_optical_object(char c, t_parse ps);
-bool	char_scene_object(char *s, t_parse ps);
+bool	parse_optical_object(char c, t_parse ps);
+bool	parse_scene_object(char *s, t_parse ps);
 
 //parse_check_opt_obj.c
 bool	parse_check_amb(char *line, t_parse ps);
@@ -115,14 +115,20 @@ bool	parse_check_light(char *line, t_parse ps);
 
 //parse_check_scene_obj.c
 bool	parse_check_sphere(char *line, t_parse ps);
+bool	parse_check_plane(char *line, t_parse ps);
+bool	parse_check_cylinder(char *line, t_parse ps);
 
 //parse_check_attributes_1.c
 bool	parse_check_ratio(char *str, float *num);
-bool	parse_check_RGB(char *str, t_rgb *R, t_rgb *G, t_rgb *B);
+bool	parse_check_rgb(char *str, t_rgb *R, t_rgb *G, t_rgb *B);
 bool	parse_check_coords(char *str, float *cx, float *cy, float *cz);
 bool	parse_check_orient(char *str, float *ox, float *oy, float *oz);
 bool	parse_check_fov(char *str, unsigned char *num);
 
 //parse_check_attributes_2.c
+bool	parse_check_geometry(char *str, unsigned char *num);
+
+//parse_obj_list.c
+void	parse_add_obj_list(void *tmp, t_parse ps);
 
 #endif
