@@ -17,8 +17,10 @@ HEADERS		=	inc/minirt.h
 MLXLIB		= $(MLX_DIR)/build/libmlx42.a -ldl -lglfw -pthread -lm
 
 SRC			=	main.c \
+				raytracing/colors.c \
 				raytracing/tuples.c \
 				raytracing/math.c \
+				raytracing/matrices.c \
 				raytracing/dev.c
 
 OBJS		= $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
