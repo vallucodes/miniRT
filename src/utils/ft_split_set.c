@@ -1,14 +1,15 @@
 #include "../../inc/minirt.h"
 
-static int	is_in_charset(char s, char *set)
+static int	is_in_charset(const char s, const char *set)
 {
 	int	i;
 
 	i = 0;
-	while (set[i] != NULL)
+	while (set[i])
 	{
 		if (s == set[i])
 			return (1);
+		i++;
 	}
 	return (0);
 }

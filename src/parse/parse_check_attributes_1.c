@@ -7,13 +7,14 @@
  */
 bool	parse_check_ratio(char *str, float *num)
 {
-	double	*tmp;
+	double	tmp;
 
-	if (!str_to_double(str, &tmp))
+	tmp = 0.0;
+	if (!string_to_double(str, &tmp))
 		return (false);
-	if (*tmp < 0.0 || *tmp > 1.0)
+	if (tmp < 0.0 || tmp > 1.0)
 		return (false);
-	*num = *tmp;
+	*num = tmp;
 	return (true);
 }
 
@@ -54,18 +55,19 @@ bool	parse_check_rgb(char *str, t_rgb *r, t_rgb *g, t_rgb *b)
 bool	parse_check_coords(char *str, float *cx, float *cy, float *cz)
 {
 	char	**tuple;
-	float	*tmp;
+	double	tmp;
 
+	tmp = 0.0;
 	tuple = ft_split(str, ',');
 	if (!string_to_double(tuple[0], &tmp))
 		return (false);
-	*cx = *tmp;
+	*cx = tmp;
 	if (!string_to_double(tuple[1], &tmp))
 		return (false);
-	*cy = *tmp;
+	*cy = tmp;
 	if (!string_to_double(tuple[2], &tmp))
 		return (false);
-	*cz = *tmp;
+	*cz = tmp;
 	free_matrix(tuple);
 	return (true);
 }
@@ -79,18 +81,19 @@ bool	parse_check_coords(char *str, float *cx, float *cy, float *cz)
 bool	parse_check_orient(char *str, float *ox, float *oy, float *oz)
 {
 	char	**tuple;
-	float	*tmp;
+	double	tmp;
 
+	tmp = 0.0;
 	tuple = ft_split(str, ',');
-	if (!string_to_double(tuple[0], &tmp) || *tmp < -1.0 || *tmp > 1.0)
+	if (!string_to_double(tuple[0], &tmp) || tmp < -1.0 || tmp > 1.0)
 		return (false);
-	*ox = *tmp;
-	if (!string_to_double(tuple[1], &tmp) || *tmp < -1.0 || *tmp > 1.0)
+	*ox = tmp;
+	if (!string_to_double(tuple[1], &tmp) || tmp < -1.0 || tmp > 1.0)
 		return (false);
-	*oy = *tmp;
-	if (!string_to_double(tuple[2], &tmp) || *tmp < -1.0 || *tmp > 1.0)
+	*oy = tmp;
+	if (!string_to_double(tuple[2], &tmp) || tmp < -1.0 || tmp > 1.0)
 		return (false);
-	*oz = *tmp;
+	*oz = tmp;
 	free_matrix(tuple);
 	return (true);
 }
@@ -104,7 +107,7 @@ bool	parse_check_fov(char *str, unsigned char *num)
 {
 	int	tmp;
 
-	tmp = ft_atoi(*num);
+	tmp = ft_atoi(str);
 	if (tmp < FOV_MIN || tmp > FOV_MAX)
 		return (false);
 	*num = (unsigned char)tmp;

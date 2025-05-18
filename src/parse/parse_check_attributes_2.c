@@ -5,12 +5,12 @@
  * @param [in] *str: the string containing the size. 
  * @param [in] *num: pointer to where the number should be stored. 
  */
-bool	parse_check_geometry(char *str, unsigned char *num)
+bool	parse_check_geometry(char *str, float *num)
 {
-	float	*tmp;
+	double	tmp;
 
-	if (!string_to_double(str, &tmp) || *tmp < 0.0)
+	if (!string_to_double(str, &tmp) || tmp < 0.0)
 		return (false);
-	*num = *tmp;
+	*num = tmp;
 	return (true);
 }

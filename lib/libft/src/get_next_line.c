@@ -6,11 +6,11 @@
 /*   By: elehtone <elehtone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 09:12:21 by elehtone          #+#    #+#             */
-/*   Updated: 2025/01/15 19:54:30 by elehtone         ###   ########.fr       */
+/*   Updated: 2025/05/16 13:06:12 by elehtone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../inc/libft.h"
 
 /*
  * Read buffers to line variable.
