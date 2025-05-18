@@ -13,20 +13,6 @@ typedef enum e_limit_vals
 	FOV_MAX = 180
 }	t_limit_vals;
 
-//Struct handling all elementes related to parsing. 
-typedef struct s_parse
-{
-	int				fd;
-	int				obj_count;
-	bool			amb_b;
-	unsigned char	lig_b;
-	unsigned char	cam_b;
-	t_ambient		amb_s;
-	t_light			lig_s;
-	t_camera		cam_s;
-	t_list			*objects;
-}	t_parse;
-
 //Structs for optical objects. 
 typedef struct s_ambient
 {
@@ -98,25 +84,39 @@ typedef struct s_cylinder
 	unsigned char	b;
 }	t_cylinder;
 
+//Struct handling all elementes related to parsing. 
+typedef struct s_parse
+{
+	int				fd;
+	int				obj_count;
+	unsigned char	amb_b;
+	unsigned char	lig_b;
+	unsigned char	cam_b;
+	t_ambient		amb_s;
+	t_light			lig_s;
+	t_camera		cam_s;
+	t_list			*objects;
+}	t_parse;
+
 //file_operations.c
-int		file_check(char **av, t_parse ps);
+int		file_check(char **av, t_parse *ps);
 
 //parsing.c
-bool	parsing_gateway(t_parse ps);
+bool	parsing_gateway(t_parse *ps);
 
 //parse_obj_type.c
-bool	parse_optical_object(char c, t_parse ps);
-bool	parse_scene_object(char *s, t_parse ps);
+bool	parse_optical_object(char *line, t_parse *ps);
+bool	parse_scene_object(char *line, t_parse *ps);
 
 //parse_check_opt_obj.c
-bool	parse_check_amb(char *line, t_parse ps);
-bool	parse_check_cam(char *line, t_parse ps);
-bool	parse_check_light(char *line, t_parse ps);
+bool	parse_check_amb(char *line, t_parse *ps);
+bool	parse_check_cam(char *line, t_parse *ps);
+bool	parse_check_light(char *line, t_parse *ps);
 
 //parse_check_scene_obj.c
-bool	parse_check_sphere(char *line, t_parse ps);
-bool	parse_check_plane(char *line, t_parse ps);
-bool	parse_check_cylinder(char *line, t_parse ps);
+bool	parse_check_sphere(char *line, t_parse *ps);
+bool	parse_check_plane(char *line, t_parse *ps);
+bool	parse_check_cylinder(char *line, t_parse *ps);
 
 //parse_check_attributes_1.c
 bool	parse_check_ratio(char *str, float *num);
@@ -126,9 +126,9 @@ bool	parse_check_orient(char *str, float *ox, float *oy, float *oz);
 bool	parse_check_fov(char *str, unsigned char *num);
 
 //parse_check_attributes_2.c
-bool	parse_check_geometry(char *str, unsigned char *num);
+bool	parse_check_geometry(char *str, float *num);
 
 //parse_obj_list.c
-void	parse_add_obj_list(void *tmp, t_parse ps);
+void	parse_add_obj_list(void *tmp, t_parse *ps);
 
 #endif

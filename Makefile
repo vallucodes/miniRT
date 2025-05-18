@@ -1,54 +1,55 @@
-NAME		= miniRT
-CC			= cc
-CFLAGS		= -Wextra -Wall -Werror
+# ================================ SETTINGS ================================== #
+NAME = minirt
 
-MLX_DIR		= ./lib/MLX42
-MLX			= $(MLX_DIR)/build/libmlx42.a
-LIBFT_DIR 	= ./lib/libft
-LIBFT 		= $(LIBFT_DIR)/libft.a
+# libft specifics
+LIBFTDIR = lib/libft/
+LIBFT = $(LIBFTDIR)libft.a
 
-OBJ_DIR		= obj/
-SRC_DIR		= src/
+# compile and link 
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -g
+# Includes for libft and libmath(s)
+INCLUDES = -I ./src/inc -I $(LIBFTDIR)inc -L$(LIBFTDIR) -lft -lm
+OBJDIR = obj/
 
-INCLUDES	= -I ./inc -I $(LIBFT_DIR)/inc
+# ================================ SOURCES =================================== #
+# Wildcards not permitted by norm, but nice and easy for testing 
+HEADERS = $(wildcard inc/*.h)
+SRCS = $(wildcard src/*.c) $(wildcard src/parse/*.c) $(wildcard src/utils/*.c)
+OBJS = $(SRCS:src/%.c=$(OBJDIR)%.o)
 
-LIBFTH		= $(LIBFT_DIR)/inc/libft.h
-HEADERS		=	inc/minirt.h
-MLXLIB		= $(MLX_DIR)/build/libmlx42.a -ldl -lglfw -pthread -lm
+# ================================ RULES ===================================== #
+# $@ = target.
+# $< = first prerequisite. $^ = all prerequisites $? = prereq newer than target
+.PHONY : all
+all : $(NAME) 
 
-SRC			=	main.c
+$(NAME) : $(LIBFT) $(OBJS) $(HEADERS)
+	$(CC) $(CFLAGS) $(SRCS) $(INCLUDES) -o $@
+	@echo "---- ==== miniRT success. ==== ----"
 
-OBJS		= $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
+$(LIBFT) :
+	@echo "---- Building libft ----"
+	@make --no-print-directory -C $(LIBFTDIR)
+	@echo "----  libft built.  ----"
 
-all: $(NAME)
-
-$(LIBFT):
-	@$(MAKE) --no-print-directory -C $(LIBFT_DIR)
-
-$(MLX): $(MLX_DIR)
-	@cmake $(MLX_DIR) -B $(MLX_DIR)/build
-	@make -C $(MLX_DIR)/build -j4
-
-$(MLX_DIR):
-	git clone https://github.com/codam-coding-college/MLX42.git $@;
-
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADERS)
+$(OBJDIR)%.o : src/%.c
 	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -o $@ -c $< $(INCLUDES)
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-$(NAME): $(LIBFT) $(MLX) $(OBJS) $(HEADERS)
-	@$(CC) $(OBJS) $(MLXLIB) $(LIBFT) -o $(NAME)
-	@echo "\033[0;32mMiniRT built successfully ✅\033[0m"
+.PHONY : clean
+clean : 
+	@make clean -C $(LIBFTDIR)
+	rm -rf $(OBJDIR)
 
-clean:
-	@rm -rf $(OBJ_DIR)
-	@$(MAKE) --no-print-directory -C $(LIBFT_DIR) clean
-	@echo "\033[0;32mminiRT cleaned successfully ✅\033[0m"
+.PHONY : fclean
+fclean : clean
+	@make fclean -C $(LIBFTDIR)
+	rm -f $(NAME)
 
-fclean: clean
-	@rm -f $(NAME) $(LIBFT)
-	@rm -rf $(MLX_DIR)/build
-
+.PHONY : re
 re: fclean all
 
-.PHONY: all, clean, fclean, re
+# .PHONY tells make that the commands are not files.
+# Make doesn't worry about whether they are actual files or not. It will always
+#     run these unless other targets are present and up-to-date.

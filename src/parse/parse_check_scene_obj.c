@@ -8,12 +8,12 @@
  * @note Pattern is: sp	 [x],[y],[z]	[0.0,?]	[0,255],[0,255],[0,255]
  * - allocates memory to **words via line_split_set(). 
  */
-bool	parse_check_sphere(char *line, t_parse ps)
+bool	parse_check_sphere(char *line, t_parse *ps)
 {
 	t_sphere	*tmp;
-	char **words;
+	char		**words;
 
-	ft_memset(tmp, 0, sizeof(t_sphere));
+	ft_memset(&tmp, 0, sizeof(t_sphere));
 	words = line_split_set(line, " \t");
 	if (!parse_check_coords(words[1], &tmp->cx, &tmp->cy, &tmp->cz))
 		return (false);
@@ -33,12 +33,12 @@ bool	parse_check_sphere(char *line, t_parse ps)
  * @note Pattern is: pl [x],[y],[z] [-1,1],[-1,1],[-1,1] [0,255],[0,255],[0,255]
  * - allocates memory to **words via line_split_set(). 
  */
-bool	parse_check_plane(char *line, t_parse ps)
+bool	parse_check_plane(char *line, t_parse *ps)
 {
 	t_plane	*tmp;
-	char **words;
+	char	**words;
 
-	ft_memset(tmp, 0, sizeof(t_plane));
+	ft_memset(&tmp, 0, sizeof(t_plane));
 	words = line_split_set(line, " \t");
 	if (!parse_check_coords(words[1], &tmp->cx, &tmp->cy, &tmp->cz))
 		return (false);
@@ -58,12 +58,12 @@ bool	parse_check_plane(char *line, t_parse ps)
  * @note Pat: cy [x],[y],[z] [-1,1],[-1,1],[-1,1] [0.0,?] [0.0,?] [r],[g],[b]
  * - allocates memory to **words via line_split_set(). 
  */
-bool	parse_check_cylinder(char *line, t_parse ps)
+bool	parse_check_cylinder(char *line, t_parse *ps)
 {
 	t_cylinder	*tmp;
-	char **words;
+	char		**words;
 
-	ft_memset(tmp, 0, sizeof(t_cylinder));
+	ft_memset(&tmp, 0, sizeof(t_cylinder));
 	words = line_split_set(line, " \t");
 	if (!parse_check_coords(words[1], &tmp->cx, &tmp->cy, &tmp->cz))
 		return (false);
@@ -78,4 +78,3 @@ bool	parse_check_cylinder(char *line, t_parse ps)
 	parse_add_obj_list(tmp, ps);
 	return (true);
 }
-

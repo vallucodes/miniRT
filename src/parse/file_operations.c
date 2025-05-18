@@ -6,13 +6,13 @@
  * @param [in] ps: parsing struct. 
  * @return -1 on fail, proper fd on success. 
  */
-int	file_check(char **av, t_parse ps)
+int	file_check(char **av, t_parse *ps)
 {
-	ps.fd = open(av[1], O_RDONLY);
-	if (ps.fd == -1)
+	ps->fd = open(av[1], O_RDONLY);
+	if (ps->fd == -1)
 	{
 		perror("Error\nScene file open failed: ");
 		exit(EXIT_FAILURE);
 	}
-	return (ps.fd);
+	return (ps->fd);
 }

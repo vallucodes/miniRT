@@ -6,9 +6,9 @@
  * @param [in] ps: t_parse, parsing struct. 
  * @return True on success, false otherwise.  
  */
-bool	parse_optical_object(char *line, t_parse ps)
+bool	parse_optical_object(char *line, t_parse *ps)
 {
-	if (*line == 65 && ft_isspace(*(line + 1)))
+	if (*line && *line == 65 && ft_isspace(*(line + 1)))
 		return (parse_check_amb(line, ps));
 	else if (*line == 67 && ft_isspace(*(line + 1)))
 		return (parse_check_cam(line, ps));
@@ -23,13 +23,13 @@ bool	parse_optical_object(char *line, t_parse ps)
  * @param [in] ps: t_parse, parsing struct. 
  * @return True on success, false otherwise.  
  */
-bool	parse_scene_object(char *line, t_parse ps)
+bool	parse_scene_object(char *line, t_parse *ps)
 {
 	if (*line == 115 && *(line + 1) == 112 && ft_isspace(*(line + 2)))
 		return (parse_check_sphere(line, ps));
 	else if (*line == 112 && *(line + 1) == 108 && ft_isspace(*(line + 2)))
 		return (parse_check_plane(line, ps));
 	else if (*line == 99 && *(line + 1) == 121 && ft_isspace(*(line + 2)))
-		return (parse_check_cyl(line, ps));
+		return (parse_check_cylinder(line, ps));
 	return (false);
 }

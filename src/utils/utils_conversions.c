@@ -8,29 +8,29 @@
  */
 bool	string_to_double(char *str, double *num)
 {
-	double	left;
-	double	right;
-	double	sign;
+	double	tmp[3];
 	int		dec;
 
-	left = 0.0;
-	right = 0.0;
-	sign = 1.0;
-	if (*str++ == '-')
-		sign == -1.0;
+	ft_memset(&tmp, 0, 3 * sizeof(double));
+	tmp[2] = 1.0;
+	if (*str == '-')
+	{
+		tmp[2] = -1.0;
+		str++;
+	}
 	if (ft_isdigit(*str))
 	{
 		while (ft_isdigit(*str))
-			left = left * 10 + (*str++ - '0');
+			tmp[0] = tmp[0] * 10 + (*str++ - '0');
 	}
 	else
 		return (false);
-	if (*str == '.' && ft_isdigit(*(str + 1)))
+	if (*str == '.' && ft_isdigit(*(str++ + 1)))
 	{
 		dec = -1;
 		while (ft_isdigit(*str))
-			right = right + (pow(10, dec--) * (*str++ - '0'));
+			tmp[1] = tmp[1] + (pow(10, dec--) * (*str++ - '0'));
 	}
-	*num = ((left + right) * sign);
+	*num = ((tmp[0] + tmp[1]) * tmp[2]);
 	return (true);
 }

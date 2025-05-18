@@ -6,11 +6,11 @@
 /*   By: elehtone <elehtone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 09:13:20 by elehtone          #+#    #+#             */
-/*   Updated: 2025/01/15 19:55:23 by elehtone         ###   ########.fr       */
+/*   Updated: 2025/05/16 13:06:44 by elehtone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../inc/libft.h"
 
 //Different to libft strchr in that it outputs an int and adds 1 to the count.
 //Oh and it only searches for '\n'.
