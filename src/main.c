@@ -16,80 +16,93 @@ void	projectile()
 	}
 }
 
-// float	**create_matrix()
-// {
-// 	float	**matrix;
+float	**create_matrix(size, flag)
+{
+	float	**m;
+	int i = 0;
 
-// 	matrix = (float **)malloc(sizeof(float) * 16);
-// 	matrix[0][0] = 1;
-// 	return (matrix);
-// }
+	m = malloc(sizeof(float *) * size);
+	while (i < size)
+	{
+		m[i] = malloc(size * sizeof(float));
+		// if (!m3[i])
+			// cleanup_exit(arena);
+		i++;
+	}
+	if (flag == 0)
+	{
+		m[0][0] =  9;  m[0][1] =  3;  m[0][2] =  0;  m[0][3] =  9;
+		m[1][0] = -5;  m[1][1] = -2;  m[1][2] = -6;  m[1][3] = -3;
+		m[2][0] = -4;  m[2][1] =  9;  m[2][2] =  6;  m[2][3] =  4;
+		m[3][0] = -7;  m[3][1] =  6;  m[3][2] =  6;  m[3][3] =  2;
+	}
+	if (flag == 1)
+	{
+		m[0][0] = 1;  m[0][1] = 2;  m[0][2] = 3;  m[0][3] = 4;
+		m[1][0] = 2;  m[1][1] = 4;  m[1][2] = 4;  m[1][3] = 2;
+		m[2][0] = 8;  m[2][1] = 6;  m[2][2] = 4;  m[2][3] = 1;
+		m[3][0] = 0;  m[3][1] = 0;  m[3][2] = 0;  m[3][3] = 1;
+	}
+	if (flag == 2)
+	{
+		m[0][0] = 1;  m[0][1] = 0;  m[0][2] = 0;  m[0][3] = 0;
+		m[1][0] = 0;  m[1][1] = 1;  m[1][2] = 0;  m[1][3] = 0;
+		m[2][0] = 0;  m[2][1] = 0;  m[2][2] = 1;  m[2][3] = 0;
+		m[3][0] = 0;  m[3][1] = 0;  m[3][2] = 0;  m[3][3] = 1;
+	}
+	if (flag == 3)
+	{
+		m[0][0] = 2; m[0][1] = 9;
+		m[1][0] = 3; m[1][1] = 90;
+	}
+	if (flag == 4)
+	{
+		m[0][0] =  1; m[0][1] =  2;  m[0][2] =  6;
+		m[1][0] = -5; m[1][1] =  8;  m[1][2] = -4;
+		m[2][0] =  2; m[2][1] =  6;  m[2][2] =  4;
+	}
+	return (m);
+}
+
+void	print_matrix(float **m, char *msg, int size)
+{
+	int i = 0;
+	int j = 0;
+	printf("Matrix %s\n", msg);
+	while (i < size)
+	{
+		j = 0;
+		while (j < size)
+		{
+			printf("%8.5f ", m[i][j]);
+			j++;
+		}
+		printf("\n");
+		i++;
+	}
+}
+
+
+void	print_tuple(t_tuple t)
+{
+	printf("t[x] = %f\n", t.x);
+	printf("t[y] = %f\n", t.y);
+	printf("t[z] = %f\n", t.z);
+	printf("t[w] = %f\n", t.w);
+}
 
 int	main()
 {
 
-	float	m1[4][4];
-	float	m2[4][4];
-	// matrix = create_matrix();
-	int i = 0;
-	int j = 0;
-	while (i < 4)
-	{
-		j = 0;
-		while (j < 4)
-		{
-			m1[i][j] = i * 4 + j + 1;
-			m2[i][j] = i * 4 + j + 1 + 0.000001;
-			printf("m1 [%i][%i] = %f, m2 [%i][%i] = %f\n", i, j, m1[i][j], i, j, m2[i][j]);
-			j++;
-		}
-		i++;
-	}
-	printf("equality %i\n", equality_matrix(m1, m2, 4));
-	multiply_matrix(m1, m2, 4);
-	// printf("vector1 xyzw: %f, %f, %f, %f\n", v1.x, v1.y, v1.z, v1.w);
-	// printf("vector2 xyzw: %f, %f, %f, %f\n", v2.x, v2.y, v2.z, v2.w);
-	// printf("point1 xyzw: %f, %f, %f, %f\n", p1.x, p1.y, p1.z, p1.w);
-	// printf("point2 xyzw: %f, %f, %f, %f\n", p2.x, p2.y, p2.z, p2.w);
-	// printf("x and y are equal: %i\n", is_equal(v1.x, v1.y));
-	// t_tuple	v3 = scalar_divide_tuple(p1, 2);
-	// printf("scalar div xyzw: %f, %f, %f, %f\n", v3.x, v3.y, v3.z, v3.w);
-	// float mag = magnitude_tuple(v2);
-	// printf("magnitude %f\n", mag);
-	// v3 = normalize_tuple(v2);
-	// mag = magnitude_tuple(v3);
-	// printf("normalize vec xyzw: %f, %f, %f, %f\n", v3.x, v3.y, v3.z, v3.w);
-	// printf("magnitude %f\n", mag);
-	// float dot = dot_tuple(v1, v2);
-	// printf("dot %f\n", dot);
-	// v3 = cross_tuple(v2, v1);
-	// printf("cross v1 v2 vec xyzw: %f, %f, %f, %f\n", v3.x, v3.y, v3.z, v3.w);
+	float	**m0;
+	float	**m1;
+	float	**m2;
+	float	**m3;
+	t_tuple	t1;
+	t_tuple	t2;
+
+	m0 = create_matrix(4, 2);
+	t1 = create_vector(1, 2, 3);
+	t2 = multiply_mtrx_by_tuple(m0, t1, 4);
+	print_tuple(t2);
 }
-
-
-// float	*create_matrix()
-// {
-// 	float	matrix[4][4];
-
-// 	return (matrix);
-// }
-
-// int	main()
-// {
-
-// 	float	matrix[4][4];
-// 	matrix[0][0] = 1;
-// 	int i = 0;
-// 	int j = 0;
-// 	matrix = create_matrix();
-// 	while (i < 4)
-// 	{
-// 		j = 0;
-// 		while (j < 4)
-// 		{
-// 			printf("%f\n", matrix[i][j]);
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// }
