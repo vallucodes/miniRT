@@ -1,6 +1,6 @@
 NAME		= miniRT
 CC			= cc
-CFLAGS		= -Wextra -Wall -Werror
+CFLAGS		= -g -Wextra -Wall #-Werror
 
 MLX_DIR		= ./lib/MLX42
 MLX			= $(MLX_DIR)/build/libmlx42.a
