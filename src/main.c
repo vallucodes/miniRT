@@ -18,6 +18,10 @@ int	main(int ac, char **av)
 
 	fun_test_parsed_output(av, ps);
 
+	close(ps->fd);
+	ft_lstclear(&ps->objects, &free);
+	free(ps);
+
 	return (0);
 }
 
@@ -34,4 +38,25 @@ void fun_test_parsed_output(char **av, t_parse *ps)
 	
 	printf("\n\nCamera settings:\n");
 	printf("Count: %i | FOV: %i | Pos: %f, %f, %f | Nor: %f, %f, %f\n", ps->cam_b, ps->cam_s.fov, ps->cam_s.cx, ps->cam_s.cy, ps->cam_s.cz, ps->cam_s.ox, ps->cam_s.oy, ps->cam_s.oz);
+	
+	printf("\nPrinting scene objects in .rt order:\n");
+	
+	int c = 0;
+	t_list	*temp = ps->objects;
+	while (temp != NULL)
+	{
+		t_scene_obj *obj = (t_scene_obj *)temp->content;
+		(void)obj;
+		printf("Node: %i\n", c);	
+		printf("Current node address: %p\n", &temp->content);
+		printf("Next node address: %p\n\n", temp->next);
+		/*printf("Current node type: %s\n", (int *)temp->content->type);
+		printf("Current node cx,cy,cz: %f,%f,%f\n", (float)temp->content->cx);
+		printf("Current node ox,oy,oz: %f,%f,%f\n", (float)temp->content->ox);
+		printf("Current node R,G,B: %i,%i,%i\n", (float)temp->content->r);
+		printf("Current node dia: %f\n", (float)temp->content->dia);
+		printf("Current node height: %f\n", (float)temp->content->height);*/
+		temp = temp -> next;
+		c++;
+	}
 }

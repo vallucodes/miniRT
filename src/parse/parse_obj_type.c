@@ -1,7 +1,7 @@
 #include "../../inc/minirt.h"
 
 /**
- * @brief Checks first line character for match with optical object.
+ * @brief Checks first character for match with optical object.
  * @param [in] *line: the current line of the scene file. 
  * @param [in] ps: t_parse, parsing struct. 
  * @return True on success, false otherwise.  

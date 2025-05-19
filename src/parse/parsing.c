@@ -9,23 +9,29 @@
 bool	parsing_gateway(t_parse *ps)
 {
 	char	*line;
+	char	*ph;
 
-	line = "";
 	while (line != NULL)
 	{
 		line = get_next_line(ps->fd);
 		if (!line)
 			return (false);
-		if (parse_optical_object(line, ps))
+		ph = line;
+		while (*ph && *ph != '\n' && ft_isspace(*ph))
+			ph++;
+		if (parse_optical_object(ph, ps))
 			;
-		else if (parse_scene_object(line, ps))
+		else if (parse_scene_object(ph, ps))
+			;
+		else if (*ph == '\n')
 			;
 		else
 		{
-			free_void(line);
+			free(line);
+			line = NULL;
 			return (false);
 		}
-		free_void(line);
+		free(line);
 	}
 	return (true);
 }

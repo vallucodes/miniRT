@@ -4,7 +4,7 @@
 //Shortened typedef to satisfy norm
 typedef unsigned char	t_rgb;
 
-//Enums
+//Min and max RGB and FOV values.
 typedef enum e_limit_vals
 {
 	RGB_MIN = 0,
@@ -12,6 +12,14 @@ typedef enum e_limit_vals
 	FOV_MIN = 0,
 	FOV_MAX = 180
 }	t_limit_vals;
+
+//Types: Plane: 0, Sphere: 1, Cylinder: 2
+typedef enum e_obj_type
+{
+	PLANE,
+	SPHERE,
+	CYLINDER
+}	t_obj_type;
 
 //Structs for optical objects. 
 typedef struct s_ambient
@@ -44,20 +52,15 @@ typedef struct s_light
 	unsigned char	b;
 }	t_light;
 
-//Structs for scene objects. 
-typedef struct s_sphere
+/**
+ * @brief Struct for scene objects.
+ * @note Plane (0): cx,cy,cz ox,oy,oz RGB
+ * @note Sphere (1): cx,cy,cz dia RGB
+ * @note Cylinder (2): cx,cy,cz ox,oy,oz dia height RGB
+ */
+typedef struct s_scene_obj
 {
-	float			cx;
-	float			cy;
-	float			cz;
-	float			dia;
-	unsigned char	r;
-	unsigned char	g;
-	unsigned char	b;
-}	t_sphere;
-
-typedef struct s_plane
-{
+	t_obj_type		type;
 	float			cx;
 	float			cy;
 	float			cz;
@@ -67,22 +70,9 @@ typedef struct s_plane
 	unsigned char	r;
 	unsigned char	g;
 	unsigned char	b;
-}	t_plane;
-
-typedef struct s_cylinder
-{
-	float			cx;
-	float			cy;
-	float			cz;
-	float			ox;
-	float			oy;
-	float			oz;
 	float			dia;
 	float			height;
-	unsigned char	r;
-	unsigned char	g;
-	unsigned char	b;
-}	t_cylinder;
+}	t_scene_obj;
 
 //Struct handling all elementes related to parsing. 
 typedef struct s_parse
