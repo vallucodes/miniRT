@@ -1,6 +1,9 @@
 #ifndef RAYTRACING_H
 # define RAYTRACING_H
 
+# define WIDTH	1500
+# define HEIGHT	1000
+# define MALLOC	"Memory allocation failed"
 typedef struct s_tuple
 {
 	float	x;
@@ -9,6 +12,11 @@ typedef struct s_tuple
 	float	w;
 }	t_tuple;
 
+typedef struct s_ray
+{
+	t_tuple	origin;
+	t_tuple	dir;
+}	t_ray;
 typedef struct s_color
 {
 	float	r;
@@ -22,16 +30,31 @@ typedef struct s_env
 	t_tuple w;
 }	t_env;
 
+//dev
 typedef struct s_proj
 {
 	t_tuple	pos;
 	t_tuple v;
 }	t_proj;
 
+typedef struct s_sphere
+{
+	t_tuple	center;
+	float	radius;
+}	t_sphere;
+
+typedef struct s_sx
+{
+	size_t	count;
+	float	t[2];
+}	t_sx;
+
+
+//tuples
 t_tuple	create_vector(float x, float y, float z);
 t_tuple	create_point(float x, float y, float z);
 
-//tuples
+//tuple operations
 t_tuple	addition_tuples(t_tuple tuple1, t_tuple tuple2);
 t_tuple substraction_tuples(t_tuple tuple1, t_tuple tuple2);
 t_tuple negate_tuple(t_tuple tuple1);
@@ -47,9 +70,8 @@ t_color	addition_color(t_color color1, t_color color2);
 t_color substraction_color(t_color color1, t_color color2);
 t_color	multiply_color(t_color color1, t_color color2);
 
-
 //matrices
-bool	equality_matrix(float m1[4][4], float m2[4][4], size_t size);
+bool	equality_matrix(float **m, float **m2, size_t size);
 float	**multiply_mtrx_by_mtrx(float **m1, float **m2, size_t size);
 t_tuple	multiply_mtrx_by_tuple(float **m, t_tuple t1, size_t size);
 float	**transpose_matrix(float **m, size_t size);
@@ -60,12 +82,21 @@ float	cofactor_matrix(float **m, int row, int col, size_t size);
 bool	is_invertible_matrix(float **m, size_t size);
 float	**inverse_matrix(float **m, size_t size);
 
-void	tick(t_env env, t_proj *proj);
+//rays
+t_ray	create_ray(t_tuple vector, t_tuple point);
+t_tuple	position_ray(t_ray ray, float t);
+t_sx	intersects_ray(t_sphere s, t_ray r);
 
-int	is_equal(float a, float b);
+//objects
+t_sphere	sphere(void);
 
+//utils
+int		is_equal(float a, float b);
 
 //dev
+void	tick(t_env env, t_proj *proj);
 void	print_matrix(float **m, char *msg, int size);
+void	print_tuple(t_tuple t);
+float	**create_matrix(size_t size, int flag);
 
 #endif

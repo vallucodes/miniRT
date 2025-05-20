@@ -13,14 +13,21 @@ SRC_DIR		= src/
 INCLUDES	= -I ./inc -I $(LIBFT_DIR)/inc
 
 LIBFTH		= $(LIBFT_DIR)/inc/libft.h
-HEADERS		=	inc/minirt.h
+HEADERS		= inc/minirt.h inc/raytracing.h
 MLXLIB		= $(MLX_DIR)/build/libmlx42.a -ldl -lglfw -pthread -lm
 
 SRC			=	main.c \
+				dev/printing.c \
+				dev/create_matrix.c \
+				drawing/background.c \
+				drawing/draw_current.c \
+				drawing/hooks.c \
 				raytracing/colors.c \
 				raytracing/tuples.c \
 				raytracing/math.c \
 				raytracing/matrices.c \
+				raytracing/objects.c \
+				raytracing/rays.c \
 				raytracing/dev.c
 
 OBJS		= $(addprefix $(OBJ_DIR), $(SRC:.c=.o))

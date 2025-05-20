@@ -105,8 +105,7 @@ float	dot_tuple(t_tuple tuple1, t_tuple tuple2)
 
 	dot = tuple1.x * tuple2.x +
 			tuple1.y * tuple2.y +
-			tuple1.z * tuple2.z +
-			tuple1.w * tuple2.w;
+			tuple1.z * tuple2.z;
 	return(dot);
 }
 
