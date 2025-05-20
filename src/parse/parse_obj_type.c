@@ -14,6 +14,8 @@ bool	parse_optical_object(char *line, t_parse *ps)
 		return (parse_check_cam(line, ps));
 	else if (*line == 76 && ft_isspace(*(line + 1)))
 		return (parse_check_light(line, ps));
+	else
+		free_helper(ps, NULL, NULL, ERR_OPTICAL);
 	return (false);
 }
 
@@ -31,5 +33,7 @@ bool	parse_scene_object(char *line, t_parse *ps)
 		return (parse_check_plane(line, ps));
 	else if (*line == 99 && *(line + 1) == 121 && ft_isspace(*(line + 2)))
 		return (parse_check_cylinder(line, ps));
+	else
+		free_helper(ps, NULL, NULL, ERR_SCENE);
 	return (false);
 }

@@ -5,10 +5,13 @@
 bool	string_to_double(char *str, double *num);
 
 //utils_matrix.c
-void	free_void(void *ptr);
 void	free_matrix(char **matrix);
 
 //ft_split_set.c
 char	**line_split_set(const char *s, const char *set);
+
+//utils_error.c
+void	put_error(char *message);
+bool	free_helper(t_parse *ps, char **matrix, void *tmp, char *err);
 
 #endif

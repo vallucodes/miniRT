@@ -10,10 +10,11 @@ bool	parse_check_ratio(char *str, float *num)
 	double	tmp;
 
 	tmp = 0.0;
-	if (!string_to_double(str, &tmp))
+	if (!string_to_double(str, &tmp) || tmp < 0.0 || tmp > 1.0)
+	{
+		put_error(ERR_RAT);
 		return (false);
-	if (tmp < 0.0 || tmp > 1.0)
-		return (false);
+	}
 	*num = tmp;
 	return (true);
 }
@@ -24,7 +25,7 @@ bool	parse_check_ratio(char *str, float *num)
  * @param [in] *R, G or B: pointer to where the values should be stored. 
  * @note Allocates memory to **tuple via ft_split(). 
  */
-bool	parse_check_rgb(char *str, t_rgb *r, t_rgb *g, t_rgb *b)
+bool	parse_check_rgb(char *str, int *r, int *g, int *b)
 {
 	char	**tuple;
 	int		tmp;
@@ -32,16 +33,18 @@ bool	parse_check_rgb(char *str, t_rgb *r, t_rgb *g, t_rgb *b)
 	tuple = ft_split(str, ',');
 	tmp = ft_atoi(tuple[0]);
 	if (tmp < RGB_MIN || tmp > RGB_MAX)
-		return (false);
-	*r = (t_rgb)tmp;
+		return (free_helper(NULL, tuple, NULL, ERR_RGB));
+	*r = tmp;
+	tmp=0;
 	tmp = ft_atoi(tuple[1]);
 	if (tmp < RGB_MIN || tmp > RGB_MAX)
-		return (false);
-	*g = (t_rgb)tmp;
+		return (free_helper(NULL, tuple, NULL, ERR_RGB));
+	*g = tmp;
+	tmp=0;
 	tmp = ft_atoi(tuple[2]);
 	if (tmp < RGB_MIN || tmp > RGB_MAX)
-		return (false);
-	*b = (t_rgb)tmp;
+		return (free_helper(NULL, tuple, NULL, ERR_RGB));
+	*b = tmp;
 	free_matrix(tuple);
 	return (true);
 }
@@ -60,13 +63,13 @@ bool	parse_check_coords(char *str, float *cx, float *cy, float *cz)
 	tmp = 0.0;
 	tuple = ft_split(str, ',');
 	if (!string_to_double(tuple[0], &tmp))
-		return (false);
+		return (free_helper(NULL, tuple, NULL, ERR_CO));
 	*cx = tmp;
 	if (!string_to_double(tuple[1], &tmp))
-		return (false);
+		return (free_helper(NULL, tuple, NULL, ERR_CO));
 	*cy = tmp;
 	if (!string_to_double(tuple[2], &tmp))
-		return (false);
+		return (free_helper(NULL, tuple, NULL, ERR_CO));
 	*cz = tmp;
 	free_matrix(tuple);
 	return (true);
@@ -86,13 +89,13 @@ bool	parse_check_orient(char *str, float *ox, float *oy, float *oz)
 	tmp = 0.0;
 	tuple = ft_split(str, ',');
 	if (!string_to_double(tuple[0], &tmp) || tmp < -1.0 || tmp > 1.0)
-		return (false);
+		return (free_helper(NULL, tuple, NULL, ERR_OO));
 	*ox = tmp;
 	if (!string_to_double(tuple[1], &tmp) || tmp < -1.0 || tmp > 1.0)
-		return (false);
+		return (free_helper(NULL, tuple, NULL, ERR_OO));
 	*oy = tmp;
 	if (!string_to_double(tuple[2], &tmp) || tmp < -1.0 || tmp > 1.0)
-		return (false);
+		return (free_helper(NULL, tuple, NULL, ERR_OO));
 	*oz = tmp;
 	free_matrix(tuple);
 	return (true);
@@ -109,7 +112,10 @@ bool	parse_check_fov(char *str, unsigned char *num)
 
 	tmp = ft_atoi(str);
 	if (tmp < FOV_MIN || tmp > FOV_MAX)
+	{
+		put_error(ERR_FOV);
 		return (false);
+	}
 	*num = (unsigned char)tmp;
 	return (true);
 }
