@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-bool	equality_matrix(float m[4][4], float m2[4][4], size_t size)
+bool	equality_matrix(float **m, float **m2, size_t size)
 {
 	size_t	i;
 	size_t	j;
