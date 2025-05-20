@@ -43,11 +43,11 @@ typedef struct s_sphere
 	float	radius;
 }	t_sphere;
 
-typedef struct s_sx
+typedef struct s_i
 {
-	size_t	count;
 	float	t[2];
-}	t_sx;
+	char	object;
+}	t_i;
 
 
 //tuples
