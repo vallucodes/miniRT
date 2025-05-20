@@ -14,7 +14,10 @@ int	main(int ac, char **av)
 	ps = ft_calloc(1, sizeof(t_parse));
 	file_check(av, ps);
 
-	parsing_gateway(ps);
+	if (!parsing_gateway(ps))
+	{
+		exit (EXIT_FAILURE);
+	}
 
 	fun_test_parsed_output(av, ps);
 
@@ -40,6 +43,7 @@ void fun_test_parsed_output(char **av, t_parse *ps)
 	printf("Count: %i | FOV: %i | Pos: %f, %f, %f | Nor: %f, %f, %f\n", ps->cam_b, ps->cam_s.fov, ps->cam_s.cx, ps->cam_s.cy, ps->cam_s.cz, ps->cam_s.ox, ps->cam_s.oy, ps->cam_s.oz);
 	
 	printf("\nPrinting scene objects in .rt order:\n");
+	printf("Number of scene objects: %i\n", ps->obj_count);
 	
 	int c = 0;
 	t_list	*temp = ps->objects;
@@ -49,13 +53,13 @@ void fun_test_parsed_output(char **av, t_parse *ps)
 		(void)obj;
 		printf("Node: %i\n", c);	
 		printf("Current node address: %p\n", &temp->content);
-		printf("Next node address: %p\n\n", temp->next);
-		/*printf("Current node type: %s\n", (int *)temp->content->type);
-		printf("Current node cx,cy,cz: %f,%f,%f\n", (float)temp->content->cx);
-		printf("Current node ox,oy,oz: %f,%f,%f\n", (float)temp->content->ox);
-		printf("Current node R,G,B: %i,%i,%i\n", (float)temp->content->r);
-		printf("Current node dia: %f\n", (float)temp->content->dia);
-		printf("Current node height: %f\n", (float)temp->content->height);*/
+		printf("Next node address: %p\n", temp->next);
+		printf("Current node type: %i\n", ((t_scene_obj *)temp->content)->type);
+		printf("Current node cx,cy,cz: %f,%f,%f\n", ((t_scene_obj *)temp->content)->cx, ((t_scene_obj *)temp->content)->cy, ((t_scene_obj *)temp->content)->cz);
+		printf("Current node ox,oy,oz: %f,%f,%f\n", ((t_scene_obj *)temp->content)->ox, ((t_scene_obj *)temp->content)->oy, ((t_scene_obj *)temp->content)->oz);
+		printf("Current node R,G,B: %i,%i,%i\n", ((t_scene_obj *)temp->content)->r, ((t_scene_obj *)temp->content)->g, ((t_scene_obj *)temp->content)->b);
+		printf("Current node dia: %f\n", ((t_scene_obj *)temp->content)->dia);
+		printf("Current node height: %f\n\n", ((t_scene_obj *)temp->content)->height);
 		temp = temp -> next;
 		c++;
 	}

@@ -10,7 +10,10 @@ bool	parse_check_geometry(char *str, float *num)
 	double	tmp;
 
 	if (!string_to_double(str, &tmp) || tmp < 0.0)
+	{
+		put_error(ERR_GEO);
 		return (false);
+	}
 	*num = tmp;
 	return (true);
 }

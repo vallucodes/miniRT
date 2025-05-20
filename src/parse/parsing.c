@@ -5,33 +5,52 @@
  * @param [in] ps: t_parse type, parsing struct. 
  * @return True on success.
  * @note Allocates memory to *line via get_next_line().  
+ * 
+ * Not worried about lines at the moment. This function will probably change a lot.
+ * If it even exists in this form when we are done. 
  */
 bool	parsing_gateway(t_parse *ps)
 {
 	char	*line;
 	char	*ph;
 
+	line = "";
 	while (line != NULL)
 	{
 		line = get_next_line(ps->fd);
 		if (!line)
 			return (false);
+		if (*line == '\0')
+			break ;
 		ph = line;
 		while (*ph && *ph != '\n' && ft_isspace(*ph))
 			ph++;
-		if (parse_optical_object(ph, ps))
+		if (*ph == '\n')
 			;
-		else if (parse_scene_object(ph, ps))
-			;
-		else if (*ph == '\n')
-			;
+		else if (*ph && ft_isalnum(*ph) && ft_isspace(*(ph + 1)))
+		{
+			if (!parse_optical_object(ph, ps))
+			{
+				free(line);
+				return (false);
+			}
+		}
+		else if (*ph && ft_isalnum(*ph) && ft_isalnum(*(ph + 1))
+			&& ft_isspace(*(ph + 2))) 
+		{
+			if (!parse_scene_object(ph, ps))
+			{
+				free(line);
+				return (false);
+			}
+		}
 		else
 		{
-			free(line);
-			line = NULL;
+			free_helper(ps, NULL, line, ERR_GEN);
 			return (false);
 		}
 		free(line);
 	}
+	free(line);
 	return (true);
 }
