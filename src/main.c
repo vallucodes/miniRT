@@ -65,7 +65,7 @@ int	main()
 	print_tuple(t2);
 	s = sphere();
 	sx = intersects_ray(s, r);
-	printf("count %zu, int[0] %f, int[1] %f\n", sx.count, sx.t[0], sx.t[1]);
+	printf("count %zu, int[0] %c, int[1] %c\n", sx.count, sx.t[0], sx.t[1]);
 	// mlx_loop_hook(minirt.mlx, &draw_hook, &minirt);
 	// mlx_loop(minirt.mlx);
 }
