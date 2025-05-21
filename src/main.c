@@ -68,6 +68,7 @@ int	main()
 	xs = intersects_ray(s, r);
 	printf("count %zu, int[0] %f, int[1] %f\n", xs->count, xs->t[0], xs->t[1]);
 	i = hit(xs);
+	printf("i.t smallest positive number %f\n", i.t);
 	// mlx_loop_hook(minirt.mlx, &draw_hook, &minirt);
 	// mlx_loop(minirt.mlx);
 }
