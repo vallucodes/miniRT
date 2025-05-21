@@ -45,10 +45,16 @@ typedef struct s_sphere
 
 typedef struct s_i
 {
-	float	t[2];
-	char	object;
+	float	t;
+	void	*object;
 }	t_i;
 
+typedef struct s_xs
+{
+	size_t	count;
+	void	**object;
+	float	*t;
+}	t_xs;
 
 //tuples
 t_tuple	create_vector(float x, float y, float z);
@@ -85,7 +91,7 @@ float	**inverse_matrix(float **m, size_t size);
 //rays
 t_ray	create_ray(t_tuple vector, t_tuple point);
 t_tuple	position_ray(t_ray ray, float t);
-t_sx	intersects_ray(t_sphere s, t_ray r);
+t_xs	*intersects_ray(t_sphere s, t_ray r);
 
 //objects
 t_sphere	sphere(void);

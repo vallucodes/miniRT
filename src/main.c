@@ -53,19 +53,19 @@ int	main()
 	t_tuple	t2;
 	t_tuple	t3;
 	t_ray	r;
-	t_sx	sx;
-	t_sphere s;
+	t_xs	*xs;
+	t_sphere s; //edit this to int maybe
 	t_minirt minirt;
 
 	init_minirt(&minirt);
-	t2 = create_point(0, 1, -5);
+	t2 = create_point(0, 0, -5);
 	t1 = create_vector(0, 0, 1);
 	r = create_ray(t1, t2);
 	print_tuple(t1);
 	print_tuple(t2);
-	s = sphere();
-	sx = intersects_ray(s, r);
-	printf("count %zu, int[0] %c, int[1] %c\n", sx.count, sx.t[0], sx.t[1]);
+	s = sphere(); //needs to return unique value?
+	xs = intersects_ray(s, r);
+	printf("count %zu, int[0] %f, int[1] %f\n", xs->count, xs->t[0], xs->t[1]);
 	// mlx_loop_hook(minirt.mlx, &draw_hook, &minirt);
 	// mlx_loop(minirt.mlx);
 }
