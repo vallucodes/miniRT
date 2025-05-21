@@ -2,7 +2,8 @@
 # define UTILS_H
 
 //utils_conversions.c
-bool	string_to_double(char *str, double *num);
+double	string_to_double(const char *str);
+int		strict_atoi(const char *nptr);
 
 //utils_matrix.c
 void	free_matrix(char **matrix);

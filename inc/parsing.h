@@ -7,7 +7,11 @@ typedef enum e_limit_vals
 	RGB_MIN = 0,
 	RGB_MAX = 255,
 	FOV_MIN = 0,
-	FOV_MAX = 180
+	FOV_MAX = 180,
+	OR_MIN	= -1,
+	OR_MAX	= 1,
+	CO_MIN	= -10000,
+	CO_MAX	= 10000
 }	t_limit_vals;
 
 //Types: Plane: 0, Sphere: 1, Cylinder: 2
@@ -20,9 +24,9 @@ typedef enum e_obj_type
 
 //Errors: 
 # define ERR_GEN "Parsing error, check scene file."
+# define ERR_SCENELST "Building scene list failed."
 # define ERR_OPTICAL "Invalid optical object designation in scene file."
 # define ERR_SCENE "Invalid scene object designation in scene file."
-# define ERR_SCENELST "Building scene list failed."
 # define ERR_AMB "Incorrect ambient light designation."
 # define ERR_DIFF "Incorrect diffuse light designation."
 # define ERR_CAM "Incorrect camera designation."
