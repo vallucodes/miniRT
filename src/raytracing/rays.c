@@ -17,15 +17,40 @@ t_tuple	position_ray(t_ray ray, float t)
 	return (new_vector);
 }
 
-t_i	intersects_ray(t_sphere s, t_ray r)
+t_i	intersection(int intersection, void *obj)
 {
-	t_i	i;
+	t_i i;
+
+	i.object = obj;
+	i.t = intersection;
+	return (i);
+}
+
+t_xs	*intersections(t_i i1, t_i i2)
+{
+	t_xs	*xs;
+
+	xs = malloc(sizeof(t_xs));
+	xs->count = 2;
+	xs->object = malloc(xs->count * sizeof(char));
+	xs->t = malloc(xs->count * sizeof(float));
+	xs->object[0] = i1.object;
+	xs->object[1] = i2.object;
+	xs->t[0] = i1.t;
+	xs->t[1] = i2.t;
+	return (xs);
+}
+
+t_xs	*intersects_ray(t_sphere s, t_ray r)
+{
+	t_i		i1;
+	t_i		i2;
+	t_xs	*xs;
 	float	a;
 	float	b;
 	float	c;
 	float	discriminant;
 	t_tuple	sphere_to_ray;
-	size_t	i;
 
 	sphere_to_ray = substraction_tuples(r.origin, create_point(0,0,0));
 	a = dot_tuple(r.dir, r.dir);
@@ -33,16 +58,9 @@ t_i	intersects_ray(t_sphere s, t_ray r)
 	c = dot_tuple(sphere_to_ray, sphere_to_ray) - s.radius * s.radius;
 	discriminant = b * b - 4 * a * c;
 	if (discriminant < 0)
-		return (i);
-	i.t[0] = (-b - sqrt(discriminant)) / (2 * a);
-	i.t[1] = (-b + sqrt(discriminant)) / (2 * a);
-	i.object = 's';
-	// i.t = malloc(i.count * sizeof(char));
-	// i = 0;
-	// while (i < i.count)
-	// {
-	// 	i.t[i] = 's';
-	// 	i++;
-	// }
-	return (i);
+		return (NULL);
+	i1 = intersection((-b - sqrt(discriminant)) / (2 * a), &s);
+	i2 = intersection((-b + sqrt(discriminant)) / (2 * a), &s);
+	xs = intersections(i1, i2);
+	return (xs);
 }
