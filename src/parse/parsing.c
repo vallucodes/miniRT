@@ -36,7 +36,7 @@ bool	parsing_gateway(t_parse *ps)
 			}
 		}
 		else if (*ph && ft_isalnum(*ph) && ft_isalnum(*(ph + 1))
-			&& ft_isspace(*(ph + 2))) 
+			&& ft_isspace(*(ph + 2)))
 		{
 			if (!parse_scene_object(ph, ps))
 			{

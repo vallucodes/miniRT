@@ -43,6 +43,7 @@ void fun_test_parsed_output(char **av, t_parse *ps)
 	printf("Count: %i | FOV: %i | Pos: %f, %f, %f | Nor: %f, %f, %f\n", ps->cam_b, ps->cam_s.fov, ps->cam_s.cx, ps->cam_s.cy, ps->cam_s.cz, ps->cam_s.ox, ps->cam_s.oy, ps->cam_s.oz);
 	
 	printf("\nPrinting scene objects in .rt order:\n");
+	printf("\nPlane = 0, sphere = 1, cylinder = 2:\n");
 	printf("Number of scene objects: %i\n", ps->obj_count);
 	
 	int c = 0;
