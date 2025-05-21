@@ -1,7 +1,9 @@
 #ifndef PARSING_H
 # define PARSING_H
 
-//Min and max RGB and FOV values.
+/**
+ * @brief Min and max values for RGB, FOV, orientation, coordinate. 
+ */
 typedef enum e_limit_vals
 {
 	RGB_MIN = 0,
@@ -14,7 +16,9 @@ typedef enum e_limit_vals
 	CO_MAX	= 10000
 }	t_limit_vals;
 
-//Types: Plane: 0, Sphere: 1, Cylinder: 2
+/**
+ * @brief Scene object types: Plane: 0, Sphere: 1, Cylinder: 2
+ */
 typedef enum e_obj_type
 {
 	PLANE,
@@ -22,7 +26,9 @@ typedef enum e_obj_type
 	CYLINDER
 }	t_obj_type;
 
-//Errors: 
+/**
+ * @brief Error definitions. 
+ */
 # define ERR_GEN "Parsing error, check scene file."
 # define ERR_SCENELST "Building scene list failed."
 # define ERR_OPTICAL "Invalid optical object designation in scene file."
@@ -40,7 +46,10 @@ typedef enum e_obj_type
 # define ERR_FOV "Incorrect field-of-view value given in scene file."
 # define ERR_RAT "Incorrect ratio value given in scene file."
 
-//Structs for optical objects. 
+/**
+ * @brief Ambient optical object.
+ * @note ratio[0.0,1.0] r,g,b[0,255]. 
+*/
 typedef struct s_ambient
 {
 	float			ratio;
@@ -49,6 +58,10 @@ typedef struct s_ambient
 	int				b;
 }	t_ambient;
 
+/**
+ * @brief Camera optical object.
+ * @note cx,cy,cz[CO_MIN,CO_MAX] ox,oy,oz[OR_MIN,OR_MAX] fov[0,180]
+*/
 typedef struct s_camera
 {
 	float			cx;
@@ -60,6 +73,11 @@ typedef struct s_camera
 	unsigned char	fov;
 }	t_camera;
 
+//Light: coordinate X,Y,Z, ratio, R,G,B
+/**
+ * @brief Light optical object.
+ * @note cx,cy,cz[CO_MIN,CO_MAX] ratio[0.0,1.0] r,g,b[0,255]
+*/
 typedef struct s_light
 {
 	float			cx;
@@ -73,9 +91,9 @@ typedef struct s_light
 
 /**
  * @brief Struct for scene objects.
- * @note Plane (0): cx,cy,cz ox,oy,oz RGB
- * @note Sphere (1): cx,cy,cz dia RGB
- * @note Cylinder (2): cx,cy,cz ox,oy,oz dia height RGB
+ * @note Plane (0): cx,cy,cz[CO_MIN,CO_MAX] ox,oy,oz[OR_MIN,OR_MAX] r,g,b[0,255]
+ * @note Sphere (1): cx,cy,cz[CO_MIN,CO_MAX] dia r,g,b[0,255]
+ * @note Cylinder (2): cx,cy,cz ox,oy,oz dia height r,g,b
  */
 typedef struct s_scene_obj
 {
@@ -93,7 +111,12 @@ typedef struct s_scene_obj
 	float			height;
 }	t_scene_obj;
 
-//Struct handling all elementes related to parsing. 
+/**
+ * @brief Struct handling all elements related to parsing the scene. 
+ * @note obj_count: only scene objects. xxx_b: count of optical objects. 
+ * @note xxx_s: data struct for optical objects.
+ * @note *objects: single linked list, all scene objects (obj_count - 1 entries)
+ */
 typedef struct s_parse
 {
 	int				fd;

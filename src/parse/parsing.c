@@ -2,12 +2,13 @@
 
 /**
  * @brief Launchpad for parsing operations. 
- * @param [in] ps: t_parse type, parsing struct. 
- * @return True on success.
- * @note Allocates memory to *line via get_next_line().  
+ * @param [in] ps: t_parse
+ * @return True on successful parse 
+ * @details Allocates memory to *line via get_next_line(). 
  * 
  * Not worried about lines at the moment. This function will probably change a lot.
  * If it even exists in this form when we are done. 
+ * Also, my GNL is the leaky kind. Will fix that in future or swap for Vallu's
  */
 bool	parsing_gateway(t_parse *ps)
 {

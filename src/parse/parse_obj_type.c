@@ -2,9 +2,9 @@
 
 /**
  * @brief Checks first character for match with optical object.
- * @param [in] *line: the current line of the scene file. 
- * @param [in] ps: t_parse, parsing struct. 
- * @return True on success, false otherwise.  
+ * @param [in] *line: current line of scene file. 
+ * @param [in] ps: t_parse
+ * @return True on successful parse
  */
 bool	parse_optical_object(char *line, t_parse *ps)
 {
@@ -21,9 +21,9 @@ bool	parse_optical_object(char *line, t_parse *ps)
 
 /**
  * @brief Checks first and second characters for match with scene object. 
- * @param [in] *line: the current line of the scene file. 
- * @param [in] ps: t_parse, parsing struct. 
- * @return True on success, false otherwise.  
+ * @param [in] *line: current line of scene file. 
+ * @param [in] ps: t_parse
+ * @return True on successful parse
  */
 bool	parse_scene_object(char *line, t_parse *ps)
 {
