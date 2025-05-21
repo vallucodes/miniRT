@@ -17,6 +17,17 @@ t_tuple	position_ray(t_ray ray, float t)
 	return (new_vector);
 }
 
+t_i	hit(t_xs *xs)
+{
+	size_t	i;
+
+	i = 0;
+	while(i < xs->count)
+	{
+		if (xs->t[i]
+	}
+}
+
 t_i	intersection(int intersection, void *obj)
 {
 	t_i i;
