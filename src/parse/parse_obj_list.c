@@ -1,7 +1,7 @@
 #include "../../inc/minirt.h"
 
 /**
- * @brief On list addition fail, print error and free incomplete list.  
+ * @brief On list addition failure, print error and free incomplete list.  
  * @param [in] **list: t_list
  * @return Always false. To be used in return() of calling function. 
  */
@@ -15,8 +15,9 @@ static bool	parse_list_error(t_list **list)
 /**
  * @brief Adds the passed scene object to a linked list of objects. 
  * @param [in] *tmp: the object to be added. 
- * @param [in] ps: t_parse, parsing struct. 
- * @return True on success. 
+ * @param [in] ps: t_parse 
+ * @return True on successful addition
+ * @details Memory is allocated by list functions. 
  */
 bool	parse_add_obj_list(t_scene_obj *tmp, t_parse *ps)
 {

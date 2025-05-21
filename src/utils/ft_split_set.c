@@ -14,7 +14,13 @@ static int	is_in_charset(const char s, const char *set)
 	return (0);
 }
 
-static int	fun_words(const char *s, const char *set)
+/**
+  * @brief Counts the number of words in a string, separated by chars in a set.
+  * @param [in] *s: string to split. 
+  * @param [in] *set: characters to split by. 
+  * @return Int number of words 
+  */
+int	fun_words(const char *s, const char *set)
 {
 	int	words;
 
@@ -73,7 +79,7 @@ static int	fun_chopper(char **plate, const char *s, const char *set, int w)
   * @param [in] *s: string to split. 
   * @param [in] *set: characters to split by. 
   * @return Memory allocated NULL terminated matrix of strings. NULL on fail. 
-  * @note Just a modified ft_split, maybe make something better. 
+  * @details Just a modified ft_split(). Essentially C09 from piscine. 
   */
 char	**line_split_set(const char *s, const char *set)
 {

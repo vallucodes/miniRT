@@ -17,9 +17,8 @@ void	put_error(char *message)
  * @param [in] **matrix: Not required. 
  * @param [in] *vector: Not required.
  * @param [in] *message: Not required. Error message to stderr. 
- * @return Always false.
- * @note To be used in return() of calling function. 
- * Catch all annoying function. May change later. 
+ * @return Always false. To be used in function return. 
+ * @details Catch all annoying function. May change later. 
  */
 bool	free_helper(t_parse *ps, char **matrix, void *vector, char *message)
 {

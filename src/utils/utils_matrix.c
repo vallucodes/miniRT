@@ -18,8 +18,3 @@ void	free_matrix(char **matrix)
 	free(matrix);
 	matrix = NULL;
 }
-
-int	matrix_elem_count(void **matrix)
-{
-	return (sizeof(matrix) / sizeof(**matrix));
-}

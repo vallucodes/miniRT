@@ -18,16 +18,16 @@ static int	count_digits(const char *str)
 }
 
 /**
- * @brief Attempts to extract a float from a string. 
- * @param [in] *str: string to convert. 
- * @param [in] *num: pointer to variable for output. 
- * @return True on success, false on fail. 
- * @note Allocates memory to **sides via ft_split(). 
+ * @brief Attempts to extract a double from a string. 
+ * @param [in] *str
+ * @return On failure, returns an out of (project) limit negative value 
+ * @details Allocates memory to **sides via ft_split(). 
+ * 			- Failure return is linked to coordinate min/max, negative sum. 
  */
 double	string_to_double(const char *str)
 {
 	double	parts[3];
-	char 	**sides;
+	char	**sides;
 	int		dec;
 
 	ft_memset(&parts, 0, 3 * sizeof(double));
@@ -54,11 +54,11 @@ double	string_to_double(const char *str)
 
 /**
  * @brief Attempts to extract an int from a string. 
- * @param [in] *nptr: string to convert. 
+ * @param [in] *nptr
  * @return Positive int on success, -1 on fail. 
- * @note In current use, there are no negative ints, so if the result is
- * negative, then the conversion failed.
- * Failure occurs on any non-digit in the string, regardless of position.
+ * @details In current project use, there are no negative ints, if the result is
+ * 			negative, then the conversion failed.
+ * 			Failure occurs on any non-digit in string, regardless of position.
  */
 int	strict_atoi(const char *nptr)
 {
