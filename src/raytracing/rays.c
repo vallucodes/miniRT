@@ -20,12 +20,24 @@ t_tuple	position_ray(t_ray ray, float t)
 t_i	hit(t_xs *xs)
 {
 	size_t	i;
+	t_i		hit;
 
+	hit.t = -1;
+	hit.object = NULL;
 	i = 0;
 	while(i < xs->count)
 	{
-		if (xs->t[i]
+		if (xs->t[i] > 0)
+		{
+			if (hit.t == -1 || xs->t[i] < hit.t)
+			{
+				hit.t = xs->t[i];
+				hit.object = xs->object[i];
+			}
+		}
+		i++;
 	}
+	return(hit);
 }
 
 t_i	intersection(int intersection, void *obj)
@@ -42,7 +54,7 @@ t_xs	*intersections(t_i i1, t_i i2)
 	t_xs	*xs;
 
 	xs = malloc(sizeof(t_xs));
-	xs->count = 2;
+	xs->count = 4;
 	xs->object = malloc(xs->count * sizeof(char));
 	xs->t = malloc(xs->count * sizeof(float));
 	xs->object[0] = i1.object;

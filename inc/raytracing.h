@@ -92,6 +92,7 @@ float	**inverse_matrix(float **m, size_t size);
 t_ray	create_ray(t_tuple vector, t_tuple point);
 t_tuple	position_ray(t_ray ray, float t);
 t_xs	*intersects_ray(t_sphere s, t_ray r);
+t_i		hit(t_xs *xs);
 
 //objects
 t_sphere	sphere(void);
