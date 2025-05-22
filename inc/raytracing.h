@@ -107,8 +107,9 @@ t_sphere	sphere(void);
 
 //utils
 int		is_equal(float a, float b);
-
+void	testing(void);
 //dev
+
 void	tick(t_env env, t_proj *proj);
 void	print_matrix(float **m, char *msg, int size);
 void	print_tuple(t_tuple t);

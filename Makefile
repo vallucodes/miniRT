@@ -1,31 +1,36 @@
 # ================================ SETTINGS ================================== #
-NAME = minirt
-
-# libft specifics
-LIBFTDIR = lib/libft/
-LIBFT = $(LIBFTDIR)libft.a
+NAME = miniRT
 
 # compile and link
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -g -Wall -Wextra #-Werror
+
+# libft specifics
+MLX_DIR		= ./lib/MLX42
+MLX			= $(MLX_DIR)/build/libmlx42.a
+LIBFTDIR	= lib/libft/
+LIBFT		= $(LIBFTDIR)libft.a
+
 # Includes for libft and libmath(s)
-INCLUDES = -I ./src/inc -I $(LIBFTDIR)inc -L$(LIBFTDIR) -lft -lm
-OBJDIR = obj/
+INCLUDES = -I ./inc -I $(LIBFTDIR)inc
+LDFLAGS = -L$(LIBFTDIR) -lft -lm
+OBJ_DIR = obj/
+SRC_DIR = src/
 
 # ================================ SOURCES =================================== #
 # Wildcards not permitted by norm, but nice and easy for testing
-HEADERS = $(wildcard inc/*.h)
-SRCS = $(wildcard src/*.c) $(wildcard src/parse/*.c) $(wildcard src/utils/*.c)
-OBJS = $(SRCS:src/%.c=$(OBJDIR)%.o)
+HEADERS		= $(wildcard inc/*.h)
+MLXLIB		= $(MLX_DIR)/build/libmlx42.a -ldl -lglfw -pthread -lm
+SRCS		= $(wildcard src/*.c) $(wildcard src/**/*.c)
+OBJS		= $(SRCS:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 # ================================ RULES ===================================== #
 # $@ = target.
 # $< = first prerequisite. $^ = all prerequisites $? = prereq newer than target
-.PHONY : all
 all : $(NAME)
 
-$(NAME) : $(LIBFT) $(OBJS) $(HEADERS)
-	$(CC) $(CFLAGS) $(SRCS) $(INCLUDES) -o $@
+$(NAME) : $(LIBFT) $(MLX) $(OBJS) $(HEADERS)
+	$(CC) $(CFLAGS) $(OBJS) $(MLXLIB) $(INCLUDES) $(LDFLAGS) -o $@
 	@echo "---- ==== miniRT success. ==== ----"
 
 $(LIBFT) :
@@ -33,22 +38,28 @@ $(LIBFT) :
 	@make --no-print-directory -C $(LIBFTDIR)
 	@echo "----  libft built.  ----"
 
-$(OBJDIR)%.o : src/%.c
+$(MLX): $(MLX_DIR)
+	@cmake $(MLX_DIR) -B $(MLX_DIR)/build
+	@make -C $(MLX_DIR)/build -j4
+
+$(MLX_DIR):
+	git clone https://github.com/codam-coding-college/MLX42.git $@;
+
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADERS)
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-.PHONY : clean
 clean :
 	@make clean -C $(LIBFTDIR)
-	rm -rf $(OBJDIR)
+	rm -rf $(OBJ_DIR)
 
-.PHONY : fclean
 fclean : clean
 	@make fclean -C $(LIBFTDIR)
 	rm -f $(NAME)
 
-.PHONY : re
 re: fclean all
+
+.PHONY: all, clean, fclean, re
 
 # .PHONY tells make that the commands are not files.
 # Make doesn't worry about whether they are actual files or not. It will always

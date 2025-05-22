@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-void	testing()
+void	testing(void)
 {
 	float	**matrix1;
 	float	**matrix2;

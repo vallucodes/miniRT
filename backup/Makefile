@@ -67,3 +67,73 @@ fclean: clean
 re: fclean all
 
 .PHONY: all, clean, fclean, re
+
+
+
+
+# ================================ SETTINGS ================================== #
+NAME = minirt
+
+# libft specifics
+MLX_DIR		= ./lib/MLX42
+MLX			= $(MLX_DIR)/build/libmlx42.a
+LIBFTDIR	= lib/libft/
+LIBFT		= $(LIBFTDIR)libft.a
+
+# compile and link
+CC = cc
+CFLAGS = -g -Wall -Wextra #-Werror
+# Includes for libft and libmath(s)
+INCLUDES = -I ./inc -I $(LIBFTDIR)inc
+LDFLAGS = -L$(LIBFTDIR) -lft -lm
+OBJ_DIR = obj/
+
+# ================================ SOURCES =================================== #
+# Wildcards not permitted by norm, but nice and easy for testing
+HEADERS		= $(wildcard inc/*.h)
+MLXLIB		= $(MLX_DIR)/build/libmlx42.a -ldl -lglfw -pthread -lm
+SRCS		= $(wildcard src/*.c) $(wildcard src/**/*.c)
+OBJS		= $(SRCS:src/%.c=$(OBJDIR)%.o)
+
+# ================================ RULES ===================================== #
+# $@ = target.
+# $< = first prerequisite. $^ = all prerequisites $? = prereq newer than target
+.PHONY : all
+all : $(NAME)
+
+$(NAME) : $(LIBFT) $(MLX) $(OBJS) $(HEADERS)
+	$(CC) $(CFLAGS) $(MLXLIB) $(SRCS) $(INCLUDES) $(LDFLAGS) -o $@
+	@echo "---- ==== miniRT success. ==== ----"
+
+$(LIBFT) :
+	@echo "---- Building libft ----"
+	@make --no-print-directory -C $(LIBFTDIR)
+	@echo "----  libft built.  ----"
+
+$(MLX): $(MLX_DIR)
+	@cmake $(MLX_DIR) -B $(MLX_DIR)/build
+	@make -C $(MLX_DIR)/build -j4
+
+$(MLX_DIR):
+	git clone https://github.com/codam-coding-college/MLX42.git $@;
+
+$(OBJ_DIR)%.o : src/%.c $(HEADERS)
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+.PHONY : clean
+clean :
+	@make clean -C $(LIBFTDIR)
+	rm -rf $(OBJDIR)
+
+.PHONY : fclean
+fclean : clean
+	@make fclean -C $(LIBFTDIR)
+	rm -f $(NAME)
+
+.PHONY : re
+re: fclean all
+
+# .PHONY tells make that the commands are not files.
+# Make doesn't worry about whether they are actual files or not. It will always
+#     run these unless other targets are present and up-to-date.
