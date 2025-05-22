@@ -76,7 +76,7 @@ t_color	addition_color(t_color color1, t_color color2);
 t_color substraction_color(t_color color1, t_color color2);
 t_color	multiply_color(t_color color1, t_color color2);
 
-//matrices
+//matrix math
 bool	equality_matrix(float **m, float **m2, size_t size);
 float	**multiply_mtrx_by_mtrx(float **m1, float **m2, size_t size);
 t_tuple	multiply_mtrx_by_tuple(float **m, t_tuple t1, size_t size);
@@ -87,6 +87,14 @@ float	minor_matrix(float **m, int row, int col, size_t size);
 float	cofactor_matrix(float **m, int row, int col, size_t size);
 bool	is_invertible_matrix(float **m, size_t size);
 float	**inverse_matrix(float **m, size_t size);
+
+//matrix operators
+float	**identity();
+float	**translation(int x, int y, int z);
+float	**scaling(int x, int y, int z);
+float	**rotation_x(float theta);
+float	**rotation_y(float theta);
+float	**rotation_z(float theta);
 
 //rays
 t_ray	create_ray(t_tuple vector, t_tuple point);

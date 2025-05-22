@@ -61,6 +61,7 @@ t_xs	*intersections(t_i i1, t_i i2)
 	xs->object[1] = i2.object;
 	xs->t[0] = i1.t;
 	xs->t[1] = i2.t;
+	//maybe needed sorting function here.
 	return (xs);
 }
 

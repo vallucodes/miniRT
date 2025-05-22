@@ -45,9 +45,12 @@ void	init_minirt(t_minirt *minirt)
 
 int	main()
 {
-	float	**m0;
-	float	**m1;
-	float	**m2;
+	float	**matrix1;
+	float	**matrix2;
+	float	**matrix3;
+	float	**matrix4;
+	float	**T1;
+	float	**T2;
 	float	**m3;
 	t_tuple	t1;
 	t_tuple	t2;
@@ -59,16 +62,15 @@ int	main()
 	t_minirt minirt;
 
 	init_minirt(&minirt);
-	t2 = create_point(0, 0, -5);
-	t1 = create_vector(0, 0, 1);
-	r = create_ray(t1, t2);
-	print_tuple(t1);
+	t2 = create_point(1, 0, 1);
+	matrix1 = rotation_x(M_PI / 2);
+	matrix2 = scaling(5, 5, 5);
+	matrix3 = translation(10, 5, 7);
+	T1 = multiply_mtrx_by_mtrx(matrix1, identity(), 4);
+	T2 = multiply_mtrx_by_mtrx(matrix2, T1, 4);
+	matrix4 = multiply_mtrx_by_mtrx(matrix3, T2, 4);
+	t2 = multiply_mtrx_by_tuple(matrix4, t2, 4);
 	print_tuple(t2);
-	s = sphere(); //needs to return unique value?
-	xs = intersects_ray(s, r);
-	printf("count %zu, int[0] %f, int[1] %f\n", xs->count, xs->t[0], xs->t[1]);
-	i = hit(xs);
-	printf("i.t smallest positive number %f\n", i.t);
-	// mlx_loop_hook(minirt.mlx, &draw_hook, &minirt);
-	// mlx_loop(minirt.mlx);
+	mlx_loop_hook(minirt.mlx, &draw_hook, &minirt);
+	mlx_loop(minirt.mlx);
 }

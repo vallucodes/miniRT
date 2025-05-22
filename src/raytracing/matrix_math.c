@@ -182,7 +182,7 @@ float	minor_matrix(float **m, int row, int col, size_t size)
 
 float	cofactor_matrix(float **m, int row, int col, size_t size)
 {
-	int	minor;
+	float	minor;
 
 	minor = minor_matrix(m, row, col, size);
 	if ((row + col) % 2 == 1)
@@ -192,7 +192,7 @@ float	cofactor_matrix(float **m, int row, int col, size_t size)
 
 float	determinant_matrix(float **m, size_t size)
 {
-	int		det;
+	float	det;
 	size_t	j;
 
 	det = 0;
@@ -223,6 +223,7 @@ float	**inverse_matrix(float **m, size_t size)
 	float	**m2;
 
 	det = determinant_matrix(m, size);
+	printf("det %f\n", det);
 	if (det == 0)
 		return (NULL);
 	m2 = malloc(size * sizeof(float *));

@@ -1,22 +1,30 @@
 #include "minirt.h"
 
-uint32_t	get_color_from_ray(t_minirt *minirt, size_t i, size_t j)
+uint32_t	get_color_from_ray(t_minirt *minirt)
 {
-	t_env	env;
-	t_proj	proj;
+	size_t	i;
+	float **m;
+	float **m1;
+	float **m2;
+	t_tuple p[12];
 
-	env.g = create_vector(0, 0.8, 0);
-	env.w = create_vector(0.80, 0, 0);
-	proj.pos = create_point(0, HEIGHT - 1, 0);
-	proj.v = create_vector(9, -20, 0);
-	while (proj.pos.y < HEIGHT)
+	p[0] = create_point(0, 0, 0);
+	p[1] = create_point(0, 0, 0);
+	m = rotation_z(M_PI / 6);
+	m1 = rotation_z(M_PI / 6 + M_PI / 6);
+	m2 = translation(400, 400, 0);
+	p[0] = multiply_mtrx_by_tuple(m, p[0], 4);
+	p[1] = multiply_mtrx_by_tuple(m1, p[1], 4);
+
+	i = 0;
+	while (i < 2)
 	{
-		tick(env, &proj);
-		if ((int)proj.pos.y < HEIGHT && (int)proj.pos.y > 0 &&
-			(int)proj.pos.x < WIDTH && (int)proj.pos.x > 0)
+
+		if ((int)p[i].y < HEIGHT && (int)p[i].y > 0 &&
+			(int)p[i].x < WIDTH && (int)p[i].x > 0)
 		{
-			int px = (int)proj.pos.x;
-			int py = (int)proj.pos.y;
+			int px = (int)p[i].x;
+			int py = (int)p[i].y;
 			int size = 3;
 
 			int dx = -size;
@@ -34,6 +42,7 @@ uint32_t	get_color_from_ray(t_minirt *minirt, size_t i, size_t j)
 				dx++;
 			}
 		}
+		i++;
 	}
 	return (0);
 }
@@ -44,7 +53,7 @@ void	draw_current_thing(t_minirt *minirt)
 	// size_t		i;
 	// size_t		j;
 	uint32_t	color;
-	get_color_from_ray(minirt, 0, 0);
+	get_color_from_ray(minirt);
 	// i = 0;
 	// while (i < HEIGHT)
 	// {
