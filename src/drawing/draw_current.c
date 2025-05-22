@@ -6,20 +6,21 @@ uint32_t	get_color_from_ray(t_minirt *minirt)
 	float **m;
 	float **m1;
 	float **m2;
+	float **m3;
 	t_tuple p[12];
 
-	p[0] = create_point(0, 0, 0);
-	p[1] = create_point(0, 0, 0);
-	m = rotation_z(M_PI / 6);
-	m1 = rotation_z(M_PI / 6 + M_PI / 6);
-	m2 = translation(400, 400, 0);
-	p[0] = multiply_mtrx_by_tuple(m, p[0], 4);
-	p[1] = multiply_mtrx_by_tuple(m1, p[1], 4);
+	m2 = translation(0, -200, 0);
+	m = rotation_z(2 * M_PI / 6);
+	m3 = translation(700, 600, 0);
 
 	i = 0;
-	while (i < 2)
+	while (i < 12)
 	{
-
+		p[i] = create_point(0, 0, 0);
+		m = rotation_z(i * M_PI / 6);
+		p[i] = multiply_mtrx_by_tuple(m2, p[i], 4);
+		p[i] = multiply_mtrx_by_tuple(m, p[i], 4);
+		p[i] = multiply_mtrx_by_tuple(m3, p[i], 4);
 		if ((int)p[i].y < HEIGHT && (int)p[i].y > 0 &&
 			(int)p[i].x < WIDTH && (int)p[i].x > 0)
 		{
