@@ -25,7 +25,8 @@ SRC			=	main.c \
 				raytracing/colors.c \
 				raytracing/tuples.c \
 				raytracing/math.c \
-				raytracing/matrices.c \
+				raytracing/matrix_math.c \
+				raytracing/matrix_operators.c \
 				raytracing/objects.c \
 				raytracing/rays.c \
 				raytracing/dev.c
