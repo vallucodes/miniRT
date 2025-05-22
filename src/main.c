@@ -4,6 +4,12 @@ void fun_test_parsed_output(char **av, t_parse *ps);
 
 int	main(int ac, char **av)
 {
+	t_minirt minirt;
+
+	testing();
+	// init_minirt(&minirt);
+	// mlx_loop_hook(minirt.mlx, &draw_hook, &minirt);
+	// mlx_loop(minirt.mlx);
 	t_parse	*ps;
 
 	if (ac != 2)
@@ -38,21 +44,21 @@ void fun_test_parsed_output(char **av, t_parse *ps)
 
 	printf("\n\nDiffuse light settings:\n");
 	printf("Count: %i | Ratio: %f | Pos: %f, %f, %f", ps->lig_b, ps->lig_s.ratio, ps->lig_s.cx, ps->lig_s.cy, ps->lig_s.cz);
-	
+
 	printf("\n\nCamera settings:\n");
 	printf("Count: %i | FOV: %i | Pos: %f, %f, %f | Nor: %f, %f, %f\n", ps->cam_b, ps->cam_s.fov, ps->cam_s.cx, ps->cam_s.cy, ps->cam_s.cz, ps->cam_s.ox, ps->cam_s.oy, ps->cam_s.oz);
-	
+
 	printf("\nPrinting scene objects in .rt order:\n");
 	printf("\nPlane = 0, sphere = 1, cylinder = 2:\n");
 	printf("Number of scene objects: %i\n", ps->obj_count);
-	
+
 	int c = 0;
 	t_list	*temp = ps->objects;
 	while (temp != NULL)
 	{
 		t_scene_obj *obj = (t_scene_obj *)temp->content;
 		(void)obj;
-		printf("Node: %i\n", c);	
+		printf("Node: %i\n", c);
 		printf("Current node address: %p\n", &temp->content);
 		printf("Next node address: %p\n", temp->next);
 		printf("Current node type: %i\n", ((t_scene_obj *)temp->content)->type);
