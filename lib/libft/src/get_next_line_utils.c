@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: elehtone <elehtone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 13:54:43 by vlopatin          #+#    #+#             */
-/*   Updated: 2025/05/17 11:44:10 by elehtone         ###   ########.fr       */
+/*   Created: 2024/11/14 09:13:20 by elehtone          #+#    #+#             */
+/*   Updated: 2025/05/16 13:06:44 by elehtone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../inc/libft.h"
 
-//el: changed line 21 if() from || to &&
-char	*ft_strjoin(char const *s1, char const *s2)
+//Different to libft strchr in that it outputs an int and adds 1 to the count.
+//Oh and it only searches for '\n'.
+int	fun_findnl(const char *s)
 {
-	size_t	len;
-	char	*dst;
+	int	count;
+	int	slen;
 
-	if (s1 == NULL && s2 == NULL)
-		return (NULL);
-	len = ft_strlen(s1) + ft_strlen(s2);
-	dst = (char *)ft_calloc(1 + len, sizeof(char));
-	if (!dst)
-		return (NULL);
-	ft_strlcpy(dst, s1, ft_strlen(s1) + 1);
-	ft_strlcat(dst, s2, len + 1);
-	return (dst);
+	if (!s)
+		return (0);
+	count = 0;
+	slen = ft_strlen(s);
+	while (count <= slen)
+	{
+		if (s[count] == '\n')
+			return (count + 1);
+		count++;
+	}
+	return (0);
 }
