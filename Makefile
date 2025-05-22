@@ -17,18 +17,20 @@ HEADERS		= inc/minirt.h inc/raytracing.h
 MLXLIB		= $(MLX_DIR)/build/libmlx42.a -ldl -lglfw -pthread -lm
 
 SRC			=	main.c \
-				dev/printing.c \
-				dev/create_matrix.c \
+				dev/printing_helpers.c \
+				dev/projectile.c \
+				dev/testing.c \
 				drawing/background.c \
 				drawing/draw_current.c \
 				drawing/hooks.c \
+				init/init.c \
 				raytracing/colors.c \
-				raytracing/tuples.c \
 				raytracing/math.c \
 				raytracing/matrix_math.c \
 				raytracing/matrix_operators.c \
 				raytracing/objects.c \
 				raytracing/rays.c \
+				raytracing/tuples.c \
 				raytracing/dev.c
 
 OBJS		= $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
