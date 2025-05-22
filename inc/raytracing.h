@@ -41,6 +41,7 @@ typedef struct s_sphere
 {
 	t_tuple	center;
 	float	radius;
+	float	**transform;
 }	t_sphere;
 
 typedef struct s_i
@@ -101,6 +102,8 @@ t_ray	create_ray(t_tuple vector, t_tuple point);
 t_tuple	position_ray(t_ray ray, float t);
 t_xs	*intersects_ray(t_sphere s, t_ray r);
 t_i		hit(t_xs *xs);
+t_ray	transform(t_ray r, float **m);
+void	set_transform(t_sphere *s, float **m);
 
 //objects
 t_sphere	sphere(void);
@@ -114,5 +117,7 @@ void	tick(t_env env, t_proj *proj);
 void	print_matrix(float **m, char *msg, int size);
 void	print_tuple(t_tuple t);
 float	**create_matrix(size_t size, int flag);
+void	print_ray(t_ray r);
+void	print_xs(t_xs *xs);
 
 #endif
