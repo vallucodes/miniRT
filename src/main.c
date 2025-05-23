@@ -6,8 +6,8 @@ int	main(int ac, char **av)
 {
 	t_minirt minirt;
 
-	testing();
-	// init_minirt(&minirt);
+
+	init_minirt(&minirt);
 
 	t_parse	*ps;
 
@@ -29,8 +29,10 @@ int	main(int ac, char **av)
 	close(ps->fd);
 	ft_lstclear(&ps->objects, &free);
 	free(ps);
+	// testing();
+	draw_current_thing(&minirt);
 	// mlx_loop_hook(minirt.mlx, &draw_hook, &minirt);
-	// mlx_loop(minirt.mlx);
+	mlx_loop(minirt.mlx);
 	return (0);
 }
 
