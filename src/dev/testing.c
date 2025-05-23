@@ -41,19 +41,6 @@ uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y)
 }
 
 
-// float aspect_ratio = (float)WIDTH / (float)HEIGHT;
-// float fov = M_PI / 2.0; // 90 degrees, adjust as needed
-// float scale = tan(fov * 0.5);
-
-// float Px = (2 * ((x + 0.5) / (float)WIDTH) - 1) * aspect_ratio * scale;
-// float Py = (1 - 2 * ((y + 0.5) / (float)HEIGHT)) * scale;
-
-// t_tuple pixel_on_plane = create_point(Px, Py, -1);
-// t_tuple camera_origin = create_point(0, 0, 0);
-// t_tuple dir = normalize(subtract(pixel_on_plane, camera_origin));
-// t_ray r = create_ray(dir, camera_origin);
-
-
 
 
 
