@@ -15,6 +15,8 @@
 # include "../lib/MLX42/include/MLX42/MLX42.h"
 # include "../lib/libft/inc/libft.h"
 
+typedef struct s_minirt t_minirt;
+
 //Project includes.
 # include "parsing.h"
 # include "raytracing.h"
@@ -37,5 +39,7 @@ void	reset_background(t_minirt *minirt);
 void	draw_current_thing(t_minirt *minirt);
 void	draw_hook(void *param);
 void	draw_circle(t_minirt *minirt);
+
+void	init_minirt(t_minirt *minirt);
 
 #endif

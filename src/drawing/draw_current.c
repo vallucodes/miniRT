@@ -2,47 +2,21 @@
 
 uint32_t	get_color_from_ray(t_minirt *minirt)
 {
-	size_t	i;
-	float **m;
-	float **m1;
-	float **m2;
-	t_tuple p[12];
+	size_t		x;
+	size_t		y;
+	uint32_t	color;
 
-	p[0] = create_point(0, 0, 0);
-	p[1] = create_point(0, 0, 0);
-	m = rotation_z(M_PI / 6);
-	m1 = rotation_z(M_PI / 6 + M_PI / 6);
-	m2 = translation(400, 400, 0);
-	p[0] = multiply_mtrx_by_tuple(m, p[0], 4);
-	p[1] = multiply_mtrx_by_tuple(m1, p[1], 4);
-
-	i = 0;
-	while (i < 2)
+	x = 0;
+	while (x < WIDTH)
 	{
-
-		if ((int)p[i].y < HEIGHT && (int)p[i].y > 0 &&
-			(int)p[i].x < WIDTH && (int)p[i].x > 0)
+		y = 0;
+		while (y < HEIGHT)
 		{
-			int px = (int)p[i].x;
-			int py = (int)p[i].y;
-			int size = 3;
-
-			int dx = -size;
-			while (dx <= size)
-			{
-				int dy = -size;
-				while (dy <= size)
-				{
-					int x = px + dx;
-					int y = py + dy;
-					if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
-						mlx_put_pixel(minirt->img, x, y, minirt->map->colored);
-					dy++;
-				}
-				dx++;
-			}
+			color = calculate_hit(minirt, x, y);
+			mlx_put_pixel(minirt->img, x, y, color);
+			y++;
 		}
-		i++;
+		x++;
 	}
 	return (0);
 }
@@ -52,7 +26,7 @@ void	draw_current_thing(t_minirt *minirt)
 {
 	// size_t		i;
 	// size_t		j;
-	uint32_t	color;
+	// uint32_t	color;
 	get_color_from_ray(minirt);
 	// i = 0;
 	// while (i < HEIGHT)

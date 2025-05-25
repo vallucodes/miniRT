@@ -1,29 +1,56 @@
 #include "minirt.h"
 
-void	testing(void)
+uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y)
 {
-	float	**matrix1;
-	float	**matrix2;
-	float	**matrix3;
-	float	**matrix4;
+	float	**m1;
+	float	**m2;
+	float	**m3;
+	float	**m4;
 	float	**T1;
 	float	**T2;
-	float	**m3;
+	float	a;
+	float	b;
 	t_tuple	t1;
 	t_tuple	t2;
 	t_tuple	t3;
 	t_ray	r;
+	t_ray	r2;
 	t_i		i;
 	t_xs	*xs;
 	t_sphere s; //edit this to int maybe
 
-	t2 = create_point(1, 0, 1);
-	matrix1 = rotation_x(M_PI / 2);
-	matrix2 = scaling(5, 5, 5);
-	matrix3 = translation(10, 5, 7);
-	T1 = multiply_mtrx_by_mtrx(matrix1, identity(), 4);
-	T2 = multiply_mtrx_by_mtrx(matrix2, T1, 4);
-	matrix4 = multiply_mtrx_by_mtrx(matrix3, T2, 4);
-	t2 = multiply_mtrx_by_tuple(matrix4, t2, 4);
-	print_tuple(t2);
+	float aspect_ratio = (float)WIDTH / (float)HEIGHT;
+	float fov = M_PI / 2;
+	float vp_h = 2.0f * tan(fov / 2);
+	float vp_w = aspect_ratio * vp_h;
+
+	float Px = (x + 0.5) * vp_w / WIDTH - vp_w / 2;
+	float Py = (y + 0.5) * vp_h / HEIGHT - vp_h / 2;
+	t_tuple	point_on_vp = create_point(Px, Py, -1);
+	t_tuple	camera_pos = create_point(0, 0, -5);
+	t_tuple dir = normalize_tuple(substraction_tuples(point_on_vp, camera_pos));
+	r = create_ray(dir, camera_pos);
+	s = sphere();
+	set_transform(&s, scaling(1, 1, 1));
+	xs = intersects_ray(s, r);
+	// print_xs(xs);
+	if (xs->count != 0)
+		return (minirt->map->colored);
+	else
+		return (minirt->map->background);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -6,10 +6,9 @@ int	main(int ac, char **av)
 {
 	t_minirt minirt;
 
-	testing();
-	// init_minirt(&minirt);
-	// mlx_loop_hook(minirt.mlx, &draw_hook, &minirt);
-	// mlx_loop(minirt.mlx);
+
+	init_minirt(&minirt);
+
 	t_parse	*ps;
 
 	if (ac != 2)
@@ -25,12 +24,15 @@ int	main(int ac, char **av)
 		exit (EXIT_FAILURE);
 	}
 
-	fun_test_parsed_output(av, ps);
+	// fun_test_parsed_output(av, ps);
 
 	close(ps->fd);
 	ft_lstclear(&ps->objects, &free);
 	free(ps);
-
+	// testing();
+	draw_current_thing(&minirt);
+	// mlx_loop_hook(minirt.mlx, &draw_hook, &minirt);
+	mlx_loop(minirt.mlx);
 	return (0);
 }
 
