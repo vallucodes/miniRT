@@ -6,5 +6,6 @@ t_sphere	sphere(void)
 
 	s.center = create_point(0, 0, 0);
 	s.radius = 1.0;
+	s.transform = identity();
 	return (s);
 }
