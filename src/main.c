@@ -5,11 +5,9 @@ void fun_test_parsed_output(char **av, t_parse *ps);
 int	main(int ac, char **av)
 {
 	t_minirt minirt;
-
-	init_minirt(&minirt);
-
 	t_parse	*ps;
 
+	init_minirt(&minirt);
 	if (ac != 2)
 	{
 		ft_putstr_fd("Error\nUsage: ./minirt <scene file>.rt\n", STDERR_FILENO);
@@ -18,15 +16,12 @@ int	main(int ac, char **av)
 	// ps = ft_calloc(1, sizeof(t_parse));
 	ps = ft_arena_calloc(minirt.arena, 1, sizeof(t_parse), alignof(t_parse));
 	file_check(av, ps);
-
 	if (!parsing_gateway(ps))
 	{
 		printf("exit, parsing failure\n");
 		exit (EXIT_FAILURE);
 	}
-
 	// fun_test_parsed_output(av, ps);
-
 	close(ps->fd);
 	ft_lstclear(&ps->objects, &free);
 	// free(ps);
