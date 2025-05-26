@@ -1,8 +1,8 @@
 #ifndef RAYTRACING_H
 # define RAYTRACING_H
 
-# define WIDTH	1500
-# define HEIGHT	1000
+# define WIDTH	500
+# define HEIGHT	250
 # define MALLOC	"Memory allocation failed"
 typedef struct s_tuple
 {
@@ -41,6 +41,7 @@ typedef struct s_sphere
 {
 	t_tuple	center;
 	float	radius;
+	float	**transform;
 }	t_sphere;
 
 typedef struct s_i
@@ -101,18 +102,21 @@ t_ray	create_ray(t_tuple vector, t_tuple point);
 t_tuple	position_ray(t_ray ray, float t);
 t_xs	*intersects_ray(t_sphere s, t_ray r);
 t_i		hit(t_xs *xs);
+t_ray	transform(t_ray r, float **m);
+void	set_transform(t_sphere *s, float **m);
 
 //objects
 t_sphere	sphere(void);
 
 //utils
-int		is_equal(float a, float b);
-void	testing(void);
-//dev
+int			is_equal(float a, float b);
+uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y);
 
-void	tick(t_env env, t_proj *proj);
+//dev
 void	print_matrix(float **m, char *msg, int size);
 void	print_tuple(t_tuple t);
 float	**create_matrix(size_t size, int flag);
+void	print_ray(t_ray r);
+void	print_xs(t_xs *xs);
 
 #endif

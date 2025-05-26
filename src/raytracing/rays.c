@@ -5,7 +5,9 @@ t_ray	create_ray(t_tuple vector, t_tuple point)
 	t_ray	ray;
 
 	ray.origin = point;
+	// print_tuple(ray.origin);
 	ray.dir = vector;
+	// print_tuple(ray.dir);
 	return (ray);
 }
 
@@ -40,7 +42,7 @@ t_i	hit(t_xs *xs)
 	return(hit);
 }
 
-t_i	intersection(int intersection, void *obj)
+t_i	intersection(float intersection, void *obj)
 {
 	t_i i;
 
@@ -54,7 +56,7 @@ t_xs	*intersections(t_i i1, t_i i2)
 	t_xs	*xs;
 
 	xs = malloc(sizeof(t_xs));
-	xs->count = 4;
+	xs->count = 2;
 	xs->object = malloc(xs->count * sizeof(char));
 	xs->t = malloc(xs->count * sizeof(float));
 	xs->object[0] = i1.object;
@@ -65,10 +67,18 @@ t_xs	*intersections(t_i i1, t_i i2)
 	return (xs);
 }
 
+static	float magnitude(t_tuple t)
+{
+	return (sqrt(t.x * t.x + t.y * t.y + t.z * t.z + t.w * t.w));
+}
+
 t_xs	*intersects_ray(t_sphere s, t_ray r)
 {
 	t_i		i1;
 	t_i		i2;
+	float	t1;
+	float	t2;
+	float	dir_len;
 	t_xs	*xs;
 	float	a;
 	float	b;
@@ -76,15 +86,34 @@ t_xs	*intersects_ray(t_sphere s, t_ray r)
 	float	discriminant;
 	t_tuple	sphere_to_ray;
 
+	r = transform(r, inverse_matrix(s.transform, 4));
 	sphere_to_ray = substraction_tuples(r.origin, create_point(0,0,0));
 	a = dot_tuple(r.dir, r.dir);
 	b = 2 * dot_tuple(sphere_to_ray, r.dir);
 	c = dot_tuple(sphere_to_ray, sphere_to_ray) - s.radius * s.radius;
 	discriminant = b * b - 4 * a * c;
 	if (discriminant < 0)
-		return (NULL);
+	{
+		xs = malloc(sizeof(t_xs));
+		xs->object = NULL;
+		xs->t = NULL;
+		xs->count = 0;
+		return (xs);
+	}
 	i1 = intersection((-b - sqrt(discriminant)) / (2 * a), &s);
 	i2 = intersection((-b + sqrt(discriminant)) / (2 * a), &s);
 	xs = intersections(i1, i2);
 	return (xs);
+}
+
+t_ray	transform(t_ray r, float **m)
+{
+	r.dir = multiply_mtrx_by_tuple(m, r.dir, 4);
+	r.origin = multiply_mtrx_by_tuple(m, r.origin, 4);
+	return (r);
+}
+
+void	set_transform(t_sphere *s, float **m)
+{
+	s->transform = m;
 }
