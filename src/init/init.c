@@ -10,7 +10,8 @@ void	init_minirt(t_minirt *minirt)
 {
 	t_map *map;
 
-	minirt->map = malloc(sizeof(t_map));
+	init_arena(minirt);
+	minirt->map = arena_alloc(minirt->arena, sizeof(t_map), alignof(t_map));
 	// if (!minirt->map)
 		// exit_error();
 	set_colors(minirt);

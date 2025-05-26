@@ -1,6 +1,8 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
+#include <assert.h>
+
 //System includes.
 # include <math.h>
 # include <stdio.h>
@@ -10,6 +12,7 @@
 # include <stdbool.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <stddef.h>
 
 //42 specific includes.
 # include "../lib/MLX42/include/MLX42/MLX42.h"
@@ -18,9 +21,16 @@
 typedef struct s_minirt t_minirt;
 
 //Project includes.
+# include "memory_arena.h"
 # include "parsing.h"
 # include "raytracing.h"
 # include "utils.h"
+
+typedef enum e_exit
+{
+	SUCCESS,
+	FAIL,
+}	t_exit;
 
 typedef struct s_map
 {
@@ -30,6 +40,7 @@ typedef struct s_map
 
 typedef struct s_minirt
 {
+	t_arena		*arena;
 	t_map		*map;
 	mlx_image_t	*img;
 	mlx_t		*mlx;

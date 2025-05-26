@@ -1,5 +1,24 @@
 #include "minirt.h"
 
+float	**matrix_alloc(t_minirt *minirt, size_t size)
+{
+	size_t	i;
+	float	**m;
+
+	i = 0;
+	m = arena_alloc(minirt->arena, size * sizeof(float *), alignof(float *));
+	// if (!m)
+		// cleanup_exit(arena);
+	while (i < size)
+	{
+		m[i] = arena_alloc(minirt->arena, size * sizeof(float), alignof(float));
+		// if (!m[i])
+			// cleanup_exit(arena);
+		i++;
+	}
+	return (m);
+}
+
 bool	equality_matrix(float **m, float **m2, size_t size)
 {
 	size_t	i;
@@ -20,24 +39,14 @@ bool	equality_matrix(float **m, float **m2, size_t size)
 	return (true);
 }
 
-float	**multiply_mtrx_by_mtrx(float **m, float **m2, size_t size)
+float	**multiply_mtrx_by_mtrx(t_minirt *minirt, float **m, float **m2, size_t size)
 {
 	size_t	i;
 	size_t	j;
 	size_t	k;
 	float	**m3;
 
-	i = 0;
-	m3 = malloc(size * sizeof(float *));
-	// if (!m3)
-		// cleanup_exit(arena);
-	while (i < size)
-	{
-		m3[i] = malloc(size * sizeof(float));
-		// if (!m3[i])
-			// cleanup_exit(arena);
-		i++;
-	}
+	m3 = matrix_alloc(minirt, size);
 	i = 0;
 	while (i < size)
 	{
@@ -98,21 +107,13 @@ t_tuple	multiply_mtrx_by_tuple(float **m, t_tuple t1, size_t size)
 	return (new_tuple);
 }
 
-float	**transpose_matrix(float **m, size_t size)
+float	**transpose_matrix(t_minirt *minirt, float **m, size_t size)
 {
 	size_t	i;
 	size_t	j;
 	float	**m2;
 
-	i = 0;
-	m2 = malloc(size * sizeof(float *));
-	while (i < size)
-	{
-		m2[i] = malloc(size * sizeof(float));
-		// if (!m3[i])
-			// cleanup_exit(arena);
-		i++;
-	}
+	m2 = matrix_alloc(minirt, size);
 	i = 0;
 	while (i < size)
 	{
@@ -127,7 +128,7 @@ float	**transpose_matrix(float **m, size_t size)
 	return (m2);
 }
 
-float	**sub_matrix(float **m, size_t row, size_t col, size_t size)
+float	**sub_matrix(t_matrix_ctx *ctx, size_t row, size_t col)
 {
 	size_t	i;
 	size_t	j;
@@ -135,18 +136,10 @@ float	**sub_matrix(float **m, size_t row, size_t col, size_t size)
 	size_t	l;
 	float	**m2;
 
-	i = 0;
-	m2 = malloc((size - 1) * sizeof(float *));
-	while (i < (size - 1))
-	{
-		m2[i] = malloc((size - 1) * sizeof(float));
-		// if (!m3[i])
-			// cleanup_exit(arena);
-		i++;
-	}
+	m2 = matrix_alloc(ctx->minirt, ctx->size);
 	i = 0;
 	k = 0;
-	while (i < size)
+	while (i < ctx->size)
 	{
 		if (i == row)
 		{
@@ -155,14 +148,14 @@ float	**sub_matrix(float **m, size_t row, size_t col, size_t size)
 		}
 		j = 0;
 		l = 0;
-		while (j < size)
+		while (j < ctx->size)
 		{
 			if (j == col)
 			{
 				j++;
 				continue ;
 			}
-			m2[k][l] = m[i][j];
+			m2[k][l] = ctx->m[i][j];
 			j++;
 			l++;
 		}
@@ -172,29 +165,33 @@ float	**sub_matrix(float **m, size_t row, size_t col, size_t size)
 	return (m2);
 }
 
-float	minor_matrix(float **m, int row, int col, size_t size)
+float	minor_matrix(t_matrix_ctx *ctx, int row, int col)
 {
 	float	**m2;
 
-	m2 = sub_matrix(m, row, col, size);
-	return (determinant_matrix(m2, size - 1));
+	m2 = sub_matrix(ctx, row, col);
+	return (determinant_matrix(ctx->minirt, m2, ctx->size - 1));
 }
 
-float	cofactor_matrix(float **m, int row, int col, size_t size)
+float	cofactor_matrix(t_matrix_ctx *ctx, int row, int col)
 {
 	float	minor;
 
-	minor = minor_matrix(m, row, col, size);
+	minor = minor_matrix(ctx, row, col);
 	if ((row + col) % 2 == 1)
 		return (-minor);
 	return (minor);
 }
 
-float	determinant_matrix(float **m, size_t size)
+float	determinant_matrix(t_minirt *minirt, float **m, size_t size)
 {
 	float	det;
 	size_t	j;
+	t_matrix_ctx	ctx;
 
+	ctx.minirt = minirt;
+	ctx.m = m;
+	ctx.size = size;
 	det = 0;
 	if (size == 2)
 		det = m[0][0] * m[1][1] - m[0][1] * m[1][0];
@@ -203,47 +200,53 @@ float	determinant_matrix(float **m, size_t size)
 		j = 0;
 		while (j < size)
 		{
-			det += m[0][j] * cofactor_matrix(m, 0, j, size);
+			det += m[0][j] * cofactor_matrix(&ctx, 0, j);
 			j++;
 		}
 	}
 	return (det);
 }
 
-bool	is_invertible_matrix(float **m, size_t size)
+bool	is_invertible_matrix(t_minirt *minirt, float **m, size_t size)
 {
-	return (determinant_matrix(m, size) != 0);
+	return (determinant_matrix(minirt, m, size) != 0);
 }
 
-float	**inverse_matrix(float **m, size_t size)
+float	**inverse_matrix(t_minirt *minirt, float **m, size_t size)
 {
-	float	det;
-	size_t	i;
-	size_t	j;
-	float	**m2;
+	float			det;
+	size_t			i;
+	size_t			j;
+	float			**m2;
+	t_matrix_ctx	ctx;
 
-	det = determinant_matrix(m, size);
+	ctx.minirt = minirt;
+	ctx.m = m;
+	ctx.size = size;
+	det = determinant_matrix(minirt, m, size);
 	if (det == 0)
 		return (NULL);
-	m2 = malloc(size * sizeof(float *));
+	m2 = matrix_alloc(minirt, size);
 	i = 0;
-	while (i < size)
+	if (size == 2)
 	{
-		m2[i] = malloc(size * sizeof(float));
-		// if (!m3[i])
-			// cleanup_exit(arena);
-		i++;
+		m2[0][0] = m[1][1] / det;
+		m2[0][1] = -m[0][1] / det;
+		m2[1][0] = -m[1][0] / det;
+		m2[1][1] = m[0][0] / det;
 	}
-	i = 0;
-	while (i < size)
+	else
 	{
-		j = 0;
-		while (j < size)
+		while (i < size)
 		{
-			m2[j][i] = cofactor_matrix(m, i, j, size) / det;
-			j++;
+			j = 0;
+			while (j < size)
+			{
+				m2[j][i] = cofactor_matrix(&ctx, i, j) / det;
+				j++;
+			}
+			i++;
 		}
-		i++;
 	}
 	return(m2);
 }
