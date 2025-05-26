@@ -72,7 +72,7 @@ static	float magnitude(t_tuple t)
 	return (sqrt(t.x * t.x + t.y * t.y + t.z * t.z + t.w * t.w));
 }
 
-t_xs	*intersects_ray(t_sphere s, t_ray r)
+t_xs	*intersects_ray(t_minirt *minirt, t_sphere s, t_ray r)
 {
 	t_i		i1;
 	t_i		i2;
@@ -86,7 +86,7 @@ t_xs	*intersects_ray(t_sphere s, t_ray r)
 	float	discriminant;
 	t_tuple	sphere_to_ray;
 
-	r = transform(r, inverse_matrix(s.transform, 4));
+	r = transform(r, inverse_matrix(minirt, s.transform, 4));
 	sphere_to_ray = substraction_tuples(r.origin, create_point(0,0,0));
 	a = dot_tuple(r.dir, r.dir);
 	b = 2 * dot_tuple(sphere_to_ray, r.dir);

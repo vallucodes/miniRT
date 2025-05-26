@@ -10,11 +10,11 @@ int	main(int ac, char **av)
 
 	t_parse	*ps;
 
-	// if (ac != 2)
-	// {
-	// 	ft_putstr_fd("Error\nUsage: ./minirt <scene file>.rt\n", STDERR_FILENO);
-	// 	return (1);
-	// }
+	if (ac != 2)
+	{
+		ft_putstr_fd("Error\nUsage: ./minirt <scene file>.rt\n", STDERR_FILENO);
+		return (1);
+	}
 	// ps = ft_calloc(1, sizeof(t_parse));
 	ps = ft_arena_calloc(minirt.arena, 1, sizeof(t_parse), alignof(t_parse));
 	file_check(av, ps);
@@ -31,7 +31,7 @@ int	main(int ac, char **av)
 	ft_lstclear(&ps->objects, &free);
 	// free(ps);
 	draw_current_thing(&minirt);
-	mlx_loop_hook(minirt.mlx, &draw_hook, &minirt);
+	// mlx_loop_hook(minirt.mlx, &draw_hook, &minirt); //dont activate this hook. Its insanely slow because raytracing is very heavy process and this is redrawing everything every frame
 	mlx_loop(minirt.mlx);
 	return (0);
 }
