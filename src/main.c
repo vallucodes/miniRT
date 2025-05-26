@@ -6,21 +6,22 @@ int	main(int ac, char **av)
 {
 	t_minirt minirt;
 
-
 	init_minirt(&minirt);
 
 	t_parse	*ps;
 
-	if (ac != 2)
-	{
-		ft_putstr_fd("Error\nUsage: ./minirt <scene file>.rt\n", STDERR_FILENO);
-		return (1);
-	}
-	ps = ft_calloc(1, sizeof(t_parse));
+	// if (ac != 2)
+	// {
+	// 	ft_putstr_fd("Error\nUsage: ./minirt <scene file>.rt\n", STDERR_FILENO);
+	// 	return (1);
+	// }
+	// ps = ft_calloc(1, sizeof(t_parse));
+	ps = ft_arena_calloc(minirt.arena, 1, sizeof(t_parse), alignof(t_parse));
 	file_check(av, ps);
 
 	if (!parsing_gateway(ps))
 	{
+		printf("exit, parsing failure\n");
 		exit (EXIT_FAILURE);
 	}
 
@@ -28,10 +29,9 @@ int	main(int ac, char **av)
 
 	close(ps->fd);
 	ft_lstclear(&ps->objects, &free);
-	free(ps);
-	// testing();
+	// free(ps);
 	draw_current_thing(&minirt);
-	// mlx_loop_hook(minirt.mlx, &draw_hook, &minirt);
+	mlx_loop_hook(minirt.mlx, &draw_hook, &minirt);
 	mlx_loop(minirt.mlx);
 	return (0);
 }
