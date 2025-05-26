@@ -57,7 +57,7 @@ t_xs	*intersections(t_i i1, t_i i2)
 
 	xs = malloc(sizeof(t_xs));
 	xs->count = 2;
-	xs->object = malloc(xs->count * sizeof(char));
+	xs->object = malloc(xs->count * sizeof(void *));
 	xs->t = malloc(xs->count * sizeof(float));
 	xs->object[0] = i1.object;
 	xs->object[1] = i2.object;
@@ -76,9 +76,9 @@ t_xs	*intersects_ray(t_sphere s, t_ray r)
 {
 	t_i		i1;
 	t_i		i2;
-	float	t1;
-	float	t2;
-	float	dir_len;
+	// float	t1;
+	// float	t2;
+	// float	dir_len;
 	t_xs	*xs;
 	float	a;
 	float	b;

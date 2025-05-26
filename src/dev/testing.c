@@ -2,20 +2,20 @@
 
 uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y)
 {
-	float	**m1;
-	float	**m2;
-	float	**m3;
-	float	**m4;
-	float	**T1;
-	float	**T2;
-	float	a;
-	float	b;
-	t_tuple	t1;
-	t_tuple	t2;
-	t_tuple	t3;
+	// float	**m1;
+	// float	**m2;
+	// float	**m3;
+	// float	**m4;
+	// float	**T1;
+	// float	**T2;
+	// float	a;
+	// float	b;
+	// t_tuple	t1;
+	// t_tuple	t2;
+	// t_tuple	t3;
 	t_ray	r;
-	t_ray	r2;
-	t_i		i;
+	// t_ray	r2;
+	// t_i		i;
 	t_xs	*xs;
 	t_sphere s; //edit this to int maybe
 
