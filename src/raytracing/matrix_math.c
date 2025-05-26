@@ -223,7 +223,6 @@ float	**inverse_matrix(float **m, size_t size)
 	float	**m2;
 
 	det = determinant_matrix(m, size);
-	printf("det %f\n", det);
 	if (det == 0)
 		return (NULL);
 	m2 = malloc(size * sizeof(float *));
