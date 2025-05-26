@@ -30,8 +30,8 @@ uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y)
 	t_tuple	camera_pos = create_point(0, 0, -5);
 	t_tuple dir = normalize_tuple(substraction_tuples(point_on_vp, camera_pos));
 	r = create_ray(dir, camera_pos);
-	s = sphere();
-	set_transform(&s, scaling(1, 1, 1));
+	s = sphere(minirt);
+	set_transform(&s, scaling(minirt, 1, 1, 1));
 	xs = intersects_ray(minirt, s, r);
 	// print_xs(xs);
 	if (xs->count != 0)

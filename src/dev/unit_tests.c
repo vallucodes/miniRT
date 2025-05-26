@@ -1,5 +1,14 @@
 #include "minirt.h"
 
+bool matrix_equals(float **m, float expected[4][4]) {
+    for (size_t i = 0; i < 4; ++i)
+        for (size_t j = 0; j < 4; ++j)
+            if (!is_equal(m[i][j], expected[i][j]))
+                return false;
+    return true;
+}
+
+
 void test_matrix_alloc(t_minirt *minirt)
 {
 	float **m = matrix_alloc(minirt, 3);  // Allocating 3x3 matrix
@@ -508,4 +517,114 @@ void	unit_tests_2x2(void)
 		printf("❌ Equality test failed\n");
 
 	printf("🧪 Unit tests complete.\n");
+}
+
+void test_identity_matrix(t_minirt *minirt)
+{
+	float expected[4][4] = {
+		{1,0,0,0},
+		{0,1,0,0},
+		{0,0,1,0},
+		{0,0,0,1}
+	};
+	float **m = identity(minirt);
+	if (matrix_equals(m, expected))
+		printf("✅ Identity Matrix Test Passed\n");
+	else
+		printf("❌ Identity Matrix Test Failed\n");
+}
+
+void test_translation_matrix(t_minirt *minirt)
+{
+	int x = 3, y = 4, z = 5;
+	float expected[4][4] = {
+		{1,0,0,3},
+		{0,1,0,4},
+		{0,0,1,5},
+		{0,0,0,1}
+	};
+	float **m = translation(minirt, x, y, z);
+	if (matrix_equals(m, expected))
+		printf("✅ Translation Matrix Test Passed\n");
+	else
+		printf("❌ Translation Matrix Test Failed\n");
+}
+
+void test_scaling_matrix(t_minirt *minirt)
+{
+	int x = 2, y = 3, z = 4;
+	float expected[4][4] = {
+		{2,0,0,0},
+		{0,3,0,0},
+		{0,0,4,0},
+		{0,0,0,1}
+	};
+	float **m = scaling(minirt, x, y, z);
+	if (matrix_equals(m, expected))
+		printf("✅ Scaling Matrix Test Passed\n");
+	else
+		printf("❌ Scaling Matrix Test Failed\n");
+}
+
+void test_rotation_x_matrix(t_minirt *minirt)
+{
+	float theta = M_PI / 4; // 45 degrees
+	float c = cos(theta), s = sin(theta);
+	float expected[4][4] = {
+		{1, 0, 0, 0},
+		{0, c, -s, 0},
+		{0, s,  c, 0},
+		{0, 0, 0, 1}
+	};
+	float **m = rotation_x(minirt, theta);
+	if (matrix_equals(m, expected))
+		printf("✅ Rotation X Matrix Test Passed\n");
+	else
+		printf("❌ Rotation X Matrix Test Failed\n");
+}
+
+void test_rotation_y_matrix(t_minirt *minirt)
+{
+	float theta = M_PI / 4; // 45 degrees
+	float c = cos(theta), s = sin(theta);
+	float expected[4][4] = {
+		{ c, 0, s, 0},
+		{ 0, 1, 0, 0},
+		{-s, 0, c, 0},
+		{ 0, 0, 0, 1}
+	};
+	float **m = rotation_y(minirt, theta);
+	if (matrix_equals(m, expected))
+		printf("✅ Rotation Y Matrix Test Passed\n");
+	else
+		printf("❌ Rotation Y Matrix Test Failed\n");
+}
+
+void test_rotation_z_matrix(t_minirt *minirt)
+
+{
+	float theta = M_PI / 4; // 45 degrees
+	float c = cos(theta), s = sin(theta);
+	float expected[4][4] = {
+		{c, -s, 0, 0},
+		{s,  c, 0, 0},
+		{0,  0, 1, 0},
+		{0,  0, 0, 1}
+	};
+	float **m = rotation_z(minirt, theta);
+	if (matrix_equals(m, expected))
+		printf("✅ Rotation Z Matrix Test Passed\n");
+	else
+		printf("❌ Rotation Z Matrix Test Failed\n");
+}
+
+
+void unit_tests_transform_matrices(t_minirt *minirt)
+{
+	test_identity_matrix(minirt);
+	test_translation_matrix(minirt);
+	test_scaling_matrix(minirt);
+	test_rotation_x_matrix(minirt);
+	test_rotation_y_matrix(minirt);
+	test_rotation_z_matrix(minirt);
 }
