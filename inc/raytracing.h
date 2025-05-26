@@ -105,12 +105,12 @@ float	**inverse_matrix(t_minirt *minirt, float **m, size_t size);
 // float	**inverse_matrix(float **m, size_t size);
 
 //matrix operators
-float	**identity();
-float	**translation(int x, int y, int z);
-float	**scaling(int x, int y, int z);
-float	**rotation_x(float theta);
-float	**rotation_y(float theta);
-float	**rotation_z(float theta);
+float	**identity(t_minirt *minirt);
+float	**translation(t_minirt *minirt, int x, int y, int z);
+float	**scaling(t_minirt *minirt, int x, int y, int z);
+float	**rotation_x(t_minirt *minirt, float theta);
+float	**rotation_y(t_minirt *minirt, float theta);
+float	**rotation_z(t_minirt *minirt, float theta);
 
 //matrix utils
 float	**matrix_alloc(t_minirt *minirt, size_t size);
@@ -125,7 +125,7 @@ t_ray	transform(t_ray r, float **m);
 void	set_transform(t_sphere *s, float **m);
 
 //objects
-t_sphere	sphere(void);
+t_sphere	sphere(t_minirt *minirt);
 
 //utils
 int			is_equal(float a, float b);
@@ -138,6 +138,7 @@ float	**create_matrix(size_t size, int flag);
 void	print_ray(t_ray r);
 void	print_xs(t_xs *xs);
 void	unit_tests_3x3(t_minirt *minirt);
-void unit_tests_4x4(t_minirt *minirt);
+void	unit_tests_4x4(t_minirt *minirt);
+void	unit_tests_transform_matrices(t_minirt *minirt);
 
 #endif
