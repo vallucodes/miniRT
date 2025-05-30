@@ -5,9 +5,10 @@ void fun_test_parsed_output(char **av, t_parse *ps);
 int	main(int ac, char **av)
 {
 	t_minirt minirt;
+	init_minirt(&minirt);
+	
 	/*t_parse	*ps;
 
-	init_minirt(&minirt);
 	if (ac != 2)
 	{
 		ft_putstr_fd("Error\nUsage: ./minirt <scene file>.rt\n", STDERR_FILENO);
