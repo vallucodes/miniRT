@@ -38,10 +38,20 @@ typedef struct s_map
 	uint32_t	colored;
 }		t_map;
 
+//Attributes for viewport
+typedef struct s_vp
+{
+	float	fov;
+	float	aspect_ratio;
+	float	vp_h;
+	float	vp_w;
+}	t_vp;
+
 typedef struct s_minirt
 {
 	t_arena		*arena;
 	t_map		*map;
+	t_vp		*vp;
 	mlx_image_t	*img;
 	mlx_t		*mlx;
 }		t_minirt;

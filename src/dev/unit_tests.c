@@ -618,7 +618,6 @@ void test_rotation_z_matrix(t_minirt *minirt)
 		printf("❌ Rotation Z Matrix Test Failed\n");
 }
 
-
 void unit_tests_transform_matrices(t_minirt *minirt)
 {
 	test_identity_matrix(minirt);
@@ -627,4 +626,13 @@ void unit_tests_transform_matrices(t_minirt *minirt)
 	test_rotation_x_matrix(minirt);
 	test_rotation_y_matrix(minirt);
 	test_rotation_z_matrix(minirt);
+}
+
+void test_normal_at_sphere(t_minirt m)
+{
+	t_sphere	s1;
+	set_transform(&s1, translation(&m, 0, 0, 0));
+
+	t_tuple	nor = normal_at_sphere(&m, s1, create_point(1, 0 ,0));
+	print_tuple(nor);
 }
