@@ -19,13 +19,9 @@ uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y)
 	t_xs	*xs;
 	t_sphere s; //edit this to int maybe
 
-	float aspect_ratio = (float)WIDTH / (float)HEIGHT;
-	float fov = M_PI / 2;
-	float vp_h = 2.0f * tan(fov / 2);
-	float vp_w = aspect_ratio * vp_h;
-
-	float Px = (x + 0.5) * vp_w / WIDTH - vp_w / 2;
-	float Py = (y + 0.5) * vp_h / HEIGHT - vp_h / 2;
+	//Converting between pixel space to viewport space. Raster, NDC etc. 
+	float Px = (x + 0.5) * minirt->vp->vp_w / WIDTH - minirt->vp->vp_w / 2;
+	float Py = (y + 0.5) * minirt->vp->vp_h / HEIGHT - minirt->vp->vp_h / 2;
 	t_tuple	point_on_vp = create_point(Px, Py, -1);
 	t_tuple	camera_pos = create_point(0, 0, -5);
 	t_tuple dir = normalize_tuple(substraction_tuples(point_on_vp, camera_pos));

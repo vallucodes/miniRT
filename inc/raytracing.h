@@ -127,6 +127,9 @@ void	set_transform(t_sphere *s, float **m);
 //objects
 t_sphere	sphere(t_minirt *minirt);
 
+//normals
+t_tuple	normal_at_sphere(t_minirt *m, t_sphere s, t_tuple p);
+
 //utils
 int			is_equal(float a, float b);
 uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y);
@@ -140,5 +143,6 @@ void	print_xs(t_xs *xs);
 void	unit_tests_3x3(t_minirt *minirt);
 void	unit_tests_4x4(t_minirt *minirt);
 void	unit_tests_transform_matrices(t_minirt *minirt);
+void	test_normal_at_sphere(t_minirt m);
 
 #endif
