@@ -14,9 +14,10 @@ int	main(int ac, char **av)
 		ft_putstr_fd("Error\nUsage: ./minirt <scene file>.rt\n", STDERR_FILENO);
 		return (1);
 	}
+	file_check(av, ps);
+	//init_minirt(&minirt);
 	// ps = ft_calloc(1, sizeof(t_parse));
 	ps = ft_arena_calloc(minirt.arena, 1, sizeof(t_parse), alignof(t_parse));
-	file_check(av, ps);
 	if (!parsing_gateway(ps))
 	{
 		printf("exit, parsing failure\n");
@@ -31,9 +32,11 @@ int	main(int ac, char **av)
 	//mlx_loop(minirt.mlx);
 	*/
 
-	test_scaling_matrix(minirt);
+	/*test_scaling_matrix(minirt);
 	test_rotation_z_matrix(minirt);
-	test_normal_at_sphere(minirt);
+	test_normal_at_sphere(minirt);*/
+
+	test_reflect(minirt);
 	return (0);
 }
 
