@@ -31,6 +31,8 @@ int	main(int ac, char **av)
 	//mlx_loop(minirt.mlx);
 	*/
 
+	test_scaling_matrix(minirt);
+	test_rotation_z_matrix(minirt);
 	test_normal_at_sphere(minirt);
 	return (0);
 }
