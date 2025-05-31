@@ -25,6 +25,8 @@ typedef struct s_minirt t_minirt;
 # include "parsing.h"
 # include "raytracing.h"
 # include "utils.h"
+# include "lighting.h"
+# include "objects.h"
 
 typedef enum e_exit
 {

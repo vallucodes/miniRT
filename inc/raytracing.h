@@ -38,13 +38,6 @@ typedef struct s_proj
 	t_tuple v;
 }	t_proj;
 
-typedef struct s_sphere
-{
-	t_tuple	center;
-	float	radius;
-	float	**transform;
-}	t_sphere;
-
 typedef struct s_i
 {
 	float	t;
@@ -124,15 +117,6 @@ t_xs	*intersects_ray(t_minirt *minirt, t_sphere s, t_ray r);
 t_i		hit(t_xs *xs);
 t_ray	transform(t_ray r, float **m);
 void	set_transform(t_sphere *s, float **m);
-
-//objects
-t_sphere	sphere(t_minirt *minirt);
-
-//normals
-t_tuple	normal_at_sphere(t_minirt *m, t_sphere s, t_tuple p);
-
-//lighting
-t_tuple	reflect(t_ray in_ray, t_tuple normal);
 
 //utils
 int			is_equal(float a, float b);
