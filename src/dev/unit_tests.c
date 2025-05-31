@@ -663,3 +663,20 @@ void test_normal_at_sphere(t_minirt m)
 	printf("world normal scaled and rotated");
 	print_tuple(nor);
 }
+
+void	test_reflect(t_minirt m)
+{
+	printf("approach 45 degree\n");
+	t_tuple	v1 = create_vector(1, -1, 0);
+	t_tuple p1 = create_point(0, 0, 0);
+	t_tuple n1 = create_vector(0, 1, 0);
+	t_ray r1 = create_ray(v1, p1);
+	print_tuple(reflect(r1, n1));
+	
+	printf("approach 45 degree inclined surface vertically\n");
+	t_tuple	v2 = create_vector(0, -1, 0);
+	t_tuple p2 = create_point(0, 0, 0);
+	t_tuple n2 = create_vector(0.70711, 0.70711, 0);
+	t_ray r2 = create_ray(v2, p2);
+	print_tuple(reflect(r2, n2));
+}

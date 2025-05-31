@@ -4,8 +4,8 @@
  * @brief Find the normal vector at the given location of the given sphere
  * @returns Normal vector
  * @details Sphere needs to be in object space if its origin not at world origin
- * 			Result (vector) needs to be converted to world space
- * 			
+ * 			Normal calculation needs to be done in object space
+ * 			Result needs to be converted to world space
  */
 t_tuple	normal_at_sphere(t_minirt *m, t_sphere s, t_tuple p)
 {

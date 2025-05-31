@@ -4,6 +4,7 @@
 # define WIDTH	500
 # define HEIGHT	250
 # define MALLOC	"Memory allocation failed"
+
 typedef struct s_tuple
 {
 	float	x;
@@ -130,6 +131,9 @@ t_sphere	sphere(t_minirt *minirt);
 //normals
 t_tuple	normal_at_sphere(t_minirt *m, t_sphere s, t_tuple p);
 
+//lighting
+t_tuple	reflect(t_ray in_ray, t_tuple normal);
+
 //utils
 int			is_equal(float a, float b);
 uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y);
@@ -144,5 +148,6 @@ void	unit_tests_3x3(t_minirt *minirt);
 void	unit_tests_4x4(t_minirt *minirt);
 void	unit_tests_transform_matrices(t_minirt *minirt);
 void	test_normal_at_sphere(t_minirt m);
+void	test_reflect(t_minirt m);
 
 #endif
