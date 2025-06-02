@@ -628,44 +628,50 @@ void unit_tests_transform_matrices(t_minirt *minirt)
 	test_rotation_z_matrix(minirt);
 }
 
-void test_normal_at_sphere(t_minirt m)
+void test_normal_at_sphere(t_minirt *m)
 {
-	t_sphere	s1;
-	set_transform(&s1, translation(&m, 0, 0, 0));
+	printf("Testing normal at sphere point. \n");
+	t_sphere	s1 = sphere(m);
+	set_transform(&s1, translation(m, 0, 0, 0));
 	print_matrix(s1.transform, "Initial s1 transform", 4);
 
-	t_tuple	nor = normal_at_sphere(&m, s1, create_point(1, 0 ,0));
+	t_tuple	nor = normal_at_sphere(m, s1, create_point(1, 0 ,0));
 	printf("world normal 1,0,0\n");
 	print_tuple(nor);
-	nor = normal_at_sphere(&m, s1, create_point(0, 1 ,0));
+	nor = normal_at_sphere(m, s1, create_point(0, 1 ,0));
 	printf("world normal 0,1,0\n");
 	print_tuple(nor);
-	nor = normal_at_sphere(&m, s1, create_point(0, 0 ,1));
+	nor = normal_at_sphere(m, s1, create_point(0, 0 ,1));
 	printf("world normal 0,0,1\n");
 	print_tuple(nor);
 	
-	nor = normal_at_sphere(&m, s1, create_point(0.57735, 0.57735, 0.57735));
+	nor = normal_at_sphere(m, s1, create_point(0.57735, 0.57735, 0.57735));
 	printf("world normal sqrt3/3");
 	print_tuple(nor);
 	
-	set_transform(&s1, translation(&m, 0, 1, 0));
+	set_transform(&s1, translation(m, 0, 1, 0));
 	print_matrix(s1.transform, "Initial s1 transform", 4);
 
-	nor = normal_at_sphere(&m, s1, create_point(0, 1.70711, -0.70711));
-	printf("world normal translated by 0,1,0");
+	nor = normal_at_sphere(m, s1, create_point(0, 1.70711, -0.70711));
+	printf("world normal translated by 0,1,0\n");
 	print_tuple(nor);
 	
-	float **sca_rot = multiply_mtrx_by_mtrx(&m, scaling(&m, 1, 0.5, 1), rotation_z(&m, 0.62832), 4);
-	print_matrix(sca_rot, "sca_rot", 4);
-	set_transform(&s1, &sca_rot);
+	float **sca = scaling(m, 1, 0.5, 1);
+	print_matrix(sca, "sca", 4);
+	float **rot = rotation_z(m, 0.62832);
+	print_matrix(rot, "rot", 4);
+	float **sca_rot = multiply_mtrx_by_mtrx(m, sca, rot, 4);
+	print_matrix(sca_rot, "sca * rot", 4);
+	set_transform(&s1, sca_rot);
 	print_matrix(s1.transform, "Initial s1 transform", 4);
-	nor = normal_at_sphere(&m, s1, create_point(0, 0.70711, -0.70711));
-	printf("world normal scaled and rotated");
+	nor = normal_at_sphere(m, s1, create_point(0, 0.70711, -0.70711));
+	printf("world normal scaled and rotated\n");
 	print_tuple(nor);
 }
 
 void	test_reflect(t_minirt m)
 {
+	printf("Testing reflection about normal. \n");
 	printf("approach 45 degree\n");
 	t_tuple	v1 = create_vector(1, -1, 0);
 	t_tuple p1 = create_point(0, 0, 0);

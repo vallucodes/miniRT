@@ -56,6 +56,7 @@ typedef struct s_ambient
 	int				r;
 	int				g;
 	int				b;
+	t_color			col;
 }	t_ambient;
 
 /**
@@ -71,6 +72,8 @@ typedef struct s_camera
 	float			oy;
 	float			oz;
 	unsigned char	fov;
+	t_tuple			ori;
+	t_tuple			nor;
 }	t_camera;
 
 //Light: coordinate X,Y,Z, ratio, R,G,B
@@ -87,6 +90,8 @@ typedef struct s_light
 	int				r;
 	int				g;
 	int				b;
+	t_tuple			ori;
+	t_color			col;
 }	t_light;
 
 /**
@@ -109,6 +114,9 @@ typedef struct s_scene_obj
 	int				b;
 	float			dia;
 	float			height;
+	t_tuple			ori;
+	t_tuple			nor;
+	t_color			col;
 }	t_scene_obj;
 
 /**
@@ -162,5 +170,10 @@ bool	parse_check_geometry(char *str, float *num);
 
 //parse_obj_list.c
 bool	parse_add_obj_list(t_scene_obj *tmp, t_parse *ps);
+
+//parse_utils.c
+void	parse_fill_colour(t_color *col, int r, int g, int b);
+void	parse_fill_origin(t_tuple *origin, float cx, float cy, float cz);
+void	parse_fill_norm(t_tuple *norm, float ox, float oy, float oz);
 
 #endif

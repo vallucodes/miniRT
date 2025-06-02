@@ -26,6 +26,9 @@ bool	parse_check_plane(char *line, t_parse *ps)
 		return (free_helper(ps, words, tmp, ERR_PLANE));
 	tmp->type = 0;
 	ps->obj_count++;
+	parse_fill_origin(&tmp->ori, tmp->cx, tmp->cy, tmp->cz);
+	parse_fill_norm(&tmp->nor, tmp->ox, tmp->oy, tmp->oz);
+	parse_fill_colour(&tmp->col, tmp->r, tmp->g, tmp->b);
 	free_matrix(words);
 	return (parse_add_obj_list(tmp, ps));
 }
@@ -56,6 +59,9 @@ bool	parse_check_sphere(char *line, t_parse *ps)
 		return (free_helper(ps, words, tmp, ERR_SPHERE));
 	tmp->type = 1;
 	ps->obj_count++;
+	parse_fill_origin(&tmp->ori, tmp->cx, tmp->cy, tmp->cz);
+	parse_fill_norm(&tmp->nor, tmp->ox, tmp->oy, tmp->oz);
+	parse_fill_colour(&tmp->col, tmp->r, tmp->g, tmp->b);
 	free_matrix(words);
 	return (parse_add_obj_list(tmp, ps));
 }
@@ -90,6 +96,9 @@ bool	parse_check_cylinder(char *line, t_parse *ps)
 		return (free_helper(ps, words, tmp, ERR_CYL));
 	tmp->type = 2;
 	ps->obj_count++;
+	parse_fill_origin(&tmp->ori, tmp->cx, tmp->cy, tmp->cz);
+	parse_fill_norm(&tmp->nor, tmp->ox, tmp->oy, tmp->oz);
+	parse_fill_colour(&tmp->col, tmp->r, tmp->g, tmp->b);
 	free_matrix(words);
 	return (parse_add_obj_list(tmp, ps));
 }
