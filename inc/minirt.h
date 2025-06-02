@@ -22,11 +22,9 @@ typedef struct s_minirt t_minirt;
 
 //Project includes.
 # include "memory_arena.h"
-# include "parsing.h"
 # include "raytracing.h"
+# include "parsing.h"
 # include "utils.h"
-# include "lighting.h"
-# include "objects.h"
 
 typedef enum e_exit
 {
@@ -63,6 +61,8 @@ void	draw_current_thing(t_minirt *minirt);
 void	draw_hook(void *param);
 void	draw_circle(t_minirt *minirt);
 
+//init.c
 void	init_minirt(t_minirt *minirt);
+t_material	init_material(void);
 
 #endif

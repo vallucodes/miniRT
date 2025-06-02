@@ -11,6 +11,6 @@ t_sphere	sphere(t_minirt *minirt)
 	s.center = create_point(0, 0, 0);
 	s.radius = 1.0;
 	s.transform = identity(minirt);
-	s.mat = NULL;
+	s.mat = init_material();
 	return (s);
 }

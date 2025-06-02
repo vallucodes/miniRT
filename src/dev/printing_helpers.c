@@ -26,6 +26,13 @@ void	print_tuple(t_tuple t)
 	printf("t[w] = %f\n\n", t.w);
 }
 
+void	print_colour(t_color c)
+{
+	printf("c[r] = %f\n", c.r);
+	printf("c[g] = %f\n", c.g);
+	printf("c[b] = %f\n\n", c.b);
+}
+
 void	print_ray(t_ray r)
 {
 	printf("dir r[x] = %f\n", r.dir.x);

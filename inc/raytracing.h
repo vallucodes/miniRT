@@ -58,6 +58,30 @@ typedef struct s_matrix_ctx
 	size_t		size;
 }	t_matrix_ctx;
 
+//Material light properties
+typedef struct	s_material
+{
+	float	ambient;
+	float	diffuse;
+	float	specular;
+	float	ratio;
+}	t_material;
+
+typedef struct s_sphere
+{
+	t_tuple		center;
+	float		radius;
+	float		**transform;
+	t_material	mat;
+}	t_sphere;
+
+//objects.c
+t_sphere	sphere(t_minirt *minirt);
+
+//lighting.c
+t_tuple	normal_at_sphere(t_minirt *m, t_sphere s, t_tuple p);
+t_tuple	reflect(t_ray in_ray, t_tuple normal);
+
 //tuples
 t_tuple	create_vector(float x, float y, float z);
 t_tuple	create_point(float x, float y, float z);
@@ -101,7 +125,7 @@ float	**inverse_matrix(t_minirt *minirt, float **m, size_t size);
 //matrix operators
 float	**identity(t_minirt *minirt);
 float	**translation(t_minirt *minirt, int x, int y, int z);
-float	**scaling(t_minirt *minirt, int x, int y, int z);
+float	**scaling(t_minirt *minirt, float x, float y, float z);
 float	**rotation_x(t_minirt *minirt, float theta);
 float	**rotation_y(t_minirt *minirt, float theta);
 float	**rotation_z(t_minirt *minirt, float theta);
@@ -131,7 +155,7 @@ void	print_xs(t_xs *xs);
 void	unit_tests_3x3(t_minirt *minirt);
 void	unit_tests_4x4(t_minirt *minirt);
 void	unit_tests_transform_matrices(t_minirt *minirt);
-void	test_normal_at_sphere(t_minirt m);
+void	test_normal_at_sphere(t_minirt *m);
 void	test_reflect(t_minirt m);
 
 #endif

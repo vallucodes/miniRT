@@ -40,3 +40,13 @@ void	init_minirt(t_minirt *minirt)
 	}
 	init_vp_attributes(minirt);
 }
+
+t_material	init_material(void)
+{
+	t_material	new;
+
+	new.ambient = 0.1;
+	new.diffuse = 0.9;
+	new.specular = 0.9;
+	new.ratio = 200;
+}
