@@ -8,29 +8,27 @@ int	main(int ac, char **av)
 	t_parse	*ps;
 
 	init_minirt(&minirt);
-	// if (ac != 2)
-	// {
-	// 	ft_putstr_fd("Error\nUsage: ./minirt <scene file>.rt\n", STDERR_FILENO);
-	// 	return (1);
-	// }
-	// // ps = ft_calloc(1, sizeof(t_parse));
-	// ps = ft_arena_calloc(minirt.arena, 1, sizeof(t_parse), alignof(t_parse));
-	// file_check(av, ps);
-	// if (!parsing_gateway(ps))
-	// {
-	// 	printf("exit, parsing failure\n");
-	// 	exit (EXIT_FAILURE);
-	// }
-	// // fun_test_parsed_output(av, ps);
-	// close(ps->fd);
-	// ft_lstclear(&ps->objects, &free);
-	// // free(ps);
-	// draw_current_thing(&minirt);
-	// // mlx_loop_hook(minirt.mlx, &draw_hook, &minirt); //dont activate this hook. Its insanely slow because raytracing is very heavy process and this is redrawing everything every frame
-	// mlx_loop(minirt.mlx);
+	if (ac != 2)
+	{
+		ft_putstr_fd("Error\nUsage: ./minirt <scene file>.rt\n", STDERR_FILENO);
+		return (1);
+	}
+	// ps = ft_calloc(1, sizeof(t_parse));
+	ps = ft_arena_calloc(minirt.arena, 1, sizeof(t_parse), alignof(t_parse));
+	file_check(av, ps);
+	if (!parsing_gateway(ps))
+	{
+		printf("exit, parsing failure\n");
+		exit (EXIT_FAILURE);
+	}
+	// fun_test_parsed_output(av, ps);
+	close(ps->fd);
+	ft_lstclear(&ps->objects, &free);
+	// free(ps);
+	draw_current_thing(&minirt);
+	// mlx_loop_hook(minirt.mlx, &draw_hook, &minirt); //dont activate this hook. Its insanely slow because raytracing is very heavy process and this is redrawing everything every frame
+	mlx_loop(minirt.mlx);
 
-	test_scaling_matrix(&minirt);
-	test_rotation_z_matrix(&minirt);
 	return (0);
 }
 

@@ -140,5 +140,9 @@ void	print_xs(t_xs *xs);
 void	unit_tests_3x3(t_minirt *minirt);
 void	unit_tests_4x4(t_minirt *minirt);
 void	unit_tests_transform_matrices(t_minirt *minirt);
+void test_rotation_z_matrix(t_minirt *minirt);
+void test_rotation_y_matrix(t_minirt *minirt);
+void test_rotation_x_matrix(t_minirt *minirt);
+void test_scaling_matrix(t_minirt *minirt);
 
 #endif
