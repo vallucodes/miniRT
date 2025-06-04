@@ -677,12 +677,80 @@ void	test_reflect(t_minirt m)
 	t_tuple p1 = create_point(0, 0, 0);
 	t_tuple n1 = create_vector(0, 1, 0);
 	t_ray r1 = create_ray(v1, p1);
-	print_tuple(reflect(r1, n1));
+	//print_tuple(reflect(r1, n1));
 	
 	printf("approach 45 degree inclined surface vertically\n");
 	t_tuple	v2 = create_vector(0, -1, 0);
 	t_tuple p2 = create_point(0, 0, 0);
 	t_tuple n2 = create_vector(0.70711, 0.70711, 0);
 	t_ray r2 = create_ray(v2, p2);
-	print_tuple(reflect(r2, n2));
+	//print_tuple(reflect(r2, n2));
+}
+
+void test_point_light_material(void)
+{
+	t_color intensity = color(1, 1, 1);
+	t_tuple position = create_point(0, 0, 0);
+	t_light light;
+	t_sphere s;
+	t_material mat = init_material();
+
+	light.col = intensity;
+	light.ori = position;
+
+	printf("light position\n");
+	print_tuple(light.ori);
+	printf("light intensity\n");
+	print_colour(light.col);
+
+	s.mat = mat;
+	printf("Mat, amb: %f, dif: %f, spec: %f, shine: %f\n", s.mat.ambient, s.mat.diffuse, s.mat.specular, s.mat.shininess);
+	printf("mat col:\n");
+	print_colour(s.mat.col);
+
+	s.mat.ambient = 1;
+	s.mat.diffuse = 1;
+	s.mat.specular = 1;
+	s.mat.shininess = 100;
+	s.mat.col = color(0.5, 0.4, 0.3);
+	printf("Mat, amb: %f, dif: %f, spec: %f, shine: %f\n", s.mat.ambient, s.mat.diffuse, s.mat.specular, s.mat.shininess);
+	printf("mat col:\n");
+	print_colour(s.mat.col);
+}
+
+void	test_point_light_reflections(void)
+{
+	t_material mat = init_material();
+	t_tuple	position = create_point(0, 0, 0);
+
+	t_tuple eyev = create_vector(0, 0, -1);
+	t_tuple	normalv = create_vector(0, 0, -1);
+	t_light light;
+	light.ori = create_point(0, 0, -10);
+	light.col = color(1, 1, 1);
+	light.ratio = 1;
+	t_color res = lighting(mat, light, position, eyev, normalv);
+	printf("Result. Lighting with the eye between the light and the surface.\n");
+	print_colour(res);
+	
+	t_tuple eyev2 = create_vector(0, 0.70711, -0.70711);
+	res = lighting(mat, light, position, eyev2, normalv);
+	printf("Result. Lighting with the eye between light and surface, eye offset 45°\n");
+	print_colour(res);
+	
+	light.ori.y = 10;
+	res = lighting(mat, light, position, eyev, normalv);
+	printf("Result. Lighting with eye opposite surface, light offset 45°\n");
+	print_colour(res);
+	
+	t_tuple eyev3 = create_vector(0, -0.70711, -0.70711);
+	res = lighting(mat, light, position, eyev3, normalv);
+	printf("Result. Lighting with eye in the path of the reflection vector\n");
+	print_colour(res);
+
+	light.ori.y = 0;
+	light.ori.z = 10;
+	res = lighting(mat, light, position, eyev, normalv);
+	printf("Result. Lighting with the light behind the surface\n");
+	print_colour(res);
 }

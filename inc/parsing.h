@@ -76,7 +76,6 @@ typedef struct s_camera
 	t_tuple			nor;
 }	t_camera;
 
-//Light: coordinate X,Y,Z, ratio, R,G,B
 /**
  * @brief Light optical object.
  * @note cx,cy,cz[CO_MIN,CO_MAX] ratio[0.0,1.0] r,g,b[0,255]
@@ -99,6 +98,7 @@ typedef struct s_light
  * @note Plane (0): cx,cy,cz[CO_MIN,CO_MAX] ox,oy,oz[OR_MIN,OR_MAX] r,g,b[0,255]
  * @note Sphere (1): cx,cy,cz[CO_MIN,CO_MAX] dia r,g,b[0,255]
  * @note Cylinder (2): cx,cy,cz ox,oy,oz dia height r,g,b
+ * @todo mat and **transform may not be suitable here
  */
 typedef struct s_scene_obj
 {
@@ -117,6 +117,8 @@ typedef struct s_scene_obj
 	t_tuple			ori;
 	t_tuple			nor;
 	t_color			col;
+	t_material		mat;
+	float			**transform;
 }	t_scene_obj;
 
 /**
