@@ -1,5 +1,8 @@
 #include "../../inc/minirt.h"
 
+/**
+ * @todo RGB colours should be normalised to [0,1] 
+ */
 void	parse_fill_colour(t_color *col, int r, int g, int b)
 {
 	col->r = (float)r;

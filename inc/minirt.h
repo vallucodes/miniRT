@@ -19,6 +19,12 @@
 # include "../lib/libft/inc/libft.h"
 
 typedef struct s_minirt t_minirt;
+typedef struct s_color t_color;
+typedef struct s_tuple t_tuple;
+typedef struct s_light t_light;
+typedef struct	s_material t_material;
+t_color	color(float r, float g, float b);
+t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple c_v, t_tuple n_v);
 
 //Project includes.
 # include "memory_arena.h"

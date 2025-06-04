@@ -7,7 +7,7 @@ int	main(int ac, char **av)
 	t_minirt minirt;
 	init_minirt(&minirt);
 	
-	t_parse	*ps;
+	/*t_parse	*ps;
 	ps = ft_arena_calloc(minirt.arena, 1, sizeof(t_parse), alignof(t_parse));
 
 	if (ac != 2)
@@ -24,18 +24,19 @@ int	main(int ac, char **av)
 	}
 	fun_test_parsed_output(av, ps);
 	close(ps->fd);
-	ft_lstclear(&ps->objects, &free);
+	ft_lstclear(&ps->objects, &free);*/
 	// free(ps);
-	//draw_current_thing(&minirt);
+	draw_current_thing(&minirt);
 	// mlx_loop_hook(minirt.mlx, &draw_hook, &minirt); //dont activate this hook. Its insanely slow because raytracing is very heavy process and this is redrawing everything every frame
-	//mlx_loop(minirt.mlx);
+	mlx_loop(minirt.mlx);
 	
-
 	/*test_scaling_matrix(&minirt);
 	test_rotation_z_matrix(&minirt);
 	test_normal_at_sphere(&minirt);
-
 	test_reflect(minirt);*/
+	//test_point_light_material();
+	//test_point_light_reflections();
+
 	return (0);
 }
 

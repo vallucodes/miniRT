@@ -8,7 +8,7 @@ void	set_colors(t_minirt *minirt)
 
 /**
  * @brief Setup viewport 2D size
- * @details FOV will come from .rt file in submitted project
+ * @attention FOV will eventually come from .rt file in submitted project
  */
 void	init_vp_attributes(t_minirt *minirt)
 {
@@ -41,12 +41,17 @@ void	init_minirt(t_minirt *minirt)
 	init_vp_attributes(minirt);
 }
 
+/**
+ * @brief Return t_material initialised with default values. 
+ */
 t_material	init_material(void)
 {
 	t_material	new;
 
-	new.ambient = 0.1;
-	new.diffuse = 0.9;
-	new.specular = 0.9;
-	new.ratio = 200;
+	new.col = color(1, 1, 1);
+	new.ambient = amb_default;
+	new.diffuse = dif_default;
+	new.specular = spec_default;
+	new.shininess = shine_default;
+	return (new);
 }

@@ -5,6 +5,12 @@
 # define HEIGHT	250
 # define MALLOC	"Memory allocation failed"
 
+//Material default values
+# define amb_default 0.1
+# define dif_default 0.9
+# define spec_default 0.9
+# define shine_default 200
+
 typedef struct s_tuple
 {
 	float	x;
@@ -61,10 +67,11 @@ typedef struct s_matrix_ctx
 //Material light properties
 typedef struct	s_material
 {
+	t_color	col;
 	float	ambient;
 	float	diffuse;
 	float	specular;
-	float	ratio;
+	float	shininess;
 }	t_material;
 
 typedef struct s_sphere
@@ -80,7 +87,7 @@ t_sphere	sphere(t_minirt *minirt);
 
 //lighting.c
 t_tuple	normal_at_sphere(t_minirt *m, t_sphere s, t_tuple p);
-t_tuple	reflect(t_ray in_ray, t_tuple normal);
+t_tuple	reflect(t_tuple in, t_tuple normal);
 
 //tuples
 t_tuple	create_vector(float x, float y, float z);
@@ -101,6 +108,8 @@ t_tuple	cross_tuple(t_tuple tuple1, t_tuple tuple2);
 t_color	addition_color(t_color color1, t_color color2);
 t_color substraction_color(t_color color1, t_color color2);
 t_color	multiply_color(t_color color1, t_color color2);
+t_color	multiply_color_scalar(t_color col, float sca);
+uint32_t	colour_conversion(t_color colour, uint8_t alpha);
 
 //matrix math
 bool	equality_matrix(float **m, float **m2, size_t size);
@@ -157,5 +166,7 @@ void	unit_tests_4x4(t_minirt *minirt);
 void	unit_tests_transform_matrices(t_minirt *minirt);
 void	test_normal_at_sphere(t_minirt *m);
 void	test_reflect(t_minirt m);
+void	test_point_light_material();
+void	print_colour(t_color c);
 
 #endif

@@ -20,18 +20,33 @@ uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y)
 	t_sphere s; //edit this to int maybe
 
 	//Converting between pixel space to viewport space. Raster, NDC etc. 
+	//handling camera location and ray creation
 	float Px = (x + 0.5) * minirt->vp->vp_w / WIDTH - minirt->vp->vp_w / 2;
 	float Py = (y + 0.5) * minirt->vp->vp_h / HEIGHT - minirt->vp->vp_h / 2;
 	t_tuple	point_on_vp = create_point(Px, Py, -1);
 	t_tuple	camera_pos = create_point(0, 0, -5);
 	t_tuple dir = normalize_tuple(substraction_tuples(point_on_vp, camera_pos));
 	r = create_ray(dir, camera_pos);
+
+	//sphere creation, transform, material and colour
 	s = sphere(minirt);
+	s.mat.col = color(1, 0.2, 1);
 	set_transform(&s, scaling(minirt, 1, 1, 1));
+
+	//light creation, location, colour
+	t_light light;
+	light.ori = create_point(-10, 10, -10);
+	light.col = color(1, 1, 1);
+	light.ratio = 1.5;
+
 	xs = intersects_ray(minirt, s, r);
 	// print_xs(xs);
 	if (xs->count != 0)
-		return (minirt->map->colored);
+	{
+		t_color	res = lighting(s.mat, light, create_point(Px, Py, *xs->t), negate_tuple(r.dir), normal_at_sphere(minirt, s, create_point(Px, Py, *xs->t)));
+		uint32_t	hex_colour = colour_conversion(res, 255);
+		return (hex_colour);
+	}
 	else
 		return (minirt->map->background);
 }
