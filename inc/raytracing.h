@@ -82,6 +82,19 @@ typedef struct s_sphere
 	t_material	mat;
 }	t_sphere;
 
+typedef struct	s_light_vars
+{
+	t_color	eff_col;
+	t_color	amb_col;
+	t_color	dif_col;
+	t_color	spec_col;
+	t_tuple	light_vec;
+	t_tuple	reflect_vec;
+	float	l_dot_n;
+	float	r_dot_e;
+	float	fac;
+}	t_light_vars;
+
 //objects.c
 t_sphere	sphere(t_minirt *minirt);
 

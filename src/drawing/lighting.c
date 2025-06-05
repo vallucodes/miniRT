@@ -56,17 +56,9 @@ t_tuple	reflect(t_tuple in, t_tuple normal)
  * 			between light, camera and object(s)
  * @todo Needs to take into account the scene file's ambient value. 
  */
-t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple c_v, t_tuple n_v)
+t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple e_v, t_tuple n_v)
 {
-	t_color	effective_col;
-	t_color	ambient_col;
-	t_color	diffuse_col;
-	t_color	specular_col;
-	t_tuple	light_vec;
-	t_tuple	reflect_vec;
-	float	l_dot_n;
-	float	r_dot_c;
-	float	fac;
+	t_light_vars	lv;	
 
 	printf("material colour\n");
 	print_colour(m.col);
@@ -75,42 +67,42 @@ t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple c_v, t_tuple n_v)
 	printf("position\n");
 	print_tuple(p);
 	printf("eye/camera vec\n");
-	print_tuple(c_v);
+	print_tuple(e_v);
 	printf("normal vec\n");
 	print_tuple(n_v);
 	
-	effective_col = multiply_color_scalar(m.col, l.ratio);
+	lv.eff_col = multiply_color_scalar(m.col, l.ratio);
 	//printf("effective colour\n");
 	//print_colour(effective_col);
 
-	light_vec = normalize_tuple(substraction_tuples(l.ori, p));
+	lv.light_vec = normalize_tuple(substraction_tuples(l.ori, p));
 	//printf("light vector\n");
 	//print_tuple(light_vec);
 	
-	ambient_col = multiply_color_scalar(effective_col, m.ambient);
+	lv.amb_col = multiply_color_scalar(lv.eff_col, m.ambient);
 	//printf("ambient colour\n");
 	//print_colour(ambient_col);
 	
-	l_dot_n = dot_tuple(light_vec, n_v);
-	printf("light dot normal: %f\n", l_dot_n);
+	lv.l_dot_n = dot_tuple(lv.light_vec, n_v);
+	printf("light dot normal: %f\n", lv.l_dot_n);
 
-	if (l_dot_n < 0)
+	if (lv.l_dot_n < 0)
 	{
-		diffuse_col = color(0, 0, 0);
-		specular_col = color(0, 0, 0);
+		lv.dif_col = color(0, 0, 0);
+		lv.spec_col = color(0, 0, 0);
 	}
 	else
 	{
-		diffuse_col = multiply_color_scalar(effective_col, m.diffuse * l_dot_n);
-		reflect_vec = reflect(negate_tuple(light_vec), n_v);
-		r_dot_c = dot_tuple(reflect_vec, c_v);
-		if (r_dot_c <= 0)
-			specular_col = color(0, 0, 0);
+		lv.dif_col = multiply_color_scalar(lv.eff_col, m.diffuse * lv.l_dot_n);
+		lv.reflect_vec = reflect(negate_tuple(lv.light_vec), n_v);
+		lv.r_dot_e = dot_tuple(lv.reflect_vec, e_v);
+		if (lv.r_dot_e <= 0)
+			lv.spec_col = color(0, 0, 0);
 		else
 		{
-			fac = pow(r_dot_c, m.shininess);
-			specular_col = multiply_color_scalar(effective_col, m.specular * fac * l.ratio);
+			lv.fac = pow(lv.r_dot_e, m.shininess);
+			lv.spec_col = multiply_color_scalar(lv.eff_col, m.specular * lv.fac);
 		}
 	}
-	return (addition_color(addition_color(ambient_col, diffuse_col), specular_col));
+	return (addition_color(addition_color(lv.amb_col, lv.dif_col), lv.spec_col));
 }
