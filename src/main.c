@@ -30,10 +30,10 @@ int	main(int ac, char **av)
 	// mlx_loop_hook(minirt.mlx, &draw_hook, &minirt); //dont activate this hook. Its insanely slow because raytracing is very heavy process and this is redrawing everything every frame
 	mlx_loop(minirt.mlx);
 	
-	/*test_scaling_matrix(&minirt);
-	test_rotation_z_matrix(&minirt);
-	test_normal_at_sphere(&minirt);
-	test_reflect(minirt);*/
+	//test_scaling_matrix(&minirt);
+	//test_rotation_z_matrix(&minirt);
+	//test_normal_at_sphere(&minirt);
+	//test_reflect(minirt);
 	//test_point_light_material();
 	//test_point_light_reflections();
 
