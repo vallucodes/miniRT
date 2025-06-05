@@ -18,6 +18,7 @@
 # include "../lib/MLX42/include/MLX42/MLX42.h"
 # include "../lib/libft/inc/libft.h"
 
+//Prototypes to prevent breaking of dependencies
 typedef struct s_minirt t_minirt;
 typedef struct s_color t_color;
 typedef struct s_tuple t_tuple;
