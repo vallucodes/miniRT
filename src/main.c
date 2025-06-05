@@ -34,8 +34,8 @@ int	main(int ac, char **av)
 	//test_rotation_z_matrix(&minirt);
 	//test_normal_at_sphere(&minirt);
 	//test_reflect(minirt);
-	//test_point_light_material();
-	//test_point_light_reflections();
+	test_point_light_material();
+	test_point_light_reflections();
 
 	return (0);
 }
