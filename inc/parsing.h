@@ -56,6 +56,7 @@ typedef struct s_ambient
 	int				r;
 	int				g;
 	int				b;
+	t_color			col;
 }	t_ambient;
 
 /**
@@ -71,9 +72,10 @@ typedef struct s_camera
 	float			oy;
 	float			oz;
 	unsigned char	fov;
+	t_tuple			ori;
+	t_tuple			nor;
 }	t_camera;
 
-//Light: coordinate X,Y,Z, ratio, R,G,B
 /**
  * @brief Light optical object.
  * @note cx,cy,cz[CO_MIN,CO_MAX] ratio[0.0,1.0] r,g,b[0,255]
@@ -87,6 +89,8 @@ typedef struct s_light
 	int				r;
 	int				g;
 	int				b;
+	t_tuple			ori;
+	t_color			col;
 }	t_light;
 
 /**
@@ -94,6 +98,7 @@ typedef struct s_light
  * @note Plane (0): cx,cy,cz[CO_MIN,CO_MAX] ox,oy,oz[OR_MIN,OR_MAX] r,g,b[0,255]
  * @note Sphere (1): cx,cy,cz[CO_MIN,CO_MAX] dia r,g,b[0,255]
  * @note Cylinder (2): cx,cy,cz ox,oy,oz dia height r,g,b
+ * @todo mat and **transform may not be suitable here
  */
 typedef struct s_scene_obj
 {
@@ -109,6 +114,11 @@ typedef struct s_scene_obj
 	int				b;
 	float			dia;
 	float			height;
+	t_tuple			ori;
+	t_tuple			nor;
+	t_color			col;
+	t_material		mat;
+	float			**transform;
 }	t_scene_obj;
 
 /**
@@ -162,5 +172,10 @@ bool	parse_check_geometry(char *str, float *num);
 
 //parse_obj_list.c
 bool	parse_add_obj_list(t_scene_obj *tmp, t_parse *ps);
+
+//parse_utils.c
+void	parse_fill_colour(t_color *col, int r, int g, int b);
+void	parse_fill_origin(t_tuple *origin, float cx, float cy, float cz);
+void	parse_fill_norm(t_tuple *norm, float ox, float oy, float oz);
 
 #endif
