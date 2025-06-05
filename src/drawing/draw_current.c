@@ -44,9 +44,12 @@ uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y)
 	if (xs->count != 0)
 	{
 		//
-		//This is probably where things are going wrong. 
+		//This is probably where things are going wrong.
+		//I feel position or colouring are where the problem lies. 
+		//The output at the current state is about correct in colour, but lacks
+		//highlight and the light seems to be in the wrong position. 
 		//
-		t_color	res = lighting(s.mat, light, create_point(Px, Py, *xs->t), negate_tuple(r.dir), normal_at_sphere(minirt, s, create_point(Px, Py, *xs->t)));
+		t_color	res = lighting(s.mat, light, create_point(Px, Py, *xs->t * -1), negate_tuple(r.dir), normal_at_sphere(minirt, s, create_point(Px, Py, *xs->t * - 1)));
 		uint32_t	hex_colour = colour_conversion(res, 255);
 		return (hex_colour);
 	}
