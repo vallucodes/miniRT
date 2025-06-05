@@ -5,33 +5,34 @@
  * @returns Normal vector
  * @details Sphere needs to be in object space if its origin not at world origin
  * 			Normal calculation needs to be done in object space
- * 			Result needs to be converted to world space
+ * 			Result needs to be converted to world space, normalised 
  */
 t_tuple	normal_at_sphere(t_minirt *m, t_sphere s, t_tuple p)
 {
 	t_tuple	res;
 	float **inv_transform;
 
+	//Find point in object space
 	inv_transform = inverse_matrix(m, s.transform, 4);
 	//print_matrix(inv_transform, "s1 inverted transform ", 4);
-
 	res = multiply_mtrx_by_tuple(inv_transform, p, 4);
 	//printf("object_point\n");
 	//print_tuple(res);
 
+	//Find normal vector while in object space
 	res = substraction_tuples(res, create_point(0, 0, 0));
 	//printf("object_normal\n");
 	//print_tuple(res);
 
-	res = multiply_mtrx_by_tuple(transpose_matrix(m, inv_transform, 4), p, 4);
+	//Convert object space to world space, set w to 0 and return normalised 
+	res = multiply_mtrx_by_tuple(transpose_matrix(m, inv_transform, 4), res, 4);
 	res.w = 0;
 	return (normalize_tuple(res));
 }
 
 /**
- * @brief Returns a vector the result of reflecting ray in about vector normal 
- * @attention t_ray as in seems more useful, however it could be easily
- * 			adapted to t_tuple 
+ * @brief Returns vector, result of reflecting vector [in] about vector [normal]
+ * @todo Maybe work with rays rather than vector tuples? 
  */
 t_tuple	reflect(t_tuple in, t_tuple normal)
 {
@@ -93,7 +94,7 @@ t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple c_v, t_tuple n_v)
 	l_dot_n = dot_tuple(light_vec, n_v);
 	printf("light dot normal: %f\n", l_dot_n);
 
-	if (l_dot_n > 0)
+	if (l_dot_n < 0)
 	{
 		diffuse_col = color(0, 0, 0);
 		specular_col = color(0, 0, 0);

@@ -37,12 +37,15 @@ uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y)
 	t_light light;
 	light.ori = create_point(-10, 10, -10);
 	light.col = color(1, 1, 1);
-	light.ratio = 1.5;
+	light.ratio = 1;
 
 	xs = intersects_ray(minirt, s, r);
 	// print_xs(xs);
 	if (xs->count != 0)
 	{
+		//
+		//This is probably where things are going wrong. 
+		//
 		t_color	res = lighting(s.mat, light, create_point(Px, Py, *xs->t), negate_tuple(r.dir), normal_at_sphere(minirt, s, create_point(Px, Py, *xs->t)));
 		uint32_t	hex_colour = colour_conversion(res, 255);
 		return (hex_colour);
