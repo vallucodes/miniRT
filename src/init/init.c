@@ -2,7 +2,6 @@
 
 void	set_colors(t_minirt *minirt)
 {
-	minirt->map->background = 0xFF8800FF;
 	minirt->map->background = 0x000000FF;
 	minirt->map->colored = 0xFF0000FF;
 }

@@ -695,7 +695,7 @@ void	test_reflect(t_minirt m)
 void	test_reflect_extra(t_minirt m)
 {
 	(void)m;
-	
+
 	printf("Testing reflection edge cases and angles.\n");
 
 	printf("approach straight on (no angle)\n");
@@ -797,3 +797,8 @@ void	test_point_light_reflections(void)
 	printf("Result. Lighting with the light behind the surface\n");
 	print_colour(res);
 }
+
+// void	test_intersect_two_spheres(t_minirt *minirt)
+// {
+
+// }
