@@ -1,7 +1,7 @@
 #include "minirt.h"
 
 /**
- * @brief Find the normal vector at the given location of the given sphere
+ * @brief Find the normal vector at the given location [p] of the given sphere
  * @returns Normal vector
  * @details Sphere needs to be in object space if its origin not at world origin
  * 			Normal calculation needs to be done in object space
@@ -54,13 +54,18 @@ t_tuple	reflect(t_tuple in, t_tuple normal)
  * @brief Returns combined shading for given light conditions and contributions 
  * @details ambient + specular + diffuse weighted depending on relative position
  * 			between light, camera and object(s)
+ * @param [in] m: Object material
+ * @param [in] l: Light source
+ * @param [in] p: Point of hit
+ * @param [in] e_v: Eye vector
+ * @param [in] n_v: Normal vector
  * @todo Needs to take into account the scene file's ambient value. 
  */
 t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple e_v, t_tuple n_v)
 {
 	t_light_vars	lv;	
 
-	printf("material colour\n");
+	/*printf("material colour\n");
 	print_colour(m.col);
 	printf("light ratio: %f, origin:\n", l.ratio);
 	print_tuple(l.ori);
@@ -69,7 +74,7 @@ t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple e_v, t_tuple n_v)
 	printf("eye/camera vec\n");
 	print_tuple(e_v);
 	printf("normal vec\n");
-	print_tuple(n_v);
+	print_tuple(n_v);*/
 	
 	lv.eff_col = multiply_color_scalar(m.col, l.ratio);
 	//printf("effective colour\n");
