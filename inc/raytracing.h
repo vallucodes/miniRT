@@ -106,6 +106,7 @@ typedef struct	s_light_vars
 t_sphere	sphere(t_minirt *minirt);
 
 //lighting.c
+t_light	init_point_light(t_tuple pos, t_color color, float ratio);
 t_tuple	normal_at_sphere(t_minirt *m, t_sphere s, t_tuple p);
 t_tuple	reflect(t_tuple in, t_tuple normal);
 
@@ -134,22 +135,14 @@ uint32_t	colour_unitrgb_hex(t_color c, uint8_t alpha);
 //matrix math
 bool	equality_matrix(float **m, float **m2, size_t size);
 float	**multiply_mtrx_by_mtrx(t_minirt *minirt, float **m, float **m2, size_t size);
-// float	**multiply_mtrx_by_mtrx(float **m1, float **m2, size_t size);
 t_tuple	multiply_mtrx_by_tuple(float **m, t_tuple t1, size_t size);
 float	**transpose_matrix(t_minirt *minirt, float **m, size_t size);
-// float	**transpose_matrix(float **m, size_t size);
 float	determinant_matrix(t_minirt *minirt, float **m, size_t size);
-// float	determinant_matrix(float **m, size_t size);
 float	**sub_matrix(t_matrix_ctx *ctx, size_t row, size_t col);
-// float	**sub_matrix(float **m, size_t row, size_t col, size_t size);
 float	minor_matrix(t_matrix_ctx *ctx, int row, int col);
-// float	minor_matrix(float **m, int row, int col, size_t size);
 float	cofactor_matrix(t_matrix_ctx *ctx, int row, int col);
-// float	cofactor_matrix(float **m, int row, int col, size_t size);
 bool	is_invertible_matrix(t_minirt *minirt, float **m, size_t size);
-// bool	is_invertible_matrix(float **m, size_t size);
 float	**inverse_matrix(t_minirt *minirt, float **m, size_t size);
-// float	**inverse_matrix(float **m, size_t size);
 
 //matrix operators
 float	**identity(t_minirt *minirt);
@@ -166,7 +159,6 @@ float	**matrix_alloc(t_minirt *minirt, size_t size);
 t_ray	create_ray(t_tuple vector, t_tuple point);
 t_tuple	position_ray(t_ray ray, float t);
 t_xs	*intersects_ray(t_minirt *minirt, t_sphere s, t_ray r);
-// t_xs	*intersects_ray(t_sphere s, t_ray r);
 t_i		hit(t_xs *xs);
 t_ray	transform(t_ray r, float **m);
 void	set_transform(t_sphere *s, float **m);
@@ -176,6 +168,7 @@ int			is_equal(float a, float b);
 uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y);
 
 //dev
+void	fun_test_parsed_output(char **av, t_parse *ps);
 void	print_matrix(float **m, char *msg, int size);
 void	print_tuple(t_tuple t);
 float	**create_matrix(size_t size, int flag);
@@ -184,9 +177,16 @@ void	print_xs(t_xs *xs);
 void	unit_tests_3x3(t_minirt *minirt);
 void	unit_tests_4x4(t_minirt *minirt);
 void	unit_tests_transform_matrices(t_minirt *minirt);
+void	test_rotation_z_matrix(t_minirt *minirt);
+void	test_rotation_y_matrix(t_minirt *minirt);
+void	test_rotation_x_matrix(t_minirt *minirt);
+void	test_scaling_matrix(t_minirt *minirt);
 void	test_normal_at_sphere(t_minirt *m);
 void	test_reflect(t_minirt m);
+void	test_reflect_extra(t_minirt m);
 void	test_point_light_material();
+void	test_point_light_reflections(void);
+void	test_intersect_two_spheres(t_minirt *minirt);
 void	print_colour(t_color c);
 
 #endif

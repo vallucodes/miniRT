@@ -19,6 +19,7 @@
 # include "../lib/libft/inc/libft.h"
 
 //Prototypes to prevent breaking of dependencies
+typedef struct s_parse t_parse;
 typedef struct s_minirt t_minirt;
 typedef struct s_color t_color;
 typedef struct s_tuple t_tuple;
@@ -56,6 +57,7 @@ typedef struct s_vp
 
 typedef struct s_minirt
 {
+	t_parse		*world;
 	t_arena		*arena;
 	t_map		*map;
 	t_vp		*vp;
@@ -69,7 +71,7 @@ void	draw_hook(void *param);
 void	draw_circle(t_minirt *minirt);
 
 //init.c
-void	init_minirt(t_minirt *minirt);
+void		init_minirt(t_minirt *minirt);
 t_material	init_material(void);
 
 #endif

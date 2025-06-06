@@ -5,9 +5,7 @@ t_ray	create_ray(t_tuple vector, t_tuple point)
 	t_ray	ray;
 
 	ray.origin = point;
-	// print_tuple(ray.origin);
 	ray.dir = vector;
-	// print_tuple(ray.dir);
 	return (ray);
 }
 
@@ -67,10 +65,10 @@ t_xs	*intersections(t_i i1, t_i i2)
 	return (xs);
 }
 
-static	float magnitude(t_tuple t)
-{
-	return (sqrt(t.x * t.x + t.y * t.y + t.z * t.z + t.w * t.w));
-}
+// static	float magnitude(t_tuple t)
+// {
+// 	return (sqrt(t.x * t.x + t.y * t.y + t.z * t.z + t.w * t.w));
+// }
 
 t_xs	*intersects_ray(t_minirt *minirt, t_sphere s, t_ray r)
 {
