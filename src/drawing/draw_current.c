@@ -1,5 +1,17 @@
 #include "minirt.h"
 
+t_tuple    hit_point(t_ray r, t_xs *xs)
+{
+    float    t_hit;
+    t_i        hit_var;
+    t_tuple    hit_point;
+
+    hit_var = hit(xs);
+    t_hit = hit_var.t;
+    hit_point = position_ray(r, t_hit);
+    return (hit_point);
+}
+
 uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y)
 {
 	float	**m1;
@@ -35,7 +47,7 @@ uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y)
 
 	//light creation, location, colour
 	t_light light;
-	light.ori = create_point(-10, 10, -10);
+	light.ori = create_point(-10, -10, -10);
 	light.col = color(1, 1, 1);
 	light.ratio = 1;
 
@@ -49,8 +61,10 @@ uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y)
 		//The output at the current state is about correct in colour, but lacks
 		//highlight and the light seems to be in the wrong position. 
 		//
-		t_color	res = lighting(s.mat, light, create_point(Px, Py, *xs->t * -1), negate_tuple(r.dir), normal_at_sphere(minirt, s, create_point(Px, Py, *xs->t * - 1)));
-		uint32_t	hex_colour = colour_conversion(res, 255);
+		t_tuple point = hit_point(r, xs);
+        t_tuple    normal = normal_at_sphere(minirt, s, point);
+		t_color	res = lighting(s.mat, light, point, negate_tuple(r.dir), normal);
+		uint32_t	hex_colour = colour_unitrgb_hex(res, 1);
 		return (hex_colour);
 	}
 	else
