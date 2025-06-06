@@ -2,7 +2,7 @@
 
 void	set_colors(t_minirt *minirt)
 {
-	minirt->map->background = 0xFF8800FF;
+	minirt->map->background = 0x000000FF;
 	minirt->map->colored = 0xFF0000FF;
 }
 
@@ -20,7 +20,7 @@ void	init_vp_attributes(t_minirt *minirt)
 
 void	init_minirt(t_minirt *minirt)
 {
-	t_map *map;
+	// t_map *map;
 
 	init_arena(minirt);
 	minirt->map = arena_alloc(minirt->arena, sizeof(t_map), alignof(t_map));
@@ -28,7 +28,7 @@ void	init_minirt(t_minirt *minirt)
 		// exit_error();
 	set_colors(minirt);
 	minirt->vp = arena_alloc(minirt->arena, sizeof(t_vp), alignof(t_vp));
-	
+
 	minirt->mlx = mlx_init(WIDTH, HEIGHT, "42Balls", true);
 	// if (!minirt->mlx)
 		// exit_error(minirt.map, NULL, 0, mlx_strerror(mlx_errno));
@@ -42,7 +42,7 @@ void	init_minirt(t_minirt *minirt)
 }
 
 /**
- * @brief Return t_material initialised with default values. 
+ * @brief Return t_material initialised with default values.
  */
 t_material	init_material(void)
 {
