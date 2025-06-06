@@ -24,11 +24,18 @@ typedef struct s_ray
 	t_tuple	origin;
 	t_tuple	dir;
 }	t_ray;
+
+/**
+ * @brief Colour tuple arithmetic operations only act on r,g,b
+ */
 typedef struct s_color
 {
-	float	r;
-	float	g;
-	float	b;
+	float		r;
+	float		g;
+	float		b;
+	float		a;
+	uint8_t		rgba[3];
+	uint32_t	hex;
 }	t_color;
 
 typedef struct s_env
@@ -118,11 +125,11 @@ float	dot_tuple(t_tuple tuple1, t_tuple tuple2);
 t_tuple	cross_tuple(t_tuple tuple1, t_tuple tuple2);
 
 //colors
-t_color	addition_color(t_color color1, t_color color2);
-t_color substraction_color(t_color color1, t_color color2);
-t_color	multiply_color(t_color color1, t_color color2);
-t_color	multiply_color_scalar(t_color col, float sca);
-uint32_t	colour_conversion(t_color colour, uint8_t alpha);
+t_color		addition_color(t_color color1, t_color color2);
+t_color 	substraction_color(t_color color1, t_color color2);
+t_color		multiply_color(t_color color1, t_color color2);
+t_color		multiply_color_scalar(t_color col, float sca);
+uint32_t	colour_unitrgb_hex(t_color c, uint8_t alpha);
 
 //matrix math
 bool	equality_matrix(float **m, float **m2, size_t size);
