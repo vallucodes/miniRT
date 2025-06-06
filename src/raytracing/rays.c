@@ -5,9 +5,7 @@ t_ray	create_ray(t_tuple vector, t_tuple point)
 	t_ray	ray;
 
 	ray.origin = point;
-	// print_tuple(ray.origin);
 	ray.dir = vector;
-	// print_tuple(ray.dir);
 	return (ray);
 }
 

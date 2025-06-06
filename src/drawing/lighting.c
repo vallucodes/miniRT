@@ -1,5 +1,16 @@
 #include "minirt.h"
 
+
+t_light	init_point_light(t_tuple pos, t_color color, float ratio)
+{
+	t_light	light;
+
+	light.ori = pos;
+	light.col = color;
+	light.ratio = ratio;
+	return (light);
+}
+
 /**
  * @brief Find the normal vector at the given location [p] of the given sphere
  * @returns Normal vector
@@ -65,28 +76,6 @@ t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple e_v, t_tuple n_v)
 {
 	t_light_vars	lv;
 
-	// printf("material colour\n");
-	// print_colour(m.col);
-	// printf("light ratio: %f, origin:\n", l.ratio);
-	// print_tuple(l.ori);
-	// printf("position\n");
-	// print_tuple(p);
-	// printf("eye/camera vec\n");
-	// print_tuple(e_v);
-	// printf("normal vec\n");
-	// print_tuple(n_v);
-
-	/*printf("material colour\n");
-	print_colour(m.col);
-	printf("light ratio: %f, origin:\n", l.ratio);
-	print_tuple(l.ori);
-	printf("position\n");
-	print_tuple(p);
-	printf("eye/camera vec\n");
-	print_tuple(e_v);
-	printf("normal vec\n");
-	print_tuple(n_v);*/
-
 	lv.eff_col = multiply_color_scalar(m.col, l.ratio);
 	//printf("effective colour\n");
 	//print_colour(effective_col);
@@ -120,11 +109,5 @@ t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple e_v, t_tuple n_v)
 			lv.spec_col = multiply_color_scalar(lv.eff_col, m.specular * lv.fac);
 		}
 	}
-	// printf("amb_col:\n");
-	// print_colour(lv.amb_col);
-	// printf("dif_col:\n");
-	// print_colour(lv.dif_col);
-	// printf("spec_col:\n");
-	// print_colour(lv.spec_col);
 	return (addition_color(addition_color(lv.amb_col, lv.dif_col), lv.spec_col));
 }
