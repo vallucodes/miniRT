@@ -62,7 +62,7 @@ float	**translation(t_minirt *minirt, int x, int y, int z)
 	return(m);
 }
 
-float	**scaling(t_minirt *minirt, int x, int y, int z)
+float	**scaling(t_minirt *minirt, float x, float y, float z)
 {
 	float	**m;
 	size_t	size;

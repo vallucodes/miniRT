@@ -4,6 +4,13 @@
 # define WIDTH	500
 # define HEIGHT	250
 # define MALLOC	"Memory allocation failed"
+
+//Material default values
+# define amb_default 0.1
+# define dif_default 0.9
+# define spec_default 0.9
+# define shine_default 200
+
 typedef struct s_tuple
 {
 	float	x;
@@ -37,13 +44,6 @@ typedef struct s_proj
 	t_tuple v;
 }	t_proj;
 
-typedef struct s_sphere
-{
-	t_tuple	center;
-	float	radius;
-	float	**transform;
-}	t_sphere;
-
 typedef struct s_i
 {
 	float	t;
@@ -64,6 +64,44 @@ typedef struct s_matrix_ctx
 	size_t		size;
 }	t_matrix_ctx;
 
+//Material light properties
+typedef struct	s_material
+{
+	t_color	col;
+	float	ambient;
+	float	diffuse;
+	float	specular;
+	float	shininess;
+}	t_material;
+
+typedef struct s_sphere
+{
+	t_tuple		center;
+	float		radius;
+	float		**transform;
+	t_material	mat;
+}	t_sphere;
+
+typedef struct	s_light_vars
+{
+	t_color	eff_col;
+	t_color	amb_col;
+	t_color	dif_col;
+	t_color	spec_col;
+	t_tuple	light_vec;
+	t_tuple	reflect_vec;
+	float	l_dot_n;
+	float	r_dot_e;
+	float	fac;
+}	t_light_vars;
+
+//objects.c
+t_sphere	sphere(t_minirt *minirt);
+
+//lighting.c
+t_tuple	normal_at_sphere(t_minirt *m, t_sphere s, t_tuple p);
+t_tuple	reflect(t_tuple in, t_tuple normal);
+
 //tuples
 t_tuple	create_vector(float x, float y, float z);
 t_tuple	create_point(float x, float y, float z);
@@ -83,6 +121,8 @@ t_tuple	cross_tuple(t_tuple tuple1, t_tuple tuple2);
 t_color	addition_color(t_color color1, t_color color2);
 t_color substraction_color(t_color color1, t_color color2);
 t_color	multiply_color(t_color color1, t_color color2);
+t_color	multiply_color_scalar(t_color col, float sca);
+uint32_t	colour_conversion(t_color colour, uint8_t alpha);
 
 //matrix math
 bool	equality_matrix(float **m, float **m2, size_t size);
@@ -107,7 +147,7 @@ float	**inverse_matrix(t_minirt *minirt, float **m, size_t size);
 //matrix operators
 float	**identity(t_minirt *minirt);
 float	**translation(t_minirt *minirt, int x, int y, int z);
-float	**scaling(t_minirt *minirt, int x, int y, int z);
+float	**scaling(t_minirt *minirt, float x, float y, float z);
 float	**rotation_x(t_minirt *minirt, float theta);
 float	**rotation_y(t_minirt *minirt, float theta);
 float	**rotation_z(t_minirt *minirt, float theta);
@@ -123,9 +163,6 @@ t_xs	*intersects_ray(t_minirt *minirt, t_sphere s, t_ray r);
 t_i		hit(t_xs *xs);
 t_ray	transform(t_ray r, float **m);
 void	set_transform(t_sphere *s, float **m);
-
-//objects
-t_sphere	sphere(t_minirt *minirt);
 
 //utils
 int			is_equal(float a, float b);
@@ -144,5 +181,9 @@ void test_rotation_z_matrix(t_minirt *minirt);
 void test_rotation_y_matrix(t_minirt *minirt);
 void test_rotation_x_matrix(t_minirt *minirt);
 void test_scaling_matrix(t_minirt *minirt);
+void	test_normal_at_sphere(t_minirt *m);
+void	test_reflect(t_minirt m);
+void	test_point_light_material();
+void	print_colour(t_color c);
 
 #endif
