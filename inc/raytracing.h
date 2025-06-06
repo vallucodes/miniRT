@@ -183,7 +183,9 @@ void test_rotation_x_matrix(t_minirt *minirt);
 void test_scaling_matrix(t_minirt *minirt);
 void	test_normal_at_sphere(t_minirt *m);
 void	test_reflect(t_minirt m);
+void	test_reflect_extra(t_minirt m);
 void	test_point_light_material();
+void	test_point_light_reflections(void);
 void	print_colour(t_color c);
 
 #endif
