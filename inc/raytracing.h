@@ -186,7 +186,7 @@ void	test_reflect(t_minirt m);
 void	test_reflect_extra(t_minirt m);
 void	test_point_light_material();
 void	test_point_light_reflections(void);
-void	test_intersect_two_spheres(t_minirt *minirt);
+void	test_intersect_two_spheres(t_minirt *minirt, char **av);
 void	print_colour(t_color c);
 
 #endif

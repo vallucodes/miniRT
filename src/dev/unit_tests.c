@@ -798,7 +798,28 @@ void	test_point_light_reflections(void)
 	print_colour(res);
 }
 
-// void	test_intersect_two_spheres(t_minirt *minirt)
-// {
+void	intersect_world(t_minirt *minirt, t_ray r)
+{
 
-// }
+}
+
+void	test_intersect_two_spheres(t_minirt *minirt, char **av)
+{
+	minirt->world->lig_s.col = color(1, 1, 1);
+	fun_test_parsed_output(av, minirt->world);
+	t_sphere s1 = sphere(minirt);
+	t_sphere s2 = sphere(minirt);
+
+	t_list	*temp = minirt->world->objects;
+	//first sphere
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+	obj->mat.diffuse = 0.7;
+	obj->mat.specular = 0.2;
+	//next sphere
+	temp = temp->next;
+	obj->transform = scaling(minirt, 0.5, 0.5, 0.5);
+	fun_test_parsed_output(av, minirt->world);
+
+	t_ray r = create_ray(create_point(0,0,-5), create_vector(0,0,1));
+	intersect_world(minirt, r);
+}
