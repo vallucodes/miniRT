@@ -50,9 +50,8 @@ uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y)
 		//The output at the current state is about correct in colour, but lacks
 		//highlight and the light seems to be in the wrong position.
 		//
-		t_tuple point = hit_point(r, xs);
-		t_tuple	normal = normal_at_sphere(minirt, s, point);
-
+		t_tuple		point = hit_point(r, xs);
+		t_tuple		normal = normal_at_sphere(minirt, s, point);
 		t_color		res = lighting(s.mat, light, point, negate_tuple(r.dir), normal);
 		uint32_t	hex_colour = colour_conversion(res, 255);
 		return (hex_colour);
