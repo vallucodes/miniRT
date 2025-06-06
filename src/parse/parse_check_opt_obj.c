@@ -20,6 +20,7 @@ bool	parse_check_amb(char *line, t_parse *ps)
 	if (!parse_check_rgb(words[2], &ps->amb_s.r, &ps->amb_s.g, &ps->amb_s.b))
 		return (free_helper(ps, words, NULL, ERR_AMB));
 	ps->amb_b++;
+	parse_fill_colour(&ps->amb_s.col, ps->amb_s.r, ps->amb_s.g, ps->amb_s.b);
 	free_matrix(words);
 	return (true);
 }
@@ -46,6 +47,8 @@ bool	parse_check_cam(char *line, t_parse *ps)
 	if (!parse_check_fov(w[3], &ps->cam_s.fov))
 		return (free_helper(ps, w, NULL, ERR_CAM));
 	ps->cam_b++;
+	parse_fill_origin(&ps->cam_s.ori, ps->cam_s.cx, ps->cam_s.cy, ps->cam_s.cz);
+	parse_fill_norm(&ps->cam_s.nor, ps->cam_s.ox, ps->cam_s.oy, ps->cam_s.oz);
 	free_matrix(w);
 	return (true);
 }
@@ -70,6 +73,7 @@ bool	parse_check_light(char *line, t_parse *ps)
 	if (!parse_check_ratio(w[2], &ps->lig_s.ratio))
 		return (free_helper(ps, w, NULL, ERR_DIFF));
 	ps->lig_b++;
+	parse_fill_origin(&ps->lig_s.ori, ps->lig_s.cx, ps->lig_s.cy, ps->lig_s.cz);
 	free_matrix(w);
 	return (true);
 }
