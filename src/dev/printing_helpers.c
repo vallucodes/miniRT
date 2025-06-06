@@ -68,6 +68,8 @@ void fun_test_parsed_output(char **av, t_parse *ps)
 	printf("Count: %i | Ratio: %f | Pos: %f, %f, %f\n", ps->lig_b, ps->lig_s.ratio, ps->lig_s.cx, ps->lig_s.cy, ps->lig_s.cz);
 	printf("Point light location:\n");
 	print_tuple(ps->lig_s.ori);
+	printf("Point light color:\n");
+	print_colour(ps->lig_s.col);
 
 	printf("Camera settings:\n");
 	printf("Count: %i | FOV: %i | Pos: %f, %f, %f | Nor: %f, %f, %f\n", ps->cam_b, ps->cam_s.fov, ps->cam_s.cx, ps->cam_s.cy, ps->cam_s.cz, ps->cam_s.ox, ps->cam_s.oy, ps->cam_s.oz);
@@ -95,6 +97,8 @@ void fun_test_parsed_output(char **av, t_parse *ps)
 		printf("Current node R,G,B: %i,%i,%i\n", ((t_scene_obj *)temp->content)->r, ((t_scene_obj *)temp->content)->g, ((t_scene_obj *)temp->content)->b);
 		printf("Current node dia: %f\n", ((t_scene_obj *)temp->content)->dia);
 		printf("Current node height: %f\n", ((t_scene_obj *)temp->content)->height);
+		printf("Current node material diffuse: %f\n", ((t_scene_obj *)temp->content)->mat.diffuse);
+		printf("Current node material specular: %f\n", ((t_scene_obj *)temp->content)->mat.specular);
 		printf("Filled structs (origin, normal, colour):\n");
 		print_tuple(((t_scene_obj *)temp->content)->ori);
 		print_tuple(((t_scene_obj *)temp->content)->nor);
