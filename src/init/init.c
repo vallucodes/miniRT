@@ -3,6 +3,7 @@
 void	set_colors(t_minirt *minirt)
 {
 	minirt->map->background = 0xFF8800FF;
+	minirt->map->background = 0x000000FF;
 	minirt->map->colored = 0xFF0000FF;
 }
 
@@ -20,7 +21,7 @@ void	init_vp_attributes(t_minirt *minirt)
 
 void	init_minirt(t_minirt *minirt)
 {
-	t_map *map;
+	// t_map *map;
 
 	init_arena(minirt);
 	minirt->map = arena_alloc(minirt->arena, sizeof(t_map), alignof(t_map));

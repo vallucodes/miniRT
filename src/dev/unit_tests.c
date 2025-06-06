@@ -28,6 +28,7 @@ void test_matrix_alloc(t_minirt *minirt)
 
 void test_matrix_equality(t_minirt *minirt)
 {
+	(void)minirt;
 	// Define two 3x3 matrices
 	float *m1[3] = {
 		(float[]){1, 2, 3},
@@ -231,6 +232,8 @@ void test_matrix_alloc_4x4(t_minirt *minirt)
 
 void test_matrix_equality_4x4(t_minirt *minirt)
 {
+	(void)minirt;
+
 	float *m1[4] = {
 		(float[]){1, 2, 3, 4},
 		(float[]){5, 6, 7, 8},
@@ -644,18 +647,18 @@ void test_normal_at_sphere(t_minirt *m)
 	nor = normal_at_sphere(m, s1, create_point(0, 0 ,1));
 	printf("world normal 0,0,1\n");
 	print_tuple(nor);
-	
+
 	nor = normal_at_sphere(m, s1, create_point(0.57735, 0.57735, 0.57735));
-	printf("world normal sqrt3/3");
+	printf("world normal sqrt3/3\n");
 	print_tuple(nor);
-	
+
 	set_transform(&s1, translation(m, 0, 1, 0));
 	print_matrix(s1.transform, "Initial s1 transform", 4);
 
 	nor = normal_at_sphere(m, s1, create_point(0, 1.70711, -0.70711));
 	printf("world normal translated by 0,1,0\n");
 	print_tuple(nor);
-	
+
 	float **sca = scaling(m, 1, 0.5, 1);
 	print_matrix(sca, "sca", 4);
 	float **rot = rotation_z(m, 0.62832);
@@ -671,21 +674,61 @@ void test_normal_at_sphere(t_minirt *m)
 
 void	test_reflect(t_minirt m)
 {
+	(void)m;
+
 	printf("Testing reflection about normal. \n");
 	printf("approach 45 degree\n");
 	t_tuple	v1 = create_vector(1, -1, 0);
-	t_tuple p1 = create_point(0, 0, 0);
+	// t_tuple p1 = create_point(0, 0, 0);
 	t_tuple n1 = create_vector(0, 1, 0);
-	t_ray r1 = create_ray(v1, p1);
-	//print_tuple(reflect(r1, n1));
-	
+	// t_ray r1 = create_ray(v1, p1);
+	print_tuple(reflect(v1, n1));
+
 	printf("approach 45 degree inclined surface vertically\n");
 	t_tuple	v2 = create_vector(0, -1, 0);
-	t_tuple p2 = create_point(0, 0, 0);
-	t_tuple n2 = create_vector(0.70711, 0.70711, 0);
-	t_ray r2 = create_ray(v2, p2);
-	//print_tuple(reflect(r2, n2));
+	// t_tuple p2 = create_point(0, 0, 0);
+	t_tuple n2 = create_vector(0.707107, 0.707107, 0);
+	// t_ray r2 = create_ray(v2, p2);
+	print_tuple(reflect(v2, n2));
 }
+
+void	test_reflect_extra(t_minirt m)
+{
+	(void)m;
+	
+	printf("Testing reflection edge cases and angles.\n");
+
+	printf("approach straight on (no angle)\n");
+	printf("Expect (0, 1, 0)\n");
+	t_tuple v1 = create_vector(0, -1, 0);
+	t_tuple n1 = create_vector(0, 1, 0);
+	print_tuple(reflect(v1, n1));
+
+	printf("approach parallel to surface (no reflection)\n");
+	printf("Expect (1, 0, 0)\n");
+	t_tuple v2 = create_vector(1, 0, 0);
+	t_tuple n2 = create_vector(0, 1, 0);
+	print_tuple(reflect(v2, n2));
+
+	printf("approach 45 degrees from below to inclined plane\n");
+	printf("Expect (1, -1, 0)\n");
+	t_tuple v3 = create_vector(1, -1, 0);
+	t_tuple n3 = create_vector(0.707107, 0.707107, 0);
+	print_tuple(reflect(v3, n3));  // Expect (0, 1, 0)
+
+	printf("reflect across Z axis\n");
+	printf("Expect (0, 0, 1)\n");
+	t_tuple v4 = create_vector(0, 0, -1);
+	t_tuple n4 = create_vector(0, 0, 1);
+	print_tuple(reflect(v4, n4));  // Expect (0, 0, 1)
+
+	printf("reflect diagonally in all directions\n");
+	printf("Expect (1, 1, 1)\n");
+	t_tuple v5 = create_vector(1, -1, 1);
+	t_tuple n5 = create_vector(0, 1, 0);
+	print_tuple(reflect(v5, n5));  // Expect (1, 1, 1)
+}
+
 
 void test_point_light_material(void)
 {
@@ -732,18 +775,18 @@ void	test_point_light_reflections(void)
 	t_color res = lighting(mat, light, position, eyev, normalv);
 	printf("Result. Lighting with the eye between the light and the surface.\n");
 	print_colour(res);
-	
-	t_tuple eyev2 = create_vector(0, 0.70711, -0.70711);
+
+	t_tuple eyev2 = create_vector(0, 0.707107, -0.707107);
 	res = lighting(mat, light, position, eyev2, normalv);
 	printf("Result. Lighting with the eye between light and surface, eye offset 45°\n");
 	print_colour(res);
-	
+
 	light.ori.y = 10;
 	res = lighting(mat, light, position, eyev, normalv);
 	printf("Result. Lighting with eye opposite surface, light offset 45°\n");
 	print_colour(res);
-	
-	t_tuple eyev3 = create_vector(0, -0.70711, -0.70711);
+
+	t_tuple eyev3 = create_vector(0, -0.707107, -0.707107);
 	res = lighting(mat, light, position, eyev3, normalv);
 	printf("Result. Lighting with eye in the path of the reflection vector\n");
 	print_colour(res);
