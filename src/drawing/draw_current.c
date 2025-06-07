@@ -16,7 +16,7 @@ uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y)
 {
 	t_ray	r;
 	t_xs	*xs;
-	t_sphere s; //edit this to int maybe
+	t_scene_obj s; //edit this to int maybe
 	float **m;
 
 	//Converting between pixel space to viewport space. Raster, NDC etc.

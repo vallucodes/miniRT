@@ -81,6 +81,9 @@ typedef struct	s_material
 	float	shininess;
 }	t_material;
 
+/**
+ * @todo this is probably superfluous and redundant. 
+ */
 typedef struct s_sphere
 {
 	t_tuple		center;
@@ -103,11 +106,11 @@ typedef struct	s_light_vars
 }	t_light_vars;
 
 //objects.c
-t_sphere	sphere(t_minirt *minirt);
+t_scene_obj	sphere(t_minirt *minirt);
 
 //lighting.c
 t_light	init_point_light(t_tuple pos, t_color color, float ratio);
-t_tuple	normal_at_sphere(t_minirt *m, t_sphere s, t_tuple p);
+t_tuple	normal_at_sphere(t_minirt *m, t_scene_obj s, t_tuple p);
 t_tuple	reflect(t_tuple in, t_tuple normal);
 
 //tuples
@@ -158,10 +161,10 @@ float	**matrix_alloc(t_minirt *minirt, size_t size);
 //rays
 t_ray	create_ray(t_tuple vector, t_tuple point);
 t_tuple	position_ray(t_ray ray, float t);
-t_xs	*intersects_ray(t_minirt *minirt, t_sphere s, t_ray r);
+t_xs	*intersects_ray(t_minirt *minirt, t_scene_obj s, t_ray r);
 t_i		hit(t_xs *xs);
 t_ray	transform(t_ray r, float **m);
-void	set_transform(t_sphere *s, float **m);
+void	set_transform(t_scene_obj *object, float **trans_mtrx);
 
 //utils
 int			is_equal(float a, float b);
@@ -188,5 +191,6 @@ void	test_point_light_material();
 void	test_point_light_reflections(void);
 void	test_intersect_two_spheres(t_minirt *minirt);
 void	print_colour(t_color c);
+void	test_shape(t_minirt *minirt);
 
 #endif

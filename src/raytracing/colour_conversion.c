@@ -15,6 +15,18 @@ void	colour_unitrgb_rgba(t_color *c)
 }
 
 /**
+ * @brief Fills pointed t_color 's unit rgb from its rbga255 values
+ * @param [in] *c: pointer to valid t_color type
+ */
+void	colour_rgba_unitrgb(t_color *c)
+{
+	c->r = c->rgba[0] / 255;
+	c->g = c->rgba[1] / 255;
+	c->b = c->rgba[2] / 255;
+	c->a = c->rgba[3] / 255;
+}
+
+/**
  * @brief Returns a 32 bit integer containing MLX colour value. Converts from
  * 		  (ideal) [0,1] ranged unit RGB colour values.
  * @param [in] c: a valid t_color type
