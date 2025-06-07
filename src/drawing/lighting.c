@@ -18,7 +18,7 @@ t_light	init_point_light(t_tuple pos, t_color color, float ratio)
  * 			Normal calculation needs to be done in object space
  * 			Result needs to be converted to world space, normalised
  */
-t_tuple	normal_at_sphere(t_minirt *minirt, t_sphere s, t_tuple p)
+t_tuple	normal_at_sphere(t_minirt *minirt, t_scene_obj s, t_tuple p)
 {
 	t_tuple	res;
 	float **inv_transform;

@@ -631,7 +631,7 @@ void unit_tests_transform_matrices(t_minirt *minirt)
 	test_rotation_z_matrix(minirt);
 }
 
-void test_normal_at_sphere(t_minirt *m)
+/*void test_normal_at_sphere(t_minirt *m)
 {
 	printf("Testing normal at sphere point. \n");
 	t_sphere	s1 = sphere(m);
@@ -670,7 +670,7 @@ void test_normal_at_sphere(t_minirt *m)
 	nor = normal_at_sphere(m, s1, create_point(0, 0.70711, -0.70711));
 	printf("world normal scaled and rotated\n");
 	print_tuple(nor);
-}
+}*/
 
 void	test_reflect(t_minirt m)
 {
@@ -798,7 +798,84 @@ void	test_point_light_reflections(void)
 	print_colour(res);
 }
 
+/*void fun_test_parsed_output(char **av, t_parse *ps)
+{
+	printf("Infile: %s\n\n", av[1]);
+
+	printf("Printing default optical objects:\n");
+	printf("\nAmbient light settings:\n");
+	printf("Count: %i | Ratio: %f | RGB: %i, %i, %i", ps->amb_b, ps->amb_s.ratio, ps->amb_s.r, ps->amb_s.g, ps->amb_s.b);
+	printf("Count: %i | Ratio: %f | RGB: %i, %i, %i\n", ps->amb_b, ps->amb_s.ratio, ps->amb_s.r, ps->amb_s.g, ps->amb_s.b);
+	printf("Ambient colour:\n");
+	print_colour(ps->amb_s.col);
+
+	printf("\n\nDiffuse light settings:\n");
+	printf("Count: %i | Ratio: %f | Pos: %f, %f, %f", ps->lig_b, ps->lig_s.ratio, ps->lig_s.cx, ps->lig_s.cy, ps->lig_s.cz);
+	printf("\nPoint light settings:\n");
+	printf("Count: %i | Ratio: %f | Pos: %f, %f, %f\n", ps->lig_b, ps->lig_s.ratio, ps->lig_s.cx, ps->lig_s.cy, ps->lig_s.cz);
+	printf("Point light location:\n");
+	print_tuple(ps->lig_s.ori);
+
+	printf("\n\nCamera settings:\n");
+	printf("Camera settings:\n");
+	printf("Count: %i | FOV: %i | Pos: %f, %f, %f | Nor: %f, %f, %f\n", ps->cam_b, ps->cam_s.fov, ps->cam_s.cx, ps->cam_s.cy, ps->cam_s.cz, ps->cam_s.ox, ps->cam_s.oy, ps->cam_s.oz);
+	printf("Camera location:\n");
+	print_tuple(ps->cam_s.ori);
+	printf("\nCamera orientation:\n");
+	print_tuple(ps->cam_s.nor);
+
+	printf("\nPrinting scene objects in .rt order:\n");
+	printf("\nPlane = 0, sphere = 1, cylinder = 2:\n");
+	printf("Number of scene objects: %i\n", ps->obj_count);
+
+	int c = 0;
+	t_list	*temp = ps->objects;
+	while (temp != NULL)
+	{
+		t_scene_obj *obj = (t_scene_obj *)temp->content;
+		(void)obj;
+		printf("Node: %i\n", c);
+		printf("Current node address: %p\n", &temp->content);
+		printf("Next node address: %p\n", temp->next);
+		printf("Current node type: %i\n", ((t_scene_obj *)temp->content)->type);
+		printf("Current node cx,cy,cz: %f,%f,%f\n", ((t_scene_obj *)temp->content)->cx, ((t_scene_obj *)temp->content)->cy, ((t_scene_obj *)temp->content)->cz);
+		printf("Current node ox,oy,oz: %f,%f,%f\n", ((t_scene_obj *)temp->content)->ox, ((t_scene_obj *)temp->content)->oy, ((t_scene_obj *)temp->content)->oz);
+		printf("Current node R,G,B: %i,%i,%i\n", ((t_scene_obj *)temp->content)->r, ((t_scene_obj *)temp->content)->g, ((t_scene_obj *)temp->content)->b);
+		printf("Current node dia: %f\n", ((t_scene_obj *)temp->content)->dia);
+		printf("Current node height: %f\n\n", ((t_scene_obj *)temp->content)->height);
+		printf("Current node height: %f\n", ((t_scene_obj *)temp->content)->height);
+		printf("Filled structs (origin, normal, colour):\n");
+		print_tuple(((t_scene_obj *)temp->content)->ori);
+		print_tuple(((t_scene_obj *)temp->content)->nor);
+		print_colour(((t_scene_obj *)temp->content)->col);
+		temp = temp -> next;
+		c++;
+	}
+}*/
+
 // void	test_intersect_two_spheres(t_minirt *minirt)
 // {
 
 // }
+
+void	test_shape(t_minirt *minirt)
+{
+	t_scene_obj object;
+	float **trans;
+	t_material mat;
+
+	//Test 1, set test object's trans to ident
+	object.transform = identity(minirt);
+	print_matrix(object.transform, "Transform set to identity", 4);
+
+	//Test 2, set transform to a translation
+	trans = translation(minirt, 2, 3, 4);
+	set_transform(&object, trans);
+	print_matrix(object.transform, "Transform set to translate 2,3,4", 4);
+
+	//Test 3, assign material
+	mat = init_material();
+	object.mat = mat;
+	printf("Test object mat: amb: %f, diff: %f, spec: %f, shin: %f\nColours:\n", object.mat.ambient, object.mat.diffuse, object.mat.specular, object.mat.shininess);
+	print_colour(object.mat.col);
+}

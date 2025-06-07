@@ -70,7 +70,7 @@ t_xs	*intersections(t_i i1, t_i i2)
 // 	return (sqrt(t.x * t.x + t.y * t.y + t.z * t.z + t.w * t.w));
 // }
 
-t_xs	*intersects_ray(t_minirt *minirt, t_sphere s, t_ray r)
+t_xs	*intersects_ray(t_minirt *minirt, t_scene_obj s, t_ray r)
 {
 	t_i		i1;
 	t_i		i2;
@@ -111,7 +111,10 @@ t_ray	transform(t_ray r, float **m)
 	return (r);
 }
 
-void	set_transform(t_sphere *s, float **m)
+/**
+ * @brief Sets the transformation matrix of a t_scene_obj
+ */
+void	set_transform(t_scene_obj *object, float **trans_mtrx)
 {
-	s->transform = m;
+	object->transform = trans_mtrx;
 }
