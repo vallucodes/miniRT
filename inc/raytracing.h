@@ -1,7 +1,7 @@
 #ifndef RAYTRACING_H
 # define RAYTRACING_H
 
-# define WIDTH	500
+# define WIDTH	350
 # define HEIGHT	250
 # define MALLOC	"Memory allocation failed"
 
@@ -102,6 +102,14 @@ typedef struct	s_light_vars
 	float	fac;
 }	t_light_vars;
 
+typedef struct	s_comps
+{
+	t_scene_obj	*obj;
+	t_tuple		point;
+	t_tuple		eyev;
+	t_tuple		normalv;
+}	t_comps;
+
 //objects.c
 t_sphere	sphere(t_minirt *minirt);
 
@@ -163,8 +171,12 @@ void	init_xs(t_xs *xs);
 t_i		hit(t_xs *xs);
 t_ray	transform(t_ray r, float **m);
 void	set_transform(t_scene_obj *obj, float **m);
+t_i		intersection(float intersection, void *obj);
 void	intersections(t_xs	*xs, t_i i1, t_i i2);
 t_xs	*intersect_world(t_minirt *minirt, t_ray r);
+
+//shading
+t_comps	*prepare_computations(t_minirt *minirt, t_i i, t_ray r);
 
 //utils
 int			is_equal(float a, float b);
@@ -190,6 +202,7 @@ void	test_reflect_extra(t_minirt m);
 void	test_point_light_material();
 void	test_point_light_reflections(void);
 void	test_intersect_two_spheres(t_minirt *minirt, char **av);
+void	test_prepare_computations(t_minirt *minirt, char **av);
 void	print_colour(t_color c);
 
 #endif

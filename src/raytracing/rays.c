@@ -92,12 +92,7 @@ t_xs	*intersects_ray(t_minirt *minirt, t_scene_obj *obj, t_ray r, t_xs *xs)
 	c = dot_tuple(sphere_to_ray, sphere_to_ray) - (obj->dia / 2) * (obj->dia / 2);
 	discriminant = b * b - 4 * a * c;
 	if (discriminant < 0)
-	{
-		xs->object = NULL;
-		xs->t = NULL;
-		xs->count = 0;
 		return (xs);
-	}
 	i1 = intersection((-b - sqrt(discriminant)) / (2 * a), obj);
 	i2 = intersection((-b + sqrt(discriminant)) / (2 * a), obj);
 	intersections(xs, i1, i2);

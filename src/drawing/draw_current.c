@@ -16,7 +16,6 @@ uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y)
 {
 	t_ray	r;
 	t_xs	*xs;
-	t_sphere s; //edit this to int maybe
 	float **m;
 
 	xs = malloc(sizeof(t_xs));

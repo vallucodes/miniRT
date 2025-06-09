@@ -825,6 +825,11 @@ t_xs	*intersect_world(t_minirt *minirt, t_ray r)
 	return (xs);
 }
 
+//run this test with
+// sp 	     	0,0,0	        2 		 204,255,153
+// sp 	     	0,0,0	        2 		 255,0,0
+// in .rt file for example
+
 void	test_intersect_two_spheres(t_minirt *minirt, char **av)
 {
 	t_xs *xs;
@@ -845,4 +850,18 @@ void	test_intersect_two_spheres(t_minirt *minirt, char **av)
 	t_ray r = create_ray(create_vector(0,0,1), create_point(0,0,-5));
 	xs = intersect_world(minirt, r);
 	print_xs(minirt, xs);
+}
+
+//run this test with
+// sp 	     	0,0,0	        2 		 204,255,153
+// in .rt file for example
+void	test_prepare_computations(t_minirt *minirt, char **av)
+{
+	t_ray	r = create_ray(create_vector(0,0,1), create_point(0,0,-5));
+	minirt->world->lig_s.col = color(1, 1, 1);
+
+	t_list	*temp = minirt->world->objects;
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+	t_i		i1 = intersection(4, obj);
+	t_comps *comps = prepare_computations(minirt, i1, r);
 }
