@@ -44,14 +44,21 @@ void	print_ray(t_ray r)
 	printf("origin r[z] = %f\n", r.origin.z);
 	printf("origin r[w] = %f\n", r.origin.w);
 }
-void	print_xs(t_xs *xs)
+void	print_xs(t_minirt *minirt, t_xs *xs)
 {
+	size_t i = 0;
+	// int object_type;
+	t_scene_obj *obj = (t_scene_obj *)xs->object;
+
 	printf("xs.count = %zu\n", xs->count);
-	if (xs->object != NULL)
+	while (i < xs->count)
 	{
-		printf("xs.t[0] = %f\n", xs->t[0]);
-		printf("xs.t[1] = %f\n\n", xs->t[1]);
+		printf("xs.t[%zu] = %f\n", i, xs->t[i]);
+		// object_type = xs->object
+		// printf("xs.t[%i] = %f\n\n", i, xs->t[i]);
+		i++;
 	}
+	printf("\n");
 }
 
 void fun_test_parsed_output(char **av, t_parse *ps)
@@ -103,6 +110,7 @@ void fun_test_parsed_output(char **av, t_parse *ps)
 		print_tuple(((t_scene_obj *)temp->content)->ori);
 		print_tuple(((t_scene_obj *)temp->content)->nor);
 		print_colour(((t_scene_obj *)temp->content)->col);
+		print_matrix(((t_scene_obj *)temp->content)->transform, ": transformation matrix for object", 4);
 		temp = temp -> next;
 		c++;
 	}

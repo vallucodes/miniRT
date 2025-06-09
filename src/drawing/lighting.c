@@ -18,13 +18,13 @@ t_light	init_point_light(t_tuple pos, t_color color, float ratio)
  * 			Normal calculation needs to be done in object space
  * 			Result needs to be converted to world space, normalised
  */
-t_tuple	normal_at_sphere(t_minirt *minirt, t_sphere s, t_tuple p)
+t_tuple	normal_at_sphere(t_minirt *minirt, t_scene_obj *obj, t_tuple p)
 {
 	t_tuple	res;
 	float **inv_transform;
 
 	//Find point in object space
-	inv_transform = inverse_matrix(minirt, s.transform, 4);
+	inv_transform = inverse_matrix(minirt, obj->transform, 4);
 	//print_matrix(inv_transform, "s1 inverted transform ", 4);
 	res = multiply_mtrx_by_tuple(inv_transform, p, 4);
 	//printf("object_point\n");

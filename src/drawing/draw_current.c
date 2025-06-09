@@ -19,6 +19,8 @@ uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y)
 	t_sphere s; //edit this to int maybe
 	float **m;
 
+	xs = malloc(sizeof(t_xs));
+	init_xs(xs);
 	//Converting between pixel space to viewport space. Raster, NDC etc.
 	//handling camera location and ray creation
 	float Px = (x + 0.5) * minirt->vp->vp_w / WIDTH - minirt->vp->vp_w / 2;
@@ -29,22 +31,29 @@ uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y)
 	r = create_ray(dir, camera_pos);
 
 	//sphere creation, transform, material and colour
-	s = sphere(minirt);
-	s.mat.col = color(1, 0.2, 1);
+	t_scene_obj obj;
+
+	obj.dia = 2;
+	obj.transform = identity(minirt);
+	obj.cx = 0;
+	obj.cy = 0;
+	obj.cz = 0;
+	obj.mat = init_material();
+	obj.mat.col = color(1, 0.2, 1);
 	m = multiply_mtrx_by_mtrx(minirt, rotation_z(minirt, M_PI / 4), scaling(minirt, 0.5, 1, 1), 4);
-	set_transform(&s, m);
+	obj.transform = m;
 
 	//light creation, location, colour
 	t_light light;
 	light = init_point_light(create_point(-10, -10, -10), color(1, 1, 1), 1);
 
-	xs = intersects_ray(minirt, s, r);
-	// print_xs(xs);
+	intersects_ray(minirt, &obj, r, xs);
+	// print_xs(minirt, xs);
 	if (xs->count != 0)
 	{
 		t_tuple point			= hit_point(r, xs);
-		t_tuple normal			= normal_at_sphere(minirt, s, point);
-		t_color	res				= lighting(s.mat, light, point, negate_tuple(r.dir), normal);
+		t_tuple normal			= normal_at_sphere(minirt, &obj, point);
+		t_color	res				= lighting(obj.mat, light, point, negate_tuple(r.dir), normal);
 		uint32_t	hex_colour	= colour_unitrgb_hex(res, 1);
 		return (hex_colour);
 	}
