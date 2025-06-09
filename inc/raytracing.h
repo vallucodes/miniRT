@@ -107,7 +107,7 @@ t_sphere	sphere(t_minirt *minirt);
 
 //lighting.c
 t_light	init_point_light(t_tuple pos, t_color color, float ratio);
-t_tuple	normal_at_sphere(t_minirt *m, t_sphere s, t_tuple p);
+t_tuple	normal_at_sphere(t_minirt *minirt, t_scene_obj *obj, t_tuple p);
 t_tuple	reflect(t_tuple in, t_tuple normal);
 
 //tuples
@@ -158,10 +158,13 @@ float	**matrix_alloc(t_minirt *minirt, size_t size);
 //rays
 t_ray	create_ray(t_tuple vector, t_tuple point);
 t_tuple	position_ray(t_ray ray, float t);
-t_xs	*intersects_ray(t_minirt *minirt, t_sphere s, t_ray r);
+t_xs	*intersects_ray(t_minirt *minirt, t_scene_obj *obj, t_ray r, t_xs *xs);
+void	init_xs(t_xs *xs);
 t_i		hit(t_xs *xs);
 t_ray	transform(t_ray r, float **m);
-void	set_transform(t_sphere *s, float **m);
+void	set_transform(t_scene_obj *obj, float **m);
+void	intersections(t_xs	*xs, t_i i1, t_i i2);
+t_xs	*intersect_world(t_minirt *minirt, t_ray r);
 
 //utils
 int			is_equal(float a, float b);
@@ -173,7 +176,7 @@ void	print_matrix(float **m, char *msg, int size);
 void	print_tuple(t_tuple t);
 float	**create_matrix(size_t size, int flag);
 void	print_ray(t_ray r);
-void	print_xs(t_xs *xs);
+void	print_xs(t_minirt *minirt, t_xs *xs);
 void	unit_tests_3x3(t_minirt *minirt);
 void	unit_tests_4x4(t_minirt *minirt);
 void	unit_tests_transform_matrices(t_minirt *minirt);
