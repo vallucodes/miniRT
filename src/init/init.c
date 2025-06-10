@@ -8,7 +8,7 @@ void	set_colors(t_minirt *minirt)
 
 /**
  * @brief Setup viewport 2D size
- * @attention FOV will eventually come from .rt file in submitted project
+ * @todo FOV will eventually come from .rt file in submitted project
  */
 void	init_vp_attributes(t_minirt *minirt)
 {

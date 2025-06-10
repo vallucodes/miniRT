@@ -34,6 +34,7 @@ int	main(int ac, char **av)
 	 * Testing chapter 9 material
 	 */
 	test_shape(&minirt);
+	//test_intersect_generic(&minirt);
 
 	return (0);
 }

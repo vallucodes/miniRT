@@ -32,7 +32,7 @@ void	colour_rgba_unitrgb(t_color *c)
  * @param [in] c: a valid t_color type
  * @param [in] alpha: a valid unit RGB [0,1] alpha value
  */
-uint32_t	colour_unitrgb_hex(t_color c, uint8_t alpha)
+uint32_t	colour_unitrgb_hex(t_color c, float alpha)
 {
 	if (alpha < 0 || alpha > 1)
 		c.a = 1;
