@@ -34,7 +34,7 @@ typedef struct s_color
 	float		g;
 	float		b;
 	float		a;
-	uint8_t		rgba[3];
+	uint8_t		rgba[4];
 	uint32_t	hex;
 }	t_color;
 
@@ -81,13 +81,16 @@ typedef struct	s_material
 	float	shininess;
 }	t_material;
 
-typedef struct s_sphere
+/**
+ * @todo this is probably superfluous and redundant. 
+ */
+/*typedef struct s_sphere
 {
 	t_tuple		center;
 	float		radius;
 	float		**transform;
 	t_material	mat;
-}	t_sphere;
+}	t_sphere;*/
 
 typedef struct	s_light_vars
 {
@@ -103,12 +106,15 @@ typedef struct	s_light_vars
 }	t_light_vars;
 
 //objects.c
-t_sphere	sphere(t_minirt *minirt);
+t_scene_obj	sphere(t_minirt *minirt);
 
 //lighting.c
 t_light	init_point_light(t_tuple pos, t_color color, float ratio);
-t_tuple	normal_at_sphere(t_minirt *m, t_sphere s, t_tuple p);
 t_tuple	reflect(t_tuple in, t_tuple normal);
+t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple e_v, t_tuple n_v);
+
+//normal.c
+t_tuple	normal_at(t_minirt *minirt, t_scene_obj *obj, t_tuple point);
 
 //tuples
 t_tuple	create_vector(float x, float y, float z);
@@ -130,7 +136,8 @@ t_color		addition_color(t_color color1, t_color color2);
 t_color 	substraction_color(t_color color1, t_color color2);
 t_color		multiply_color(t_color color1, t_color color2);
 t_color		multiply_color_scalar(t_color col, float sca);
-uint32_t	colour_unitrgb_hex(t_color c, uint8_t alpha);
+uint32_t	colour_unitrgb_hex(t_color c, float alpha);
+void		colour_unitrgb_rgba(t_color *c);
 
 //matrix math
 bool	equality_matrix(float **m, float **m2, size_t size);
@@ -158,10 +165,13 @@ float	**matrix_alloc(t_minirt *minirt, size_t size);
 //rays
 t_ray	create_ray(t_tuple vector, t_tuple point);
 t_tuple	position_ray(t_ray ray, float t);
-t_xs	*intersects_ray(t_minirt *minirt, t_sphere s, t_ray r);
 t_i		hit(t_xs *xs);
 t_ray	transform(t_ray r, float **m);
-void	set_transform(t_sphere *s, float **m);
+void	set_transform(t_scene_obj *object, float **trans_mtrx);
+
+//intersections
+t_xs	*intersects_ray(t_minirt *minirt, t_scene_obj s, t_ray r);
+t_xs	*intersect(t_minirt *minirt, t_scene_obj *obj, t_ray ray);
 
 //utils
 int			is_equal(float a, float b);
@@ -188,5 +198,7 @@ void	test_point_light_material();
 void	test_point_light_reflections(void);
 void	test_intersect_two_spheres(t_minirt *minirt);
 void	print_colour(t_color c);
+void	test_shape(t_minirt *minirt);
+void	test_intersect_generic(t_minirt *minirt);
 
 #endif

@@ -113,12 +113,14 @@ typedef struct s_scene_obj
 	int				g;
 	int				b;
 	float			dia;
+	float			radius;
 	float			height;
 	t_tuple			ori;
 	t_tuple			nor;
 	t_color			col;
 	t_material		mat;
 	float			**transform;
+	t_ray			saved_ray;
 }	t_scene_obj;
 
 /**
