@@ -12,6 +12,9 @@ t_tuple	hit_point(t_ray r, t_xs *xs)
 	return (hit_point);
 }
 
+/**
+ * @todo A lot of declarations here will be replaced by parsed rt information
+ */
 uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y)
 {
 	t_ray	r;
@@ -28,22 +31,22 @@ uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y)
 	t_tuple dir = normalize_tuple(substraction_tuples(point_on_vp, camera_pos));
 	r = create_ray(dir, camera_pos);
 
-	//sphere creation, transform, material and colour
+	//sphere creation, transform, material and colour (@todo parsed)
 	s = sphere(minirt);
 	s.mat.col = color(1, 0.2, 1);
 	m = multiply_mtrx_by_mtrx(minirt, rotation_z(minirt, M_PI / 4), scaling(minirt, 0.5, 1, 1), 4);
 	set_transform(&s, m);
 
-	//light creation, location, colour
+	//light creation, location, colour (@todo parsed)
 	t_light light;
 	light = init_point_light(create_point(-10, -10, -10), color(1, 1, 1), 1);
 
-	xs = intersects_ray(minirt, s, r);
+	xs = intersect(minirt, &s, r);
 	// print_xs(xs);
 	if (xs->count != 0)
 	{
 		t_tuple point			= hit_point(r, xs);
-		t_tuple normal			= normal_at_sphere(minirt, s, point);
+		t_tuple normal			= normal_at(minirt, &s, point);
 		t_color	res				= lighting(s.mat, light, point, negate_tuple(r.dir), normal);
 		uint32_t	hex_colour	= colour_unitrgb_hex(res, 1);
 		return (hex_colour);

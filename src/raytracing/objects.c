@@ -18,7 +18,7 @@ t_scene_obj	sphere(t_minirt *minirt)
 	s.radius = 1;
 	s.mat = init_material();
 	s.col = s.mat.col;
-	colour_unitrgb_rgba(s.col);
+	colour_unitrgb_rgba(&s.col);
 	s.col.hex = colour_unitrgb_hex(s.col, 1);
 	s.r = s.col.r;
 	s.g = s.col.g;

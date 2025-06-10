@@ -120,6 +120,7 @@ typedef struct s_scene_obj
 	t_color			col;
 	t_material		mat;
 	float			**transform;
+	t_ray			saved_ray;
 }	t_scene_obj;
 
 /**
