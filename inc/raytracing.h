@@ -104,6 +104,7 @@ typedef struct	s_light_vars
 
 typedef struct	s_comps
 {
+	bool		inside;
 	t_scene_obj	*obj;
 	t_tuple		point;
 	t_tuple		eyev;
@@ -202,7 +203,9 @@ void	test_reflect_extra(t_minirt m);
 void	test_point_light_material();
 void	test_point_light_reflections(void);
 void	test_intersect_two_spheres(t_minirt *minirt, char **av);
-void	test_prepare_computations(t_minirt *minirt, char **av);
+void	test_prepare_computations_outside(t_minirt *minirt, char **av);
+void	test_prepare_computations_inside(t_minirt *minirt, char **av);
 void	print_colour(t_color c);
+void	print_comps(t_comps *comps);
 
 #endif
