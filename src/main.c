@@ -23,12 +23,12 @@ int	main(int ac, char **av)
 	minirt.world = ps;
 	// fun_test_parsed_output(av, ps);
 	// free(ps);
-	// test_intersect_two_spheres(&minirt, av);
-	test_prepare_computations_inside(&minirt, av);
-	// test_prepare_computations_outside(&minirt, av);
-	draw_current_thing(&minirt);
+	// test_orientation(&minirt);
+	// test_camera(&minirt);
+	// test_ray_for_pixel(&minirt);
+	// draw_current_thing(&minirt);
 	// mlx_loop_hook(minirt.mlx, &draw_hook, &minirt); //dont activate this hook. Its insanely slow because raytracing is very heavy process and this is redrawing everything every frame
-	mlx_loop(minirt.mlx);
+	// mlx_loop(minirt.mlx);
 	close(ps->fd);
 	ft_lstclear(&ps->objects, &free);
 

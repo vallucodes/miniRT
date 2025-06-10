@@ -806,24 +806,7 @@ void	test_point_light_reflections(void)
 	print_colour(res);
 }
 
-t_xs	*intersect_world(t_minirt *minirt, t_ray r)
-{
-	t_xs	*xs;
-	int		i;
-	t_list	*temp = minirt->world->objects;
 
-	xs = malloc(sizeof(t_xs));
-	init_xs(xs);
-	i = 0;
-	while (i < minirt->world->obj_count)
-	{
-		t_scene_obj *obj = (t_scene_obj *)temp->content;
-		intersects_ray(minirt, obj, r, xs);
-		temp = temp->next;
-		i++;
-	}
-	return (xs);
-}
 
 //run this test with
 // sp 	     	0,0,0	        2 		 204,255,153
@@ -845,7 +828,6 @@ void	test_intersect_two_spheres(t_minirt *minirt, char **av)
 	temp = temp->next;
 	obj = temp->content;
 	obj->transform = scaling(minirt, 0.5, 0.5, 0.5);
-	fun_test_parsed_output(av, minirt->world);
 
 	t_ray r = create_ray(create_vector(0,0,1), create_point(0,0,-5));
 	xs = intersect_world(minirt, r);
@@ -858,7 +840,6 @@ void	test_intersect_two_spheres(t_minirt *minirt, char **av)
 void	test_prepare_computations_outside(t_minirt *minirt, char **av)
 {
 	t_ray	r = create_ray(create_vector(0,0,1), create_point(0,0,-5));
-	minirt->world->lig_s.col = color(1, 1, 1);
 
 	t_list	*temp = minirt->world->objects;
 	t_scene_obj *obj = (t_scene_obj *)temp->content;
@@ -874,7 +855,6 @@ void	test_prepare_computations_outside(t_minirt *minirt, char **av)
 void	test_prepare_computations_inside(t_minirt *minirt, char **av)
 {
 	t_ray	r = create_ray(create_vector(0,0,1), create_point(0,0,0));
-	minirt->world->lig_s.col = color(1, 1, 1);
 
 	t_list	*temp = minirt->world->objects;
 	t_scene_obj *obj = (t_scene_obj *)temp->content;
@@ -882,4 +862,217 @@ void	test_prepare_computations_inside(t_minirt *minirt, char **av)
 	obj->transform = identity(minirt);
 	t_comps *comps = prepare_computations(minirt, i1, r);
 	print_comps(comps);
+}
+
+void	test_shading_an_intersection(t_minirt *minirt, char **av)
+{
+	t_ray	r = create_ray(create_vector(0,0,1), create_point(0,0,-5));
+	minirt->world->lig_s = init_point_light(create_point(-10, -10, -10), color(1, 1, 1), 1);
+
+	t_list	*temp = minirt->world->objects;
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+	t_i		i1 = intersection(4, obj); //hard set t value
+	obj->transform = identity(minirt);
+	obj->mat = init_material();
+	obj->mat.ambient = 0.1;
+	obj->mat.diffuse = 0.7;
+	obj->mat.specular = 0.2;
+	obj->mat.col.r = 0.8;
+	obj->mat.col.g = 1;
+	obj->mat.col.b = 0.6;
+	t_comps *comps = prepare_computations(minirt, i1, r);
+	fun_test_parsed_output(av, minirt->world);
+	// print_comps(comps);
+	t_color color = shade_hit(minirt->world, comps);
+	print_colour(color);
+}
+
+void	test_shading_an_intersection_from_inside(t_minirt *minirt, char **av)
+{
+	minirt->world->lig_s = init_point_light(create_point(0, -0.25, 0), color(1, 1, 1), 1);
+	t_ray	r = create_ray(create_vector(0,0,1), create_point(0,0,0));
+
+	t_list	*temp = minirt->world->objects;
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+	t_i		i1 = intersection(0.5, obj); //hard set t value
+	obj->transform = scaling(minirt, 0.5, 0.5, 0.5);
+	obj->mat = init_material();
+	obj->mat.ambient = 0.1;
+	obj->mat.diffuse = 0.9;
+	obj->mat.specular = 0.9;
+	obj->mat.col.r = 1;
+	obj->mat.col.g = 1;
+	obj->mat.col.b = 1;
+	t_comps *comps = prepare_computations(minirt, i1, r);
+	fun_test_parsed_output(av, minirt->world);
+	// print_comps(comps);
+	t_color color = shade_hit(minirt->world, comps);
+	print_colour(color);
+}
+
+void	test_ray_misses_obj(t_minirt *minirt)
+{
+	minirt->world->lig_s = init_point_light(create_point(-10, -10, -10), color(1, 1, 1), 1);
+	t_ray	r = create_ray(create_vector(0, 1, 0), create_point(0, 0, -5));
+
+	t_list	*temp = minirt->world->objects;
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+
+	obj->transform = identity(minirt);
+	obj->mat = init_material();
+	obj->mat.ambient = 0.1;
+	obj->mat.diffuse = 0.7;
+	obj->mat.specular = 0.2;
+	obj->mat.col.r = 0.8;
+	obj->mat.col.g = 1;
+	obj->mat.col.b = 0.6;
+
+	temp = temp->next;
+	obj = (t_scene_obj *)temp->content;
+	obj->transform = scaling(minirt, 0.5, 0.5, 0.5);
+	obj->mat = init_material();
+	obj->mat.ambient = 0.1;
+	obj->mat.diffuse = 0.9;
+	obj->mat.specular = 0.9;
+	obj->mat.col.r = 1;
+	obj->mat.col.g = 1;
+	obj->mat.col.b = 1;
+
+	t_color color = color_at(minirt, r);
+	print_colour(color);
+}
+
+void	test_ray_hits_obj(t_minirt *minirt)
+{
+	minirt->world->lig_s = init_point_light(create_point(-10, -10, -10), color(1, 1, 1), 1);
+	t_ray	r = create_ray(create_vector(0, 0, 1), create_point(0, 0, -5));
+
+	t_list	*temp = minirt->world->objects;
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+
+	obj->transform = identity(minirt);
+	obj->mat = init_material();
+	obj->mat.ambient = 0.1;
+	obj->mat.diffuse = 0.7;
+	obj->mat.specular = 0.2;
+	obj->mat.col.r = 0.8;
+	obj->mat.col.g = 1;
+	obj->mat.col.b = 0.6;
+
+	temp = temp->next;
+	obj = (t_scene_obj *)temp->content;
+	obj->transform = scaling(minirt, 0.5, 0.5, 0.5);
+	obj->mat = init_material();
+	obj->mat.ambient = 0.1;
+	obj->mat.diffuse = 0.9;
+	obj->mat.specular = 0.9;
+	obj->mat.col.r = 1;
+	obj->mat.col.g = 1;
+	obj->mat.col.b = 1;
+
+	t_color color = color_at(minirt, r);
+	print_colour(color);
+}
+
+void	test_intersection_behind_ray(t_minirt *minirt)
+{
+	minirt->world->lig_s = init_point_light(create_point(-10, -10, -10), color(1, 1, 1), 1);
+	t_ray	r = create_ray(create_vector(0, 0, -1), create_point(0, 0, 0.75));
+
+	t_list	*temp = minirt->world->objects;
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+
+	obj->transform = identity(minirt);
+	obj->mat = init_material();
+	obj->mat.ambient = 1;
+	obj->mat.diffuse = 0.7;
+	obj->mat.specular = 0.2;
+	obj->mat.col.r = 0.8;
+	obj->mat.col.g = 1;
+	obj->mat.col.b = 0.6;
+
+	temp = temp->next;
+	obj = (t_scene_obj *)temp->content;
+	obj->transform = scaling(minirt, 0.5, 0.5, 0.5);
+	obj->mat = init_material();
+	obj->mat.ambient = 1;
+	obj->mat.diffuse = 0.9;
+	obj->mat.specular = 0.9;
+	obj->mat.col.r = 0.33;
+	obj->mat.col.g = 0.22;
+	obj->mat.col.b = 0.11;
+
+	t_color color = color_at(minirt, r);
+	printf("material color:\n");
+	print_colour(obj->mat.col);
+	printf("color_at color:\n");
+	print_colour(color);
+}
+
+void	test_orientation(t_minirt *minirt)
+{
+	printf("default orientation:\n");
+	t_tuple	from = create_point(0, 0, 0);
+	t_tuple	to = create_point(0, 0, -1);
+	t_tuple	up = create_vector(0, 1, 0);
+	float **t = view_transform(minirt, from, to, up);
+	print_matrix(t, "identity expected: ", 4);
+	printf("\n\n");
+
+	printf("looking pos z:\n");
+	from = create_point(0, 0, 0);
+	to = create_point(0, 0, 1);
+	up = create_vector(0, 1, 0);
+	t = view_transform(minirt, from, to, up);
+	print_matrix(t, "result matrix t", 4);
+	t = scaling(minirt, -1, 1, -1);
+	print_matrix(t, "previous should match", 4);
+	printf("\n\n");
+
+	printf("move the world:\n");
+	from = create_point(0, 0, 8);
+	to = create_point(0, 0, 0);
+	up = create_vector(0, 1, 0);
+	t = view_transform(minirt, from, to, up);
+	print_matrix(t, "result matrix t", 4);
+	t = translation(minirt, 0, 0, -8);
+	print_matrix(t, "previous should match", 4);
+
+	printf("arbitrary view transformation:\n");
+	from = create_point(1, 3, 2);
+	to = create_point(4, -2, 8);
+	up = create_vector(1, 1, 0);
+	t = view_transform(minirt, from, to, up);
+	print_matrix(t, "result matrix t", 4);
+	/*
+	Then t is the following 4x4 matrix:
+	| -0.50709 | 0.50709 |  0.67612 | -2.36643 |
+	|  0.76772 | 0.60609 |  0.12122 | -2.82843 |
+	| -0.35857 | 0.59761 | -0.71714 |  0.00000 |
+	|  0.00000 | 0.00000 |  0.00000 |  1.00000 |
+	*/
+}
+
+void	test_camera(t_minirt *minirt)
+{
+	camera(minirt);
+	print_camera(&minirt->world->cam_s);
+}
+
+//test with width 201 and height 101
+void	test_ray_for_pixel(t_minirt *minirt)
+{
+	printf("test center of canvas\n");
+	camera(minirt);
+	t_ray r = ray_for_pixel(minirt, &minirt->world->cam_s, 100, 50);
+	print_ray(r);
+
+	printf("test corner of canvas\n");
+	r = ray_for_pixel(minirt, &minirt->world->cam_s, 0, 0);
+	print_ray(r);
+
+	printf("test transformed camera\n");
+	minirt->world->cam_s.transform = multiply_mtrx_by_mtrx(minirt, rotation_y(minirt, M_PI / 4), translation(minirt, 0, -2, 5), 4);
+	r = ray_for_pixel(minirt, &minirt->world->cam_s, 100, 50);
+	print_ray(r);
 }
