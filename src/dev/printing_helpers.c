@@ -61,6 +61,19 @@ void	print_xs(t_minirt *minirt, t_xs *xs)
 	printf("\n");
 }
 
+void	print_comps(t_comps *comps)
+{
+	printf("comps: \n");
+	printf("inside: %s\n", comps->inside ? "true" : "false");
+	printf("obj: %p\n", (void *)comps->obj); // pointer address
+	printf("point: \n");
+	print_tuple(comps->point);
+	printf("eyev: \n");
+	print_tuple(comps->eyev);
+	printf("normalv: \n");
+	print_tuple(comps->normalv);
+}
+
 void fun_test_parsed_output(char **av, t_parse *ps)
 {
 	printf("Infile: %s\n\n", av[1]);

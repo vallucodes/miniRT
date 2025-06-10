@@ -855,13 +855,31 @@ void	test_intersect_two_spheres(t_minirt *minirt, char **av)
 //run this test with
 // sp 	     	0,0,0	        2 		 204,255,153
 // in .rt file for example
-void	test_prepare_computations(t_minirt *minirt, char **av)
+void	test_prepare_computations_outside(t_minirt *minirt, char **av)
 {
 	t_ray	r = create_ray(create_vector(0,0,1), create_point(0,0,-5));
 	minirt->world->lig_s.col = color(1, 1, 1);
 
 	t_list	*temp = minirt->world->objects;
 	t_scene_obj *obj = (t_scene_obj *)temp->content;
-	t_i		i1 = intersection(4, obj);
+	t_i		i1 = intersection(4, obj); //hard set t value = 4
+	obj->transform = identity(minirt);
 	t_comps *comps = prepare_computations(minirt, i1, r);
+	print_comps(comps);
+}
+
+//run this test with
+// sp 	     	0,0,0	        2 		 204,255,153
+// in .rt file for example
+void	test_prepare_computations_inside(t_minirt *minirt, char **av)
+{
+	t_ray	r = create_ray(create_vector(0,0,1), create_point(0,0,0));
+	minirt->world->lig_s.col = color(1, 1, 1);
+
+	t_list	*temp = minirt->world->objects;
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+	t_i		i1 = intersection(1, obj); //hard set t value = 1
+	obj->transform = identity(minirt);
+	t_comps *comps = prepare_computations(minirt, i1, r);
+	print_comps(comps);
 }

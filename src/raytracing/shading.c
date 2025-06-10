@@ -9,5 +9,12 @@ t_comps	*prepare_computations(t_minirt *minirt, t_i i, t_ray r)
 	comps->point = position_ray(r, i.t);
 	comps->eyev = normalize_tuple(negate_tuple(r.dir));
 	comps->normalv = normal_at_sphere(minirt, comps->obj, comps->point);
+	if (dot_tuple(comps->normalv, comps->eyev) < 0)
+	{
+		comps->inside = true;
+		comps->normalv = negate_tuple(comps->normalv);
+	}
+	else
+		comps->inside = false;
 	return (comps);
 }//this is segfaulting rn
