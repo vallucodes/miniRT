@@ -26,6 +26,7 @@ typedef struct s_tuple t_tuple;
 typedef struct s_light t_light;
 typedef struct	s_material t_material;
 typedef struct	s_scene_obj t_scene_obj;
+typedef struct	s_camera t_camera;
 t_color	color(float r, float g, float b);
 t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple c_v, t_tuple n_v);
 

@@ -1,8 +1,8 @@
 #ifndef RAYTRACING_H
 # define RAYTRACING_H
 
-# define WIDTH	350
-# define HEIGHT	250
+# define WIDTH	201
+# define HEIGHT	101
 # define MALLOC	"Memory allocation failed"
 
 //Material default values
@@ -162,6 +162,7 @@ float	**rotation_y(t_minirt *minirt, float theta);
 float	**rotation_z(t_minirt *minirt, float theta);
 
 //matrix utils
+void	matrix_fill_zero(float **m, size_t size);
 float	**matrix_alloc(t_minirt *minirt, size_t size);
 
 //rays
@@ -177,19 +178,32 @@ void	intersections(t_xs	*xs, t_i i1, t_i i2);
 t_xs	*intersect_world(t_minirt *minirt, t_ray r);
 
 //shading
-t_comps	*prepare_computations(t_minirt *minirt, t_i i, t_ray r);
+t_xs		*intersect_world(t_minirt *minirt, t_ray r);
+t_comps		*prepare_computations(t_minirt *minirt, t_i i, t_ray r);
+t_color		shade_hit(t_parse *world, t_comps *comps);
+t_color		color_at(t_minirt *minirt, t_ray ray);
+
+//camera
+float	**view_transform(t_minirt *minirt, t_tuple from, t_tuple to, t_tuple up);
+void	camera(t_minirt *minirt);
+t_ray	ray_for_pixel(t_minirt *minirt, t_camera *c, int px, int py);
 
 //utils
 int			is_equal(float a, float b);
 uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y);
 
-//dev
+//print utils
+void	print_ray(t_ray r);
+void	print_xs(t_minirt *minirt, t_xs *xs);
 void	fun_test_parsed_output(char **av, t_parse *ps);
 void	print_matrix(float **m, char *msg, int size);
 void	print_tuple(t_tuple t);
+void	print_colour(t_color c);
+void	print_comps(t_comps *comps);
+void	print_camera(t_camera *cam);
+
+//dev
 float	**create_matrix(size_t size, int flag);
-void	print_ray(t_ray r);
-void	print_xs(t_minirt *minirt, t_xs *xs);
 void	unit_tests_3x3(t_minirt *minirt);
 void	unit_tests_4x4(t_minirt *minirt);
 void	unit_tests_transform_matrices(t_minirt *minirt);
@@ -205,7 +219,13 @@ void	test_point_light_reflections(void);
 void	test_intersect_two_spheres(t_minirt *minirt, char **av);
 void	test_prepare_computations_outside(t_minirt *minirt, char **av);
 void	test_prepare_computations_inside(t_minirt *minirt, char **av);
-void	print_colour(t_color c);
-void	print_comps(t_comps *comps);
+void	test_shading_an_intersection(t_minirt *minirt, char **av);
+void	test_shading_an_intersection_from_inside(t_minirt *minirt, char **av);
+void	test_ray_misses_obj(t_minirt *minirt);
+void	test_ray_hits_obj(t_minirt *minirt);
+void	test_intersection_behind_ray(t_minirt *minirt);
+void	test_orientation(t_minirt *minirt);
+void	test_camera(t_minirt *minirt);
+void	test_ray_for_pixel(t_minirt *minirt);
 
 #endif

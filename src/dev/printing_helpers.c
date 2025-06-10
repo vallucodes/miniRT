@@ -20,6 +20,7 @@ void	print_matrix(float **m, char *msg, int size)
 
 void	print_tuple(t_tuple t)
 {
+	printf("print tuple\n");
 	printf("t[x] = %f\n", t.x);
 	printf("t[y] = %f\n", t.y);
 	printf("t[z] = %f\n", t.z);
@@ -28,6 +29,7 @@ void	print_tuple(t_tuple t)
 
 void	print_colour(t_color c)
 {
+	printf("print color\n");
 	printf("c[r] = %f\n", c.r);
 	printf("c[g] = %f\n", c.g);
 	printf("c[b] = %f\n\n", c.b);
@@ -35,6 +37,7 @@ void	print_colour(t_color c)
 
 void	print_ray(t_ray r)
 {
+	printf("print ray\n");
 	printf("dir r[x] = %f\n", r.dir.x);
 	printf("dir r[y] = %f\n", r.dir.y);
 	printf("dir r[z] = %f\n", r.dir.z);
@@ -42,10 +45,11 @@ void	print_ray(t_ray r)
 	printf("origin r[x] = %f\n", r.origin.x);
 	printf("origin r[y] = %f\n", r.origin.y);
 	printf("origin r[z] = %f\n", r.origin.z);
-	printf("origin r[w] = %f\n", r.origin.w);
+	printf("origin r[w] = %f\n\n", r.origin.w);
 }
 void	print_xs(t_minirt *minirt, t_xs *xs)
 {
+	printf("print xs\n");
 	size_t i = 0;
 	// int object_type;
 	t_scene_obj *obj = (t_scene_obj *)xs->object;
@@ -72,6 +76,33 @@ void	print_comps(t_comps *comps)
 	print_tuple(comps->eyev);
 	printf("normalv: \n");
 	print_tuple(comps->normalv);
+}
+
+void	print_camera(t_camera *cam)
+{
+	printf("Camera struct at %p\n", (void*)cam);
+	printf("hsize: %d\n", cam->hsize);
+	printf("vsize: %d\n", cam->vsize);
+	printf("pixel_size: %.6f\n", cam->pixel_size);
+	printf("fov: %i\n", cam->fov);
+	printf("fov radians: %f\n", cam->fov_r);
+
+	printf("position: ");
+	print_tuple(cam->ori);
+	printf("orientation: ");
+	print_tuple(cam->nor);
+
+	// If transform is a 4x4 matrix
+	if (cam->transform) {
+		printf("transform matrix of camera:\n");
+		for (int i = 0; i < 4; ++i) {
+			printf("  ");
+			for (int j = 0; j < 4; ++j) {
+				printf("%.6f ", cam->transform[i][j]);
+			}
+			printf("\n");
+		}
+	}
 }
 
 void fun_test_parsed_output(char **av, t_parse *ps)
@@ -123,7 +154,7 @@ void fun_test_parsed_output(char **av, t_parse *ps)
 		print_tuple(((t_scene_obj *)temp->content)->ori);
 		print_tuple(((t_scene_obj *)temp->content)->nor);
 		print_colour(((t_scene_obj *)temp->content)->col);
-		print_matrix(((t_scene_obj *)temp->content)->transform, ": transformation matrix for object", 4);
+		// print_matrix(((t_scene_obj *)temp->content)->transform, ": transformation matrix for object", 4);
 		temp = temp -> next;
 		c++;
 	}
