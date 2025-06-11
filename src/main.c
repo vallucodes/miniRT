@@ -32,6 +32,12 @@ int	main(int ac, char **av)
 	close(ps->fd);
 	ft_lstclear(&ps->objects, &free);
 
+	/**
+	 * Testing chapter 9 material
+	 */
+	test_shape(&minirt);
+	//test_intersect_generic(&minirt);
+
 	return (0);
 }
 
