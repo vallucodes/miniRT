@@ -2,7 +2,7 @@
 # define RAYTRACING_H
 
 # define WIDTH	500
-# define HEIGHT	250
+# define HEIGHT	375
 # define MALLOC	"Memory allocation failed"
 
 //Material default values
@@ -107,6 +107,7 @@ typedef struct	s_light_vars
 
 //objects.c
 t_scene_obj	sphere(t_minirt *minirt);
+t_scene_obj	plane(t_minirt *minirt);
 
 //lighting.c
 t_light	init_point_light(t_tuple pos, t_color color, float ratio);

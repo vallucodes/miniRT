@@ -71,6 +71,28 @@ t_xs	*intersects_sphere(t_minirt *minirt, t_scene_obj s, t_ray r)
 }
 
 /**
+ * @brief Returns intersection information for given [p]lane and [r]ay
+ */
+t_xs	*intersects_plane(t_minirt *minirt, t_scene_obj p, t_ray r)
+{
+	t_i		i1;
+	float	t;
+	t_xs	*xs;
+
+	if (fabs(r.dir.y) < EPSILON)
+	{
+		xs->count = 0;
+	}
+	else
+	{
+		t = -r.origin.y / r.dir.y;
+		i1 = intersection(t, &p);
+		xs = intersections(i1, i1);
+	}
+	return (xs);
+}
+
+/**
  * @brief Returns intersection information. Selects intersection function. 
  * 		  Converts ray to current object space. 
  */
@@ -85,6 +107,7 @@ t_xs	*intersect(t_minirt *minirt, t_scene_obj *obj, t_ray ray)
 	if (obj->type == PLANE)
 	{
 		/* plane */
+		xs = intersects_plane(minirt, *obj, local_ray);
 	}
 	else if (obj->type == SPHERE)
 	{

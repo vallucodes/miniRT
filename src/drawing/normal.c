@@ -1,7 +1,7 @@
 #include "minirt.h"
 
 /**
- * @brief Return the sphere object normal for a given [point]
+ * @brief Return the sphere object normal for a given local [point]
  */
 t_tuple	normal_at_sphere(t_tuple point)
 {
@@ -27,6 +27,17 @@ t_tuple	normal_at_sphere(t_tuple point)
 }
 
 /**
+ * @brief Return the plane normal for a given local [point] 
+ * @details The normal at any point of plane will be perpendicular to plane 
+ * @todo only having point as a param to mirror other functions, may remove
+ */
+t_tuple	normal_at_plane(t_tuple point)
+{
+	(void)point;
+	return (create_vector(0, 1, 0));
+}
+
+/**
  * @brief Return the global normal at a given [point] for a given [obj]ect
  * @details Convert point to object space > find appropriate object normal
  * 			> convert object normal to global space and return normalised
@@ -49,7 +60,7 @@ t_tuple	normal_at(t_minirt *minirt, t_scene_obj *obj, t_tuple point)
 	
 	if (obj->type == PLANE)
 	{
-		/* plane */
+		local_normal = normal_at_plane(point);
 	}
 	else if (obj->type == SPHERE)
 	{
