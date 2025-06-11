@@ -65,11 +65,20 @@ t_ray	ray_for_pixel(t_minirt *minirt, t_camera *c, int px, int py)
 	xoffset = (px + 0.5) * c->pixel_size;
 	yoffset = (py + 0.5) * c->pixel_size;
 
+	// printf("xoffset %f\n", xoffset);
+	// printf("yoffset %f\n", yoffset);
+
 	world_x = c->half_width - xoffset;
 	world_y = c->half_height - yoffset;
 
+	// printf("world_x %f\n", world_x);
+	// printf("world_y %f\n", world_y);
+
 	pixel = multiply_mtrx_by_tuple(inverse_matrix(minirt, c->transform, 4), create_point(world_x, world_y, -1), 4);
+	// print_tuple(pixel);
 	origin = multiply_mtrx_by_tuple(inverse_matrix(minirt, c->transform, 4), create_point(0, 0, 0), 4);
+	// print_tuple(origin);
 	direction = normalize_tuple(substraction_tuples(pixel, origin));
+	// print_tuple(direction);
 	return (create_ray(direction, origin));
 }

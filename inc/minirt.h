@@ -73,7 +73,8 @@ typedef struct s_minirt
 }		t_minirt;
 
 void	reset_background(t_minirt *minirt);
-void	draw_current_thing(t_minirt *minirt);
+// void	draw_current_thing(t_minirt *minirt, t_camera *c);
+void	render_world(t_minirt *minirt);
 void	draw_hook(void *param);
 void	draw_circle(t_minirt *minirt);
 

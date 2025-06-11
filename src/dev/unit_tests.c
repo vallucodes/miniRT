@@ -813,7 +813,7 @@ void	test_point_light_reflections(void)
 // sp 	     	0,0,0	        2 		 255,0,0
 // in .rt file for example
 
-void	test_intersect_two_spheres(t_minirt *minirt, char **av)
+void	test_intersect_two_spheres(t_minirt *minirt)
 {
 	t_xs *xs;
 	minirt->world->lig_s.col = color(1, 1, 1);
@@ -910,37 +910,38 @@ void	test_shading_an_intersection_from_inside(t_minirt *minirt, char **av)
 	print_colour(color);
 }
 
-void	test_ray_misses_obj(t_minirt *minirt)
-{
-	minirt->world->lig_s = init_point_light(create_point(-10, -10, -10), color(1, 1, 1), 1);
-	t_ray	r = create_ray(create_vector(0, 1, 0), create_point(0, 0, -5));
+// test this with 2 sphere objects, for example sp.rt
+// void	test_ray_misses_obj(t_minirt *minirt)
+// {
+// 	minirt->world->lig_s = init_point_light(create_point(-10, -10, -10), color(1, 1, 1), 1);
+// 	t_ray	r = create_ray(create_vector(0, 1, 0), create_point(0, 0, -5));
 
-	t_list	*temp = minirt->world->objects;
-	t_scene_obj *obj = (t_scene_obj *)temp->content;
+// 	t_list	*temp = minirt->world->objects;
+// 	t_scene_obj *obj = (t_scene_obj *)temp->content;
 
-	obj->transform = identity(minirt);
-	obj->mat = init_material();
-	obj->mat.ambient = 0.1;
-	obj->mat.diffuse = 0.7;
-	obj->mat.specular = 0.2;
-	obj->mat.col.r = 0.8;
-	obj->mat.col.g = 1;
-	obj->mat.col.b = 0.6;
+// 	obj->transform = identity(minirt);
+// 	obj->mat = init_material();
+// 	obj->mat.ambient = 0.1;
+// 	obj->mat.diffuse = 0.7;
+// 	obj->mat.specular = 0.2;
+// 	obj->mat.col.r = 0.8;
+// 	obj->mat.col.g = 1;
+// 	obj->mat.col.b = 0.6;
 
-	temp = temp->next;
-	obj = (t_scene_obj *)temp->content;
-	obj->transform = scaling(minirt, 0.5, 0.5, 0.5);
-	obj->mat = init_material();
-	obj->mat.ambient = 0.1;
-	obj->mat.diffuse = 0.9;
-	obj->mat.specular = 0.9;
-	obj->mat.col.r = 1;
-	obj->mat.col.g = 1;
-	obj->mat.col.b = 1;
+// 	temp = temp->next;
+// 	obj = (t_scene_obj *)temp->content;
+// 	obj->transform = scaling(minirt, 0.5, 0.5, 0.5);
+// 	obj->mat = init_material();
+// 	obj->mat.ambient = 0.1;
+// 	obj->mat.diffuse = 0.9;
+// 	obj->mat.specular = 0.9;
+// 	obj->mat.col.r = 1;
+// 	obj->mat.col.g = 1;
+// 	obj->mat.col.b = 1;
 
-	t_color color = color_at(minirt, r);
-	print_colour(color);
-}
+// 	t_color color = color_at(minirt, r);
+// 	print_colour(color);
+// }
 
 void	test_ray_hits_obj(t_minirt *minirt)
 {
@@ -1053,13 +1054,14 @@ void	test_orientation(t_minirt *minirt)
 	*/
 }
 
+//test with width 201 and height 101
 void	test_camera(t_minirt *minirt)
 {
 	camera(minirt);
 	print_camera(&minirt->world->cam_s);
 }
 
-//test with width 201 and height 101
+//test with sp1.rt
 void	test_ray_for_pixel(t_minirt *minirt)
 {
 	printf("test center of canvas\n");
@@ -1119,15 +1121,51 @@ void	test_intersect_generic(t_minirt *minirt)
 	t_ray ray = create_ray(create_vector(0,0,1), create_point(0,0,-5));
 	t_scene_obj obj;
 	set_transform(&obj, scaling(minirt, 2,2,2));
-	t_xs *xs = intersect(minirt, &obj, ray);
+	t_xs *xs = intersect(minirt, &obj, ray, xs);
 	(void)xs;
 	printf("Scaled 2,2,2 saved_ray\n");
 	print_ray(obj.saved_ray);
 
 	t_ray ray2 = create_ray(create_vector(0,0,1), create_point(0,0,-5));
 	set_transform(&obj, translation(minirt, 5,0,0));
-	t_xs *xs2 = intersect(minirt, &obj, ray2);
+	t_xs *xs2 = intersect(minirt, &obj, ray2, xs);
 	(void)xs2;
 	printf("Translated 5,0,0 saved_ray\n");
 	print_ray(obj.saved_ray);
+}
+
+void	test_render_world(t_minirt *minirt)
+{
+	minirt->world->lig_s = init_point_light(create_point(-10, -10, -10), color(1, 1, 1), 1);
+
+	t_list	*temp = minirt->world->objects;
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+
+	obj->transform = identity(minirt);
+	obj->mat = init_material();
+	obj->mat.ambient = 0.1;
+	obj->mat.diffuse = 0.7;
+	obj->mat.specular = 0.2;
+	obj->mat.col.r = 0.8;
+	obj->mat.col.g = 1;
+	obj->mat.col.b = 0.6;
+
+	temp = temp->next;
+	obj = (t_scene_obj *)temp->content;
+	obj->transform = scaling(minirt, 0.5, 0.5, 0.5);
+	obj->mat = init_material();
+	obj->mat.ambient = 0.1;
+	obj->mat.diffuse = 0.9;
+	obj->mat.specular = 0.9;
+	obj->mat.col.r = 1;
+	obj->mat.col.g = 1;
+	obj->mat.col.b = 1;
+
+	camera(minirt); //test with w:11  h:11, Pi/2
+	t_tuple	from = create_point(0, 0, -5);
+	t_tuple	to = create_point(0, 0, 0);
+	t_tuple	up = create_vector(0, 1, 0);
+	minirt->world->cam_s.transform = view_transform(minirt, from, to, up);
+	// print_matrix(minirt->world->cam_s.transform, "camera", 4);
+	draw_current_thing(minirt, &minirt->world->cam_s);
 }

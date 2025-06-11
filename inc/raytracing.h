@@ -1,8 +1,8 @@
 #ifndef RAYTRACING_H
 # define RAYTRACING_H
 
-# define WIDTH	201
-# define HEIGHT	101
+# define WIDTH 350
+# define HEIGHT	250
 # define MALLOC	"Memory allocation failed"
 
 //Material default values
@@ -175,7 +175,6 @@ float	**matrix_alloc(t_minirt *minirt, size_t size);
 //rays
 t_ray	create_ray(t_tuple vector, t_tuple point);
 t_tuple	position_ray(t_ray ray, float t);
-// t_xs	*intersects_ray(t_minirt *minirt, t_scene_obj *obj, t_ray r, t_xs *xs);
 void	init_xs(t_xs *xs);
 t_i		hit(t_xs *xs);
 t_ray	transform(t_ray r, float **m);
@@ -199,8 +198,10 @@ t_ray	transform(t_ray r, float **m);
 void	set_transform(t_scene_obj *object, float **trans_mtrx);
 
 //intersections
-t_xs	*intersects_ray(t_minirt *minirt, t_scene_obj s, t_ray r);
-t_xs	*intersect(t_minirt *minirt, t_scene_obj *obj, t_ray ray);
+t_xs	*intersects_sphere(t_minirt *minirt, t_scene_obj *obj, t_ray r, t_xs *xs);
+// t_xs	*intersects_ray(t_minirt *minirt, t_scene_obj s, t_ray r);
+// t_xs	*intersects_ray(t_minirt *minirt, t_scene_obj *obj, t_ray r, t_xs *xs);
+t_xs	*intersect(t_minirt *minirt, t_scene_obj *obj, t_ray ray, t_xs *xs);
 
 //utils
 int			is_equal(float a, float b);
@@ -245,5 +246,6 @@ void	test_intersect_two_spheres(t_minirt *minirt);
 void	print_colour(t_color c);
 void	test_shape(t_minirt *minirt);
 void	test_intersect_generic(t_minirt *minirt);
+void	test_render_world(t_minirt *minirt);
 
 #endif
