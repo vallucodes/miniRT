@@ -4,7 +4,7 @@ t_i	intersection(float intersection, void *obj)
 {
 	t_i i;
 
-	i.object = obj;
+	i.object = &obj;
 	i.t = intersection;
 	return (i);
 }
