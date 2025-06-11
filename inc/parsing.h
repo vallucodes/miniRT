@@ -2,7 +2,7 @@
 # define PARSING_H
 
 /**
- * @brief Min and max values for RGB, FOV, orientation, coordinate. 
+ * @brief Min and max values for RGB, FOV, orientation, coordinate.
  */
 typedef enum e_limit_vals
 {
@@ -27,7 +27,7 @@ typedef enum e_obj_type
 }	t_obj_type;
 
 /**
- * @brief Error definitions. 
+ * @brief Error definitions.
  */
 # define ERR_GEN "Parsing error, check scene file."
 # define ERR_SCENELST "Building scene list failed."
@@ -48,7 +48,7 @@ typedef enum e_obj_type
 
 /**
  * @brief Ambient optical object.
- * @note ratio[0.0,1.0] r,g,b[0,255]. 
+ * @note ratio[0.0,1.0] r,g,b[0,255].
 */
 typedef struct s_ambient
 {
@@ -71,9 +71,16 @@ typedef struct s_camera
 	float			ox;
 	float			oy;
 	float			oz;
+	int				hsize;
+	int				vsize;
+	float			half_width;
+	float			half_height;
+	float			pixel_size;
 	unsigned char	fov;
+	float			fov_r;
 	t_tuple			ori;
 	t_tuple			nor;
+	float			**transform;
 }	t_camera;
 
 /**
@@ -124,8 +131,8 @@ typedef struct s_scene_obj
 }	t_scene_obj;
 
 /**
- * @brief Struct handling all elements related to parsing the scene. 
- * @note obj_count: only scene objects. xxx_b: count of optical objects. 
+ * @brief Struct handling all elements related to parsing the scene.
+ * @note obj_count: only scene objects. xxx_b: count of optical objects.
  * @note xxx_s: data struct for optical objects.
  * @note *objects: single linked list, all scene objects (obj_count - 1 entries)
  */
@@ -179,5 +186,6 @@ bool	parse_add_obj_list(t_scene_obj *tmp, t_parse *ps);
 void	parse_fill_colour(t_color *col, int r, int g, int b);
 void	parse_fill_origin(t_tuple *origin, float cx, float cy, float cz);
 void	parse_fill_norm(t_tuple *norm, float ox, float oy, float oz);
+void	parse_fill_size(t_camera *camera);
 
 #endif

@@ -1,65 +1,12 @@
 #include "minirt.h"
 
-t_tuple	hit_point(t_ray r, t_xs *xs)
-{
-	float	t_hit;
-	t_i		hit_var;
-	t_tuple	hit_point;
-
-	hit_var = hit(xs);
-	t_hit = hit_var.t;
-	hit_point = position_ray(r, t_hit);
-	return (hit_point);
-}
-
-/**
- * @todo A lot of declarations here will be replaced by parsed rt information
- */
-uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y)
-{
-	t_ray	r;
-	t_xs	*xs;
-	t_scene_obj s; //edit this to int maybe
-	float **m;
-
-	//Converting between pixel space to viewport space. Raster, NDC etc.
-	//handling camera location and ray creation
-	float Px = (x + 0.5) * minirt->vp->vp_w / WIDTH - minirt->vp->vp_w / 2;
-	float Py = (y + 0.5) * minirt->vp->vp_h / HEIGHT - minirt->vp->vp_h / 2;
-	t_tuple	point_on_vp = create_point(Px, Py, -1);
-	t_tuple	camera_pos = create_point(0, 0, -5);
-	t_tuple dir = normalize_tuple(substraction_tuples(point_on_vp, camera_pos));
-	r = create_ray(dir, camera_pos);
-
-	//sphere creation, transform, material and colour (@todo parsed)
-	s = sphere(minirt);
-	s.mat.col = color(1, 0.2, 1);
-	m = multiply_mtrx_by_mtrx(minirt, rotation_z(minirt, M_PI / 4), scaling(minirt, 0.5, 1, 1), 4);
-	set_transform(&s, m);
-
-	//light creation, location, colour (@todo parsed)
-	t_light light;
-	light = init_point_light(create_point(-10, -10, -10), color(1, 1, 1), 1);
-
-	xs = intersect(minirt, &s, r);
-	// print_xs(xs);
-	if (xs->count != 0)
-	{
-		t_tuple point			= hit_point(r, xs);
-		t_tuple normal			= normal_at(minirt, &s, point);
-		t_color	res				= lighting(s.mat, light, point, negate_tuple(r.dir), normal);
-		uint32_t	hex_colour	= colour_unitrgb_hex(res, 1);
-		return (hex_colour);
-	}
-	else
-		return (minirt->map->background);
-}
-
-void	draw_current_thing(t_minirt *minirt)
+void	draw_current_thing(t_minirt *minirt, t_camera *c)
 {
 	size_t		x;
 	size_t		y;
-	uint32_t	color;
+	t_color		color;
+	uint32_t	color_raw;
+	t_ray		ray;
 
 	x = 0;
 	while (x < WIDTH)
@@ -67,10 +14,48 @@ void	draw_current_thing(t_minirt *minirt)
 		y = 0;
 		while (y < HEIGHT)
 		{
-			color = calculate_hit(minirt, x, y);
-			mlx_put_pixel(minirt->img, x, y, color);
+			ray = ray_for_pixel(minirt, c, x, y);
+			color = color_at(minirt, ray);
+			color_raw = colour_unitrgb_hex(color, 1);
+			mlx_put_pixel(minirt->img, x, y, color_raw);
 			y++;
 		}
 		x++;
 	}
+}
+
+void	render_world(t_minirt *minirt)
+{
+	minirt->world->lig_s = init_point_light(create_point(-10, -10, -10), color(1, 1, 1), 1);
+
+	t_list	*temp = minirt->world->objects;
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+
+	obj->transform = identity(minirt);
+	obj->mat = init_material();
+	obj->mat.ambient = 0.1;
+	obj->mat.diffuse = 0.7;
+	obj->mat.specular = 0.2;
+	obj->mat.col.r = 0.8;
+	obj->mat.col.g = 1;
+	obj->mat.col.b = 0.6;
+
+	temp = temp->next;
+	obj = (t_scene_obj *)temp->content;
+	obj->transform = scaling(minirt, 0.5, 0.5, 0.5);
+	obj->mat = init_material();
+	obj->mat.ambient = 0.1;
+	obj->mat.diffuse = 0.9;
+	obj->mat.specular = 0.9;
+	obj->mat.col.r = 1;
+	obj->mat.col.g = 1;
+	obj->mat.col.b = 1;
+
+	camera(minirt); //test with w:11  h:11, Pi/2
+	t_tuple	from = create_point(0, 0, -5);
+	t_tuple	to = create_point(0, 0, 0);
+	t_tuple	up = create_vector(0, 1, 0);
+	minirt->world->cam_s.transform = view_transform(minirt, from, to, up);
+	// print_matrix(minirt->world->cam_s.transform, "camera", 4);
+	draw_current_thing(minirt, &minirt->world->cam_s);
 }
