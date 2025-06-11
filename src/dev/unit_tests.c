@@ -631,7 +631,7 @@ void unit_tests_transform_matrices(t_minirt *minirt)
 	test_rotation_z_matrix(minirt);
 }
 
-void test_normal_at_sphere(t_minirt *m)
+/*void test_normal_at_sphere(t_minirt *m)
 {
 	printf("Testing normal at sphere point. \n");
 	t_scene_obj obj;
@@ -678,7 +678,7 @@ void test_normal_at_sphere(t_minirt *m)
 	nor = normal_at_sphere(m, &obj, create_point(0, 0.70711, -0.70711));
 	printf("world normal scaled and rotated\n");
 	print_tuple(nor);
-}
+}*/
 
 void	test_reflect(t_minirt m)
 {
@@ -738,7 +738,7 @@ void	test_reflect_extra(t_minirt m)
 }
 
 
-void test_point_light_material(void)
+/*void test_point_light_material(void)
 {
 	t_color intensity = color(1, 1, 1);
 	t_tuple position = create_point(0, 0, 0);
@@ -767,7 +767,7 @@ void test_point_light_material(void)
 	printf("Mat, amb: %f, dif: %f, spec: %f, shine: %f\n", s.mat.ambient, s.mat.diffuse, s.mat.specular, s.mat.shininess);
 	printf("mat col:\n");
 	print_colour(s.mat.col);
-}
+}*/
 
 void	test_point_light_reflections(void)
 {
@@ -1075,4 +1075,59 @@ void	test_ray_for_pixel(t_minirt *minirt)
 	minirt->world->cam_s.transform = multiply_mtrx_by_mtrx(minirt, rotation_y(minirt, M_PI / 4), translation(minirt, 0, -2, 5), 4);
 	r = ray_for_pixel(minirt, &minirt->world->cam_s, 100, 50);
 	print_ray(r);
+}
+
+void	test_shape(t_minirt *minirt)
+{
+	t_scene_obj object;
+	float **trans;
+	t_material mat;
+
+	/*//Test 1, set test object's trans to ident
+	object.transform = identity(minirt);
+	print_matrix(object.transform, "Test 1. Transform set to identity", 4);
+
+	//Test 2, set transform to a translation
+	trans = translation(minirt, 2, 3, 4);
+	set_transform(&object, trans);
+	print_matrix(object.transform, "Test 2. Transform set to translate 2,3,4", 4);
+
+	//Test 3, assign material
+	mat = init_material();
+	object.mat = mat;
+	printf("Test 3. Test object mat: amb: %f, diff: %f, spec: %f, shin: %f\nColours:\n", object.mat.ambient, object.mat.diffuse, object.mat.specular, object.mat.shininess);
+	print_colour(object.mat.col);*/
+
+	//Test 4, normal on translated shape
+	object.type = SPHERE;
+	trans = translation(minirt, 0, 1, 0);
+	set_transform(&object, trans);
+	t_tuple norm = normal_at(minirt, &object, create_point(0, 1.70711, -0.70711));
+	printf("Test 4. Normal of translated 0,1,0\n");
+	print_tuple(norm);
+
+	//Test 5, normal on transformed shape
+	trans = multiply_mtrx_by_mtrx(minirt, scaling(minirt, 1, 0.5, 1), rotation_z(minirt, 0.62832), 4);
+	set_transform(&object, trans);
+	norm = normal_at(minirt, &object, create_point(0, 0.70711, -0.70711));
+	printf("Test 5. Normal of transformed sca-rot\n");
+	print_tuple(norm);
+}
+
+void	test_intersect_generic(t_minirt *minirt)
+{
+	t_ray ray = create_ray(create_vector(0,0,1), create_point(0,0,-5));
+	t_scene_obj obj;
+	set_transform(&obj, scaling(minirt, 2,2,2));
+	t_xs *xs = intersect(minirt, &obj, ray);
+	(void)xs;
+	printf("Scaled 2,2,2 saved_ray\n");
+	print_ray(obj.saved_ray);
+
+	t_ray ray2 = create_ray(create_vector(0,0,1), create_point(0,0,-5));
+	set_transform(&obj, translation(minirt, 5,0,0));
+	t_xs *xs2 = intersect(minirt, &obj, ray2);
+	(void)xs2;
+	printf("Translated 5,0,0 saved_ray\n");
+	print_ray(obj.saved_ray);
 }

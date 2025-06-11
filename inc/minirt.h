@@ -36,6 +36,11 @@ t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple c_v, t_tuple n_v);
 # include "parsing.h"
 # include "utils.h"
 
+/**
+ * @todo  Only here to stop vscode annoyance. Can be removed in final product.
+ */
+# define M_PI 3.14159265358979323846
+
 typedef enum e_exit
 {
 	SUCCESS,
