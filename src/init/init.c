@@ -29,15 +29,15 @@ void	init_minirt(t_minirt *minirt)
 	set_colors(minirt);
 	minirt->vp = arena_alloc(minirt->arena, sizeof(t_vp), alignof(t_vp));
 
-	// minirt->mlx = mlx_init(WIDTH, HEIGHT, "42Balls", true);
-	// // if (!minirt->mlx)
-	// 	// exit_error(minirt.map, NULL, 0, mlx_strerror(mlx_errno));
-	// minirt->img = mlx_new_image(minirt->mlx, WIDTH, HEIGHT);
-	// if (!minirt->img || (mlx_image_to_window(minirt->mlx, minirt->img, 0, 0) < 0))
-	// {
-	// 	mlx_close_window(minirt->mlx);
-	// 	// exit_error(minirt.map, NULL, 0, mlx_strerror(mlx_errno));
-	// }
+	minirt->mlx = mlx_init(WIDTH, HEIGHT, "42Balls", true);
+	// if (!minirt->mlx)
+		// exit_error(minirt.map, NULL, 0, mlx_strerror(mlx_errno));
+	minirt->img = mlx_new_image(minirt->mlx, WIDTH, HEIGHT);
+	if (!minirt->img || (mlx_image_to_window(minirt->mlx, minirt->img, 0, 0) < 0))
+	{
+		mlx_close_window(minirt->mlx);
+		// exit_error(minirt.map, NULL, 0, mlx_strerror(mlx_errno));
+	}
 	init_vp_attributes(minirt);
 }
 

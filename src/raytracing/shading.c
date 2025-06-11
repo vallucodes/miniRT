@@ -12,7 +12,7 @@ t_xs	*intersect_world(t_minirt *minirt, t_ray r)
 	while (i < minirt->world->obj_count)
 	{
 		t_scene_obj *obj = (t_scene_obj *)temp->content;
-		intersects_ray(minirt, obj, r, xs);
+		intersect(minirt, obj, r, xs);
 		temp = temp->next;
 		i++;
 	}
@@ -27,7 +27,7 @@ t_comps	*prepare_computations(t_minirt *minirt, t_i i, t_ray r)
 	comps->obj = i.object;
 	comps->point = position_ray(r, i.t);
 	comps->eyev = normalize_tuple(negate_tuple(r.dir));
-	comps->normalv = normal_at_sphere(minirt, comps->obj, comps->point);
+	comps->normalv = normal_at(minirt, comps->obj, comps->point);
 	if (dot_tuple(comps->normalv, comps->eyev) < 0)
 	{
 		comps->inside = true;

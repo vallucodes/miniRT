@@ -6,5 +6,5 @@ void	draw_hook(void *param)
 
 	minirt = (t_minirt *)param;
 	reset_background(minirt);
-	draw_current_thing(minirt);
+	// draw_current_thing(minirt);
 }
