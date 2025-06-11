@@ -23,8 +23,7 @@ int	main(int ac, char **av)
 	minirt.world = ps;
 	// fun_test_parsed_output(av, ps);
 	// free(ps);
-	// test_intersect_two_spheres(&minirt);
-	draw_current_thing(&minirt);
+	render_world(&minirt);
 	// mlx_loop_hook(minirt.mlx, &draw_hook, &minirt); //dont activate this hook. Its insanely slow because raytracing is very heavy process and this is redrawing everything every frame
 	mlx_loop(minirt.mlx);
 	close(ps->fd);
@@ -33,9 +32,12 @@ int	main(int ac, char **av)
 	/**
 	 * Testing chapter 9 material
 	 */
-	test_shape(&minirt);
+	// test_shape(&minirt);
 	//test_intersect_generic(&minirt);
 
 	return (0);
 }
 
+//restriction to be added, allow max amount of objects. Currently this is determining 1000 objects max and 1000 intersections per ray max
+// xs->object = malloc(1000 * sizeof(void *));
+// xs->t = malloc(1000 * sizeof(float));
