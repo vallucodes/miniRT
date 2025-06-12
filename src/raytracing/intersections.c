@@ -66,8 +66,9 @@ t_xs	*intersects_sphere(t_minirt *minirt, t_scene_obj *obj, t_ray r, t_xs *xs)
 t_xs	*intersect(t_minirt *minirt, t_scene_obj *obj, t_ray ray, t_xs *xs)
 {
 	t_ray	local_ray;
+	bool	success;
 
-	local_ray = transform(ray, inverse_matrix(minirt, obj->transform, 4));
+	local_ray = transform(ray, inverse_matrix(obj->transform, &success));
 	obj->saved_ray.dir = local_ray.dir;
 	obj->saved_ray.origin = local_ray.origin;
 	if (obj->type == PLANE)

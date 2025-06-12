@@ -1,34 +1,33 @@
 #include "minirt.h"
 
-float **view_transform(t_minirt *minirt, t_tuple from, t_tuple to, t_tuple up)
+t_matrix4	view_transform(t_tuple from, t_tuple to, t_tuple up)
 {
-	float	**t;
-	t_tuple	forward;
-	t_tuple	left;
-	t_tuple	true_up;
+	t_matrix4	t;
+	t_tuple		forward;
+	t_tuple		left;
+	t_tuple		true_up;
 
 
 	forward = normalize_tuple(substraction_tuples(to, from));
-	left = cross_tuple(forward, normalize_tuple(up));
-	true_up = cross_tuple(left, forward);
+	left = cross_tuple(normalize_tuple(up), forward);
+	true_up = cross_tuple(forward, left);
 
-	t = matrix_alloc(minirt, 4);
-	matrix_fill_zero(t, 4);
-	t[0][0] = left.x;
-	t[0][1] = left.y;
-	t[0][2] = left.z;
-	t[1][0] = true_up.x;
-	t[1][1] = true_up.y;
-	t[1][2] = true_up.z;
-	t[2][0] = -forward.x;
-	t[2][1] = -forward.y;
-	t[2][2] = -forward.z;
-	t[3][3] = 1;
-	t = multiply_mtrx_by_mtrx(minirt, t, translation(minirt, -from.x, -from.y, -from.z), 4);
+	matrix_fill_zero(&t);
+	t.m[0][0] = left.x;
+	t.m[0][1] = left.y;
+	t.m[0][2] = left.z;
+	t.m[1][0] = true_up.x;
+	t.m[1][1] = true_up.y;
+	t.m[1][2] = true_up.z;
+	t.m[2][0] = -forward.x;
+	t.m[2][1] = -forward.y;
+	t.m[2][2] = -forward.z;
+	t.m[3][3] = 1;
+	t = multiply_mtrx_by_mtrx(t, translation(-from.x, -from.y, -from.z));
 	return(t);
 }
 
-void	camera(t_minirt *minirt)
+void	init_camera(t_minirt *minirt)
 {
 	t_camera	*c;
 	float		half_view;
@@ -49,7 +48,7 @@ void	camera(t_minirt *minirt)
 		c->half_height = half_view;
 	}
 	minirt->world->cam_s.pixel_size = (c->half_width * 2) / c->hsize;
-	minirt->world->cam_s.transform = identity(minirt);
+	minirt->world->cam_s.transform = identity();
 }
 
 t_ray	ray_for_pixel(t_minirt *minirt, t_camera *c, int px, int py)
@@ -61,24 +60,27 @@ t_ray	ray_for_pixel(t_minirt *minirt, t_camera *c, int px, int py)
 	t_tuple	pixel;
 	t_tuple	origin;
 	t_tuple	direction;
+	bool	success;
 
 	xoffset = (px + 0.5) * c->pixel_size;
 	yoffset = (py + 0.5) * c->pixel_size;
 
-	// printf("xoffset %f\n", xoffset);
-	// printf("yoffset %f\n", yoffset);
+	printf("xoffset %f\n", xoffset);
+	printf("yoffset %f\n", yoffset);
 
 	world_x = c->half_width - xoffset;
 	world_y = c->half_height - yoffset;
 
-	// printf("world_x %f\n", world_x);
-	// printf("world_y %f\n", world_y);
+	printf("world_x %f\n", world_x);
+	printf("world_y %f\n", world_y);
 
-	pixel = multiply_mtrx_by_tuple(inverse_matrix(minirt, c->transform, 4), create_point(world_x, world_y, -1), 4);
-	// print_tuple(pixel);
-	origin = multiply_mtrx_by_tuple(inverse_matrix(minirt, c->transform, 4), create_point(0, 0, 0), 4);
-	// print_tuple(origin);
+	print_matrix(inverse_matrix(c->transform, &success), "camera", 4);
+
+	pixel = multiply_mtrx_by_tuple(inverse_matrix(c->transform, &success), create_point(world_x, world_y, -1));
+	print_tuple(pixel);
+	origin = multiply_mtrx_by_tuple(inverse_matrix(c->transform, &success), create_point(0, 0, 0));
+	print_tuple(origin);
 	direction = normalize_tuple(substraction_tuples(pixel, origin));
-	// print_tuple(direction);
+	print_tuple(direction);
 	return (create_ray(direction, origin));
 }

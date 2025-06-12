@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-void	print_matrix(float **m, char *msg, int size)
+void	print_matrix(t_matrix4 m, char *msg, int size)
 {
 	int i = 0;
 	int j = 0;
@@ -10,7 +10,7 @@ void	print_matrix(float **m, char *msg, int size)
 		j = 0;
 		while (j < size)
 		{
-			printf("%8.5f ", m[i][j]);
+			printf("%8.5f ", m.m[i][j]);
 			j++;
 		}
 		printf("\n");
@@ -92,16 +92,13 @@ void	print_camera(t_camera *cam)
 	printf("orientation: ");
 	print_tuple(cam->nor);
 
-	// If transform is a 4x4 matrix
-	if (cam->transform) {
-		printf("transform matrix of camera:\n");
-		for (int i = 0; i < 4; ++i) {
-			printf("  ");
-			for (int j = 0; j < 4; ++j) {
-				printf("%.6f ", cam->transform[i][j]);
-			}
-			printf("\n");
+	printf("transform matrix of camera:\n");
+	for (int i = 0; i < 4; ++i) {
+		printf("  ");
+		for (int j = 0; j < 4; ++j) {
+			printf("%.6f ", cam->transform.m[i][j]);
 		}
+		printf("\n");
 	}
 }
 
