@@ -40,17 +40,17 @@ t_i	hit(t_xs *xs)
 	return(hit);
 }
 
-t_ray	transform(t_ray r, float **m)
+t_ray	transform(t_ray r, t_matrix4 m)
 {
-	r.dir = multiply_mtrx_by_tuple(m, r.dir, 4);
-	r.origin = multiply_mtrx_by_tuple(m, r.origin, 4);
+	r.dir = multiply_mtrx_by_tuple(m, r.dir);
+	r.origin = multiply_mtrx_by_tuple(m, r.origin);
 	return (r);
 }
 
 /**
  * @brief Sets the transformation matrix of a t_scene_obj
  */
-void	set_transform(t_scene_obj *object, float **trans_mtrx)
+void	set_transform(t_scene_obj *object, t_matrix4 trans_mtrx)
 {
 	object->transform = trans_mtrx;
 }

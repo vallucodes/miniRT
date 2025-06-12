@@ -35,7 +35,7 @@ void	init_xs(t_xs *xs)
  * @todo discriminant can probably be a function
  * 		 t_i may not be needed when we can just use a float
  */
-t_xs	*intersects_sphere(t_minirt *minirt, t_scene_obj *obj, t_ray r, t_xs *xs)
+t_xs	*intersects_sphere(t_scene_obj *obj, t_ray r, t_xs *xs)
 {
 	t_i		i1;
 	t_i		i2;
@@ -45,7 +45,6 @@ t_xs	*intersects_sphere(t_minirt *minirt, t_scene_obj *obj, t_ray r, t_xs *xs)
 	float	discriminant;
 	t_tuple	sphere_to_ray;
 
-	// r = transform(r, inverse_matrix(minirt, obj->transform, 4));
 	sphere_to_ray = substraction_tuples(r.origin, create_point(0,0,0));
 	a = dot_tuple(r.dir, r.dir);
 	b = 2 * dot_tuple(sphere_to_ray, r.dir);
@@ -63,11 +62,12 @@ t_xs	*intersects_sphere(t_minirt *minirt, t_scene_obj *obj, t_ray r, t_xs *xs)
  * @brief Returns intersection information. Selects intersection function.
  * 		  Converts ray to current object space.
  */
-t_xs	*intersect(t_minirt *minirt, t_scene_obj *obj, t_ray ray, t_xs *xs)
+t_xs	*intersect(t_scene_obj *obj, t_ray ray, t_xs *xs)
 {
 	t_ray	local_ray;
+	bool	success;
 
-	local_ray = transform(ray, inverse_matrix(minirt, obj->transform, 4));
+	local_ray = transform(ray, inverse_matrix(obj->transform, &success));
 	obj->saved_ray.dir = local_ray.dir;
 	obj->saved_ray.origin = local_ray.origin;
 	if (obj->type == PLANE)
@@ -76,7 +76,7 @@ t_xs	*intersect(t_minirt *minirt, t_scene_obj *obj, t_ray ray, t_xs *xs)
 	}
 	else if (obj->type == SPHERE)
 	{
-		xs = intersects_sphere(minirt, obj, local_ray, xs);
+		xs = intersects_sphere(obj, local_ray, xs);
 	}
 	else if (obj->type == CYLINDER)
 	{
