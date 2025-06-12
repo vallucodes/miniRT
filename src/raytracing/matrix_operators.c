@@ -1,42 +1,39 @@
 #include "minirt.h"
 
-void	matrix_fill_zero(float **m, size_t size)
+void	matrix_fill_zero(t_matrix4 *m)
 {
 	size_t	i;
 	size_t	j;
 
 	i = 0;
-	while (i < size)
+	while (i < 4)
 	{
 		j = 0;
-		while (j < size)
+		while (j < 4)
 		{
-			m[i][j] = 0;
+			m->m[i][j] = 0;
 			j++;
 		}
 		i++;
 	}
 }
 
-float	**identity(t_minirt *minirt)
+t_matrix4	identity(void)
 {
-	float	**m;
-	size_t	i;
-	size_t	j;
-	size_t	size;
+	t_matrix4	m;
+	size_t		i;
+	size_t		j;
 
-	size = 4;
-	m = matrix_alloc(minirt, size);
 	i = 0;
-	while (i < size)
+	while (i < 4)
 	{
 		j = 0;
-		while (j < size)
+		while (j < 4)
 		{
 			if (i == j)
-				m[i][j] = 1;
+				m.m[i][j] = 1;
 			else
-				m[i][j] = 0;
+				m.m[i][j] = 0;
 			j++;
 		}
 		i++;
@@ -44,86 +41,71 @@ float	**identity(t_minirt *minirt)
 	return(m);
 }
 
-float	**translation(t_minirt *minirt, int x, int y, int z)
+t_matrix4	translation(int x, int y, int z)
 {
-	float	**m;
-	size_t	size;
+	t_matrix4	m;
 
-	size = 4;
-	m = matrix_alloc(minirt, size);
-	matrix_fill_zero(m, size);
-	m[0][0] = 1;
-	m[0][3] = x;
-	m[1][1] = 1;
-	m[1][3] = y;
-	m[2][2] = 1;
-	m[2][3] = z;
-	m[3][3] = 1;
+	matrix_fill_zero(&m);
+	m.m[0][0] = 1;
+	m.m[0][3] = x;
+	m.m[1][1] = 1;
+	m.m[1][3] = y;
+	m.m[2][2] = 1;
+	m.m[2][3] = z;
+	m.m[3][3] = 1;
 	return(m);
 }
 
-float	**scaling(t_minirt *minirt, float x, float y, float z)
+t_matrix4	scaling(float x, float y, float z)
 {
-	float	**m;
-	size_t	size;
+	t_matrix4	m;
 
-	size = 4;
-	m = matrix_alloc(minirt, size);
-	matrix_fill_zero(m, size);
-	m[0][0] = x;
-	m[1][1] = y;
-	m[2][2] = z;
-	m[3][3] = 1;
+	matrix_fill_zero(&m);
+	m.m[0][0] = x;
+	m.m[1][1] = y;
+	m.m[2][2] = z;
+	m.m[3][3] = 1;
 	return(m);
 }
 
-float	**rotation_x(t_minirt *minirt, float theta)
+t_matrix4	rotation_x(float theta)
 {
-	float	**m;
-	size_t	size;
+	t_matrix4	m;
 
-	size = 4;
-	m = matrix_alloc(minirt, size);
-	matrix_fill_zero(m, size);
-	m[0][0] = 1;
-	m[1][1] = cos(theta);
-	m[1][2] = -sin(theta);
-	m[2][1] = sin(theta);
-	m[2][2] = cos(theta);
-	m[3][3] = 1;
+	matrix_fill_zero(&m);
+	m.m[0][0] = 1;
+	m.m[1][1] = cos(theta);
+	m.m[1][2] = -sin(theta);
+	m.m[2][1] = sin(theta);
+	m.m[2][2] = cos(theta);
+	m.m[3][3] = 1;
 	return(m);
 }
 
-float	**rotation_y(t_minirt *minirt, float theta)
+t_matrix4	rotation_y(float theta)
 {
-	float	**m;
-	size_t	size;
+	t_matrix4	m;
 
-	size = 4;
-	m = matrix_alloc(minirt, size);
-	matrix_fill_zero(m, size);
-	m[0][0] = cos(theta);
-	m[0][2] = sin(theta);
-	m[1][1] = 1;
-	m[2][2] = cos(theta);
-	m[2][0] = -sin(theta);
-	m[3][3] = 1;
+	matrix_fill_zero(&m);
+	m.m[0][0] = cos(theta);
+	m.m[0][2] = sin(theta);
+	m.m[1][1] = 1;
+	m.m[2][2] = cos(theta);
+	m.m[2][0] = -sin(theta);
+	m.m[3][3] = 1;
 	return(m);
 }
 
-float	**rotation_z(t_minirt *minirt, float theta)
+t_matrix4	rotation_z(float theta)
 {
-	float	**m;
-	size_t	size;
+	t_matrix4	m;
 
-	size = 4;
-	m = matrix_alloc(minirt, size);
-	matrix_fill_zero(m, size);
-	m[0][0] = cos(theta);
-	m[0][1] = -sin(theta);
-	m[1][0] = sin(theta);
-	m[1][1] = cos(theta);
-	m[2][2] = 1;
-	m[3][3] = 1;
+	matrix_fill_zero(&m);
+	m.m[0][0] = cos(theta);
+	m.m[0][1] = -sin(theta);
+	m.m[1][0] = sin(theta);
+	m.m[1][1] = cos(theta);
+	m.m[2][2] = 1;
+	m.m[3][3] = 1;
 	return(m);
 }

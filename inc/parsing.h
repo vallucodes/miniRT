@@ -80,7 +80,7 @@ typedef struct s_camera
 	float			fov_r;
 	t_tuple			ori;
 	t_tuple			nor;
-	float			**transform;
+	t_matrix4		transform;
 }	t_camera;
 
 /**
@@ -126,7 +126,7 @@ typedef struct s_scene_obj
 	t_tuple			nor;
 	t_color			col;
 	t_material		mat;
-	float			**transform;
+	t_matrix4		transform;
 	t_ray			saved_ray;
 }	t_scene_obj;
 
