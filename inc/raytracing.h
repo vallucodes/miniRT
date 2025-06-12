@@ -236,12 +236,12 @@ uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y);
 //print utils
 void	print_ray(t_ray r);
 void	print_xs(t_xs *xs);
-void	fun_test_parsed_output(char **av, t_parse *ps);
 void	print_matrix(t_matrix4 m, char *msg, int size);
 void	print_tuple(t_tuple t);
 void	print_colour(t_color c);
 void	print_comps(t_comps *comps);
 void	print_camera(t_camera *cam);
+void	fun_test_parsed_output(char **av, t_parse *ps);
 
 //dev
 float	**create_matrix(size_t size, int flag);

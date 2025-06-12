@@ -20,6 +20,7 @@ int	main(int ac, char **av)
 		printf("exit, parsing failure\n");
 		exit (EXIT_FAILURE);
 	}
+	fun_test_parsed_output(av, ps);
 	minirt.world = ps;
 	// fun_test_parsed_output(av, ps);
 	// free(ps);
