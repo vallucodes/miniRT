@@ -44,20 +44,21 @@ t_tuple	normal_at_plane(t_tuple point)
  */
 t_tuple	normal_at(t_minirt *minirt, t_scene_obj *obj, t_tuple point)
 {
-	t_tuple	local_point;
-	t_tuple	local_normal;
-	t_tuple	world_normal;
-	float	**inverse;
-	float	**tmp;
+	t_tuple		local_point;
+	t_tuple		local_normal;
+	t_tuple		world_normal;
+	t_matrix4	inverse;
+	t_matrix4	tmp;
+	bool		success;
 
-	inverse = inverse_matrix(minirt, obj->transform, 4);
+	inverse = inverse_matrix(obj->transform, &success);
 	//print_matrix(obj->transform, "obj.transform", 4);
 	//print_matrix(inverse, "Inverse obj.transform", 4);
 
-	local_point = multiply_mtrx_by_tuple(inverse, point, 4);
+	local_point = multiply_mtrx_by_tuple(inverse, point);
 	//rintf("local_point\n");
 	//print_tuple(local_point);
-	
+
 	if (obj->type == PLANE)
 	{
 		local_normal = normal_at_plane(point);
@@ -73,12 +74,12 @@ t_tuple	normal_at(t_minirt *minirt, t_scene_obj *obj, t_tuple point)
 	}
 	//printf("local_normal\n");
 	//print_tuple(local_normal);
-	
-	tmp = transpose_matrix(minirt, inverse, 4);
+
+	tmp = transpose_matrix(inverse);
 	//print_matrix(tmp, "transpose of invert obj.transform", 4);
-	world_normal = multiply_mtrx_by_tuple(tmp, local_normal, 4);
+	world_normal = multiply_mtrx_by_tuple(tmp, local_normal);
 	world_normal.w = 0;
-	
+
 	//printf("world_normal\n");
 	//print_tuple(world_normal);
 	return (normalize_tuple(world_normal));
