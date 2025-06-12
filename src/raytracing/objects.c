@@ -51,6 +51,6 @@ t_scene_obj	plane(t_minirt *minirt)
 	p.r = p.col.r;
 	p.g = p.col.g;
 	p.b = p.col.b;
-	p.transform = identity(minirt);
+	p.transform = identity();
 	return (p);
 }
