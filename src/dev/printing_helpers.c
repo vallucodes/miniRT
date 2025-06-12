@@ -47,7 +47,7 @@ void	print_ray(t_ray r)
 	printf("origin r[z] = %f\n", r.origin.z);
 	printf("origin r[w] = %f\n\n", r.origin.w);
 }
-void	print_xs(t_minirt *minirt, t_xs *xs)
+void	print_xs(t_xs *xs)
 {
 	printf("print xs\n");
 	size_t i = 0;

@@ -1,8 +1,8 @@
 #ifndef RAYTRACING_H
 # define RAYTRACING_H
 
-# define WIDTH 11
-# define HEIGHT	11
+# define WIDTH 1000
+# define HEIGHT	1000
 # define MALLOC	"Memory allocation failed"
 
 //Material default values
@@ -174,28 +174,21 @@ uint32_t	colour_unitrgb_hex(t_color c, float alpha);
 void		colour_unitrgb_rgba(t_color *c);
 
 //matrix math
-bool		equality_matrix(t_matrix4 m, t_matrix4 m2, size_t size);
+bool		equality_matrix3(const t_matrix3 *a, const t_matrix3 *b);
+bool		equality_matrix4(t_matrix4 m, t_matrix4 m2, size_t size);
 t_matrix4	multiply_mtrx_by_mtrx(t_matrix4 m, t_matrix4 m2);
-// float		**multiply_mtrx_by_mtrx(t_minirt *minirt, float **m, float **m2, size_t size);
 t_tuple		multiply_mtrx_by_tuple(t_matrix4 m, t_tuple t1);
-// t_tuple		multiply_mtrx_by_tuple(float **m, t_tuple t1, size_t size);
 t_matrix4	transpose_matrix(t_matrix4 m);
-// float		**transpose_matrix(t_minirt *minirt, float **m, size_t size);
 float		determinant_matrix4(t_matrix4 m);
 float		determinant_matrix3(t_matrix3 m);
 float		determinant_matrix2(t_matrix2 m);
-// float		determinant_matrix(t_minirt *minirt, float **m, size_t size);
 t_matrix_result	sub_matrix(t_matrix_ctx *ctx, size_t row, size_t col);
-// float		**sub_matrix(t_matrix_ctx *ctx, size_t row, size_t col);
 float		minor_matrix(t_matrix_ctx *ctx, int row, int col);
-// float		minor_matrix(t_matrix_ctx *ctx, int row, int col);
 float		cofactor_matrix(t_matrix_ctx *ctx, int row, int col);
 t_matrix4	inverse_matrix(t_matrix4 m, bool *success);
 bool		is_invertible_matrix4(t_matrix4 m);
 bool		is_invertible_matrix3(t_matrix3 m);
 bool		is_invertible_matrix2(t_matrix2 m);
-// bool		is_invertible_matrix(t_minirt *minirt, float **m, size_t size);
-// float		**inverse_matrix(t_minirt *minirt, float **m, size_t size);
 
 //matrix operators
 t_matrix4	identity(void);
@@ -207,7 +200,6 @@ t_matrix4	rotation_z(float theta);
 
 //matrix utils
 void	matrix_fill_zero(t_matrix4 *m);
-// float	**matrix_alloc(t_minirt *minirt, size_t size);
 
 //rays
 t_ray	create_ray(t_tuple vector, t_tuple point);
@@ -215,7 +207,6 @@ t_tuple	position_ray(t_ray ray, float t);
 void	init_xs(t_xs *xs);
 t_i		hit(t_xs *xs);
 t_ray	transform(t_ray r, t_matrix4 m);
-// t_ray	transform(t_ray r, float **m);
 void	set_transform(t_scene_obj *obj, t_matrix4 m);
 t_i		intersection(float intersection, void *obj);
 void	intersections(t_xs	*xs, t_i i1, t_i i2);
@@ -229,14 +220,13 @@ t_color		color_at(t_minirt *minirt, t_ray ray);
 
 //camera
 t_matrix4	view_transform(t_tuple from, t_tuple to, t_tuple up);
-// float	**view_transform(t_minirt *minirt, t_tuple from, t_tuple to, t_tuple up);
 void	init_camera(t_minirt *minirt);
-t_ray	ray_for_pixel(t_minirt *minirt, t_camera *c, int px, int py);
+t_ray	ray_for_pixel(t_camera *c, int px, int py);
 t_i		hit(t_xs *xs);
 
 //intersections
-t_xs	*intersects_sphere(t_minirt *minirt, t_scene_obj *obj, t_ray r, t_xs *xs);
-t_xs	*intersect(t_minirt *minirt, t_scene_obj *obj, t_ray ray, t_xs *xs);
+t_xs	*intersects_sphere(t_scene_obj *obj, t_ray r, t_xs *xs);
+t_xs	*intersect(t_scene_obj *obj, t_ray ray, t_xs *xs);
 
 //utils
 int			is_equal(float a, float b);
@@ -244,10 +234,9 @@ uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y);
 
 //print utils
 void	print_ray(t_ray r);
-void	print_xs(t_minirt *minirt, t_xs *xs);
+void	print_xs(t_xs *xs);
 void	fun_test_parsed_output(char **av, t_parse *ps);
 void	print_matrix(t_matrix4 m, char *msg, int size);
-// void	print_matrix(float **m, char *msg, int size);
 void	print_tuple(t_tuple t);
 void	print_colour(t_color c);
 void	print_comps(t_comps *comps);
@@ -255,13 +244,9 @@ void	print_camera(t_camera *cam);
 
 //dev
 float	**create_matrix(size_t size, int flag);
-void	unit_tests_3x3(t_minirt *minirt);
-void	unit_tests_4x4(t_minirt *minirt);
-void	unit_tests_transform_matrices(t_minirt *minirt);
-void	test_rotation_z_matrix(t_minirt *minirt);
-void	test_rotation_y_matrix(t_minirt *minirt);
-void	test_rotation_x_matrix(t_minirt *minirt);
-void	test_scaling_matrix(t_minirt *minirt);
+void	unit_tests_3x3();
+void	unit_tests_4x4();
+void	unit_tests_transform_matrices();
 void	test_normal_at_sphere(t_minirt *m);
 void	test_reflect(t_minirt m);
 void	test_reflect_extra(t_minirt m);
