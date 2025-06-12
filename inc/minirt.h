@@ -26,6 +26,7 @@ typedef struct s_tuple t_tuple;
 typedef struct s_light t_light;
 typedef struct	s_material t_material;
 typedef struct	s_scene_obj t_scene_obj;
+typedef struct	s_camera t_camera;
 t_color	color(float r, float g, float b);
 t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple c_v, t_tuple n_v);
 
@@ -74,7 +75,8 @@ typedef struct s_minirt
 }		t_minirt;
 
 void	reset_background(t_minirt *minirt);
-void	draw_current_thing(t_minirt *minirt);
+// void	draw_current_thing(t_minirt *minirt, t_camera *c);
+void	render_world(t_minirt *minirt);
 void	draw_hook(void *param);
 void	draw_circle(t_minirt *minirt);
 
