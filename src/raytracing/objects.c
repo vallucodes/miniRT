@@ -4,7 +4,7 @@
  * @brief Create and give default attributes to a sphere type t_scene_obj 
  * @returns t_scene_obj: type = SPHERE (1) 
  * @details some redundancy due to the difference in how the .rt files are
- * 			formatted and how the RT itself likes its values. 
+ * 			formatted and how the RT itself likes its values.
  */
 t_scene_obj	sphere(t_minirt *minirt)
 {
@@ -23,7 +23,7 @@ t_scene_obj	sphere(t_minirt *minirt)
 	s.r = s.col.r;
 	s.g = s.col.g;
 	s.b = s.col.b;
-	s.transform = identity(minirt);
+	s.transform = identity();
 	return (s);
 }
 
