@@ -1,1147 +1,925 @@
-// #include "minirt.h"
-
-// bool matrix_equals(float **m, float expected[4][4]) {
-//     for (size_t i = 0; i < 4; ++i)
-//         for (size_t j = 0; j < 4; ++j)
-//             if (!is_equal(m[i][j], expected[i][j]))
-//                 return false;
-//     return true;
-// }
-
-
-// void test_matrix_alloc(t_minirt *minirt)
-// {
-// 	float **m = matrix_alloc(minirt, 3);  // Allocating 3x3 matrix
-
-// 	// Check allocation success
-// 	if (m && m[0] && m[1] && m[2])
-// 	{
-// 		printf("✅ Matrix Allocation Test Passed\n");
-// 	}
-// 	else
-// 	{
-// 		printf("❌ Matrix Allocation Test Failed\n");
-// 	}
-
-// 	// Clean up the allocated memory
-// }
-
-// void test_matrix_equality(t_minirt *minirt)
-// {
-// 	(void)minirt;
-// 	// Define two 3x3 matrices
-// 	float *m1[3] = {
-// 		(float[]){1, 2, 3},
-// 		(float[]){4, 5, 6},
-// 		(float[]){7, 8, 9}
-// 	};
-
-// 	float *m2[3] = {
-// 		(float[]){1, 2, 3},
-// 		(float[]){4, 5, 6},
-// 		(float[]){7, 8, 9}
-// 	};
-
-// 	float *m3[3] = {
-// 		(float[]){1, 2, 3},
-// 		(float[]){4, 5, 7},
-// 		(float[]){7, 8, 9}
-// 	};
-
-// 	// Test equality
-// 	if (equality_matrix(m1, m2, 3))
-// 		printf("✅ Matrix Equality Test Passed (Equal Matrices)\n");
-// 	else
-// 		printf("❌ Matrix Equality Test Failed (Equal Matrices)\n");
-
-// 	if (!equality_matrix(m1, m3, 3))
-// 		printf("✅ Matrix Equality Test Passed (Unequal Matrices)\n");
-// 	else
-// 		printf("❌ Matrix Equality Test Failed (Unequal Matrices)\n");
-// }
-
-// void test_matrix_multiplication(t_minirt *minirt)
-// {
-// 	float *m1[3] = {
-// 		(float[]){1, 2, 3},
-// 		(float[]){4, 5, 6},
-// 		(float[]){7, 8, 9}
-// 	};
-
-// 	float *m2[3] = {
-// 		(float[]){9, 8, 7},
-// 		(float[]){6, 5, 4},
-// 		(float[]){3, 2, 1}
-// 	};
-
-// 	// Multiply m1 and m2
-// 	float **result = multiply_mtrx_by_mtrx(minirt, m1, m2, 3);
-
-// 	// Check if result matches expected values (manually calculated result)
-// 	if (is_equal(result[0][0], 30) && is_equal(result[0][1], 24) && is_equal(result[0][2], 18) &&
-// 		is_equal(result[1][0], 84) && is_equal(result[1][1], 69) && is_equal(result[1][2], 54) &&
-// 		is_equal(result[2][0], 138) && is_equal(result[2][1], 114) && is_equal(result[2][2], 90))
-// 	{
-// 		printf("✅ Matrix Multiplication Test Passed\n");
-// 	}
-// 	else
-// 	{
-// 		printf("❌ Matrix Multiplication Test Failed\n");
-// 	}
-
-// 	// Clean up the result matrix
-// }
-
-// void test_matrix_transposition(t_minirt *minirt)
-// {
-// 	float *m1[3] = {
-// 		(float[]){1, 2, 3},
-// 		(float[]){4, 5, 6},
-// 		(float[]){7, 8, 9}
-// 	};
-
-// 	// Get the transpose of m1
-// 	float **transposed = transpose_matrix(minirt, m1, 3);
-
-// 	// Check if transposed matrix is correct
-// 	if (is_equal(transposed[0][0], 1) && is_equal(transposed[0][1], 4) && is_equal(transposed[0][2], 7) &&
-// 		is_equal(transposed[1][0], 2) && is_equal(transposed[1][1], 5) && is_equal(transposed[1][2], 8) &&
-// 		is_equal(transposed[2][0], 3) && is_equal(transposed[2][1], 6) && is_equal(transposed[2][2], 9))
-// 	{
-// 		printf("✅ Matrix Transposition Test Passed\n");
-// 	}
-// 	else
-// 	{
-// 		printf("❌ Matrix Transposition Test Failed\n");
-// 	}
-// }
-
-// void test_submatrix(t_minirt *minirt)
-// {
-// 	float *m1[3] = {
-// 		(float[]){1, 2, 3},
-// 		(float[]){4, 5, 6},
-// 		(float[]){7, 8, 9}
-// 	};
-
-// 	// Get a submatrix by removing row 1 and column 1 (indexing starts from 0)
-// 	t_matrix_ctx ctx = { minirt, m1, 3 };
-// 	float **submatrix = sub_matrix(&ctx, 1, 1);
-
-// 	// Check if submatrix matches expected values
-// 	if (is_equal(submatrix[0][0], 1) && is_equal(submatrix[0][1], 3) &&
-// 		is_equal(submatrix[1][0], 7) && is_equal(submatrix[1][1], 9))
-// 	{
-// 		printf("✅ Submatrix Test Passed\n");
-// 	}
-// 	else
-// 	{
-// 		printf("❌ Submatrix Test Failed\n");
-// 	}
-
-// }
-
-// void test_minor_matrix(t_minirt *minirt)
-// {
-// 	float *m1[3] = {
-// 		(float[]){1, 2, 3},
-// 		(float[]){4, 5, 6},
-// 		(float[]){7, 8, 9}
-// 	};
-
-// 	// Calculate minor for element at row 0, column 0
-// 	t_matrix_ctx ctx = { minirt, m1, 3 };
-// 	float minor = minor_matrix(&ctx, 0, 0);
-
-// 	// Check if the minor is correct (determinant of the submatrix)
-// 	if (is_equal(minor, -3))
-// 	{
-// 		printf("✅ Minor Matrix Test Passed\n");
-// 	}
-// 	else
-// 	{
-// 		printf("❌ Minor Matrix Test Failed\n");
-// 	}
-// }
-
-// void test_cofactor_matrix(t_minirt *minirt)
-// {
-// 	float *m1[3] = {
-// 		(float[]){1, 2, 3},
-// 		(float[]){4, 5, 6},
-// 		(float[]){7, 8, 9}
-// 	};
-
-// 	// Calculate cofactor for element at row 0, column 0
-// 	t_matrix_ctx ctx = { minirt, m1, 3 };
-// 	float cofactor = cofactor_matrix(&ctx, 0, 0);
-
-// 	// Check if the cofactor is correct (should be the same as the minor for a 3x3)
-// 	if (is_equal(cofactor, -3))
-// 	{
-// 		printf("✅ Cofactor Matrix Test Passed\n");
-// 	}
-// 	else
-// 	{
-// 		printf("❌ Cofactor Matrix Test Failed\n");
-// 	}
-// }
-
-// void test_determinant_matrix(t_minirt *minirt)
-// {
-// 	float *m1[3] = {
-// 		(float[]){1, 2, 3},
-// 		(float[]){4, 5, 6},
-// 		(float[]){7, 8, 9}
-// 	};
-
-// 	// Calculate determinant
-// 	float det = determinant_matrix(minirt, m1, 3);
-
-// 	// Check if determinant is correct
-// 	if (is_equal(det, 0))
-// 	{
-// 		printf("✅ Determinant Matrix Test Passed\n");
-// 	}
-// 	else
-// 	{
-// 		printf("❌ Cofactor Matrix Test Failed\n");
-// 	}
-// }
-
-// void	unit_tests_3x3(t_minirt *minirt)
-// {
-// 	test_matrix_alloc(minirt);
-// 	test_matrix_equality(minirt);
-// 	test_matrix_transposition(minirt);
-// 	test_submatrix(minirt);
-// 	test_minor_matrix(minirt);
-// 	test_cofactor_matrix(minirt);
-// 	test_determinant_matrix(minirt);
-// }
-
-// void test_matrix_alloc_4x4(t_minirt *minirt)
-// {
-// 	float **m = matrix_alloc(minirt, 4);
-// 	if (m && m[0] && m[1] && m[2] && m[3])
-// 		printf("✅ 4x4 Matrix Allocation Test Passed\n");
-// 	else
-// 		printf("❌ 4x4 Matrix Allocation Test Failed\n");
-// }
-
-
-// void test_matrix_equality_4x4(t_minirt *minirt)
-// {
-// 	(void)minirt;
-
-// 	float *m1[4] = {
-// 		(float[]){1, 2, 3, 4},
-// 		(float[]){5, 6, 7, 8},
-// 		(float[]){9, 10, 11, 12},
-// 		(float[]){13, 14, 15, 16}
-// 	};
-
-// 	float *m2[4] = {
-// 		(float[]){1, 2, 3, 4},
-// 		(float[]){5, 6, 7, 8},
-// 		(float[]){9, 10, 11, 12},
-// 		(float[]){13, 14, 15, 16}
-// 	};
-
-// 	float *m3[4] = {
-// 		(float[]){1, 2, 3, 4},
-// 		(float[]){5, 6, 7, 8},
-// 		(float[]){9, 10, 11, 12},
-// 		(float[]){13, 14, 15, 17}
-// 	};
-
-// 	if (equality_matrix(m1, m2, 4))
-// 		printf("✅ 4x4 Matrix Equality Test Passed (Equal Matrices)\n");
-// 	else
-// 		printf("❌ 4x4 Matrix Equality Test Failed (Equal Matrices)\n");
-
-// 	if (!equality_matrix(m1, m3, 4))
-// 		printf("✅ 4x4 Matrix Equality Test Passed (Unequal Matrices)\n");
-// 	else
-// 		printf("❌ 4x4 Matrix Equality Test Failed (Unequal Matrices)\n");
-// }
-
-
-// void test_matrix_multiplication_4x4(t_minirt *minirt)
-// {
-// 	float *m1[4] = {
-// 		(float[]){1, 2, 3, 4},
-// 		(float[]){5, 6, 7, 8},
-// 		(float[]){9, 8, 7, 6},
-// 		(float[]){5, 4, 3, 2}
-// 	};
-
-// 	float *m2[4] = {
-// 		(float[]){1, 2, 1, 2},
-// 		(float[]){0, 1, 0, 2},
-// 		(float[]){1, 2, 1, 2},
-// 		(float[]){0, 2, 0, 2}
-// 	};
-
-// 	// Expected result calculated by hand or with a tool
-// 	float expected[4][4] = {
-// 		{ 4, 18, 4, 20 },
-// 		{ 12, 46, 12, 52 },
-// 		{ 16, 52, 16, 60 },
-// 		{ 8, 24, 8, 28 }
-// 	};
-
-// 	float **result = multiply_mtrx_by_mtrx(minirt, m1, m2, 4);
-
-// 	bool pass = true;
-// 	for (int i = 0; i < 4; ++i)
-// 		for (int j = 0; j < 4; ++j)
-// 			if (!is_equal(result[i][j], expected[i][j]))
-// 				pass = false;
-
-// 	if (pass)
-// 		printf("✅ 4x4 Matrix Multiplication Test Passed\n");
-// 	else
-// 		printf("❌ 4x4 Matrix Multiplication Test Failed\n");
-// }
-
-
-// void test_matrix_transposition_4x4(t_minirt *minirt)
-// {
-// 	float *m1[4] = {
-// 		(float[]){0, 9, 3, 0},
-// 		(float[]){9, 8, 0, 8},
-// 		(float[]){1, 8, 5, 3},
-// 		(float[]){0, 0, 5, 8}
-// 	};
-
-// 	float expected[4][4] = {
-// 		{0, 9, 1, 0},
-// 		{9, 8, 8, 0},
-// 		{3, 0, 5, 5},
-// 		{0, 8, 3, 8}
-// 	};
-
-// 	float **transposed = transpose_matrix(minirt, m1, 4);
-
-// 	bool pass = true;
-// 	for (int i = 0; i < 4; ++i)
-// 		for (int j = 0; j < 4; ++j)
-// 			if (!is_equal(transposed[i][j], expected[i][j]))
-// 				pass = false;
-
-// 	if (pass)
-// 		printf("✅ 4x4 Matrix Transposition Test Passed\n");
-// 	else
-// 		printf("❌ 4x4 Matrix Transposition Test Failed\n");
-// }
-
-
-// void test_submatrix_4x4(t_minirt *minirt)
-// {
-// 	float *m1[4] = {
-// 		(float[]){-6, 1, 1, 6},
-// 		(float[]){-8, 5, 8, 6},
-// 		(float[]){-1, 0, 8, 2},
-// 		(float[]){-7, 1, -1, 1}
-// 	};
-
-// 	// Remove row 2 and col 1
-// 	t_matrix_ctx ctx = { minirt, m1, 4 };
-// 	float **submatrix = sub_matrix(&ctx, 2, 1);
-
-// 	float expected[3][3] = {
-// 		{-6, 1, 6},
-// 		{-8, 8, 6},
-// 		{-7, -1, 1}
-// 	};
-
-// 	bool pass = true;
-// 	for (int i = 0; i < 3; ++i)
-// 		for (int j = 0; j < 3; ++j)
-// 			if (!is_equal(submatrix[i][j], expected[i][j]))
-// 				pass = false;
-
-// 	if (pass)
-// 		printf("✅ 4x4 Submatrix Test Passed\n");
-// 	else
-// 		printf("❌ 4x4 Submatrix Test Failed\n");
-// }
-
-
-// void test_minor_matrix_4x4(t_minirt *minirt)
-// {
-// 	float *m1[4] = {
-// 		(float[]){3, 5, 0, 2},
-// 		(float[]){2, -1, -7, 1},
-// 		(float[]){6, -1, 5, 0},
-// 		(float[]){-4, -7, 0, 8}
-// 	};
-
-// 	t_matrix_ctx ctx = { minirt, m1, 4 };
-// 	float minor = minor_matrix(&ctx, 1, 0);
-
-// 	// Precomputed expected minor for (1,0)
-// 	float expected = 270;
-
-// 	if (is_equal(minor, expected))
-// 		printf("✅ 4x4 Minor Matrix Test Passed\n");
-// 	else
-// 		printf("❌ 4x4 Minor Matrix Test Failed (Expected %.1f, got %.1f)\n", expected, minor);
-// }
-
-
-// void test_cofactor_matrix_4x4(t_minirt *minirt)
-// {
-// 	float *m1[4] = {
-// 		(float[]){3, 5, 0, 2},
-// 		(float[]){2, -1, -7, 1},
-// 		(float[]){6, -1, 5, 0},
-// 		(float[]){-4, -7, 0, 8}
-// 	};
-
-// 	t_matrix_ctx ctx = { minirt, m1, 4 };
-// 	float cofactor = cofactor_matrix(&ctx, 1, 0);
-
-// 	// Precomputed expected cofactor for (1,0)
-// 	float expected = -270;
-
-// 	if (is_equal(cofactor, expected))
-// 		printf("✅ 4x4 Cofactor Matrix Test Passed\n");
-// 	else
-// 		printf("❌ 4x4 Cofactor Matrix Test Failed (Expected %.1f, got %.1f)\n", expected, cofactor);
-// }
-
-
-// void test_determinant_matrix_4x4(t_minirt *minirt)
-// {
-// 	float *m1[4] = {
-// 		(float[]){-2, -8, 3, 5},
-// 		(float[]){-3, 1, 7, 3},
-// 		(float[]){1, 2, -9, 6},
-// 		(float[]){-6, 7, 7, -9}
-// 	};
-
-// 	float det = determinant_matrix(minirt, m1, 4);
-
-// 	float expected = -4071;
-
-// 	if (is_equal(det, expected))
-// 		printf("✅ 4x4 Determinant Matrix Test Passed\n");
-// 	else
-// 		printf("❌ 4x4 Determinant Matrix Test Failed (Expected %.1f, got %.1f)\n", expected, det);
-// }
-
-
-// void unit_tests_4x4(t_minirt *minirt)
-// {
-// 	test_matrix_alloc_4x4(minirt);
-// 	test_matrix_equality_4x4(minirt);
-// 	test_matrix_multiplication_4x4(minirt);
-// 	test_matrix_transposition_4x4(minirt);
-// 	test_submatrix_4x4(minirt);
-// 	test_minor_matrix_4x4(minirt);
-// 	test_cofactor_matrix_4x4(minirt);
-// 	test_determinant_matrix_4x4(minirt);
-// }
-
-
-// void	unit_tests_2x2(void)
-// {
-// 	t_minirt	minirt;
-// 	init_minirt(&minirt);
-
-// 	printf("🔬 Starting matrix unit tests...\n");
-
-// 	// Allocate and set up two 2x2 matrices
-// 	float **m1 = matrix_alloc(&minirt, 2);
-// 	float **m2 = matrix_alloc(&minirt, 2);
-
-// 	m1[0][0] = 1; m1[0][1] = 2;
-// 	m1[1][0] = 3; m1[1][1] = 4;
-
-// 	m2[0][0] = 5; m2[0][1] = 6;
-// 	m2[1][0] = 7; m2[1][1] = 8;
-
-// 	// === Test Matrix Multiplication ===
-// 	float **m3 = multiply_mtrx_by_mtrx(&minirt, m1, m2, 2);
-
-// 	if (m3[0][0] == 19 && m3[0][1] == 22 && m3[1][0] == 43 && m3[1][1] == 50)
-// 		printf("✅ Matrix multiplication test passed\n");
-// 	else
-// 		printf("❌ Matrix multiplication test failed\n");
-
-// 	// === Test Transpose ===
-// 	float **transposed = transpose_matrix(&minirt, m1, 2);
-// 	if (transposed[0][1] == 3 && transposed[1][0] == 2)
-// 		printf("✅ Transpose matrix test passed\n");
-// 	else
-// 		printf("❌ Transpose matrix test failed\n");
-
-// 	// === Test Determinant ===
-// 	float det = determinant_matrix(&minirt, m1, 2);
-// 	if (is_equal(det, -2))
-// 		printf("✅ Determinant test passed\n");
-// 	else
-// 		printf("❌ Determinant test failed (got %f)\n", det);
-
-// 	// === Test Equality ===
-// 	float **copy = matrix_alloc(&minirt, 2);
-// 	copy[0][0] = 1; copy[0][1] = 2;
-// 	copy[1][0] = 3; copy[1][1] = 4;
-
-// 	if (equality_matrix(m1, copy, 2))
-// 		printf("✅ Equality test passed\n");
-// 	else
-// 		printf("❌ Equality test failed\n");
-
-// 	printf("🧪 Unit tests complete.\n");
-// }
-
-// void test_identity_matrix(t_minirt *minirt)
-// {
-// 	float expected[4][4] = {
-// 		{1,0,0,0},
-// 		{0,1,0,0},
-// 		{0,0,1,0},
-// 		{0,0,0,1}
-// 	};
-// 	float **m = identity(minirt);
-// 	if (matrix_equals(m, expected))
-// 		printf("✅ Identity Matrix Test Passed\n");
-// 	else
-// 		printf("❌ Identity Matrix Test Failed\n");
-// }
-
-// void test_translation_matrix(t_minirt *minirt)
-// {
-// 	int x = 3, y = 4, z = 5;
-// 	float expected[4][4] = {
-// 		{1,0,0,3},
-// 		{0,1,0,4},
-// 		{0,0,1,5},
-// 		{0,0,0,1}
-// 	};
-// 	float **m = translation(minirt, x, y, z);
-// 	if (matrix_equals(m, expected))
-// 		printf("✅ Translation Matrix Test Passed\n");
-// 	else
-// 		printf("❌ Translation Matrix Test Failed\n");
-// }
-
-// void test_scaling_matrix(t_minirt *minirt)
-// {
-// 	int x = 2, y = 3, z = 4;
-// 	float expected[4][4] = {
-// 		{2,0,0,0},
-// 		{0,3,0,0},
-// 		{0,0,4,0},
-// 		{0,0,0,1}
-// 	};
-// 	float **m = scaling(minirt, x, y, z);
-// 	if (matrix_equals(m, expected))
-// 		printf("✅ Scaling Matrix Test Passed\n");
-// 	else
-// 		printf("❌ Scaling Matrix Test Failed\n");
-// }
-
-// void test_rotation_x_matrix(t_minirt *minirt)
-// {
-// 	float theta = M_PI / 4; // 45 degrees
-// 	float c = cos(theta), s = sin(theta);
-// 	float expected[4][4] = {
-// 		{1, 0, 0, 0},
-// 		{0, c, -s, 0},
-// 		{0, s,  c, 0},
-// 		{0, 0, 0, 1}
-// 	};
-// 	float **m = rotation_x(minirt, theta);
-// 	if (matrix_equals(m, expected))
-// 		printf("✅ Rotation X Matrix Test Passed\n");
-// 	else
-// 		printf("❌ Rotation X Matrix Test Failed\n");
-// }
-
-// void test_rotation_y_matrix(t_minirt *minirt)
-// {
-// 	float theta = M_PI / 4; // 45 degrees
-// 	float c = cos(theta), s = sin(theta);
-// 	float expected[4][4] = {
-// 		{ c, 0, s, 0},
-// 		{ 0, 1, 0, 0},
-// 		{-s, 0, c, 0},
-// 		{ 0, 0, 0, 1}
-// 	};
-// 	float **m = rotation_y(minirt, theta);
-// 	if (matrix_equals(m, expected))
-// 		printf("✅ Rotation Y Matrix Test Passed\n");
-// 	else
-// 		printf("❌ Rotation Y Matrix Test Failed\n");
-// }
-
-// void test_rotation_z_matrix(t_minirt *minirt)
-
-// {
-// 	float theta = M_PI / 4; // 45 degrees
-// 	float c = cos(theta), s = sin(theta);
-// 	float expected[4][4] = {
-// 		{c, -s, 0, 0},
-// 		{s,  c, 0, 0},
-// 		{0,  0, 1, 0},
-// 		{0,  0, 0, 1}
-// 	};
-// 	float **m = rotation_z(minirt, theta);
-// 	if (matrix_equals(m, expected))
-// 		printf("✅ Rotation Z Matrix Test Passed\n");
-// 	else
-// 		printf("❌ Rotation Z Matrix Test Failed\n");
-// }
-
-// void unit_tests_transform_matrices(t_minirt *minirt)
-// {
-// 	test_identity_matrix(minirt);
-// 	test_translation_matrix(minirt);
-// 	test_scaling_matrix(minirt);
-// 	test_rotation_x_matrix(minirt);
-// 	test_rotation_y_matrix(minirt);
-// 	test_rotation_z_matrix(minirt);
-// }
-
-// /*void test_normal_at_sphere(t_minirt *m)
-// {
-// 	printf("Testing normal at sphere point. \n");
-// 	t_scene_obj obj;
-
-// 	obj.dia = 2;
-// 	obj.transform = identity(m);
-// 	obj.cx = 0;
-// 	obj.cy = 0;
-// 	obj.cz = 0;
-// 	obj.mat = init_material();
-
-// 	set_transform(&obj, translation(m, 0, 0, 0));
-// 	print_matrix(obj.transform, "Initial s1 transform", 4);
-
-// 	t_tuple	nor = normal_at_sphere(m, &obj, create_point(1, 0 ,0));
-// 	printf("world normal 1,0,0\n");
-// 	print_tuple(nor);
-// 	nor = normal_at_sphere(m, &obj, create_point(0, 1 ,0));
-// 	printf("world normal 0,1,0\n");
-// 	print_tuple(nor);
-// 	nor = normal_at_sphere(m, &obj, create_point(0, 0 ,1));
-// 	printf("world normal 0,0,1\n");
-// 	print_tuple(nor);
-
-// 	nor = normal_at_sphere(m, &obj, create_point(0.57735, 0.57735, 0.57735));
-// 	printf("world normal sqrt3/3\n");
-// 	print_tuple(nor);
-
-// 	set_transform(&obj, translation(m, 0, 1, 0));
-// 	print_matrix(obj.transform, "Initial s1 transform", 4);
-
-// 	nor = normal_at_sphere(m, &obj, create_point(0, 1.70711, -0.70711));
-// 	printf("world normal translated by 0,1,0\n");
-// 	print_tuple(nor);
-
-// 	float **sca = scaling(m, 1, 0.5, 1);
-// 	print_matrix(sca, "sca", 4);
-// 	float **rot = rotation_z(m, 0.62832);
-// 	print_matrix(rot, "rot", 4);
-// 	float **sca_rot = multiply_mtrx_by_mtrx(m, sca, rot, 4);
-// 	print_matrix(sca_rot, "sca * rot", 4);
-// 	set_transform(&obj, sca_rot);
-// 	print_matrix(obj.transform, "Initial s1 transform", 4);
-// 	nor = normal_at_sphere(m, &obj, create_point(0, 0.70711, -0.70711));
-// 	printf("world normal scaled and rotated\n");
-// 	print_tuple(nor);
-// }*/
-
-// void	test_reflect(t_minirt m)
-// {
-// 	(void)m;
-
-// 	printf("Testing reflection about normal. \n");
-// 	printf("approach 45 degree\n");
-// 	t_tuple	v1 = create_vector(1, -1, 0);
-// 	// t_tuple p1 = create_point(0, 0, 0);
-// 	t_tuple n1 = create_vector(0, 1, 0);
-// 	// t_ray r1 = create_ray(v1, p1);
-// 	print_tuple(reflect(v1, n1));
-
-// 	printf("approach 45 degree inclined surface vertically\n");
-// 	t_tuple	v2 = create_vector(0, -1, 0);
-// 	// t_tuple p2 = create_point(0, 0, 0);
-// 	t_tuple n2 = create_vector(0.707107, 0.707107, 0);
-// 	// t_ray r2 = create_ray(v2, p2);
-// 	print_tuple(reflect(v2, n2));
-// }
-
-// void	test_reflect_extra(t_minirt m)
-// {
-// 	(void)m;
-
-// 	printf("Testing reflection edge cases and angles.\n");
-
-// 	printf("approach straight on (no angle)\n");
-// 	printf("Expect (0, 1, 0)\n");
-// 	t_tuple v1 = create_vector(0, -1, 0);
-// 	t_tuple n1 = create_vector(0, 1, 0);
-// 	print_tuple(reflect(v1, n1));
-
-// 	printf("approach parallel to surface (no reflection)\n");
-// 	printf("Expect (1, 0, 0)\n");
-// 	t_tuple v2 = create_vector(1, 0, 0);
-// 	t_tuple n2 = create_vector(0, 1, 0);
-// 	print_tuple(reflect(v2, n2));
-
-// 	printf("approach 45 degrees from below to inclined plane\n");
-// 	printf("Expect (1, -1, 0)\n");
-// 	t_tuple v3 = create_vector(1, -1, 0);
-// 	t_tuple n3 = create_vector(0.707107, 0.707107, 0);
-// 	print_tuple(reflect(v3, n3));  // Expect (0, 1, 0)
-
-// 	printf("reflect across Z axis\n");
-// 	printf("Expect (0, 0, 1)\n");
-// 	t_tuple v4 = create_vector(0, 0, -1);
-// 	t_tuple n4 = create_vector(0, 0, 1);
-// 	print_tuple(reflect(v4, n4));  // Expect (0, 0, 1)
-
-// 	printf("reflect diagonally in all directions\n");
-// 	printf("Expect (1, 1, 1)\n");
-// 	t_tuple v5 = create_vector(1, -1, 1);
-// 	t_tuple n5 = create_vector(0, 1, 0);
-// 	print_tuple(reflect(v5, n5));  // Expect (1, 1, 1)
-// }
-
-
-// /*void test_point_light_material(void)
-// {
-// 	t_color intensity = color(1, 1, 1);
-// 	t_tuple position = create_point(0, 0, 0);
-// 	t_light light;
-// 	t_sphere s;
-// 	t_material mat = init_material();
-
-// 	light.col = intensity;
-// 	light.ori = position;
-
-// 	printf("light position\n");
-// 	print_tuple(light.ori);
-// 	printf("light intensity\n");
-// 	print_colour(light.col);
-
-// 	s.mat = mat;
-// 	printf("Mat, amb: %f, dif: %f, spec: %f, shine: %f\n", s.mat.ambient, s.mat.diffuse, s.mat.specular, s.mat.shininess);
-// 	printf("mat col:\n");
-// 	print_colour(s.mat.col);
-
-// 	s.mat.ambient = 1;
-// 	s.mat.diffuse = 1;
-// 	s.mat.specular = 1;
-// 	s.mat.shininess = 100;
-// 	s.mat.col = color(0.5, 0.4, 0.3);
-// 	printf("Mat, amb: %f, dif: %f, spec: %f, shine: %f\n", s.mat.ambient, s.mat.diffuse, s.mat.specular, s.mat.shininess);
-// 	printf("mat col:\n");
-// 	print_colour(s.mat.col);
-// }*/
-
-// void	test_point_light_reflections(void)
-// {
-// 	t_material mat = init_material();
-// 	t_tuple	position = create_point(0, 0, 0);
-
-// 	t_tuple eyev = create_vector(0, 0, -1);
-// 	t_tuple	normalv = create_vector(0, 0, -1);
-// 	t_light light;
-// 	light.ori = create_point(0, 0, -10);
-// 	light.col = color(1, 1, 1);
-// 	light.ratio = 1;
-// 	t_color res = lighting(mat, light, position, eyev, normalv);
-// 	printf("Result. Lighting with the eye between the light and the surface.\n");
-// 	print_colour(res);
-
-// 	t_tuple eyev2 = create_vector(0, 0.707107, -0.707107);
-// 	res = lighting(mat, light, position, eyev2, normalv);
-// 	printf("Result. Lighting with the eye between light and surface, eye offset 45°\n");
-// 	print_colour(res);
-
-// 	light.ori.y = 10;
-// 	res = lighting(mat, light, position, eyev, normalv);
-// 	printf("Result. Lighting with eye opposite surface, light offset 45°\n");
-// 	print_colour(res);
-
-// 	t_tuple eyev3 = create_vector(0, -0.707107, -0.707107);
-// 	res = lighting(mat, light, position, eyev3, normalv);
-// 	printf("Result. Lighting with eye in the path of the reflection vector\n");
-// 	print_colour(res);
-
-// 	light.ori.y = 0;
-// 	light.ori.z = 10;
-// 	res = lighting(mat, light, position, eyev, normalv);
-// 	printf("Result. Lighting with the light behind the surface\n");
-// 	print_colour(res);
-// }
-
-
-
-// //run this test with
-// // sp 	     	0,0,0	        2 		 204,255,153
-// // sp 	     	0,0,0	        2 		 255,0,0
-// // in .rt file for example
-
-// void	test_intersect_two_spheres(t_minirt *minirt)
-// {
-// 	t_xs *xs;
-// 	minirt->world->lig_s.col = color(1, 1, 1);
-
-// 	t_list	*temp = minirt->world->objects;
-// 	//first sphere
-// 	t_scene_obj *obj = (t_scene_obj *)temp->content;
-// 	obj->mat.diffuse = 0.7;
-// 	obj->mat.specular = 0.2;
-// 	obj->transform = identity(minirt);
-// 	//next sphere
-// 	temp = temp->next;
-// 	obj = temp->content;
-// 	obj->transform = scaling(minirt, 0.5, 0.5, 0.5);
-
-// 	t_ray r = create_ray(create_vector(0,0,1), create_point(0,0,-5));
-// 	xs = intersect_world(minirt, r);
-// 	print_xs(minirt, xs);
-// }
-
-// //run this test with
-// // sp 	     	0,0,0	        2 		 204,255,153
-// // in .rt file for example
-// void	test_prepare_computations_outside(t_minirt *minirt, char **av)
-// {
-// 	t_ray	r = create_ray(create_vector(0,0,1), create_point(0,0,-5));
-
-// 	t_list	*temp = minirt->world->objects;
-// 	t_scene_obj *obj = (t_scene_obj *)temp->content;
-// 	t_i		i1 = intersection(4, obj); //hard set t value = 4
-// 	obj->transform = identity(minirt);
-// 	t_comps *comps = prepare_computations(minirt, i1, r);
-// 	print_comps(comps);
-// }
-
-// //run this test with
-// // sp 	     	0,0,0	        2 		 204,255,153
-// // in .rt file for example
-// void	test_prepare_computations_inside(t_minirt *minirt, char **av)
-// {
-// 	t_ray	r = create_ray(create_vector(0,0,1), create_point(0,0,0));
-
-// 	t_list	*temp = minirt->world->objects;
-// 	t_scene_obj *obj = (t_scene_obj *)temp->content;
-// 	t_i		i1 = intersection(1, obj); //hard set t value = 1
-// 	obj->transform = identity(minirt);
-// 	t_comps *comps = prepare_computations(minirt, i1, r);
-// 	print_comps(comps);
-// }
-
-// void	test_shading_an_intersection(t_minirt *minirt, char **av)
-// {
-// 	t_ray	r = create_ray(create_vector(0,0,1), create_point(0,0,-5));
-// 	minirt->world->lig_s = init_point_light(create_point(-10, -10, -10), color(1, 1, 1), 1);
-
-// 	t_list	*temp = minirt->world->objects;
-// 	t_scene_obj *obj = (t_scene_obj *)temp->content;
-// 	t_i		i1 = intersection(4, obj); //hard set t value
-// 	obj->transform = identity(minirt);
-// 	obj->mat = init_material();
-// 	obj->mat.ambient = 0.1;
-// 	obj->mat.diffuse = 0.7;
-// 	obj->mat.specular = 0.2;
-// 	obj->mat.col.r = 0.8;
-// 	obj->mat.col.g = 1;
-// 	obj->mat.col.b = 0.6;
-// 	t_comps *comps = prepare_computations(minirt, i1, r);
-// 	fun_test_parsed_output(av, minirt->world);
-// 	// print_comps(comps);
-// 	t_color color = shade_hit(minirt->world, comps);
-// 	print_colour(color);
-// }
-
-// void	test_shading_an_intersection_from_inside(t_minirt *minirt, char **av)
-// {
-// 	minirt->world->lig_s = init_point_light(create_point(0, -0.25, 0), color(1, 1, 1), 1);
-// 	t_ray	r = create_ray(create_vector(0,0,1), create_point(0,0,0));
-
-// 	t_list	*temp = minirt->world->objects;
-// 	t_scene_obj *obj = (t_scene_obj *)temp->content;
-// 	t_i		i1 = intersection(0.5, obj); //hard set t value
-// 	obj->transform = scaling(minirt, 0.5, 0.5, 0.5);
-// 	obj->mat = init_material();
-// 	obj->mat.ambient = 0.1;
-// 	obj->mat.diffuse = 0.9;
-// 	obj->mat.specular = 0.9;
-// 	obj->mat.col.r = 1;
-// 	obj->mat.col.g = 1;
-// 	obj->mat.col.b = 1;
-// 	t_comps *comps = prepare_computations(minirt, i1, r);
-// 	fun_test_parsed_output(av, minirt->world);
-// 	// print_comps(comps);
-// 	t_color color = shade_hit(minirt->world, comps);
-// 	print_colour(color);
-// }
-
-// // test this with 2 sphere objects, for example sp.rt
-// // void	test_ray_misses_obj(t_minirt *minirt)
-// // {
-// // 	minirt->world->lig_s = init_point_light(create_point(-10, -10, -10), color(1, 1, 1), 1);
-// // 	t_ray	r = create_ray(create_vector(0, 1, 0), create_point(0, 0, -5));
-
-// // 	t_list	*temp = minirt->world->objects;
-// // 	t_scene_obj *obj = (t_scene_obj *)temp->content;
-
-// // 	obj->transform = identity(minirt);
-// // 	obj->mat = init_material();
-// // 	obj->mat.ambient = 0.1;
-// // 	obj->mat.diffuse = 0.7;
-// // 	obj->mat.specular = 0.2;
-// // 	obj->mat.col.r = 0.8;
-// // 	obj->mat.col.g = 1;
-// // 	obj->mat.col.b = 0.6;
-
-// // 	temp = temp->next;
-// // 	obj = (t_scene_obj *)temp->content;
-// // 	obj->transform = scaling(minirt, 0.5, 0.5, 0.5);
-// // 	obj->mat = init_material();
-// // 	obj->mat.ambient = 0.1;
-// // 	obj->mat.diffuse = 0.9;
-// // 	obj->mat.specular = 0.9;
-// // 	obj->mat.col.r = 1;
-// // 	obj->mat.col.g = 1;
-// // 	obj->mat.col.b = 1;
-
-// // 	t_color color = color_at(minirt, r);
-// // 	print_colour(color);
-// // }
-
-// void	test_ray_hits_obj(t_minirt *minirt)
-// {
-// 	minirt->world->lig_s = init_point_light(create_point(-10, -10, -10), color(1, 1, 1), 1);
-// 	t_ray	r = create_ray(create_vector(0, 0, 1), create_point(0, 0, -5));
-
-// 	t_list	*temp = minirt->world->objects;
-// 	t_scene_obj *obj = (t_scene_obj *)temp->content;
-
-// 	obj->transform = identity(minirt);
-// 	obj->mat = init_material();
-// 	obj->mat.ambient = 0.1;
-// 	obj->mat.diffuse = 0.7;
-// 	obj->mat.specular = 0.2;
-// 	obj->mat.col.r = 0.8;
-// 	obj->mat.col.g = 1;
-// 	obj->mat.col.b = 0.6;
-
-// 	temp = temp->next;
-// 	obj = (t_scene_obj *)temp->content;
-// 	obj->transform = scaling(minirt, 0.5, 0.5, 0.5);
-// 	obj->mat = init_material();
-// 	obj->mat.ambient = 0.1;
-// 	obj->mat.diffuse = 0.9;
-// 	obj->mat.specular = 0.9;
-// 	obj->mat.col.r = 1;
-// 	obj->mat.col.g = 1;
-// 	obj->mat.col.b = 1;
-
-// 	t_color color = color_at(minirt, r);
-// 	print_colour(color);
-// }
-
-// void	test_intersection_behind_ray(t_minirt *minirt)
-// {
-// 	minirt->world->lig_s = init_point_light(create_point(-10, -10, -10), color(1, 1, 1), 1);
-// 	t_ray	r = create_ray(create_vector(0, 0, -1), create_point(0, 0, 0.75));
-
-// 	t_list	*temp = minirt->world->objects;
-// 	t_scene_obj *obj = (t_scene_obj *)temp->content;
-
-// 	obj->transform = identity(minirt);
-// 	obj->mat = init_material();
-// 	obj->mat.ambient = 1;
-// 	obj->mat.diffuse = 0.7;
-// 	obj->mat.specular = 0.2;
-// 	obj->mat.col.r = 0.8;
-// 	obj->mat.col.g = 1;
-// 	obj->mat.col.b = 0.6;
-
-// 	temp = temp->next;
-// 	obj = (t_scene_obj *)temp->content;
-// 	obj->transform = scaling(minirt, 0.5, 0.5, 0.5);
-// 	obj->mat = init_material();
-// 	obj->mat.ambient = 1;
-// 	obj->mat.diffuse = 0.9;
-// 	obj->mat.specular = 0.9;
-// 	obj->mat.col.r = 0.33;
-// 	obj->mat.col.g = 0.22;
-// 	obj->mat.col.b = 0.11;
-
-// 	t_color color = color_at(minirt, r);
-// 	printf("material color:\n");
-// 	print_colour(obj->mat.col);
-// 	printf("color_at color:\n");
-// 	print_colour(color);
-// }
-
-// void	test_orientation(t_minirt *minirt)
-// {
-// 	printf("default orientation:\n");
-// 	t_tuple	from = create_point(0, 0, 0);
-// 	t_tuple	to = create_point(0, 0, -1);
-// 	t_tuple	up = create_vector(0, 1, 0);
-// 	float **t = view_transform(minirt, from, to, up);
-// 	print_matrix(t, "identity expected: ", 4);
-// 	printf("\n\n");
-
-// 	printf("looking pos z:\n");
-// 	from = create_point(0, 0, 0);
-// 	to = create_point(0, 0, 1);
-// 	up = create_vector(0, 1, 0);
-// 	t = view_transform(minirt, from, to, up);
-// 	print_matrix(t, "result matrix t", 4);
-// 	t = scaling(minirt, -1, 1, -1);
-// 	print_matrix(t, "previous should match", 4);
-// 	printf("\n\n");
-
-// 	printf("move the world:\n");
-// 	from = create_point(0, 0, 8);
-// 	to = create_point(0, 0, 0);
-// 	up = create_vector(0, 1, 0);
-// 	t = view_transform(minirt, from, to, up);
-// 	print_matrix(t, "result matrix t", 4);
-// 	t = translation(minirt, 0, 0, -8);
-// 	print_matrix(t, "previous should match", 4);
-
-// 	printf("arbitrary view transformation:\n");
-// 	from = create_point(1, 3, 2);
-// 	to = create_point(4, -2, 8);
-// 	up = create_vector(1, 1, 0);
-// 	t = view_transform(minirt, from, to, up);
-// 	print_matrix(t, "result matrix t", 4);
-// 	/*
-// 	Then t is the following 4x4 matrix:
-// 	| -0.50709 | 0.50709 |  0.67612 | -2.36643 |
-// 	|  0.76772 | 0.60609 |  0.12122 | -2.82843 |
-// 	| -0.35857 | 0.59761 | -0.71714 |  0.00000 |
-// 	|  0.00000 | 0.00000 |  0.00000 |  1.00000 |
-// 	*/
-// }
-
-// //test with width 201 and height 101
-// void	test_camera(t_minirt *minirt)
-// {
-// 	init_camera(minirt);
-// 	print_camera(&minirt->world->cam_s);
-// }
-
-// //test with sp1.rt
-// void	test_ray_for_pixel(t_minirt *minirt)
-// {
-// 	printf("test center of canvas\n");
-// 	init_camera(minirt);
-// 	t_ray r = ray_for_pixel(minirt, &minirt->world->cam_s, 100, 50);
-// 	print_ray(r);
-
-// 	printf("test corner of canvas\n");
-// 	r = ray_for_pixel(minirt, &minirt->world->cam_s, 0, 0);
-// 	print_ray(r);
-
-// 	printf("test transformed camera\n");
-// 	minirt->world->cam_s.transform = multiply_mtrx_by_mtrx(minirt, rotation_y(minirt, M_PI / 4), translation(minirt, 0, -2, 5), 4);
-// 	r = ray_for_pixel(minirt, &minirt->world->cam_s, 100, 50);
-// 	print_ray(r);
-// }
-
-// void	test_shape(t_minirt *minirt)
-// {
-// 	t_scene_obj object;
-// 	float **trans;
-// 	t_material mat;
-
-// 	/*//Test 1, set test object's trans to ident
-// 	object.transform = identity(minirt);
-// 	print_matrix(object.transform, "Test 1. Transform set to identity", 4);
-
-// 	//Test 2, set transform to a translation
-// 	trans = translation(minirt, 2, 3, 4);
-// 	set_transform(&object, trans);
-// 	print_matrix(object.transform, "Test 2. Transform set to translate 2,3,4", 4);
-
-// 	//Test 3, assign material
-// 	mat = init_material();
-// 	object.mat = mat;
-// 	printf("Test 3. Test object mat: amb: %f, diff: %f, spec: %f, shin: %f\nColours:\n", object.mat.ambient, object.mat.diffuse, object.mat.specular, object.mat.shininess);
-// 	print_colour(object.mat.col);*/
-
-// 	//Test 4, normal on translated shape
-// 	object.type = SPHERE;
-// 	trans = translation(minirt, 0, 1, 0);
-// 	set_transform(&object, trans);
-// 	t_tuple norm = normal_at(minirt, &object, create_point(0, 1.70711, -0.70711));
-// 	printf("Test 4. Normal of translated 0,1,0\n");
-// 	print_tuple(norm);
-
-// 	//Test 5, normal on transformed shape
-// 	trans = multiply_mtrx_by_mtrx(minirt, scaling(minirt, 1, 0.5, 1), rotation_z(minirt, 0.62832), 4);
-// 	set_transform(&object, trans);
-// 	norm = normal_at(minirt, &object, create_point(0, 0.70711, -0.70711));
-// 	printf("Test 5. Normal of transformed sca-rot\n");
-// 	print_tuple(norm);
-// }
-
-// void	test_intersect_generic(t_minirt *minirt)
-// {
-// 	t_ray ray = create_ray(create_vector(0,0,1), create_point(0,0,-5));
-// 	t_scene_obj obj;
-// 	set_transform(&obj, scaling(minirt, 2,2,2));
-// 	t_xs *xs = intersect(minirt, &obj, ray, xs);
-// 	(void)xs;
-// 	printf("Scaled 2,2,2 saved_ray\n");
-// 	print_ray(obj.saved_ray);
-
-// 	t_ray ray2 = create_ray(create_vector(0,0,1), create_point(0,0,-5));
-// 	set_transform(&obj, translation(minirt, 5,0,0));
-// 	t_xs *xs2 = intersect(minirt, &obj, ray2, xs);
-// 	(void)xs2;
-// 	printf("Translated 5,0,0 saved_ray\n");
-// 	print_ray(obj.saved_ray);
-// }
-
-// void	test_render_world(t_minirt *minirt)
-// {
-// 	minirt->world->lig_s = init_point_light(create_point(-10, -10, -10), color(1, 1, 1), 1);
-
-// 	t_list	*temp = minirt->world->objects;
-// 	t_scene_obj *obj = (t_scene_obj *)temp->content;
-
-// 	obj->transform = identity(minirt);
-// 	obj->mat = init_material();
-// 	obj->mat.ambient = 0.1;
-// 	obj->mat.diffuse = 0.7;
-// 	obj->mat.specular = 0.2;
-// 	obj->mat.col.r = 0.8;
-// 	obj->mat.col.g = 1;
-// 	obj->mat.col.b = 0.6;
-
-// 	temp = temp->next;
-// 	obj = (t_scene_obj *)temp->content;
-// 	obj->transform = scaling(minirt, 0.5, 0.5, 0.5);
-// 	obj->mat = init_material();
-// 	obj->mat.ambient = 0.1;
-// 	obj->mat.diffuse = 0.9;
-// 	obj->mat.specular = 0.9;
-// 	obj->mat.col.r = 1;
-// 	obj->mat.col.g = 1;
-// 	obj->mat.col.b = 1;
-
-// 	init_camera(minirt); //test with w:11  h:11, Pi/2
-// 	t_tuple	from = create_point(0, 0, -5);
-// 	t_tuple	to = create_point(0, 0, 0);
-// 	t_tuple	up = create_vector(0, 1, 0);
-// 	minirt->world->cam_s.transform = view_transform(minirt, from, to, up);
-// 	// print_matrix(minirt->world->cam_s.transform, "camera", 4);
-// 	draw_current_thing(minirt, &minirt->world->cam_s);
-// }
+#include "minirt.h"
+
+bool matrix_equals(t_matrix4 m, float expected[4][4]) {
+    for (size_t i = 0; i < 4; ++i)
+        for (size_t j = 0; j < 4; ++j)
+            if (!is_equal(m.m[i][j], expected[i][j]))
+                return false;
+    return true;
+}
+
+bool equality_matrix(const t_matrix3 *a, const t_matrix3 *b)
+{
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            if (!is_equal(a->m[i][j], b->m[i][j])) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+void test_sub_matrix(void) {
+    t_matrix_ctx ctx;
+    ctx.size = 3;
+    ctx.m.m[0][0] = 1; ctx.m.m[0][1] = 2; ctx.m.m[0][2] = 3;
+    ctx.m.m[1][0] = 4; ctx.m.m[1][1] = 5; ctx.m.m[1][2] = 6;
+    ctx.m.m[2][0] = 7; ctx.m.m[2][1] = 8; ctx.m.m[2][2] = 9;
+
+    t_matrix_result sub = sub_matrix(&ctx, 1, 1);
+    // Should remove row 1, col 1: result is {{1,3},{7,9}}
+    if (sub.size == 2 &&
+        is_equal(sub.m.m2.m[0][0], 1) &&
+        is_equal(sub.m.m2.m[0][1], 3) &&
+        is_equal(sub.m.m2.m[1][0], 7) &&
+        is_equal(sub.m.m2.m[1][1], 9))
+        printf("✅ sub_matrix Test Passed\n");
+    else
+        printf("❌ sub_matrix Test Failed\n");
+}
+
+void test_minor_matrix(void) {
+    t_matrix_ctx ctx;
+    ctx.size = 3;
+    ctx.m.m[0][0] = 1; ctx.m.m[0][1] = 2; ctx.m.m[0][2] = 3;
+    ctx.m.m[1][0] = 4; ctx.m.m[1][1] = 5; ctx.m.m[1][2] = 6;
+    ctx.m.m[2][0] = 7; ctx.m.m[2][1] = 8; ctx.m.m[2][2] = 9;
+
+    float minor = minor_matrix(&ctx, 0, 0);
+    // Minor for (0,0) is determinant of {{5,6},{8,9}} = 5*9-6*8 = 45-48 = -3
+    if (is_equal(minor, -3))
+        printf("✅ minor_matrix Test Passed\n");
+    else
+        printf("❌ minor_matrix Test Failed\n");
+}
+
+void test_cofactor_matrix(void) {
+    t_matrix_ctx ctx;
+    ctx.size = 3;
+    ctx.m.m[0][0] = 1; ctx.m.m[0][1] = 2; ctx.m.m[0][2] = 3;
+    ctx.m.m[1][0] = 4; ctx.m.m[1][1] = 5; ctx.m.m[1][2] = 6;
+    ctx.m.m[2][0] = 7; ctx.m.m[2][1] = 8; ctx.m.m[2][2] = 9;
+
+    float cofactor = cofactor_matrix(&ctx, 0, 0);
+    // For (0,0), sign is +, so cofactor == minor == -3
+    if (is_equal(cofactor, -3))
+        printf("✅ cofactor_matrix Test Passed\n");
+    else
+        printf("❌ cofactor_matrix Test Failed\n");
+}
+
+void test_determinant_matrix2(void) {
+    t_matrix2 m = { .m = { {1, 2}, {3, 4} } };
+    float det = determinant_matrix2(m);
+    // 1*4 - 2*3 = 4 - 6 = -2
+    if (is_equal(det, -2))
+        printf("✅ determinant_matrix2 Test Passed\n");
+    else
+        printf("❌ determinant_matrix2 Test Failed\n");
+}
+
+void test_determinant_matrix3(void) {
+    t_matrix3 m = { .m = { {1,2,3}, {4,5,6}, {7,8,9} } };
+    float det = determinant_matrix3(m);
+    // This matrix is singular, determinant should be 0
+    if (is_equal(det, 0))
+        printf("✅ determinant_matrix3 Test Passed\n");
+    else
+        printf("❌ determinant_matrix3 Test Failed\n");
+}
+
+void test_is_invertible_matrix2(void) {
+    t_matrix2 m = { .m = { {1, 2}, {3, 4} } };
+    if (is_invertible_matrix2(m))
+        printf("✅ is_invertible_matrix2 Test Passed\n");
+    else
+        printf("❌ is_invertible_matrix2 Test Failed\n");
+}
+
+void test_is_invertible_matrix3(void) {
+    t_matrix3 m = { .m = { {1,2,3}, {4,5,6}, {7,8,9} } };
+    if (!is_invertible_matrix3(m))
+        printf("✅ is_invertible_matrix3 Test Passed\n");
+    else
+        printf("❌ is_invertible_matrix3 Test Failed\n");
+}
+
+
+void unit_tests_3x3(void)
+{
+	test_sub_matrix();
+	test_minor_matrix();
+	test_cofactor_matrix();
+	test_determinant_matrix2();
+	test_determinant_matrix3();
+	test_is_invertible_matrix2();
+	test_is_invertible_matrix3();
+}
+
+void test_sub_matrix_4x4(void) {
+    t_matrix_ctx ctx;
+    ctx.size = 4;
+    int val = 1;
+    for (int i = 0; i < 4; ++i)
+        for (int j = 0; j < 4; ++j)
+            ctx.m.m[i][j] = val++;
+
+    // Remove row 1, col 2
+    t_matrix_result sub = sub_matrix(&ctx, 1, 2);
+    float expected[3][3] = {
+        {1, 2, 4},
+        {9,10,12},
+        {13,14,16}
+    };
+    bool pass = (sub.size == 3);
+    for (int i = 0; i < 3 && pass; ++i)
+        for (int j = 0; j < 3 && pass; ++j)
+            if (!is_equal(sub.m.m3.m[i][j], expected[i][j]))
+                pass = false;
+    if (pass)
+        printf("✅ sub_matrix 4x4 Test Passed\n");
+    else
+        printf("❌ sub_matrix 4x4 Test Failed\n");
+}
+
+void test_minor_matrix_4x4(void) {
+    t_matrix_ctx ctx;
+    ctx.size = 4;
+    for (int i = 0; i < 4; ++i)
+        for (int j = 0; j < 4; ++j)
+            ctx.m.m[i][j] = (i == j) ? 1.0f : 0.0f;
+
+    float minor = minor_matrix(&ctx, 0, 0);
+    if (is_equal(minor, 1.0f))
+        printf("✅ minor_matrix 4x4 Test Passed\n");
+    else
+        printf("❌ minor_matrix 4x4 Test Failed\n");
+}
+
+void test_cofactor_matrix_4x4(void) {
+    t_matrix_ctx ctx;
+    ctx.size = 4;
+    for (int i = 0; i < 4; ++i)
+        for (int j = 0; j < 4; ++j)
+            ctx.m.m[i][j] = (i == j) ? 1.0f : 0.0f;
+
+    float cofactor = cofactor_matrix(&ctx, 0, 0);
+    if (is_equal(cofactor, 1.0f))
+        printf("✅ cofactor_matrix 4x4 Test Passed\n");
+    else
+        printf("❌ cofactor_matrix 4x4 Test Failed\n");
+}
+
+void test_determinant_matrix4(void) {
+    t_matrix4 m = { .m = {
+        {1, 0, 0, 0},
+        {0, 1, 0, 0},
+        {0, 0, 1, 0},
+        {0, 0, 0, 1}
+    }};
+    float det = determinant_matrix4(m);
+    if (is_equal(det, 1.0f))
+        printf("✅ determinant_matrix4 (identity) Test Passed\n");
+    else
+        printf("❌ determinant_matrix4 (identity) Test Failed\n");
+
+    t_matrix4 m2 = { .m = {
+        {1, 2, 3, 4},
+        {1, 2, 3, 4},
+        {5, 6, 7, 8},
+        {9,10,11,12}
+    }};
+    det = determinant_matrix4(m2);
+    if (is_equal(det, 0.0f))
+        printf("✅ determinant_matrix4 (singular) Test Passed\n");
+    else
+        printf("❌ determinant_matrix4 (singular) Test Failed\n");
+}
+
+void test_is_invertible_matrix4(void) {
+    t_matrix4 m = { .m = {
+        {1, 0, 0, 0},
+        {0, 1, 0, 0},
+        {0, 0, 1, 0},
+        {0, 0, 0, 1}
+    }};
+    if (is_invertible_matrix4(m))
+        printf("✅ is_invertible_matrix4 (identity) Test Passed\n");
+    else
+        printf("❌ is_invertible_matrix4 (identity) Test Failed\n");
+
+    t_matrix4 m2 = { .m = {
+        {1, 2, 3, 4},
+        {1, 2, 3, 4},
+        {5, 6, 7, 8},
+        {9,10,11,12}
+    }};
+    if (!is_invertible_matrix4(m2))
+        printf("✅ is_invertible_matrix4 (singular) Test Passed\n");
+    else
+        printf("❌ is_invertible_matrix4 (singular) Test Failed\n");
+}
+
+void test_inverse_matrix4(void) {
+    t_matrix4 m = { .m = {
+        {1, 0, 0, 0},
+        {0, 1, 0, 0},
+        {0, 0, 1, 0},
+        {0, 0, 0, 1}
+    }};
+    bool success = false;
+    t_matrix4 inv = inverse_matrix(m, &success);
+    bool pass = success;
+    for (int i = 0; i < 4 && pass; ++i)
+        for (int j = 0; j < 4 && pass; ++j)
+            if (!is_equal(inv.m[i][j], m.m[i][j]))
+                pass = false;
+    if (pass)
+        printf("✅ inverse_matrix4 (identity) Test Passed\n");
+    else
+        printf("❌ inverse_matrix4 (identity) Test Failed\n");
+
+    t_matrix4 m2 = { .m = {
+        {1, 2, 3, 4},
+        {1, 2, 3, 4},
+        {5, 6, 7, 8},
+        {9,10,11,12}
+    }};
+    success = true;
+    inv = inverse_matrix(m2, &success);
+    if (!success)
+        printf("✅ inverse_matrix4 (singular) Test Passed\n");
+    else
+        printf("❌ inverse_matrix4 (singular) Test Failed\n");
+}
+
+void unit_tests_4x4()
+{
+	test_sub_matrix_4x4();
+	test_minor_matrix_4x4();
+	test_cofactor_matrix_4x4();
+	test_determinant_matrix4();
+	test_is_invertible_matrix4();
+	test_inverse_matrix4();
+}
+
+void test_identity_matrix(void) {
+    t_matrix4 m = identity();
+    bool pass = true;
+    for (int i = 0; i < 4 && pass; ++i)
+        for (int j = 0; j < 4 && pass; ++j)
+            if (!is_equal(m.m[i][j], (i == j) ? 1.0f : 0.0f))
+                pass = false;
+    if (pass)
+        printf("✅ identity_matrix Test Passed\n");
+    else
+        printf("❌ identity_matrix Test Failed\n");
+}
+
+void test_translation_matrix(void) {
+    t_matrix4 m = translation(3, 4, 5);
+    bool pass = true;
+    float expected[4][4] = {
+        {1,0,0,3},
+        {0,1,0,4},
+        {0,0,1,5},
+        {0,0,0,1}
+    };
+    for (int i = 0; i < 4 && pass; ++i)
+        for (int j = 0; j < 4 && pass; ++j)
+            if (!is_equal(m.m[i][j], expected[i][j]))
+                pass = false;
+    if (pass)
+        printf("✅ translation_matrix Test Passed\n");
+    else
+        printf("❌ translation_matrix Test Failed\n");
+}
+
+void test_scaling_matrix(void) {
+    t_matrix4 m = scaling(2.0f, 3.0f, 4.0f);
+    bool pass = true;
+    float expected[4][4] = {
+        {2,0,0,0},
+        {0,3,0,0},
+        {0,0,4,0},
+        {0,0,0,1}
+    };
+    for (int i = 0; i < 4 && pass; ++i)
+        for (int j = 0; j < 4 && pass; ++j)
+            if (!is_equal(m.m[i][j], expected[i][j]))
+                pass = false;
+    if (pass)
+        printf("✅ scaling_matrix Test Passed\n");
+    else
+        printf("❌ scaling_matrix Test Failed\n");
+}
+
+void test_rotation_x_matrix(void) {
+    float theta = M_PI / 2; // 90 degrees
+    t_matrix4 m = rotation_x(theta);
+    bool pass = true;
+    float expected[4][4] = {
+        {1,0,0,0},
+        {0,cos(theta),-sin(theta),0},
+        {0,sin(theta), cos(theta),0},
+        {0,0,0,1}
+    };
+    for (int i = 0; i < 4 && pass; ++i)
+        for (int j = 0; j < 4 && pass; ++j)
+            if (!is_equal(m.m[i][j], expected[i][j]))
+                pass = false;
+    if (pass)
+        printf("✅ rotation_x_matrix Test Passed\n");
+    else
+        printf("❌ rotation_x_matrix Test Failed\n");
+}
+
+void test_rotation_y_matrix(void) {
+    float theta = M_PI / 2; // 90 degrees
+    t_matrix4 m = rotation_y(theta);
+    bool pass = true;
+    float expected[4][4] = {
+        {cos(theta),0,sin(theta),0},
+        {0,1,0,0},
+        {-sin(theta),0,cos(theta),0},
+        {0,0,0,1}
+    };
+    for (int i = 0; i < 4 && pass; ++i)
+        for (int j = 0; j < 4 && pass; ++j)
+            if (!is_equal(m.m[i][j], expected[i][j]))
+                pass = false;
+    if (pass)
+        printf("✅ rotation_y_matrix Test Passed\n");
+    else
+        printf("❌ rotation_y_matrix Test Failed\n");
+}
+
+void test_rotation_z_matrix(void) {
+    float theta = M_PI / 2; // 90 degrees
+    t_matrix4 m = rotation_z(theta);
+    bool pass = true;
+    float expected[4][4] = {
+        {cos(theta),-sin(theta),0,0},
+        {sin(theta), cos(theta),0,0},
+        {0,0,1,0},
+        {0,0,0,1}
+    };
+    for (int i = 0; i < 4 && pass; ++i)
+        for (int j = 0; j < 4 && pass; ++j)
+            if (!is_equal(m.m[i][j], expected[i][j]))
+                pass = false;
+    if (pass)
+        printf("✅ rotation_z_matrix Test Passed\n");
+    else
+        printf("❌ rotation_z_matrix Test Failed\n");
+}
+
+void unit_tests_transform_matrices()
+{
+	test_identity_matrix();
+	test_translation_matrix();
+	test_scaling_matrix();
+	test_rotation_x_matrix();
+	test_rotation_y_matrix();
+	test_rotation_z_matrix();
+}
+
+/*void test_normal_at_sphere(t_minirt *m)
+{
+	printf("Testing normal at sphere point. \n");
+	t_scene_obj obj;
+
+	obj.dia = 2;
+	obj.transform = identity(m);
+	obj.cx = 0;
+	obj.cy = 0;
+	obj.cz = 0;
+	obj.mat = init_material();
+
+	set_transform(&obj, translation(m, 0, 0, 0));
+	print_matrix(obj.transform, "Initial s1 transform", 4);
+
+	t_tuple	nor = normal_at_sphere(m, &obj, create_point(1, 0 ,0));
+	printf("world normal 1,0,0\n");
+	print_tuple(nor);
+	nor = normal_at_sphere(m, &obj, create_point(0, 1 ,0));
+	printf("world normal 0,1,0\n");
+	print_tuple(nor);
+	nor = normal_at_sphere(m, &obj, create_point(0, 0 ,1));
+	printf("world normal 0,0,1\n");
+	print_tuple(nor);
+
+	nor = normal_at_sphere(m, &obj, create_point(0.57735, 0.57735, 0.57735));
+	printf("world normal sqrt3/3\n");
+	print_tuple(nor);
+
+	set_transform(&obj, translation(m, 0, 1, 0));
+	print_matrix(obj.transform, "Initial s1 transform", 4);
+
+	nor = normal_at_sphere(m, &obj, create_point(0, 1.70711, -0.70711));
+	printf("world normal translated by 0,1,0\n");
+	print_tuple(nor);
+
+	float **sca = scaling(m, 1, 0.5, 1);
+	print_matrix(sca, "sca", 4);
+	float **rot = rotation_z(m, 0.62832);
+	print_matrix(rot, "rot", 4);
+	float **sca_rot = multiply_mtrx_by_mtrx(m, sca, rot, 4);
+	print_matrix(sca_rot, "sca * rot", 4);
+	set_transform(&obj, sca_rot);
+	print_matrix(obj.transform, "Initial s1 transform", 4);
+	nor = normal_at_sphere(m, &obj, create_point(0, 0.70711, -0.70711));
+	printf("world normal scaled and rotated\n");
+	print_tuple(nor);
+}*/
+
+void	test_reflect(t_minirt m)
+{
+	(void)m;
+
+	printf("Testing reflection about normal. \n");
+	printf("approach 45 degree\n");
+	t_tuple	v1 = create_vector(1, -1, 0);
+	// t_tuple p1 = create_point(0, 0, 0);
+	t_tuple n1 = create_vector(0, 1, 0);
+	// t_ray r1 = create_ray(v1, p1);
+	print_tuple(reflect(v1, n1));
+
+	printf("approach 45 degree inclined surface vertically\n");
+	t_tuple	v2 = create_vector(0, -1, 0);
+	// t_tuple p2 = create_point(0, 0, 0);
+	t_tuple n2 = create_vector(0.707107, 0.707107, 0);
+	// t_ray r2 = create_ray(v2, p2);
+	print_tuple(reflect(v2, n2));
+}
+
+void	test_reflect_extra(t_minirt m)
+{
+	(void)m;
+
+	printf("Testing reflection edge cases and angles.\n");
+
+	printf("approach straight on (no angle)\n");
+	printf("Expect (0, 1, 0)\n");
+	t_tuple v1 = create_vector(0, -1, 0);
+	t_tuple n1 = create_vector(0, 1, 0);
+	print_tuple(reflect(v1, n1));
+
+	printf("approach parallel to surface (no reflection)\n");
+	printf("Expect (1, 0, 0)\n");
+	t_tuple v2 = create_vector(1, 0, 0);
+	t_tuple n2 = create_vector(0, 1, 0);
+	print_tuple(reflect(v2, n2));
+
+	printf("approach 45 degrees from below to inclined plane\n");
+	printf("Expect (1, -1, 0)\n");
+	t_tuple v3 = create_vector(1, -1, 0);
+	t_tuple n3 = create_vector(0.707107, 0.707107, 0);
+	print_tuple(reflect(v3, n3));  // Expect (0, 1, 0)
+
+	printf("reflect across Z axis\n");
+	printf("Expect (0, 0, 1)\n");
+	t_tuple v4 = create_vector(0, 0, -1);
+	t_tuple n4 = create_vector(0, 0, 1);
+	print_tuple(reflect(v4, n4));  // Expect (0, 0, 1)
+
+	printf("reflect diagonally in all directions\n");
+	printf("Expect (1, 1, 1)\n");
+	t_tuple v5 = create_vector(1, -1, 1);
+	t_tuple n5 = create_vector(0, 1, 0);
+	print_tuple(reflect(v5, n5));  // Expect (1, 1, 1)
+}
+
+
+/*void test_point_light_material(void)
+{
+	t_color intensity = color(1, 1, 1);
+	t_tuple position = create_point(0, 0, 0);
+	t_light light;
+	t_sphere s;
+	t_material mat = init_material();
+
+	light.col = intensity;
+	light.ori = position;
+
+	printf("light position\n");
+	print_tuple(light.ori);
+	printf("light intensity\n");
+	print_colour(light.col);
+
+	s.mat = mat;
+	printf("Mat, amb: %f, dif: %f, spec: %f, shine: %f\n", s.mat.ambient, s.mat.diffuse, s.mat.specular, s.mat.shininess);
+	printf("mat col:\n");
+	print_colour(s.mat.col);
+
+	s.mat.ambient = 1;
+	s.mat.diffuse = 1;
+	s.mat.specular = 1;
+	s.mat.shininess = 100;
+	s.mat.col = color(0.5, 0.4, 0.3);
+	printf("Mat, amb: %f, dif: %f, spec: %f, shine: %f\n", s.mat.ambient, s.mat.diffuse, s.mat.specular, s.mat.shininess);
+	printf("mat col:\n");
+	print_colour(s.mat.col);
+}*/
+
+void	test_point_light_reflections(void)
+{
+	t_material mat = init_material();
+	t_tuple	position = create_point(0, 0, 0);
+
+	t_tuple eyev = create_vector(0, 0, -1);
+	t_tuple	normalv = create_vector(0, 0, -1);
+	t_light light;
+	light.ori = create_point(0, 0, -10);
+	light.col = color(1, 1, 1);
+	light.ratio = 1;
+	t_color res = lighting(mat, light, position, eyev, normalv);
+	printf("Result. Lighting with the eye between the light and the surface.\n");
+	print_colour(res);
+
+	t_tuple eyev2 = create_vector(0, 0.707107, -0.707107);
+	res = lighting(mat, light, position, eyev2, normalv);
+	printf("Result. Lighting with the eye between light and surface, eye offset 45°\n");
+	print_colour(res);
+
+	light.ori.y = 10;
+	res = lighting(mat, light, position, eyev, normalv);
+	printf("Result. Lighting with eye opposite surface, light offset 45°\n");
+	print_colour(res);
+
+	t_tuple eyev3 = create_vector(0, -0.707107, -0.707107);
+	res = lighting(mat, light, position, eyev3, normalv);
+	printf("Result. Lighting with eye in the path of the reflection vector\n");
+	print_colour(res);
+
+	light.ori.y = 0;
+	light.ori.z = 10;
+	res = lighting(mat, light, position, eyev, normalv);
+	printf("Result. Lighting with the light behind the surface\n");
+	print_colour(res);
+}
+
+
+
+//run this test with
+// sp 	     	0,0,0	        2 		 204,255,153
+// sp 	     	0,0,0	        2 		 255,0,0
+// in .rt file for example
+
+void	test_intersect_two_spheres(t_minirt *minirt)
+{
+	t_xs *xs;
+	minirt->world->lig_s.col = color(1, 1, 1);
+
+	t_list	*temp = minirt->world->objects;
+	//first sphere
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+	obj->mat.diffuse = 0.7;
+	obj->mat.specular = 0.2;
+	obj->transform = identity();
+	//next sphere
+	temp = temp->next;
+	obj = temp->content;
+	obj->transform = scaling(0.5, 0.5, 0.5);
+
+	t_ray r = create_ray(create_vector(0,0,1), create_point(0,0,-5));
+	xs = intersect_world(minirt, r);
+	print_xs(xs);
+}
+
+//run this test with
+// sp 	     	0,0,0	        2 		 204,255,153
+// in .rt file for example
+void	test_prepare_computations_outside(t_minirt *minirt, char **av)
+{
+	t_ray	r = create_ray(create_vector(0,0,1), create_point(0,0,-5));
+
+	t_list	*temp = minirt->world->objects;
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+	t_i		i1 = intersection(4, obj); //hard set t value = 4
+	obj->transform = identity();
+	t_comps *comps = prepare_computations(minirt, i1, r);
+	print_comps(comps);
+}
+
+//run this test with
+// sp 	     	0,0,0	        2 		 204,255,153
+// in .rt file for example
+void	test_prepare_computations_inside(t_minirt *minirt, char **av)
+{
+	t_ray	r = create_ray(create_vector(0,0,1), create_point(0,0,0));
+
+	t_list	*temp = minirt->world->objects;
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+	t_i		i1 = intersection(1, obj); //hard set t value = 1
+	obj->transform = identity();
+	t_comps *comps = prepare_computations(minirt, i1, r);
+	print_comps(comps);
+}
+
+void	test_shading_an_intersection(t_minirt *minirt, char **av)
+{
+	t_ray	r = create_ray(create_vector(0,0,1), create_point(0,0,-5));
+	minirt->world->lig_s = init_point_light(create_point(-10, -10, -10), color(1, 1, 1), 1);
+
+	t_list	*temp = minirt->world->objects;
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+	t_i		i1 = intersection(4, obj); //hard set t value
+	obj->transform = identity();
+	obj->mat = init_material();
+	obj->mat.ambient = 0.1;
+	obj->mat.diffuse = 0.7;
+	obj->mat.specular = 0.2;
+	obj->mat.col.r = 0.8;
+	obj->mat.col.g = 1;
+	obj->mat.col.b = 0.6;
+	t_comps *comps = prepare_computations(minirt, i1, r);
+	fun_test_parsed_output(av, minirt->world);
+	// print_comps(comps);
+	t_color color = shade_hit(minirt->world, comps);
+	print_colour(color);
+}
+
+void	test_shading_an_intersection_from_inside(t_minirt *minirt, char **av)
+{
+	minirt->world->lig_s = init_point_light(create_point(0, -0.25, 0), color(1, 1, 1), 1);
+	t_ray	r = create_ray(create_vector(0,0,1), create_point(0,0,0));
+
+	t_list	*temp = minirt->world->objects;
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+	t_i		i1 = intersection(0.5, obj); //hard set t value
+	obj->transform = scaling(0.5, 0.5, 0.5);
+	obj->mat = init_material();
+	obj->mat.ambient = 0.1;
+	obj->mat.diffuse = 0.9;
+	obj->mat.specular = 0.9;
+	obj->mat.col.r = 1;
+	obj->mat.col.g = 1;
+	obj->mat.col.b = 1;
+	t_comps *comps = prepare_computations(minirt, i1, r);
+	fun_test_parsed_output(av, minirt->world);
+	// print_comps(comps);
+	t_color color = shade_hit(minirt->world, comps);
+	print_colour(color);
+}
+
+// test this with 2 sphere objects, for example sp.rt
+void	test_ray_misses_obj(t_minirt *minirt)
+{
+	minirt->world->lig_s = init_point_light(create_point(-10, -10, -10), color(1, 1, 1), 1);
+	t_ray	r = create_ray(create_vector(0, 1, 0), create_point(0, 0, -5));
+
+	t_list	*temp = minirt->world->objects;
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+
+	obj->transform = identity();
+	obj->mat = init_material();
+	obj->mat.ambient = 0.1;
+	obj->mat.diffuse = 0.7;
+	obj->mat.specular = 0.2;
+	obj->mat.col.r = 0.8;
+	obj->mat.col.g = 1;
+	obj->mat.col.b = 0.6;
+
+	temp = temp->next;
+	obj = (t_scene_obj *)temp->content;
+	obj->transform = scaling(0.5, 0.5, 0.5);
+	obj->mat = init_material();
+	obj->mat.ambient = 0.1;
+	obj->mat.diffuse = 0.9;
+	obj->mat.specular = 0.9;
+	obj->mat.col.r = 1;
+	obj->mat.col.g = 1;
+	obj->mat.col.b = 1;
+
+	t_color color = color_at(minirt, r);
+	print_colour(color);
+}
+
+void	test_ray_hits_obj(t_minirt *minirt)
+{
+	minirt->world->lig_s = init_point_light(create_point(-10, -10, -10), color(1, 1, 1), 1);
+	t_ray	r = create_ray(create_vector(0, 0, 1), create_point(0, 0, -5));
+
+	t_list	*temp = minirt->world->objects;
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+
+	obj->transform = identity();
+	obj->mat = init_material();
+	obj->mat.ambient = 0.1;
+	obj->mat.diffuse = 0.7;
+	obj->mat.specular = 0.2;
+	obj->mat.col.r = 0.8;
+	obj->mat.col.g = 1;
+	obj->mat.col.b = 0.6;
+
+	temp = temp->next;
+	obj = (t_scene_obj *)temp->content;
+	obj->transform = scaling(0.5, 0.5, 0.5);
+	obj->mat = init_material();
+	obj->mat.ambient = 0.1;
+	obj->mat.diffuse = 0.9;
+	obj->mat.specular = 0.9;
+	obj->mat.col.r = 1;
+	obj->mat.col.g = 1;
+	obj->mat.col.b = 1;
+
+	t_color color = color_at(minirt, r);
+	print_colour(color);
+}
+
+void	test_intersection_behind_ray(t_minirt *minirt)
+{
+	minirt->world->lig_s = init_point_light(create_point(-10, -10, -10), color(1, 1, 1), 1);
+	t_ray	r = create_ray(create_vector(0, 0, -1), create_point(0, 0, 0.75));
+
+	t_list	*temp = minirt->world->objects;
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+
+	obj->transform = identity();
+	obj->mat = init_material();
+	obj->mat.ambient = 1;
+	obj->mat.diffuse = 0.7;
+	obj->mat.specular = 0.2;
+	obj->mat.col.r = 0.8;
+	obj->mat.col.g = 1;
+	obj->mat.col.b = 0.6;
+
+	temp = temp->next;
+	obj = (t_scene_obj *)temp->content;
+	obj->transform = scaling(0.5, 0.5, 0.5);
+	obj->mat = init_material();
+	obj->mat.ambient = 1;
+	obj->mat.diffuse = 0.9;
+	obj->mat.specular = 0.9;
+	obj->mat.col.r = 0.33;
+	obj->mat.col.g = 0.22;
+	obj->mat.col.b = 0.11;
+
+	t_color color = color_at(minirt, r);
+	printf("material color:\n");
+	print_colour(obj->mat.col);
+	printf("color_at color:\n");
+	print_colour(color);
+}
+
+void	test_orientation(t_minirt *minirt)
+{
+	printf("default orientation:\n");
+	t_tuple	from = create_point(0, 0, 0);
+	t_tuple	to = create_point(0, 0, -1);
+	t_tuple	up = create_vector(0, 1, 0);
+	t_matrix4 t = view_transform(from, to, up);
+	print_matrix(t, "identity expected: ", 4);
+	printf("\n\n");
+
+	printf("looking pos z:\n");
+	from = create_point(0, 0, 0);
+	to = create_point(0, 0, 1);
+	up = create_vector(0, 1, 0);
+	t = view_transform(from, to, up);
+	print_matrix(t, "result matrix t", 4);
+	t = scaling(-1, 1, -1);
+	print_matrix(t, "previous should match", 4);
+	printf("\n\n");
+
+	printf("move the world:\n");
+	from = create_point(0, 0, 8);
+	to = create_point(0, 0, 0);
+	up = create_vector(0, 1, 0);
+	t = view_transform(from, to, up);
+	print_matrix(t, "result matrix t", 4);
+	t = translation(0, 0, -8);
+	print_matrix(t, "previous should match", 4);
+
+	printf("arbitrary view transformation:\n");
+	from = create_point(1, 3, 2);
+	to = create_point(4, -2, 8);
+	up = create_vector(1, 1, 0);
+	t = view_transform(from, to, up);
+	print_matrix(t, "result matrix t", 4);
+	/*
+	Then t is the following 4x4 matrix:
+	| -0.50709 | 0.50709 |  0.67612 | -2.36643 |
+	|  0.76772 | 0.60609 |  0.12122 | -2.82843 |
+	| -0.35857 | 0.59761 | -0.71714 |  0.00000 |
+	|  0.00000 | 0.00000 |  0.00000 |  1.00000 |
+	*/
+}
+
+//test with width 201 and height 101
+void	test_camera(t_minirt *minirt)
+{
+	init_camera(minirt);
+	print_camera(&minirt->world->cam_s);
+}
+
+//test with sp1.rt
+void	test_ray_for_pixel(t_minirt *minirt)
+{
+	printf("test center of canvas\n");
+	init_camera(minirt);
+	t_ray r = ray_for_pixel(&minirt->world->cam_s, 100, 50);
+	print_ray(r);
+
+	printf("test corner of canvas\n");
+	r = ray_for_pixel(&minirt->world->cam_s, 0, 0);
+	print_ray(r);
+
+	printf("test transformed camera\n");
+	minirt->world->cam_s.transform = multiply_mtrx_by_mtrx(rotation_y(M_PI / 4), translation(0, -2, 5));
+	r = ray_for_pixel(&minirt->world->cam_s, 100, 50);
+	print_ray(r);
+}
+
+void	test_shape(t_minirt *minirt)
+{
+	t_scene_obj object;
+	t_matrix4 trans;
+	t_material mat;
+
+	/*//Test 1, set test object's trans to ident
+	object.transform = identity(minirt);
+	print_matrix(object.transform, "Test 1. Transform set to identity", 4);
+
+	//Test 2, set transform to a translation
+	trans = translation(minirt, 2, 3, 4);
+	set_transform(&object, trans);
+	print_matrix(object.transform, "Test 2. Transform set to translate 2,3,4", 4);
+
+	//Test 3, assign material
+	mat = init_material();
+	object.mat = mat;
+	printf("Test 3. Test object mat: amb: %f, diff: %f, spec: %f, shin: %f\nColours:\n", object.mat.ambient, object.mat.diffuse, object.mat.specular, object.mat.shininess);
+	print_colour(object.mat.col);*/
+
+	//Test 4, normal on translated shape
+	object.type = SPHERE;
+	trans = translation(0, 1, 0);
+	set_transform(&object, trans);
+	t_tuple norm = normal_at(minirt, &object, create_point(0, 1.70711, -0.70711));
+	printf("Test 4. Normal of translated 0,1,0\n");
+	print_tuple(norm);
+
+	//Test 5, normal on transformed shape
+	trans = multiply_mtrx_by_mtrx(scaling(1, 0.5, 1), rotation_z(0.62832));
+	set_transform(&object, trans);
+	norm = normal_at(minirt, &object, create_point(0, 0.70711, -0.70711));
+	printf("Test 5. Normal of transformed sca-rot\n");
+	print_tuple(norm);
+}
+
+void	test_intersect_generic(t_minirt *minirt)
+{
+	t_ray ray = create_ray(create_vector(0,0,1), create_point(0,0,-5));
+	t_scene_obj obj;
+	set_transform(&obj, scaling(2, 2, 2));
+	t_xs *xs = intersect(&obj, ray, xs);
+	(void)xs;
+	printf("Scaled 2,2,2 saved_ray\n");
+	print_ray(obj.saved_ray);
+
+	t_ray ray2 = create_ray(create_vector(0,0,1), create_point(0,0,-5));
+	set_transform(&obj, translation(5, 0, 0));
+	t_xs *xs2 = intersect(&obj, ray2, xs);
+	(void)xs2;
+	printf("Translated 5,0,0 saved_ray\n");
+	print_ray(obj.saved_ray);
+}
+
+void	test_render_world(t_minirt *minirt)
+{
+	minirt->world->lig_s = init_point_light(create_point(-10, -10, -10), color(1, 1, 1), 1);
+
+	t_list	*temp = minirt->world->objects;
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+
+	obj->transform = identity();
+	obj->mat = init_material();
+	obj->mat.ambient = 0.1;
+	obj->mat.diffuse = 0.7;
+	obj->mat.specular = 0.2;
+	obj->mat.col.r = 0.8;
+	obj->mat.col.g = 1;
+	obj->mat.col.b = 0.6;
+
+	temp = temp->next;
+	obj = (t_scene_obj *)temp->content;
+	obj->transform = scaling(0.5, 0.5, 0.5);
+	obj->mat = init_material();
+	obj->mat.ambient = 0.1;
+	obj->mat.diffuse = 0.9;
+	obj->mat.specular = 0.9;
+	obj->mat.col.r = 1;
+	obj->mat.col.g = 1;
+	obj->mat.col.b = 1;
+
+	init_camera(minirt); //test with w:11  h:11, Pi/2
+	t_tuple	from = create_point(0, 0, -5);
+	t_tuple	to = create_point(0, 0, 0);
+	t_tuple	up = create_vector(0, 1, 0);
+	minirt->world->cam_s.transform = view_transform(from, to, up);
+	// print_matrix(minirt->world->cam_s.transform, "camera", 4);
+	draw_current_thing(minirt, &minirt->world->cam_s);
+}

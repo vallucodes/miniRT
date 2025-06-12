@@ -12,7 +12,7 @@ t_xs	*intersect_world(t_minirt *minirt, t_ray r)
 	while (i < minirt->world->obj_count)
 	{
 		t_scene_obj *obj = (t_scene_obj *)temp->content;
-		intersect(minirt, obj, r, xs);
+		intersect(obj, r, xs);
 		temp = temp->next;
 		i++;
 	}

@@ -19,7 +19,7 @@
 // 	return (m);
 // }
 
-bool	equality_matrix(t_matrix4 m, t_matrix4 m2, size_t size)
+bool	equality_matrix4(t_matrix4 m, t_matrix4 m2, size_t size)
 {
 	size_t	i;
 	size_t	j;
@@ -163,7 +163,7 @@ t_matrix_result sub_matrix(t_matrix_ctx *ctx, size_t row, size_t col)
 		i++;
 		k++;
 	}
-	return result;
+	return (result);
 }
 
 float	minor_matrix(t_matrix_ctx *ctx, int row, int col)
@@ -259,11 +259,9 @@ t_matrix4	inverse_matrix(t_matrix4 m, bool *success)
 	t_matrix4	m2;
 	t_matrix_ctx ctx;
 
-	matrix_fill_zero(&m);
 	ctx.m = m;
 	ctx.size = 4;
 	det = determinant_matrix4(m);
-	printf("det %f\n", det);
 	if (det == 0)
 	{
 		*success = false;
