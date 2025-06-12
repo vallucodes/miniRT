@@ -1,24 +1,5 @@
 #include "minirt.h"
 
-// float	**matrix_alloc(t_minirt *minirt, size_t size)
-// {
-// 	size_t	i;
-// 	float	**m;
-
-// 	i = 0;
-// 	m = arena_alloc(minirt->arena, size * sizeof(float *), alignof(float *));
-// 	// if (!m)
-// 		// cleanup_exit(arena);
-// 	while (i < size)
-// 	{
-// 		m[i] = arena_alloc(minirt->arena, size * sizeof(float), alignof(float));
-// 		// if (!m[i])
-// 			// cleanup_exit(arena);
-// 		i++;
-// 	}
-// 	return (m);
-// }
-
 bool	equality_matrix4(t_matrix4 m, t_matrix4 m2, size_t size)
 {
 	size_t	i;

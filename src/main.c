@@ -21,7 +21,7 @@ int	main(int ac, char **av)
 		exit (EXIT_FAILURE);
 	}
 	minirt.world = ps;
-	// fun_test_parsed_output(av, ps);
+	fun_test_parsed_output(av, ps);
 	// free(ps);
 	// test_ray_for_pixel(&minirt);
 	render_world(&minirt);

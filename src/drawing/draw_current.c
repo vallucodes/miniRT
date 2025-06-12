@@ -24,6 +24,8 @@ void	draw_current_thing(t_minirt *minirt, t_camera *c)
 	}
 }
 
+//make while loop through the objects
+
 void	render_world(t_minirt *minirt)
 {
 	minirt->world->lig_s = init_point_light(create_point(-10, 10, -10), color(1, 1, 1), 1);
@@ -33,34 +35,28 @@ void	render_world(t_minirt *minirt)
 
 	obj->transform = translation(4, 2, 0);
 	obj->mat = init_material();
-	obj->mat.ambient = 0.1;
-	obj->mat.diffuse = 0.7;
-	obj->mat.specular = 0.2;
-	obj->mat.col.r = 0.8;
-	obj->mat.col.g = 1;
-	obj->mat.col.b = 0.6;
+	// obj->mat.ambient = 0.1;
+	// obj->mat.diffuse = 0.7;
+	// obj->mat.specular = 0.2;
+	color_convert(obj);
 
 	temp = temp->next;
 	obj = (t_scene_obj *)temp->content;
 	obj->transform = multiply_mtrx_by_mtrx(scaling(0.5, 0.5, 0.5), translation(-6, -4, 0));
 	obj->mat = init_material();
-	obj->mat.ambient = 0.1;
-	obj->mat.diffuse = 0.9;
-	obj->mat.specular = 0.9;
-	obj->mat.col.r = 1;
-	obj->mat.col.g = 1;
-	obj->mat.col.b = 1;
+	// obj->mat.ambient = 0.1;
+	// obj->mat.diffuse = 0.9;
+	// obj->mat.specular = 0.9;
+	color_convert(obj);
 
 	temp = temp->next;
 	obj = (t_scene_obj *)temp->content;
 	obj->transform = scaling(1.7, 0.5, 1.2);
 	obj->mat = init_material();
-	obj->mat.ambient = 0.1;
-	obj->mat.diffuse = 0.9;
-	obj->mat.specular = 0.9;
-	obj->mat.col.r = 1;
-	obj->mat.col.g = 0.2;
-	obj->mat.col.b = 1;
+	// obj->mat.ambient = 0.1;
+	// obj->mat.diffuse = 0.9;
+	// obj->mat.specular = 0.9;
+	color_convert(obj);
 
 	init_camera(minirt);
 	t_tuple	from = create_point(0, 0, -15);
