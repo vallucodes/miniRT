@@ -62,11 +62,10 @@ t_xs	*intersects_sphere(t_minirt *minirt, t_scene_obj *obj, t_ray r, t_xs *xs)
 /**
  * @brief Returns intersection information for given [p]lane and [r]ay
  */
-t_xs	*intersects_plane(t_minirt *minirt, t_scene_obj p, t_ray r)
+t_xs	*intersects_plane(t_scene_obj *p, t_ray r, t_xs *xs)
 {
 	t_i		i1;
 	float	t;
-	t_xs	*xs;
 
 	if (fabs(r.dir.y) < EPSILON)
 	{
@@ -75,8 +74,8 @@ t_xs	*intersects_plane(t_minirt *minirt, t_scene_obj p, t_ray r)
 	else
 	{
 		t = -r.origin.y / r.dir.y;
-		i1 = intersection(t, &p);
-		xs = intersections(i1, i1);
+		i1 = intersection(t, p);
+		intersections(xs, i1, i1);
 	}
 	return (xs);
 }
@@ -85,21 +84,21 @@ t_xs	*intersects_plane(t_minirt *minirt, t_scene_obj p, t_ray r)
  * @brief Returns intersection information. Selects intersection function.
  * 		  Converts ray to current object space.
  */
-t_xs	*intersect(t_minirt *minirt, t_scene_obj *obj, t_ray ray, t_xs *xs)
+t_xs	*intersect(t_scene_obj *obj, t_ray ray, t_xs *xs)
 {
 	t_ray	local_ray;
+	bool	success;
 
-	local_ray = transform(ray, inverse_matrix(minirt, obj->transform, 4));
+	local_ray = transform(ray, inverse_matrix(obj->transform, &success));
 	obj->saved_ray.dir = local_ray.dir;
 	obj->saved_ray.origin = local_ray.origin;
 	if (obj->type == PLANE)
 	{
-		/* plane */
-		xs = intersects_plane(minirt, *obj, local_ray);
+		xs = intersects_plane(obj, local_ray, xs);
 	}
 	else if (obj->type == SPHERE)
 	{
-		xs = intersects_sphere(minirt, obj, local_ray, xs);
+		xs = intersects_sphere(obj, local_ray, xs);
 	}
 	else if (obj->type == CYLINDER)
 	{

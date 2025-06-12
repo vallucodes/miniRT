@@ -839,6 +839,7 @@ void	test_intersect_two_spheres(t_minirt *minirt)
 // in .rt file for example
 void	test_prepare_computations_outside(t_minirt *minirt, char **av)
 {
+	(void)av;
 	t_ray	r = create_ray(create_vector(0,0,1), create_point(0,0,-5));
 
 	t_list	*temp = minirt->world->objects;
@@ -854,6 +855,7 @@ void	test_prepare_computations_outside(t_minirt *minirt, char **av)
 // in .rt file for example
 void	test_prepare_computations_inside(t_minirt *minirt, char **av)
 {
+	(void)av;
 	t_ray	r = create_ray(create_vector(0,0,1), create_point(0,0,0));
 
 	t_list	*temp = minirt->world->objects;
@@ -1083,7 +1085,7 @@ void	test_shape(t_minirt *minirt)
 {
 	t_scene_obj object;
 	float **trans;
-	t_material mat;
+	//t_material mat;
 
 	/*//Test 1, set test object's trans to ident
 	object.transform = identity(minirt);
@@ -1152,7 +1154,7 @@ void	test_plane_normal(t_minirt *minirt)
 	print_tuple(n3);
 }
 
-void	test_plane_intersect(t_minirt *minirt)
+/*void	test_plane_intersect(t_minirt *minirt)
 {
 	printf("Scenario: Intersect with a ray parallel to the plane\n");
 	t_scene_obj	p = plane(minirt);
@@ -1180,7 +1182,7 @@ void	test_plane_intersect(t_minirt *minirt)
 	printf("t_xs obj: %d\n", ((t_scene_obj *)xs4->object)->type);
 
 	//((t_scene_obj *)temp->content)
-}
+}*/
 
 
 void	test_render_world(t_minirt *minirt)
