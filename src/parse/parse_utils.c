@@ -5,9 +5,9 @@
  */
 void	parse_fill_colour(t_color *col, int r, int g, int b)
 {
-	col->r = (float)r;
-	col->g = (float)g;
-	col->b = (float)b;
+	col->r = (float)r / 255;
+	col->g = (float)g / 255;
+	col->b = (float)b / 255;
 }
 
 void	parse_fill_origin(t_tuple *origin, float cx, float cy, float cz)

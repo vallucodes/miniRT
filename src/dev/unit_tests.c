@@ -593,6 +593,7 @@ void	test_intersect_two_spheres(t_minirt *minirt)
 // in .rt file for example
 void	test_prepare_computations_outside(t_minirt *minirt, char **av)
 {
+	(void)av;
 	t_ray	r = create_ray(create_vector(0,0,1), create_point(0,0,-5));
 
 	t_list	*temp = minirt->world->objects;
@@ -608,6 +609,7 @@ void	test_prepare_computations_outside(t_minirt *minirt, char **av)
 // in .rt file for example
 void	test_prepare_computations_inside(t_minirt *minirt, char **av)
 {
+	(void)av;
 	t_ray	r = create_ray(create_vector(0,0,1), create_point(0,0,0));
 
 	t_list	*temp = minirt->world->objects;
@@ -887,6 +889,55 @@ void	test_intersect_generic(t_minirt *minirt)
 	printf("Translated 5,0,0 saved_ray\n");
 	print_ray(obj.saved_ray);
 }
+
+void	test_plane_normal(t_minirt *minirt)
+{
+	printf("Scenario: The normal of a plane is constant everywhere\n");
+	t_scene_obj	p = plane(minirt);
+
+	t_tuple	n1 = normal_at(minirt, &p, create_point(0, 0, 0));
+	printf("Normal at point 0,0,0\n");
+	print_tuple(n1);
+	
+	t_tuple	n2 = normal_at(minirt, &p, create_point(10, 0, -10));
+	printf("Normal at point 10,0,-10\n");
+	print_tuple(n2);
+	
+	t_tuple	n3 = normal_at(minirt, &p, create_point(-5, 0, 150));
+	printf("Normal at point -5,0,150\n");
+	print_tuple(n3);
+}
+
+/*void	test_plane_intersect(t_minirt *minirt)
+{
+	printf("Scenario: Intersect with a ray parallel to the plane\n");
+	t_scene_obj	p = plane(minirt);
+	t_ray r1 = create_ray(create_vector(0,0,1), create_point(0,10,0));
+	t_xs *xs1 = intersect(minirt, &p, r1);
+	printf("t_xs count: %u\n", xs1->count);
+	
+	printf("Scenario: Intersect with a coplanar ray\n");
+	t_ray r2 = create_ray(create_vector(0,0,0), create_point(0,0,1));
+	t_xs *xs2 = intersect(minirt, &p, r2);
+	printf("t_xs count: %u\n", xs2->count);
+	
+	printf("Scenario: A ray intersecting a plane from above\n");
+	t_ray r3 = create_ray(create_vector(0,1,0), create_point(0,-1,0));
+	t_xs *xs3 = intersect(minirt, &p, r3);
+	printf("t_xs count: %u\n", xs3->count);
+	printf("t_xs xs1: %f, xs2: %f\n", xs3->t[0], xs3->t[1]);
+	printf("t_xs obj: %d\n", ((t_scene_obj *)xs3->object)->type);
+	
+	printf("Scenario: A ray intersecting a plane from below\n");
+	t_ray r4 = create_ray(create_vector(0,-1,0), create_point(0,1,0));
+	t_xs *xs4 = intersect(minirt, &p, r4);
+	printf("t_xs count: %u\n", xs4->count);
+	printf("t_xs xs1: %f, xs2: %f\n", xs4->t[0], xs4->t[1]);
+	printf("t_xs obj: %d\n", ((t_scene_obj *)xs4->object)->type);
+
+	//((t_scene_obj *)temp->content)
+}*/
+
 
 void	test_render_world(t_minirt *minirt)
 {
