@@ -172,6 +172,8 @@ t_color		multiply_color(t_color color1, t_color color2);
 t_color		multiply_color_scalar(t_color col, float sca);
 uint32_t	colour_unitrgb_hex(t_color c, float alpha);
 void		colour_unitrgb_rgba(t_color *c);
+void		colour_rgba_unitrgb(t_color *c);
+void		color_convert(t_scene_obj *obj);
 
 //matrix math
 bool		equality_matrix3(const t_matrix3 *a, const t_matrix3 *b);
