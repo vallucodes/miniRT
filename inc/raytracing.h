@@ -82,7 +82,7 @@ typedef struct	s_material
 }	t_material;
 
 /**
- * @todo this is probably superfluous and redundant. 
+ * @todo this is probably superfluous and redundant.
  */
 /*typedef struct s_sphere
 {
@@ -104,6 +104,15 @@ typedef struct	s_light_vars
 	float	r_dot_e;
 	float	fac;
 }	t_light_vars;
+
+typedef struct	s_comps
+{
+	bool		inside;
+	t_scene_obj	*obj;
+	t_tuple		point;
+	t_tuple		eyev;
+	t_tuple		normalv;
+}	t_comps;
 
 //objects.c
 t_scene_obj	sphere(t_minirt *minirt);
@@ -161,30 +170,56 @@ float	**rotation_y(t_minirt *minirt, float theta);
 float	**rotation_z(t_minirt *minirt, float theta);
 
 //matrix utils
+void	matrix_fill_zero(float **m, size_t size);
 float	**matrix_alloc(t_minirt *minirt, size_t size);
 
 //rays
 t_ray	create_ray(t_tuple vector, t_tuple point);
 t_tuple	position_ray(t_ray ray, float t);
+void	init_xs(t_xs *xs);
+t_i		hit(t_xs *xs);
+t_ray	transform(t_ray r, float **m);
+void	set_transform(t_scene_obj *obj, float **m);
+t_i		intersection(float intersection, void *obj);
+void	intersections(t_xs	*xs, t_i i1, t_i i2);
+t_xs	*intersect_world(t_minirt *minirt, t_ray r);
+
+//shading
+t_xs		*intersect_world(t_minirt *minirt, t_ray r);
+t_comps		*prepare_computations(t_minirt *minirt, t_i i, t_ray r);
+t_color		shade_hit(t_parse *world, t_comps *comps);
+t_color		color_at(t_minirt *minirt, t_ray ray);
+
+//camera
+float	**view_transform(t_minirt *minirt, t_tuple from, t_tuple to, t_tuple up);
+void	camera(t_minirt *minirt);
+t_ray	ray_for_pixel(t_minirt *minirt, t_camera *c, int px, int py);
 t_i		hit(t_xs *xs);
 t_ray	transform(t_ray r, float **m);
 void	set_transform(t_scene_obj *object, float **trans_mtrx);
 
 //intersections
-t_xs	*intersects_ray(t_minirt *minirt, t_scene_obj s, t_ray r);
-t_xs	*intersect(t_minirt *minirt, t_scene_obj *obj, t_ray ray);
+t_xs	*intersects_sphere(t_minirt *minirt, t_scene_obj *obj, t_ray r, t_xs *xs);
+// t_xs	*intersects_ray(t_minirt *minirt, t_scene_obj s, t_ray r);
+// t_xs	*intersects_ray(t_minirt *minirt, t_scene_obj *obj, t_ray r, t_xs *xs);
+t_xs	*intersect(t_minirt *minirt, t_scene_obj *obj, t_ray ray, t_xs *xs);
 
 //utils
 int			is_equal(float a, float b);
 uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y);
 
-//dev
+//print utils
+void	print_ray(t_ray r);
+void	print_xs(t_minirt *minirt, t_xs *xs);
 void	fun_test_parsed_output(char **av, t_parse *ps);
 void	print_matrix(float **m, char *msg, int size);
 void	print_tuple(t_tuple t);
+void	print_colour(t_color c);
+void	print_comps(t_comps *comps);
+void	print_camera(t_camera *cam);
+
+//dev
 float	**create_matrix(size_t size, int flag);
-void	print_ray(t_ray r);
-void	print_xs(t_xs *xs);
 void	unit_tests_3x3(t_minirt *minirt);
 void	unit_tests_4x4(t_minirt *minirt);
 void	unit_tests_transform_matrices(t_minirt *minirt);
@@ -197,11 +232,23 @@ void	test_reflect(t_minirt m);
 void	test_reflect_extra(t_minirt m);
 void	test_point_light_material();
 void	test_point_light_reflections(void);
+// void	test_intersect_two_spheres(t_minirt *minirt, char **av);
+void	test_prepare_computations_outside(t_minirt *minirt, char **av);
+void	test_prepare_computations_inside(t_minirt *minirt, char **av);
+void	test_shading_an_intersection(t_minirt *minirt, char **av);
+void	test_shading_an_intersection_from_inside(t_minirt *minirt, char **av);
+void	test_ray_misses_obj(t_minirt *minirt);
+void	test_ray_hits_obj(t_minirt *minirt);
+void	test_intersection_behind_ray(t_minirt *minirt);
+void	test_orientation(t_minirt *minirt);
+void	test_camera(t_minirt *minirt);
+void	test_ray_for_pixel(t_minirt *minirt);
 void	test_intersect_two_spheres(t_minirt *minirt);
 void	print_colour(t_color c);
 void	test_shape(t_minirt *minirt);
 void	test_intersect_generic(t_minirt *minirt);
 void	test_plane_normal(t_minirt *minirt);
 void	test_plane_intersect(t_minirt *minirt);
+void	test_render_world(t_minirt *minirt);
 
 #endif

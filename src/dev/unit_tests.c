@@ -634,28 +634,36 @@ void unit_tests_transform_matrices(t_minirt *minirt)
 /*void test_normal_at_sphere(t_minirt *m)
 {
 	printf("Testing normal at sphere point. \n");
-	t_sphere	s1 = sphere(m);
-	set_transform(&s1, translation(m, 0, 0, 0));
-	print_matrix(s1.transform, "Initial s1 transform", 4);
+	t_scene_obj obj;
 
-	t_tuple	nor = normal_at_sphere(m, s1, create_point(1, 0 ,0));
+	obj.dia = 2;
+	obj.transform = identity(m);
+	obj.cx = 0;
+	obj.cy = 0;
+	obj.cz = 0;
+	obj.mat = init_material();
+
+	set_transform(&obj, translation(m, 0, 0, 0));
+	print_matrix(obj.transform, "Initial s1 transform", 4);
+
+	t_tuple	nor = normal_at_sphere(m, &obj, create_point(1, 0 ,0));
 	printf("world normal 1,0,0\n");
 	print_tuple(nor);
-	nor = normal_at_sphere(m, s1, create_point(0, 1 ,0));
+	nor = normal_at_sphere(m, &obj, create_point(0, 1 ,0));
 	printf("world normal 0,1,0\n");
 	print_tuple(nor);
-	nor = normal_at_sphere(m, s1, create_point(0, 0 ,1));
+	nor = normal_at_sphere(m, &obj, create_point(0, 0 ,1));
 	printf("world normal 0,0,1\n");
 	print_tuple(nor);
 
-	nor = normal_at_sphere(m, s1, create_point(0.57735, 0.57735, 0.57735));
+	nor = normal_at_sphere(m, &obj, create_point(0.57735, 0.57735, 0.57735));
 	printf("world normal sqrt3/3\n");
 	print_tuple(nor);
 
-	set_transform(&s1, translation(m, 0, 1, 0));
-	print_matrix(s1.transform, "Initial s1 transform", 4);
+	set_transform(&obj, translation(m, 0, 1, 0));
+	print_matrix(obj.transform, "Initial s1 transform", 4);
 
-	nor = normal_at_sphere(m, s1, create_point(0, 1.70711, -0.70711));
+	nor = normal_at_sphere(m, &obj, create_point(0, 1.70711, -0.70711));
 	printf("world normal translated by 0,1,0\n");
 	print_tuple(nor);
 
@@ -665,9 +673,9 @@ void unit_tests_transform_matrices(t_minirt *minirt)
 	print_matrix(rot, "rot", 4);
 	float **sca_rot = multiply_mtrx_by_mtrx(m, sca, rot, 4);
 	print_matrix(sca_rot, "sca * rot", 4);
-	set_transform(&s1, sca_rot);
-	print_matrix(s1.transform, "Initial s1 transform", 4);
-	nor = normal_at_sphere(m, s1, create_point(0, 0.70711, -0.70711));
+	set_transform(&obj, sca_rot);
+	print_matrix(obj.transform, "Initial s1 transform", 4);
+	nor = normal_at_sphere(m, &obj, create_point(0, 0.70711, -0.70711));
 	printf("world normal scaled and rotated\n");
 	print_tuple(nor);
 }*/
@@ -798,65 +806,278 @@ void	test_point_light_reflections(void)
 	print_colour(res);
 }
 
-/*void fun_test_parsed_output(char **av, t_parse *ps)
+
+
+//run this test with
+// sp 	     	0,0,0	        2 		 204,255,153
+// sp 	     	0,0,0	        2 		 255,0,0
+// in .rt file for example
+
+void	test_intersect_two_spheres(t_minirt *minirt)
 {
-	printf("Infile: %s\n\n", av[1]);
+	t_xs *xs;
+	minirt->world->lig_s.col = color(1, 1, 1);
 
-	printf("Printing default optical objects:\n");
-	printf("\nAmbient light settings:\n");
-	printf("Count: %i | Ratio: %f | RGB: %i, %i, %i", ps->amb_b, ps->amb_s.ratio, ps->amb_s.r, ps->amb_s.g, ps->amb_s.b);
-	printf("Count: %i | Ratio: %f | RGB: %i, %i, %i\n", ps->amb_b, ps->amb_s.ratio, ps->amb_s.r, ps->amb_s.g, ps->amb_s.b);
-	printf("Ambient colour:\n");
-	print_colour(ps->amb_s.col);
+	t_list	*temp = minirt->world->objects;
+	//first sphere
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+	obj->mat.diffuse = 0.7;
+	obj->mat.specular = 0.2;
+	obj->transform = identity(minirt);
+	//next sphere
+	temp = temp->next;
+	obj = temp->content;
+	obj->transform = scaling(minirt, 0.5, 0.5, 0.5);
 
-	printf("\n\nDiffuse light settings:\n");
-	printf("Count: %i | Ratio: %f | Pos: %f, %f, %f", ps->lig_b, ps->lig_s.ratio, ps->lig_s.cx, ps->lig_s.cy, ps->lig_s.cz);
-	printf("\nPoint light settings:\n");
-	printf("Count: %i | Ratio: %f | Pos: %f, %f, %f\n", ps->lig_b, ps->lig_s.ratio, ps->lig_s.cx, ps->lig_s.cy, ps->lig_s.cz);
-	printf("Point light location:\n");
-	print_tuple(ps->lig_s.ori);
+	t_ray r = create_ray(create_vector(0,0,1), create_point(0,0,-5));
+	xs = intersect_world(minirt, r);
+	print_xs(minirt, xs);
+}
 
-	printf("\n\nCamera settings:\n");
-	printf("Camera settings:\n");
-	printf("Count: %i | FOV: %i | Pos: %f, %f, %f | Nor: %f, %f, %f\n", ps->cam_b, ps->cam_s.fov, ps->cam_s.cx, ps->cam_s.cy, ps->cam_s.cz, ps->cam_s.ox, ps->cam_s.oy, ps->cam_s.oz);
-	printf("Camera location:\n");
-	print_tuple(ps->cam_s.ori);
-	printf("\nCamera orientation:\n");
-	print_tuple(ps->cam_s.nor);
+//run this test with
+// sp 	     	0,0,0	        2 		 204,255,153
+// in .rt file for example
+void	test_prepare_computations_outside(t_minirt *minirt, char **av)
+{
+	t_ray	r = create_ray(create_vector(0,0,1), create_point(0,0,-5));
 
-	printf("\nPrinting scene objects in .rt order:\n");
-	printf("\nPlane = 0, sphere = 1, cylinder = 2:\n");
-	printf("Number of scene objects: %i\n", ps->obj_count);
+	t_list	*temp = minirt->world->objects;
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+	t_i		i1 = intersection(4, obj); //hard set t value = 4
+	obj->transform = identity(minirt);
+	t_comps *comps = prepare_computations(minirt, i1, r);
+	print_comps(comps);
+}
 
-	int c = 0;
-	t_list	*temp = ps->objects;
-	while (temp != NULL)
-	{
-		t_scene_obj *obj = (t_scene_obj *)temp->content;
-		(void)obj;
-		printf("Node: %i\n", c);
-		printf("Current node address: %p\n", &temp->content);
-		printf("Next node address: %p\n", temp->next);
-		printf("Current node type: %i\n", ((t_scene_obj *)temp->content)->type);
-		printf("Current node cx,cy,cz: %f,%f,%f\n", ((t_scene_obj *)temp->content)->cx, ((t_scene_obj *)temp->content)->cy, ((t_scene_obj *)temp->content)->cz);
-		printf("Current node ox,oy,oz: %f,%f,%f\n", ((t_scene_obj *)temp->content)->ox, ((t_scene_obj *)temp->content)->oy, ((t_scene_obj *)temp->content)->oz);
-		printf("Current node R,G,B: %i,%i,%i\n", ((t_scene_obj *)temp->content)->r, ((t_scene_obj *)temp->content)->g, ((t_scene_obj *)temp->content)->b);
-		printf("Current node dia: %f\n", ((t_scene_obj *)temp->content)->dia);
-		printf("Current node height: %f\n\n", ((t_scene_obj *)temp->content)->height);
-		printf("Current node height: %f\n", ((t_scene_obj *)temp->content)->height);
-		printf("Filled structs (origin, normal, colour):\n");
-		print_tuple(((t_scene_obj *)temp->content)->ori);
-		print_tuple(((t_scene_obj *)temp->content)->nor);
-		print_colour(((t_scene_obj *)temp->content)->col);
-		temp = temp -> next;
-		c++;
-	}
-}*/
+//run this test with
+// sp 	     	0,0,0	        2 		 204,255,153
+// in .rt file for example
+void	test_prepare_computations_inside(t_minirt *minirt, char **av)
+{
+	t_ray	r = create_ray(create_vector(0,0,1), create_point(0,0,0));
 
-// void	test_intersect_two_spheres(t_minirt *minirt)
+	t_list	*temp = minirt->world->objects;
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+	t_i		i1 = intersection(1, obj); //hard set t value = 1
+	obj->transform = identity(minirt);
+	t_comps *comps = prepare_computations(minirt, i1, r);
+	print_comps(comps);
+}
+
+void	test_shading_an_intersection(t_minirt *minirt, char **av)
+{
+	t_ray	r = create_ray(create_vector(0,0,1), create_point(0,0,-5));
+	minirt->world->lig_s = init_point_light(create_point(-10, -10, -10), color(1, 1, 1), 1);
+
+	t_list	*temp = minirt->world->objects;
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+	t_i		i1 = intersection(4, obj); //hard set t value
+	obj->transform = identity(minirt);
+	obj->mat = init_material();
+	obj->mat.ambient = 0.1;
+	obj->mat.diffuse = 0.7;
+	obj->mat.specular = 0.2;
+	obj->mat.col.r = 0.8;
+	obj->mat.col.g = 1;
+	obj->mat.col.b = 0.6;
+	t_comps *comps = prepare_computations(minirt, i1, r);
+	fun_test_parsed_output(av, minirt->world);
+	// print_comps(comps);
+	t_color color = shade_hit(minirt->world, comps);
+	print_colour(color);
+}
+
+void	test_shading_an_intersection_from_inside(t_minirt *minirt, char **av)
+{
+	minirt->world->lig_s = init_point_light(create_point(0, -0.25, 0), color(1, 1, 1), 1);
+	t_ray	r = create_ray(create_vector(0,0,1), create_point(0,0,0));
+
+	t_list	*temp = minirt->world->objects;
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+	t_i		i1 = intersection(0.5, obj); //hard set t value
+	obj->transform = scaling(minirt, 0.5, 0.5, 0.5);
+	obj->mat = init_material();
+	obj->mat.ambient = 0.1;
+	obj->mat.diffuse = 0.9;
+	obj->mat.specular = 0.9;
+	obj->mat.col.r = 1;
+	obj->mat.col.g = 1;
+	obj->mat.col.b = 1;
+	t_comps *comps = prepare_computations(minirt, i1, r);
+	fun_test_parsed_output(av, minirt->world);
+	// print_comps(comps);
+	t_color color = shade_hit(minirt->world, comps);
+	print_colour(color);
+}
+
+// test this with 2 sphere objects, for example sp.rt
+// void	test_ray_misses_obj(t_minirt *minirt)
 // {
+// 	minirt->world->lig_s = init_point_light(create_point(-10, -10, -10), color(1, 1, 1), 1);
+// 	t_ray	r = create_ray(create_vector(0, 1, 0), create_point(0, 0, -5));
 
+// 	t_list	*temp = minirt->world->objects;
+// 	t_scene_obj *obj = (t_scene_obj *)temp->content;
+
+// 	obj->transform = identity(minirt);
+// 	obj->mat = init_material();
+// 	obj->mat.ambient = 0.1;
+// 	obj->mat.diffuse = 0.7;
+// 	obj->mat.specular = 0.2;
+// 	obj->mat.col.r = 0.8;
+// 	obj->mat.col.g = 1;
+// 	obj->mat.col.b = 0.6;
+
+// 	temp = temp->next;
+// 	obj = (t_scene_obj *)temp->content;
+// 	obj->transform = scaling(minirt, 0.5, 0.5, 0.5);
+// 	obj->mat = init_material();
+// 	obj->mat.ambient = 0.1;
+// 	obj->mat.diffuse = 0.9;
+// 	obj->mat.specular = 0.9;
+// 	obj->mat.col.r = 1;
+// 	obj->mat.col.g = 1;
+// 	obj->mat.col.b = 1;
+
+// 	t_color color = color_at(minirt, r);
+// 	print_colour(color);
 // }
+
+void	test_ray_hits_obj(t_minirt *minirt)
+{
+	minirt->world->lig_s = init_point_light(create_point(-10, -10, -10), color(1, 1, 1), 1);
+	t_ray	r = create_ray(create_vector(0, 0, 1), create_point(0, 0, -5));
+
+	t_list	*temp = minirt->world->objects;
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+
+	obj->transform = identity(minirt);
+	obj->mat = init_material();
+	obj->mat.ambient = 0.1;
+	obj->mat.diffuse = 0.7;
+	obj->mat.specular = 0.2;
+	obj->mat.col.r = 0.8;
+	obj->mat.col.g = 1;
+	obj->mat.col.b = 0.6;
+
+	temp = temp->next;
+	obj = (t_scene_obj *)temp->content;
+	obj->transform = scaling(minirt, 0.5, 0.5, 0.5);
+	obj->mat = init_material();
+	obj->mat.ambient = 0.1;
+	obj->mat.diffuse = 0.9;
+	obj->mat.specular = 0.9;
+	obj->mat.col.r = 1;
+	obj->mat.col.g = 1;
+	obj->mat.col.b = 1;
+
+	t_color color = color_at(minirt, r);
+	print_colour(color);
+}
+
+void	test_intersection_behind_ray(t_minirt *minirt)
+{
+	minirt->world->lig_s = init_point_light(create_point(-10, -10, -10), color(1, 1, 1), 1);
+	t_ray	r = create_ray(create_vector(0, 0, -1), create_point(0, 0, 0.75));
+
+	t_list	*temp = minirt->world->objects;
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+
+	obj->transform = identity(minirt);
+	obj->mat = init_material();
+	obj->mat.ambient = 1;
+	obj->mat.diffuse = 0.7;
+	obj->mat.specular = 0.2;
+	obj->mat.col.r = 0.8;
+	obj->mat.col.g = 1;
+	obj->mat.col.b = 0.6;
+
+	temp = temp->next;
+	obj = (t_scene_obj *)temp->content;
+	obj->transform = scaling(minirt, 0.5, 0.5, 0.5);
+	obj->mat = init_material();
+	obj->mat.ambient = 1;
+	obj->mat.diffuse = 0.9;
+	obj->mat.specular = 0.9;
+	obj->mat.col.r = 0.33;
+	obj->mat.col.g = 0.22;
+	obj->mat.col.b = 0.11;
+
+	t_color color = color_at(minirt, r);
+	printf("material color:\n");
+	print_colour(obj->mat.col);
+	printf("color_at color:\n");
+	print_colour(color);
+}
+
+void	test_orientation(t_minirt *minirt)
+{
+	printf("default orientation:\n");
+	t_tuple	from = create_point(0, 0, 0);
+	t_tuple	to = create_point(0, 0, -1);
+	t_tuple	up = create_vector(0, 1, 0);
+	float **t = view_transform(minirt, from, to, up);
+	print_matrix(t, "identity expected: ", 4);
+	printf("\n\n");
+
+	printf("looking pos z:\n");
+	from = create_point(0, 0, 0);
+	to = create_point(0, 0, 1);
+	up = create_vector(0, 1, 0);
+	t = view_transform(minirt, from, to, up);
+	print_matrix(t, "result matrix t", 4);
+	t = scaling(minirt, -1, 1, -1);
+	print_matrix(t, "previous should match", 4);
+	printf("\n\n");
+
+	printf("move the world:\n");
+	from = create_point(0, 0, 8);
+	to = create_point(0, 0, 0);
+	up = create_vector(0, 1, 0);
+	t = view_transform(minirt, from, to, up);
+	print_matrix(t, "result matrix t", 4);
+	t = translation(minirt, 0, 0, -8);
+	print_matrix(t, "previous should match", 4);
+
+	printf("arbitrary view transformation:\n");
+	from = create_point(1, 3, 2);
+	to = create_point(4, -2, 8);
+	up = create_vector(1, 1, 0);
+	t = view_transform(minirt, from, to, up);
+	print_matrix(t, "result matrix t", 4);
+	/*
+	Then t is the following 4x4 matrix:
+	| -0.50709 | 0.50709 |  0.67612 | -2.36643 |
+	|  0.76772 | 0.60609 |  0.12122 | -2.82843 |
+	| -0.35857 | 0.59761 | -0.71714 |  0.00000 |
+	|  0.00000 | 0.00000 |  0.00000 |  1.00000 |
+	*/
+}
+
+//test with width 201 and height 101
+void	test_camera(t_minirt *minirt)
+{
+	camera(minirt);
+	print_camera(&minirt->world->cam_s);
+}
+
+//test with sp1.rt
+void	test_ray_for_pixel(t_minirt *minirt)
+{
+	printf("test center of canvas\n");
+	camera(minirt);
+	t_ray r = ray_for_pixel(minirt, &minirt->world->cam_s, 100, 50);
+	print_ray(r);
+
+	printf("test corner of canvas\n");
+	r = ray_for_pixel(minirt, &minirt->world->cam_s, 0, 0);
+	print_ray(r);
+
+	printf("test transformed camera\n");
+	minirt->world->cam_s.transform = multiply_mtrx_by_mtrx(minirt, rotation_y(minirt, M_PI / 4), translation(minirt, 0, -2, 5), 4);
+	r = ray_for_pixel(minirt, &minirt->world->cam_s, 100, 50);
+	print_ray(r);
+}
 
 void	test_shape(t_minirt *minirt)
 {
@@ -886,7 +1107,7 @@ void	test_shape(t_minirt *minirt)
 	t_tuple norm = normal_at(minirt, &object, create_point(0, 1.70711, -0.70711));
 	printf("Test 4. Normal of translated 0,1,0\n");
 	print_tuple(norm);
-	
+
 	//Test 5, normal on transformed shape
 	trans = multiply_mtrx_by_mtrx(minirt, scaling(minirt, 1, 0.5, 1), rotation_z(minirt, 0.62832), 4);
 	set_transform(&object, trans);
@@ -900,14 +1121,14 @@ void	test_intersect_generic(t_minirt *minirt)
 	t_ray ray = create_ray(create_vector(0,0,1), create_point(0,0,-5));
 	t_scene_obj obj;
 	set_transform(&obj, scaling(minirt, 2,2,2));
-	t_xs *xs = intersect(minirt, &obj, ray);
+	t_xs *xs = intersect(minirt, &obj, ray, xs);
 	(void)xs;
 	printf("Scaled 2,2,2 saved_ray\n");
 	print_ray(obj.saved_ray);
-	
+
 	t_ray ray2 = create_ray(create_vector(0,0,1), create_point(0,0,-5));
 	set_transform(&obj, translation(minirt, 5,0,0));
-	t_xs *xs2 = intersect(minirt, &obj, ray2);
+	t_xs *xs2 = intersect(minirt, &obj, ray2, xs);
 	(void)xs2;
 	printf("Translated 5,0,0 saved_ray\n");
 	print_ray(obj.saved_ray);
@@ -959,4 +1180,41 @@ void	test_plane_intersect(t_minirt *minirt)
 	printf("t_xs obj: %d\n", ((t_scene_obj *)xs4->object)->type);
 
 	//((t_scene_obj *)temp->content)
+}
+
+
+void	test_render_world(t_minirt *minirt)
+{
+	minirt->world->lig_s = init_point_light(create_point(-10, -10, -10), color(1, 1, 1), 1);
+
+	t_list	*temp = minirt->world->objects;
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+
+	obj->transform = identity(minirt);
+	obj->mat = init_material();
+	obj->mat.ambient = 0.1;
+	obj->mat.diffuse = 0.7;
+	obj->mat.specular = 0.2;
+	obj->mat.col.r = 0.8;
+	obj->mat.col.g = 1;
+	obj->mat.col.b = 0.6;
+
+	temp = temp->next;
+	obj = (t_scene_obj *)temp->content;
+	obj->transform = scaling(minirt, 0.5, 0.5, 0.5);
+	obj->mat = init_material();
+	obj->mat.ambient = 0.1;
+	obj->mat.diffuse = 0.9;
+	obj->mat.specular = 0.9;
+	obj->mat.col.r = 1;
+	obj->mat.col.g = 1;
+	obj->mat.col.b = 1;
+
+	camera(minirt); //test with w:11  h:11, Pi/2
+	t_tuple	from = create_point(0, 0, -5);
+	t_tuple	to = create_point(0, 0, 0);
+	t_tuple	up = create_vector(0, 1, 0);
+	minirt->world->cam_s.transform = view_transform(minirt, from, to, up);
+	// print_matrix(minirt->world->cam_s.transform, "camera", 4);
+	draw_current_thing(minirt, &minirt->world->cam_s);
 }

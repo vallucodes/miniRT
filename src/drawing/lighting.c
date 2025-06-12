@@ -46,16 +46,16 @@ t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple e_v, t_tuple n_v)
 	t_light_vars	lv;
 
 	lv.eff_col = multiply_color_scalar(m.col, l.ratio);
-	//printf("effective colour\n");
-	//print_colour(effective_col);
+	// printf("effective colour\n");
+	// print_colour(lv.eff_col);
 
 	lv.light_vec = normalize_tuple(substraction_tuples(l.ori, p));
-	//printf("light vector\n");
-	//print_tuple(light_vec);
+	// printf("light vector\n");
+	// print_tuple(lv.light_vec);
 
 	lv.amb_col = multiply_color_scalar(lv.eff_col, m.ambient);
-	//printf("ambient colour\n");
-	//print_colour(ambient_col);
+	// printf("ambient colour\n");
+	// print_colour(lv.amb_col);
 
 	lv.l_dot_n = dot_tuple(lv.light_vec, n_v);
 	// printf("light dot normal: %f\n", lv.l_dot_n);

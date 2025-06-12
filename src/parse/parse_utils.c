@@ -1,7 +1,7 @@
 #include "../../inc/minirt.h"
 
 /**
- * @todo RGB colours should be normalised to [0,1] 
+ * @todo RGB colours should be normalised to [0,1]
  */
 void	parse_fill_colour(t_color *col, int r, int g, int b)
 {
@@ -24,4 +24,10 @@ void	parse_fill_norm(t_tuple *norm, float ox, float oy, float oz)
 	norm->y = oy;
 	norm->z = oz;
 	norm->w = 0;
+}
+
+void	parse_fill_size(t_camera *camera)
+{
+	camera->hsize = WIDTH;
+	camera->vsize = HEIGHT;
 }
