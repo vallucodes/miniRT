@@ -38,7 +38,7 @@ void	render_world(t_minirt *minirt)
 	// obj->mat.ambient = 0.1;
 	// obj->mat.diffuse = 0.7;
 	// obj->mat.specular = 0.2;
-	color_convert(obj);
+	// color_convert(obj);
 
 	temp = temp->next;
 	obj = (t_scene_obj *)temp->content;
@@ -47,7 +47,7 @@ void	render_world(t_minirt *minirt)
 	// obj->mat.ambient = 0.1;
 	// obj->mat.diffuse = 0.9;
 	// obj->mat.specular = 0.9;
-	color_convert(obj);
+	// color_convert(obj);
 
 	temp = temp->next;
 	obj = (t_scene_obj *)temp->content;
@@ -56,7 +56,7 @@ void	render_world(t_minirt *minirt)
 	// obj->mat.ambient = 0.1;
 	// obj->mat.diffuse = 0.9;
 	// obj->mat.specular = 0.9;
-	color_convert(obj);
+	// color_convert(obj);
 
 	init_camera(minirt);
 	t_tuple	from = create_point(0, 0, -15);
