@@ -141,6 +141,7 @@ typedef struct	s_comps
 
 //objects.c
 t_scene_obj	sphere(t_minirt *minirt);
+t_scene_obj	plane(t_minirt *minirt);
 
 //lighting.c
 t_light	init_point_light(t_tuple pos, t_color color, float ratio);
@@ -237,12 +238,12 @@ uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y);
 //print utils
 void	print_ray(t_ray r);
 void	print_xs(t_xs *xs);
-void	fun_test_parsed_output(char **av, t_parse *ps);
 void	print_matrix(t_matrix4 m, char *msg, int size);
 void	print_tuple(t_tuple t);
 void	print_colour(t_color c);
 void	print_comps(t_comps *comps);
 void	print_camera(t_camera *cam);
+void	fun_test_parsed_output(char **av, t_parse *ps);
 
 //dev
 float	**create_matrix(size_t size, int flag);
@@ -268,6 +269,8 @@ void	test_intersect_two_spheres(t_minirt *minirt);
 void	print_colour(t_color c);
 void	test_shape(t_minirt *minirt);
 void	test_intersect_generic(t_minirt *minirt);
+void	test_plane_normal(t_minirt *minirt);
+void	test_plane_intersect(t_minirt *minirt);
 void	test_render_world(t_minirt *minirt);
 
 #endif

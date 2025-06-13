@@ -20,6 +20,7 @@ int	main(int ac, char **av)
 		printf("exit, parsing failure\n");
 		exit (EXIT_FAILURE);
 	}
+	fun_test_parsed_output(av, ps);
 	minirt.world = ps;
 	fun_test_parsed_output(av, ps);
 	// free(ps);
@@ -35,6 +36,8 @@ int	main(int ac, char **av)
 	 */
 	// test_shape(&minirt);
 	//test_intersect_generic(&minirt);
+	//test_plane_normal(&minirt);
+	//test_plane_intersect(&minirt);
 
 	return (0);
 }
