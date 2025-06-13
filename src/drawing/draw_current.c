@@ -42,7 +42,7 @@ void	render_world(t_minirt *minirt)
 
 	temp = temp->next;
 	obj = (t_scene_obj *)temp->content;
-	obj->transform = multiply_mtrx_by_mtrx(scaling(0.5, 0.5, 0.5), translation(-6, -4, 0));
+	obj->transform = multiply_mtrx_by_mtrx(scaling(0.5, 0.5, 0.5), translation(-6, 0, 0));
 	obj->mat = init_material();
 	obj->mat.ambient = 0.1;
 	obj->mat.diffuse = 0.9;
@@ -53,7 +53,7 @@ void	render_world(t_minirt *minirt)
 
 	temp = temp->next;
 	obj = (t_scene_obj *)temp->content;
-	obj->transform = scaling(1.7, 0.5, 1.2);
+	obj->transform = rotation_x(-0.25);
 	obj->mat = init_material();
 	obj->mat.ambient = 0.1;
 	obj->mat.diffuse = 0.9;
