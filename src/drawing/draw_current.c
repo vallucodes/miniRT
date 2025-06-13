@@ -77,7 +77,7 @@ t_matrix4	cylinder_rotation(t_scene_obj *obj) //test this fucker
 	default_axis = create_vector(0, 1, 0);
 	target_axis = create_vector(obj->ox, obj->oy, obj->oz);
 	rotation_axis = cross_tuple(default_axis, target_axis);
-	rotation_angle = arccos(dot_tuple(default_axis, target_axis));
+	rotation_angle = acos(dot_tuple(default_axis, target_axis));
 	r = rodrigues_formula(rotation_axis, rotation_angle);
 }
 
