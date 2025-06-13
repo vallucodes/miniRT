@@ -14,3 +14,14 @@ int	file_check(char **av, t_parse *ps)
 	}
 	return (ps->fd);
 }
+
+/**
+ * @brief Report incorrect usage error and exit with failure 
+ */
+void	exit_wrong_params(char **av)
+{
+	ft_putstr_fd("Error\nUsage: ", STDERR_FILENO);
+	ft_putstr_fd(av[0], STDERR_FILENO);
+	ft_putstr_fd(" <scene file>.rt\n", STDERR_FILENO);
+	exit(EXIT_FAILURE);
+}

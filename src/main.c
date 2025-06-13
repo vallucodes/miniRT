@@ -9,12 +9,7 @@ int	main(int ac, char **av)
 	ps = ft_arena_calloc(minirt.arena, 1, sizeof(t_parse), alignof(t_parse));
 
 	if (ac != 2)
-	{
-		ft_putstr_fd("Error\nUsage: ", STDERR_FILENO);
-		ft_putstr_fd(av[0], STDERR_FILENO);
-		ft_putstr_fd(" <scene file>.rt\n", STDERR_FILENO);
-		return (1);
-	}
+		exit_wrong_params(av);
 	file_check(av, ps);
 	if (!parsing_gateway(ps))
 	{

@@ -33,7 +33,6 @@ void	init_xs(t_xs *xs)
 /**
  * @brief Returns intersection information for given sphere and ray
  * @todo discriminant can probably be a function
- * 		 t_i may not be needed when we can just use a float
  */
 t_xs	*intersects_sphere(t_scene_obj *obj, t_ray r, t_xs *xs)
 {
@@ -80,6 +79,39 @@ t_xs	*intersects_plane(t_scene_obj *p, t_ray r, t_xs *xs)
 }
 
 /**
+ * @brief Returns intersection information for given cylinder and ray
+ * @todo discriminant can probably be a function
+ */
+t_xs	*intersects_cylinder(t_scene_obj *obj, t_ray r, t_xs *xs)
+{
+	t_i		i1;
+	t_i		i2;
+	float	a;
+	float	b;
+	float	c;
+	float	discriminant;
+
+	a = (r.dir.x * r.dir.x) + (r.dir.y * r.dir.y);
+	if (a < EPSILON)
+		xs->count = 0;
+	else
+	{
+		b = 2 * r.origin.x * r.dir.x + 2 * r.origin.z * r.dir.z;
+		c = (r.origin.x * r.origin.x) + (r.origin.z * r.origin.z) - 1;
+		discriminant = b * b - 4 * a * c;
+		if (discriminant < 0)
+		{
+			xs->count = 0;
+			return (xs);
+		}
+		i1 = intersection((-b - sqrt(discriminant)) / (2 * a), obj);
+		i2 = intersection((-b + sqrt(discriminant)) / (2 * a), obj);
+	}
+	intersections(xs, i1, i2);
+	return (xs);
+}
+
+/**
  * @brief Returns intersection information. Selects intersection function.
  * 		  Converts ray to current object space.
  */
@@ -101,7 +133,7 @@ t_xs	*intersect(t_scene_obj *obj, t_ray ray, t_xs *xs)
 	}
 	else if (obj->type == CYLINDER)
 	{
-		/* cylinder */
+		xs = intersects_cylinder(obj, local_ray, xs);
 	}
 	return (xs);
 }
