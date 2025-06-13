@@ -1,7 +1,8 @@
 #include "../../inc/minirt.h"
 
 /**
- * @todo RGB colours should be normalised to [0,1]
+ * @brief Fills pointed t_color with unitRGB [0,1] values
+ * @param [in] r,g,b: individual [0,255] RGB values
  */
 void	parse_fill_colour(t_color *col, int r, int g, int b)
 {
@@ -10,6 +11,10 @@ void	parse_fill_colour(t_color *col, int r, int g, int b)
 	col->b = (float)b / 255;
 }
 
+/**
+ * @brief Fills pointed t_tuple (origin, point) with coordinate values
+ * @param [in] cx,cy,cz: individual coordinate values
+ */
 void	parse_fill_origin(t_tuple *origin, float cx, float cy, float cz)
 {
 	origin->x = cx;
@@ -18,6 +23,10 @@ void	parse_fill_origin(t_tuple *origin, float cx, float cy, float cz)
 	origin->w = 1;
 }
 
+/**
+ * @brief Fills pointed t_tuple (orientation, vector) with [0,1] values
+ * @param [in] ox,oy,oz: individual [0,1] orientation values
+ */
 void	parse_fill_norm(t_tuple *norm, float ox, float oy, float oz)
 {
 	norm->x = ox;
