@@ -262,3 +262,42 @@ t_matrix4	inverse_matrix(t_matrix4 m, bool *success)
 	}
 	return (m2);
 }
+
+t_matrix4	scalar_multiply_matrix(t_matrix4 m, float scalar)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < 4)
+	{
+		j = 0;
+		while (j < 4)
+		{
+			m.m[j][i] = m.m[j][i] * scalar;
+			j++;
+		}
+		i++;
+	}
+	return (m);
+}
+
+t_matrix4	addition_matrix(t_matrix4 a, t_matrix4 b)
+{
+	size_t		i;
+	size_t		j;
+	t_matrix4	m;
+
+	i = 0;
+	while (i < 4)
+	{
+		j = 0;
+		while (j < 4)
+		{
+			m.m[i][j] = a.m[i][j] + b.m[i][j];
+			j++;
+		}
+		i++;
+	}
+	return (m);
+}

@@ -41,7 +41,7 @@ t_matrix4	identity(void)
 	return(m);
 }
 
-t_matrix4	translation(int x, int y, int z)
+t_matrix4	translation(float x, float y, float z)
 {
 	t_matrix4	m;
 

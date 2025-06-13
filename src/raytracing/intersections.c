@@ -48,7 +48,7 @@ t_xs	*intersects_sphere(t_scene_obj *obj, t_ray r, t_xs *xs)
 	sphere_to_ray = substraction_tuples(r.origin, create_point(0,0,0));
 	a = dot_tuple(r.dir, r.dir);
 	b = 2 * dot_tuple(sphere_to_ray, r.dir);
-	c = dot_tuple(sphere_to_ray, sphere_to_ray) - (obj->dia / 2) * (obj->dia / 2);
+	c = dot_tuple(sphere_to_ray, sphere_to_ray) - 1;
 	discriminant = b * b - 4 * a * c;
 	if (discriminant < 0)
 		return (xs);
@@ -89,6 +89,7 @@ t_xs	*intersect(t_scene_obj *obj, t_ray ray, t_xs *xs)
 	bool	success;
 
 	local_ray = transform(ray, inverse_matrix(obj->transform, &success));
+	// print_matrix(inverse_matrix(obj->transform, &success), "obj_transform final", 4);
 	obj->saved_ray.dir = local_ray.dir;
 	obj->saved_ray.origin = local_ray.origin;
 	if (obj->type == PLANE)

@@ -192,10 +192,12 @@ t_matrix4	inverse_matrix(t_matrix4 m, bool *success);
 bool		is_invertible_matrix4(t_matrix4 m);
 bool		is_invertible_matrix3(t_matrix3 m);
 bool		is_invertible_matrix2(t_matrix2 m);
+t_matrix4	scalar_multiply_matrix(t_matrix4 m, float scalar);
+t_matrix4	addition_matrix(t_matrix4 a, t_matrix4 b);
 
 //matrix operators
 t_matrix4	identity(void);
-t_matrix4	translation(int x, int y, int z);
+t_matrix4	translation(float x, float y, float z);
 t_matrix4	scaling(float x, float y, float z);
 t_matrix4	rotation_x(float theta);
 t_matrix4	rotation_y(float theta);
