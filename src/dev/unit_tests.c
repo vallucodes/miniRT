@@ -898,11 +898,11 @@ void	test_plane_normal(t_minirt *minirt)
 	t_tuple	n1 = normal_at(minirt, &p, create_point(0, 0, 0));
 	printf("Normal at point 0,0,0\n");
 	print_tuple(n1);
-	
+
 	t_tuple	n2 = normal_at(minirt, &p, create_point(10, 0, -10));
 	printf("Normal at point 10,0,-10\n");
 	print_tuple(n2);
-	
+
 	t_tuple	n3 = normal_at(minirt, &p, create_point(-5, 0, 150));
 	printf("Normal at point -5,0,150\n");
 	print_tuple(n3);
@@ -915,19 +915,19 @@ void	test_plane_normal(t_minirt *minirt)
 	t_ray r1 = create_ray(create_vector(0,0,1), create_point(0,10,0));
 	t_xs *xs1 = intersect(minirt, &p, r1);
 	printf("t_xs count: %u\n", xs1->count);
-	
+
 	printf("Scenario: Intersect with a coplanar ray\n");
 	t_ray r2 = create_ray(create_vector(0,0,0), create_point(0,0,1));
 	t_xs *xs2 = intersect(minirt, &p, r2);
 	printf("t_xs count: %u\n", xs2->count);
-	
+
 	printf("Scenario: A ray intersecting a plane from above\n");
 	t_ray r3 = create_ray(create_vector(0,1,0), create_point(0,-1,0));
 	t_xs *xs3 = intersect(minirt, &p, r3);
 	printf("t_xs count: %u\n", xs3->count);
 	printf("t_xs xs1: %f, xs2: %f\n", xs3->t[0], xs3->t[1]);
 	printf("t_xs obj: %d\n", ((t_scene_obj *)xs3->object)->type);
-	
+
 	printf("Scenario: A ray intersecting a plane from below\n");
 	t_ray r4 = create_ray(create_vector(0,-1,0), create_point(0,1,0));
 	t_xs *xs4 = intersect(minirt, &p, r4);
@@ -973,4 +973,28 @@ void	test_render_world(t_minirt *minirt)
 	minirt->world->cam_s.transform = view_transform(from, to, up);
 	// print_matrix(minirt->world->cam_s.transform, "camera", 4);
 	draw_current_thing(minirt, &minirt->world->cam_s);
+}
+
+void	test_cylinder_rotation(void)
+{
+	t_scene_obj obj;
+	obj.ox = 0;
+	obj.oy = 0;
+	obj.oz = 1;
+	t_matrix4	m = cylinder_rotation(&obj);
+	print_matrix(m, "cylinder rotation", 4);
+	//expect
+	// | -1 | 0 |  0 | 0 |
+	// |  0 | 0 | -1 | 0 |
+	// |  0 | 1 |  0 | 0 |
+	// |  0 | 0 |  0 | 1 |
+	obj.ox = -0.7071068;
+	obj.oy = 0.5;
+	obj.oz = 0.5;
+	m = cylinder_rotation(&obj);
+	print_matrix(m, "cylinder rotation", 4);
+	//expect
+	// | 0.6667  -0.7071   0.2357 |
+	// | 0.7071   0.5     -0.5    |
+	// | 0.2357   0.5      0.8333 |
 }

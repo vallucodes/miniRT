@@ -233,6 +233,9 @@ t_i		hit(t_xs *xs);
 t_xs	*intersects_sphere(t_scene_obj *obj, t_ray r, t_xs *xs);
 t_xs	*intersect(t_scene_obj *obj, t_ray ray, t_xs *xs);
 
+//transformation functions
+t_matrix4	cylinder_rotation(t_scene_obj *obj);
+
 //utils
 int			is_equal(float a, float b);
 uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y);
@@ -274,5 +277,6 @@ void	test_intersect_generic(t_minirt *minirt);
 void	test_plane_normal(t_minirt *minirt);
 void	test_plane_intersect(t_minirt *minirt);
 void	test_render_world(t_minirt *minirt);
+void	test_cylinder_rotation(void);
 
 #endif

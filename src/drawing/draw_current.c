@@ -57,11 +57,17 @@ t_matrix4	rodrigues_formula(t_tuple rotation_axis, float rotation_angle)
 	t_matrix4	r;
 
 	k = construct_matrix(rotation_axis);
+	print_matrix(k, "k", 4);
 	i = identity();
+	print_matrix(i, "i", 4);
 	sin_k = scalar_multiply_matrix(k, sin(rotation_angle));
+	print_matrix(sin_k, "sin_k", 4);
 	k2 = multiply_mtrx_by_mtrx(k, k);
+	print_matrix(k2, "k2", 4);
 	one_minus_neg_cos_k2 = scalar_multiply_matrix(k2, 1 - cos(rotation_angle));
+	print_matrix(one_minus_neg_cos_k2, "one_minus_neg_cos_k2", 4);
 	r = addition_matrix(addition_matrix(i, sin_k), one_minus_neg_cos_k2);
+	print_matrix(r, "r", 4);
 	return (r);
 }
 
@@ -75,13 +81,19 @@ t_matrix4	cylinder_rotation(t_scene_obj *obj) //test this fucker
 	t_matrix4	r;
 
 	default_axis = create_vector(0, 1, 0);
+	printf("default axis\n");
+	print_tuple(default_axis);
 	target_axis = create_vector(obj->ox, obj->oy, obj->oz);
-	rotation_axis = cross_tuple(default_axis, target_axis);
+	printf("target axis\n");
+	print_tuple(target_axis);
+	rotation_axis = normalize_tuple(cross_tuple(default_axis, target_axis));
+	printf("rotation axis\n");
+	print_tuple(rotation_axis);
 	rotation_angle = acos(dot_tuple(default_axis, target_axis));
+	printf("angle %f\n", rotation_angle);
 	r = rodrigues_formula(rotation_axis, rotation_angle);
+	return (r);
 }
-
-
 
 t_matrix4	generate_transformation_mtrx(t_minirt *minirt, t_scene_obj *obj)
 {
