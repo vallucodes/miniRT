@@ -43,3 +43,10 @@ uint32_t	colour_unitrgb_hex(t_color c, float alpha)
 
 	return (c.hex);
 }
+
+void	color_convert(t_scene_obj *obj)
+{
+	obj->mat.col.r = obj->col.r;
+	obj->mat.col.g = obj->col.g;
+	obj->mat.col.b = obj->col.b;
+}

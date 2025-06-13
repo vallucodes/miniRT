@@ -1,8 +1,8 @@
 #ifndef RAYTRACING_H
 # define RAYTRACING_H
 
-# define WIDTH 1000
-# define HEIGHT	1000
+# define WIDTH 500
+# define HEIGHT	500
 # define MALLOC	"Memory allocation failed"
 
 //Material default values
@@ -173,6 +173,8 @@ t_color		multiply_color(t_color color1, t_color color2);
 t_color		multiply_color_scalar(t_color col, float sca);
 uint32_t	colour_unitrgb_hex(t_color c, float alpha);
 void		colour_unitrgb_rgba(t_color *c);
+void		colour_rgba_unitrgb(t_color *c);
+void		color_convert(t_scene_obj *obj);
 
 //matrix math
 bool		equality_matrix3(const t_matrix3 *a, const t_matrix3 *b);
@@ -190,10 +192,12 @@ t_matrix4	inverse_matrix(t_matrix4 m, bool *success);
 bool		is_invertible_matrix4(t_matrix4 m);
 bool		is_invertible_matrix3(t_matrix3 m);
 bool		is_invertible_matrix2(t_matrix2 m);
+t_matrix4	scalar_multiply_matrix(t_matrix4 m, float scalar);
+t_matrix4	addition_matrix(t_matrix4 a, t_matrix4 b);
 
 //matrix operators
 t_matrix4	identity(void);
-t_matrix4	translation(int x, int y, int z);
+t_matrix4	translation(float x, float y, float z);
 t_matrix4	scaling(float x, float y, float z);
 t_matrix4	rotation_x(float theta);
 t_matrix4	rotation_y(float theta);
