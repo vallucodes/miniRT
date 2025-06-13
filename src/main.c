@@ -10,19 +10,19 @@ int	main(int ac, char **av)
 
 	if (ac != 2)
 	{
-		ft_putstr_fd("Error\nUsage: ./minirt <scene file>.rt\n", STDERR_FILENO);
+		ft_putstr_fd("Error\nUsage: ", STDERR_FILENO);
+		ft_putstr_fd(av[0], STDERR_FILENO);
+		ft_putstr_fd(" <scene file>.rt\n", STDERR_FILENO);
 		return (1);
 	}
 	file_check(av, ps);
-	// ps = ft_calloc(1, sizeof(t_parse));
 	if (!parsing_gateway(ps))
 	{
-		printf("exit, parsing failure\n");
+		printf("Error\nExit, parsing failure.\n");
 		exit (EXIT_FAILURE);
 	}
 	// fun_test_parsed_output(av, ps);
 	minirt.world = ps;
-	// fun_test_parsed_output(av, ps);
 	// free(ps);
 	// test_ray_for_pixel(&minirt);
 	render_world(&minirt);

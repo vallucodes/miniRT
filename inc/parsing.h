@@ -105,7 +105,6 @@ typedef struct s_light
  * @note Plane (0): cx,cy,cz[CO_MIN,CO_MAX] ox,oy,oz[OR_MIN,OR_MAX] r,g,b[0,255]
  * @note Sphere (1): cx,cy,cz[CO_MIN,CO_MAX] dia r,g,b[0,255]
  * @note Cylinder (2): cx,cy,cz ox,oy,oz dia height r,g,b
- * @todo mat and **transform may not be suitable here
  */
 typedef struct s_scene_obj
 {
