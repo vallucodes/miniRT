@@ -1,8 +1,8 @@
 #ifndef RAYTRACING_H
 # define RAYTRACING_H
 
-# define WIDTH 1000
-# define HEIGHT	1000
+# define WIDTH 500
+# define HEIGHT	500
 # define MALLOC	"Memory allocation failed"
 
 //Material default values
