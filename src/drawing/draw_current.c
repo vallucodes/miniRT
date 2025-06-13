@@ -24,49 +24,125 @@ void	draw_current_thing(t_minirt *minirt, t_camera *c)
 	}
 }
 
+static void	init_light(t_minirt *minirt)
+{
+	t_light	*light;
+
+	light = &minirt->world->lig_s;
+	*light = init_point_light(create_point(light->cx, light->cy, light->cz),
+				color(light->col.r, light->col.g, light->col.b), light->ratio);
+}
+
+t_matrix4	construct_matrix(t_tuple rotation_axis)
+{
+	t_matrix4	m;
+
+	matrix_fill_zero(&m);
+	m.m[0][1] = -rotation_axis.z;
+	m.m[0][2] = rotation_axis.y;
+	m.m[1][0] = rotation_axis.z;
+	m.m[1][2] = -rotation_axis.x;
+	m.m[2][0] = -rotation_axis.y;
+	m.m[2][1] = rotation_axis.x;
+	return (m);
+}
+
+t_matrix4	rodrigues_formula(t_tuple rotation_axis, float rotation_angle)
+{
+	t_matrix4	k;
+	t_matrix4	k2;
+	t_matrix4	i;
+	t_matrix4	sin_k;
+	t_matrix4	one_minus_neg_cos_k2;
+	t_matrix4	r;
+
+	k = construct_matrix(rotation_axis);
+	i = identity();
+	sin_k = scalar_multiply_matrix(k, sin(rotation_angle));
+	k2 = multiply_mtrx_by_mtrx(k, k);
+	one_minus_neg_cos_k2 = scalar_multiply_matrix(k2, 1 - cos(rotation_angle));
+	r = addition_matrix(addition_matrix(i, sin_k), one_minus_neg_cos_k2);
+	return (r);
+}
+
+
+t_matrix4	cylinder_rotation(t_scene_obj *obj) //test this fucker
+{
+	t_tuple		default_axis;
+	t_tuple		target_axis;
+	t_tuple		rotation_axis;
+	float		rotation_angle;
+	t_matrix4	r;
+
+	default_axis = create_vector(0, 1, 0);
+	target_axis = create_vector(obj->ox, obj->oy, obj->oz);
+	rotation_axis = cross_tuple(default_axis, target_axis);
+	rotation_angle = arccos(dot_tuple(default_axis, target_axis));
+	r = rodrigues_formula(rotation_axis, rotation_angle);
+}
+
+
+
+t_matrix4	generate_transformation_mtrx(t_minirt *minirt, t_scene_obj *obj)
+{
+	t_matrix4	res;
+	t_matrix4	rotate;
+	t_matrix4	scale;
+	t_matrix4	translate;
+
+	if (obj->type == SPHERE)
+	{
+		scale = scaling(obj->dia / 2.0, obj->dia / 2.0, obj->dia / 2.0);
+		translate = translation(obj->cx, obj->cy, obj->cz);
+		res = multiply_mtrx_by_mtrx(translate, scale);
+	}
+	// else if (obj->type == PLANE)
+	// {
+	// 	translate = translation(obj->cx, obj->cy, obj->cz);
+	// }
+	// else if (obj->type == CYLINDER)
+	// {
+	// 	rotate = cylinder_rotation(obj);
+	// 	translate = translation(obj->cx, obj->cy, obj->cz);
+	// }
+	return (res);
+}
+
+static void	init_objects(t_minirt *minirt)
+{
+	int	i;
+	t_list	*temp;
+	t_scene_obj *obj;
+
+	temp = minirt->world->objects;
+	obj = (t_scene_obj *)temp->content;
+	i = 0;
+	while(i < minirt->world->obj_count)
+	{
+		obj->transform = generate_transformation_mtrx(minirt, obj);
+		// print_matrix(obj->transform, "transform", 4);
+		// if (i == 0)
+		// 	obj->transform = translation(4, 2, 0);
+		// else if (i == 1)
+		// 	obj->transform = multiply_mtrx_by_mtrx(scaling(0.5, 0.5, 0.5), translation(-6, -4, 0));
+		// else if (i == 2)
+		// 	obj->transform = scaling(1.7, 0.5, 1.2);
+		obj->mat = init_material();
+		color_convert(obj);
+		temp = temp->next;
+		if (temp != NULL)
+			obj = (t_scene_obj *)temp->content;
+		else
+			break ;
+		i++;
+	}
+}
+
 void	render_world(t_minirt *minirt)
 {
-	minirt->world->lig_s = init_point_light(create_point(-10, 10, -10), color(1, 1, 1), 1);
 
-	t_list	*temp = minirt->world->objects;
-	t_scene_obj *obj = (t_scene_obj *)temp->content;
-
-	obj->transform = translation(4, 2, 0);
-	obj->mat = init_material();
-	obj->mat.ambient = 0.1;
-	obj->mat.diffuse = 0.7;
-	obj->mat.specular = 0.2;
-	obj->mat.col.r = 0.8;
-	obj->mat.col.g = 1;
-	obj->mat.col.b = 0.6;
-
-	temp = temp->next;
-	obj = (t_scene_obj *)temp->content;
-	obj->transform = multiply_mtrx_by_mtrx(scaling(0.5, 0.5, 0.5), translation(-6, 0, 0));
-	obj->mat = init_material();
-	obj->mat.ambient = 0.1;
-	obj->mat.diffuse = 0.9;
-	obj->mat.specular = 0.9;
-	obj->mat.col.r = 1;
-	obj->mat.col.g = 1;
-	obj->mat.col.b = 1;
-
-	temp = temp->next;
-	obj = (t_scene_obj *)temp->content;
-	obj->transform = rotation_x(-0.25);
-	obj->mat = init_material();
-	obj->mat.ambient = 0.1;
-	obj->mat.diffuse = 0.9;
-	obj->mat.specular = 0.9;
-	obj->mat.col.r = 1;
-	obj->mat.col.g = 0.2;
-	obj->mat.col.b = 1;
-
+	init_light(minirt);
+	init_objects(minirt);
 	init_camera(minirt);
-	t_tuple	from = create_point(0, 0, -15);
-	t_tuple	to = create_point(0, 0, 0);
-	t_tuple	up = create_vector(0, 1, 0);
-	minirt->world->cam_s.transform = view_transform(from, to, up);
-	// print_matrix(minirt->world->cam_s.transform, "camera", 4);
 	draw_current_thing(minirt, &minirt->world->cam_s);
 }

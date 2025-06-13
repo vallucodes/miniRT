@@ -48,6 +48,13 @@ void	init_camera(t_minirt *minirt)
 	}
 	minirt->world->cam_s.pixel_size = (c->half_width * 2) / c->hsize;
 	minirt->world->cam_s.transform = identity();
+
+	t_tuple	from;
+	t_tuple	to;
+	from = create_point(minirt->world->cam_s.cx, minirt->world->cam_s.cy, minirt->world->cam_s.cz);
+	to = create_point(minirt->world->cam_s.ox, minirt->world->cam_s.oy, minirt->world->cam_s.oz);
+	t_tuple	up = create_vector(0, 1, 0);
+	minirt->world->cam_s.transform = view_transform(from, to, up);
 }
 
 t_ray	ray_for_pixel(t_camera *c, int px, int py)
