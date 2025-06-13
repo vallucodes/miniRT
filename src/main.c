@@ -18,10 +18,10 @@ int	main(int ac, char **av)
 	file_check(av, ps);
 	if (!parsing_gateway(ps))
 	{
-		printf("exit, parsing failure\n");
+		printf("Error\nExit, parsing failure.\n");
 		exit (EXIT_FAILURE);
 	}
-	fun_test_parsed_output(av, ps);
+fun_test_parsed_output(av, ps);
 	minirt.world = ps;
 	// free(ps);
 	// test_ray_for_pixel(&minirt);
