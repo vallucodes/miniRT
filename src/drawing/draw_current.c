@@ -79,7 +79,7 @@ t_matrix4	cylinder_scale(t_scene_obj *obj)
 	return (res);
 }
 
-t_matrix4	cylinder_rotation(t_scene_obj *obj) //test this fucker
+t_matrix4	cylinder_rotation(t_scene_obj *obj)
 {
 	t_tuple		default_axis;
 	t_tuple		target_axis;
@@ -89,17 +89,25 @@ t_matrix4	cylinder_rotation(t_scene_obj *obj) //test this fucker
 
 	default_axis = create_vector(0, 1, 0);
 	// printf("default axis\n");
-	print_tuple(default_axis);
+	// print_tuple(default_axis);
 	target_axis = create_vector(obj->ox, obj->oy, obj->oz);
 	// printf("target axis\n");
-	print_tuple(target_axis);
-	rotation_axis = normalize_tuple(cross_tuple(default_axis, target_axis));
+	// print_tuple(target_axis);
+	rotation_axis = cross_tuple(default_axis, target_axis);
+	if (magnitude_tuple(rotation_axis) < 1e-9f)
+		return (identity());
+	rotation_axis = normalize_tuple(rotation_axis);
 	// printf("rotation axis\n");
-	print_tuple(rotation_axis);
+	// print_tuple(rotation_axis);
 	rotation_angle = acos(dot_tuple(default_axis, target_axis));
 	// printf("angle %f\n", rotation_angle);
 	r = rodrigues_formula(rotation_axis, rotation_angle);
 	return (r);
+}
+
+t_matrix4	plane_rotation(t_scene_obj *obj)
+{
+	return(cylinder_rotation(obj));
 }
 
 t_matrix4	generate_transformation_mtrx(t_minirt *minirt, t_scene_obj *obj)
@@ -115,16 +123,18 @@ t_matrix4	generate_transformation_mtrx(t_minirt *minirt, t_scene_obj *obj)
 		translate = translation(obj->cx, obj->cy, obj->cz);
 		res = multiply_mtrx_by_mtrx(translate, scale);
 	}
-	// else if (obj->type == PLANE)
-	// {
-	// 	translate = translation(obj->cx, obj->cy, obj->cz);
-	// }
+	else if (obj->type == PLANE)
+	{
+		rotate = plane_rotation(obj);
+		translate = translation(obj->cx, obj->cy, obj->cz);
+		res = multiply_mtrx_by_mtrx(translate, rotate);
+	}
 	else if (obj->type == CYLINDER)
 	{
-		printf("dia %f, height %f\n", obj->dia, obj->height);
-		// scale = cylinder_scale(obj);
-		// rotate = cylinder_rotation(obj);
-		// translate = translation(obj->cx, obj->cy, obj->cz);
+		scale = cylinder_scale(obj);
+		rotate = cylinder_rotation(obj);
+		translate = translation(obj->cx, obj->cy, obj->cz);
+		res = multiply_mtrx_by_mtrx(translate, multiply_mtrx_by_mtrx(rotate, scale));
 	}
 	return (res);
 }
@@ -141,13 +151,6 @@ static void	init_objects(t_minirt *minirt)
 	while(i < minirt->world->obj_count)
 	{
 		obj->transform = generate_transformation_mtrx(minirt, obj);
-		// print_matrix(obj->transform, "transform", 4);
-		// if (i == 0)
-		// 	obj->transform = translation(4, 2, 0);
-		// else if (i == 1)
-		// 	obj->transform = multiply_mtrx_by_mtrx(scaling(0.5, 0.5, 0.5), translation(-6, -4, 0));
-		// else if (i == 2)
-		// 	obj->transform = scaling(1.7, 0.5, 1.2);
 		obj->mat = init_material();
 		color_convert(obj);
 		temp = temp->next;

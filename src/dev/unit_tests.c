@@ -998,3 +998,53 @@ void	test_cylinder_rotation(void)
 	// | 0.7071   0.5     -0.5    |
 	// | 0.2357   0.5      0.8333 |
 }
+
+void	test_cylinder_transformation(void)
+{
+	t_scene_obj obj;
+	obj.dia = 1.5;
+	obj.height = 3.2;
+	obj.ox = -0.7071068;
+	obj.oy = 0.5;
+	obj.oz = 0.5;
+	obj.cx = 3;
+	obj.cy = 0.5;
+	obj.cz = -4;
+	t_matrix4 scale = cylinder_scale(&obj);
+	print_matrix(scale, "cylinder scale", 4);
+	t_matrix4 rotate = cylinder_rotation(&obj);
+	print_matrix(rotate, "cylinder rotation", 4);
+	t_matrix4 translate = translation(obj.cx, obj.cy, obj.cz);
+	print_matrix(translate, "cylinder translation", 4);
+	t_matrix4 res = multiply_mtrx_by_mtrx(translate, multiply_mtrx_by_mtrx(rotate, scale));
+	print_matrix(res, "cylinder transform", 4);
+	//expect
+	// [0.50000, -2.26275,  0.17678,  3.00000]
+	// [0.53033,  1.60000, -0.37500,  0.50000]
+	// [0.17678,  1.60000,  0.62500, -4.00000]
+	// [0.00000,  0.00000,  0.00000,  1.00000]
+}
+
+void	test_plane_transformation(void)
+{
+	t_scene_obj obj;
+	obj.ox = 0;
+	obj.oy = 0;
+	obj.oz = 1;
+	t_matrix4	m = plane_rotation(&obj);
+	print_matrix(m, "cylinder rotation", 4);
+	//expect
+	// | -1 | 0 |  0 | 0 |
+	// |  0 | 0 | -1 | 0 |
+	// |  0 | 1 |  0 | 0 |
+	// |  0 | 0 |  0 | 1 |
+	obj.ox = -0.7071068;
+	obj.oy = 0.5;
+	obj.oz = 0.5;
+	m = plane_rotation(&obj);
+	print_matrix(m, "cylinder rotation", 4);
+	//expect
+	// | 0.6667  -0.7071   0.2357 |
+	// | 0.7071   0.5     -0.5    |
+	// | 0.2357   0.5      0.8333 |
+}
