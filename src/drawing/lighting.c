@@ -41,7 +41,7 @@ t_tuple	reflect(t_tuple in, t_tuple normal)
  * @param [in] n_v: Normal vector
  * @todo Needs to take into account the scene file's ambient value.
  */
-t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple e_v, t_tuple n_v)
+t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple e_v, t_tuple n_v, bool in_shadow)
 {
 	t_light_vars	lv;
 
@@ -57,25 +57,33 @@ t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple e_v, t_tuple n_v)
 	// printf("ambient colour\n");
 	// print_colour(lv.amb_col);
 
-	lv.l_dot_n = dot_tuple(lv.light_vec, n_v);
-	// printf("light dot normal: %f\n", lv.l_dot_n);
-
-	if (lv.l_dot_n < 0)
+	if (in_shadow == true)
 	{
 		lv.dif_col = color(0, 0, 0);
 		lv.spec_col = color(0, 0, 0);
 	}
 	else
 	{
-		lv.dif_col = multiply_color_scalar(lv.eff_col, m.diffuse * lv.l_dot_n);
-		lv.reflect_vec = reflect(negate_tuple(lv.light_vec), n_v);
-		lv.r_dot_e = dot_tuple(lv.reflect_vec, e_v);
-		if (lv.r_dot_e <= 0)
+		lv.l_dot_n = dot_tuple(lv.light_vec, n_v);
+		// printf("light dot normal: %f\n", lv.l_dot_n);
+
+		if (lv.l_dot_n < 0)
+		{
+			lv.dif_col = color(0, 0, 0);
 			lv.spec_col = color(0, 0, 0);
+		}
 		else
 		{
-			lv.fac = pow(lv.r_dot_e, m.shininess);
-			lv.spec_col = multiply_color_scalar(lv.eff_col, m.specular * lv.fac);
+			lv.dif_col = multiply_color_scalar(lv.eff_col, m.diffuse * lv.l_dot_n);
+			lv.reflect_vec = reflect(negate_tuple(lv.light_vec), n_v);
+			lv.r_dot_e = dot_tuple(lv.reflect_vec, e_v);
+			if (lv.r_dot_e <= 0)
+				lv.spec_col = color(0, 0, 0);
+			else
+			{
+				lv.fac = pow(lv.r_dot_e, m.shininess);
+				lv.spec_col = multiply_color_scalar(lv.eff_col, m.specular * lv.fac);
+			}
 		}
 	}
 	return (addition_color(addition_color(lv.amb_col, lv.dif_col), lv.spec_col));
