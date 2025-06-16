@@ -1,24 +1,5 @@
 #include "minirt.h"
 
-// float	**matrix_alloc(t_minirt *minirt, size_t size)
-// {
-// 	size_t	i;
-// 	float	**m;
-
-// 	i = 0;
-// 	m = arena_alloc(minirt->arena, size * sizeof(float *), alignof(float *));
-// 	// if (!m)
-// 		// cleanup_exit(arena);
-// 	while (i < size)
-// 	{
-// 		m[i] = arena_alloc(minirt->arena, size * sizeof(float), alignof(float));
-// 		// if (!m[i])
-// 			// cleanup_exit(arena);
-// 		i++;
-// 	}
-// 	return (m);
-// }
-
 bool	equality_matrix4(t_matrix4 m, t_matrix4 m2, size_t size)
 {
 	size_t	i;
@@ -280,4 +261,43 @@ t_matrix4	inverse_matrix(t_matrix4 m, bool *success)
 		i++;
 	}
 	return (m2);
+}
+
+t_matrix4	scalar_multiply_matrix(t_matrix4 m, float scalar)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < 4)
+	{
+		j = 0;
+		while (j < 4)
+		{
+			m.m[j][i] = m.m[j][i] * scalar;
+			j++;
+		}
+		i++;
+	}
+	return (m);
+}
+
+t_matrix4	addition_matrix(t_matrix4 a, t_matrix4 b)
+{
+	size_t		i;
+	size_t		j;
+	t_matrix4	m;
+
+	i = 0;
+	while (i < 4)
+	{
+		j = 0;
+		while (j < 4)
+		{
+			m.m[i][j] = a.m[i][j] + b.m[i][j];
+			j++;
+		}
+		i++;
+	}
+	return (m);
 }
