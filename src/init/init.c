@@ -49,7 +49,7 @@ t_material	init_material(void)
 {
 	t_material	new;
 
-	new.col = color(1, 1, 1);
+	// new.col = color(1, 1, 1);
 	new.ambient = amb_default;
 	new.diffuse = dif_default;
 	new.specular = spec_default;
