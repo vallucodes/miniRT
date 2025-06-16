@@ -136,6 +136,8 @@ t_matrix4	generate_transformation_mtrx(t_minirt *minirt, t_scene_obj *obj)
 		translate = translation(obj->cx, obj->cy, obj->cz);
 		res = multiply_mtrx_by_mtrx(translate, multiply_mtrx_by_mtrx(rotate, scale));
 	}
+	else
+		ft_putstr_fd("Error\nUnreachable code: shape unrecognized\n", STDERR_FILENO);
 	return (res);
 }
 

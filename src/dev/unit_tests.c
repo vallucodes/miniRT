@@ -534,28 +534,29 @@ void	test_point_light_reflections(void)
 	light.ori = create_point(0, 0, -10);
 	light.col = color(1, 1, 1);
 	light.ratio = 1;
-	t_color res = lighting(mat, light, position, eyev, normalv);
+	bool in_shadow = 0;
+	t_color res = lighting(mat, light, position, eyev, normalv, in_shadow);
 	printf("Result. Lighting with the eye between the light and the surface.\n");
 	print_colour(res);
 
 	t_tuple eyev2 = create_vector(0, 0.707107, -0.707107);
-	res = lighting(mat, light, position, eyev2, normalv);
+	res = lighting(mat, light, position, eyev2, normalv, in_shadow);
 	printf("Result. Lighting with the eye between light and surface, eye offset 45°\n");
 	print_colour(res);
 
 	light.ori.y = 10;
-	res = lighting(mat, light, position, eyev, normalv);
+	res = lighting(mat, light, position, eyev, normalv, in_shadow);
 	printf("Result. Lighting with eye opposite surface, light offset 45°\n");
 	print_colour(res);
 
 	t_tuple eyev3 = create_vector(0, -0.707107, -0.707107);
-	res = lighting(mat, light, position, eyev3, normalv);
+	res = lighting(mat, light, position, eyev3, normalv, in_shadow);
 	printf("Result. Lighting with eye in the path of the reflection vector\n");
 	print_colour(res);
 
 	light.ori.y = 0;
 	light.ori.z = 10;
-	res = lighting(mat, light, position, eyev, normalv);
+	res = lighting(mat, light, position, eyev, normalv, in_shadow);
 	printf("Result. Lighting with the light behind the surface\n");
 	print_colour(res);
 }
@@ -639,7 +640,8 @@ void	test_shading_an_intersection(t_minirt *minirt, char **av)
 	t_comps *comps = prepare_computations(minirt, i1, r);
 	fun_test_parsed_output(av, minirt->world);
 	// print_comps(comps);
-	t_color color = shade_hit(minirt->world, comps);
+	bool in_shadow = 0;
+	t_color color = shade_hit(minirt->world, comps, in_shadow);
 	print_colour(color);
 }
 
@@ -662,7 +664,8 @@ void	test_shading_an_intersection_from_inside(t_minirt *minirt, char **av)
 	t_comps *comps = prepare_computations(minirt, i1, r);
 	fun_test_parsed_output(av, minirt->world);
 	// print_comps(comps);
-	t_color color = shade_hit(minirt->world, comps);
+	bool in_shadow = 0;
+	t_color color = shade_hit(minirt->world, comps, in_shadow);
 	print_colour(color);
 }
 
@@ -1047,4 +1050,75 @@ void	test_plane_transformation(void)
 	// | 0.6667  -0.7071   0.2357 |
 	// | 0.7071   0.5     -0.5    |
 	// | 0.2357   0.5      0.8333 |
+}
+
+
+void	test_point_light_shadows(void)
+{
+	t_material mat = init_material();
+	t_tuple	position = create_point(0, 0, 0);
+
+	t_tuple eyev = create_vector(0, 0, -1);
+	t_tuple	normalv = create_vector(0, 0, -1);
+	t_light light;
+	light.ori = create_point(0, 0, -10);
+	light.col = color(1, 1, 1);
+	light.ratio = 1;
+	bool in_shadow = 1;
+	t_color res = lighting(mat, light, position, eyev, normalv, in_shadow);
+	printf("Result. Lighting with the eye between the light and the surface.\n");
+	print_colour(res);
+
+	t_tuple eyev2 = create_vector(0, 0.707107, -0.707107);
+	res = lighting(mat, light, position, eyev2, normalv, in_shadow);
+	printf("Result. Lighting with the eye between light and surface, eye offset 45°\n");
+	print_colour(res);
+
+	light.ori.y = 10;
+	res = lighting(mat, light, position, eyev, normalv, in_shadow);
+	printf("Result. Lighting with eye opposite surface, light offset 45°\n");
+	print_colour(res);
+
+	t_tuple eyev3 = create_vector(0, -0.707107, -0.707107);
+	res = lighting(mat, light, position, eyev3, normalv, in_shadow);
+	printf("Result. Lighting with eye in the path of the reflection vector\n");
+	print_colour(res);
+
+	light.ori.y = 0;
+	light.ori.z = 10;
+	res = lighting(mat, light, position, eyev, normalv, in_shadow);
+	printf("Result. Lighting with the light behind the surface\n");
+	print_colour(res);
+}
+
+void	test_shadows(t_minirt *minirt)
+{
+	t_list	*temp = minirt->world->objects;
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+
+	obj->transform = identity();
+	obj->mat = init_material();
+	obj->mat.ambient = 1;
+	obj->mat.diffuse = 0.7;
+	obj->mat.specular = 0.2;
+
+	temp = temp->next;
+	obj = (t_scene_obj *)temp->content;
+	obj->transform = scaling(0.5, 0.5, 0.5);
+	obj->mat = init_material();
+	obj->mat.ambient = 1;
+	obj->mat.diffuse = 0.9;
+	obj->mat.specular = 0.9;
+
+	bool sh = is_shadowed(minirt, create_point(0, 10, 0));
+	printf("expect 0, is shadowed: %i\n", sh);
+
+	sh = is_shadowed(minirt, create_point(10, -10, 10));
+	printf("expect 1, is shadowed: %i\n", sh);
+
+	sh = is_shadowed(minirt, create_point(-20, 20, -20));
+	printf("expect 0, is shadowed: %i\n", sh);
+
+	sh = is_shadowed(minirt, create_point(-2, 2, -2));
+	printf("expect 0, is shadowed: %i\n", sh);
 }

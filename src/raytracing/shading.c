@@ -38,10 +38,31 @@ t_comps	*prepare_computations(t_minirt *minirt, t_i i, t_ray r)
 	return (comps);
 }
 
-t_color	shade_hit(t_parse *world, t_comps *comps)
+t_color	shade_hit(t_parse *world, t_comps *comps, bool in_shadow)
 {
-	t_color	color = lighting(comps->obj->mat, world->lig_s, comps->point, comps->eyev, comps->normalv);
+	t_color	color = lighting(comps->obj->mat, world->lig_s, comps->point, comps->eyev, comps->normalv, in_shadow);
 	return (color);
+}
+
+bool	is_shadowed(t_minirt *minirt, t_tuple point)
+{
+	t_ray	r;
+	t_tuple	dir;
+	t_xs	*xs;
+	t_i		hit_p;
+	t_tuple	v = substraction_tuples(create_point(minirt->world->lig_s.cx, minirt->world->lig_s.cy, minirt->world->lig_s.cz), create_point(point.x, point.y, point.z));
+
+	float	distance = magnitude_tuple(v);
+	dir = normalize_tuple(v);
+	r = create_ray(dir, point);
+	xs = intersect_world(minirt, r);
+	// print_xs(xs);
+	hit_p = hit(xs);
+	// printf("hit %f\n", hit_p.t);
+	if (xs->count != 0 && hit_p.t < distance && hit_p.t > 0)
+		return (true);
+	else
+		return (false);
 }
 
 t_color	color_at(t_minirt *minirt, t_ray r)
@@ -51,7 +72,12 @@ t_color	color_at(t_minirt *minirt, t_ray r)
 	if (hit_p.object == NULL)
 		return (color(0, 0, 0));
 	t_comps *comps = prepare_computations(minirt, hit_p, r);
-	t_color color = shade_hit(minirt->world, comps);
+	bool	in_shadow = is_shadowed(minirt, comps->point);
+	// if (in_shadow == 1)
+		// printf("yes\n");
+	// bool	in_shadow = 0;
+	t_color color = shade_hit(minirt->world, comps, in_shadow);
+	free(xs);
 	return (color);
 }
 

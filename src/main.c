@@ -24,6 +24,8 @@ int	main(int ac, char **av)
 	// fun_test_parsed_output(av, ps);
 	minirt.world = ps;
 	// free(ps);
+	// test_point_light_shadows();
+	// test_shadows(&minirt);
 	render_world(&minirt);
 	// mlx_loop_hook(minirt.mlx, &draw_hook, &minirt); //dont activate this hook. Its insanely slow because raytracing is very heavy process and this is redrawing everything every frame
 	mlx_loop(minirt.mlx);
