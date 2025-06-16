@@ -57,20 +57,27 @@ t_matrix4	rodrigues_formula(t_tuple rotation_axis, float rotation_angle)
 	t_matrix4	r;
 
 	k = construct_matrix(rotation_axis);
-	print_matrix(k, "k", 4);
+	// print_matrix(k, "k", 4);
 	i = identity();
-	print_matrix(i, "i", 4);
+	// print_matrix(i, "i", 4);
 	sin_k = scalar_multiply_matrix(k, sin(rotation_angle));
-	print_matrix(sin_k, "sin_k", 4);
+	// print_matrix(sin_k, "sin_k", 4);
 	k2 = multiply_mtrx_by_mtrx(k, k);
-	print_matrix(k2, "k2", 4);
+	// print_matrix(k2, "k2", 4);
 	one_minus_neg_cos_k2 = scalar_multiply_matrix(k2, 1 - cos(rotation_angle));
-	print_matrix(one_minus_neg_cos_k2, "one_minus_neg_cos_k2", 4);
+	// print_matrix(one_minus_neg_cos_k2, "one_minus_neg_cos_k2", 4);
 	r = addition_matrix(addition_matrix(i, sin_k), one_minus_neg_cos_k2);
-	print_matrix(r, "r", 4);
+	// print_matrix(r, "r", 4);
 	return (r);
 }
 
+t_matrix4	cylinder_scale(t_scene_obj *obj)
+{
+	t_matrix4	res;
+
+	res = scaling(obj->dia / 2.0, obj->height, obj->dia / 2.0);
+	return (res);
+}
 
 t_matrix4	cylinder_rotation(t_scene_obj *obj) //test this fucker
 {
@@ -81,16 +88,16 @@ t_matrix4	cylinder_rotation(t_scene_obj *obj) //test this fucker
 	t_matrix4	r;
 
 	default_axis = create_vector(0, 1, 0);
-	printf("default axis\n");
+	// printf("default axis\n");
 	print_tuple(default_axis);
 	target_axis = create_vector(obj->ox, obj->oy, obj->oz);
-	printf("target axis\n");
+	// printf("target axis\n");
 	print_tuple(target_axis);
 	rotation_axis = normalize_tuple(cross_tuple(default_axis, target_axis));
-	printf("rotation axis\n");
+	// printf("rotation axis\n");
 	print_tuple(rotation_axis);
 	rotation_angle = acos(dot_tuple(default_axis, target_axis));
-	printf("angle %f\n", rotation_angle);
+	// printf("angle %f\n", rotation_angle);
 	r = rodrigues_formula(rotation_axis, rotation_angle);
 	return (r);
 }
@@ -112,11 +119,13 @@ t_matrix4	generate_transformation_mtrx(t_minirt *minirt, t_scene_obj *obj)
 	// {
 	// 	translate = translation(obj->cx, obj->cy, obj->cz);
 	// }
-	// else if (obj->type == CYLINDER)
-	// {
-	// 	rotate = cylinder_rotation(obj);
-	// 	translate = translation(obj->cx, obj->cy, obj->cz);
-	// }
+	else if (obj->type == CYLINDER)
+	{
+		printf("dia %f, height %f\n", obj->dia, obj->height);
+		// scale = cylinder_scale(obj);
+		// rotate = cylinder_rotation(obj);
+		// translate = translation(obj->cx, obj->cy, obj->cz);
+	}
 	return (res);
 }
 
