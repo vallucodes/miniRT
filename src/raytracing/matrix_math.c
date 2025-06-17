@@ -246,6 +246,7 @@ t_matrix4	inverse_matrix(t_matrix4 m, bool *success)
 	if (det == 0)
 	{
 		*success = false;
+		matrix_fill_zero(&m2);
 		return (m2);
 	}
 	*success = true;

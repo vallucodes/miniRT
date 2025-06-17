@@ -110,7 +110,7 @@ t_matrix4	plane_rotation(t_scene_obj *obj)
 	return(cylinder_rotation(obj));
 }
 
-t_matrix4	generate_transformation_mtrx(t_minirt *minirt, t_scene_obj *obj)
+t_matrix4	generate_transformation_mtrx(t_scene_obj *obj)
 {
 	t_matrix4	res;
 	t_matrix4	rotate;
@@ -137,7 +137,10 @@ t_matrix4	generate_transformation_mtrx(t_minirt *minirt, t_scene_obj *obj)
 		res = multiply_mtrx_by_mtrx(translate, multiply_mtrx_by_mtrx(rotate, scale));
 	}
 	else
+	{
+		matrix_fill_zero(&res);
 		ft_putstr_fd("Error\nUnreachable code: shape unrecognized\n", STDERR_FILENO);
+	}
 	return (res);
 }
 
@@ -152,7 +155,7 @@ static void	init_objects(t_minirt *minirt)
 	i = 0;
 	while(i < minirt->world->obj_count)
 	{
-		obj->transform = generate_transformation_mtrx(minirt, obj);
+		obj->transform = generate_transformation_mtrx(obj);
 		obj->mat = init_material();
 		color_convert(obj);
 		temp = temp->next;
