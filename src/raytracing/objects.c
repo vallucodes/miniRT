@@ -59,7 +59,7 @@ t_scene_obj	plane(t_minirt *minirt)
  * @brief Create and give default attributes to a cylinder type t_scene_obj
  * @returns t_scene_obj: type = CYLINDER (2)
  */
-t_scene_obj	cylinder(t_minirt *minirt)
+t_scene_obj	cylinder(void)
 {
 	t_scene_obj	c;
 
