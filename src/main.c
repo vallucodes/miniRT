@@ -1,5 +1,21 @@
 #include "../inc/minirt.h"
 
+void	set_ids_for_objects(t_list *objects)
+{
+	t_scene_obj	*obj;
+	size_t		i;
+
+	obj = NULL;
+	i = 0;
+	while (objects != NULL)
+	{
+		obj = objects->content;
+		obj->id = i;
+		i++;
+		objects = objects->next;
+	}
+}
+
 int	main(int ac, char **av)
 {
 	t_minirt minirt;
@@ -23,6 +39,7 @@ int	main(int ac, char **av)
 	}
 	// fun_test_parsed_output(av, ps);
 	minirt.world = ps;
+	set_ids_for_objects(minirt.world->objects);
 	// free(ps);
 	render_world(&minirt);
 	// mlx_loop_hook(minirt.mlx, &draw_hook, &minirt); //dont activate this hook. Its insanely slow because raytracing is very heavy process and this is redrawing everything every frame
@@ -41,6 +58,6 @@ int	main(int ac, char **av)
 	return (0);
 }
 
-//restriction to be added, allow max amount of objects. Currently this is determining 1000 objects max and 1000 intersections per ray max
-// xs->object = malloc(1000 * sizeof(void *));
-// xs->t = malloc(1000 * sizeof(float));
+//restriction to be added, allow max amount of objects. Currently this is determining 100 objects max and 200 intersections per ray max
+// xs->object = malloc(200 * sizeof(void *));
+// xs->t = malloc(200 * sizeof(float));

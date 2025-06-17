@@ -27,8 +27,8 @@ t_tuple	normal_at_sphere(t_tuple point)
 }
 
 /**
- * @brief Return the plane normal for a given local [point] 
- * @details The normal at any point of plane will be perpendicular to plane 
+ * @brief Return the plane normal for a given local [point]
+ * @details The normal at any point of plane will be perpendicular to plane
  * @todo only having point as a param to mirror other functions, may remove
  */
 t_tuple	normal_at_plane(t_tuple point)
@@ -42,7 +42,7 @@ t_tuple	normal_at_plane(t_tuple point)
  * @details Convert point to object space > find appropriate object normal
  * 			> convert object normal to global space and return normalised
  */
-t_tuple	normal_at(t_minirt *minirt, t_scene_obj *obj, t_tuple point)
+t_tuple	normal_at(t_scene_obj *obj, t_tuple point)
 {
 	t_tuple		local_point;
 	t_tuple		local_normal;

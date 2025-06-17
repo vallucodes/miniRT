@@ -9,12 +9,12 @@ t_i	intersection(float intersection, void *obj)
 	return (i);
 }
 
-void	intersections(t_xs	*xs, t_i i1, t_i i2)
+void	intersections(t_xs *xs, t_i i1, t_i i2)
 {
 	if (xs->count == 0)
 	{
-		xs->object = malloc(1000 * sizeof(void *));
-		xs->t = malloc(1000 * sizeof(float));
+		xs->object = malloc(200 * sizeof(void *));
+		xs->t = malloc(200 * sizeof(float));
 	}
 	xs->object[xs->count] = i1.object;
 	xs->object[xs->count + 1] = i2.object;
