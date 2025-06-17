@@ -14,8 +14,6 @@ t_xs	*intersect_world(t_minirt *minirt, t_ray r)
 		t_scene_obj *obj = (t_scene_obj *)temp->content;
 		intersect(obj, r, xs);
 		temp = temp->next;
-		if (temp == NULL)
-			break ;
 		i++;
 	}
 	return (xs);
