@@ -28,7 +28,7 @@ typedef struct	s_material t_material;
 typedef struct	s_scene_obj t_scene_obj;
 typedef struct	s_camera t_camera;
 t_color	color(float r, float g, float b);
-t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple c_v, t_tuple n_v);
+t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple c_v, t_tuple n_v, bool in_shadow);
 
 //Project includes.
 # include "memory_arena.h"
@@ -38,8 +38,8 @@ t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple c_v, t_tuple n_v);
 
 //Constant defines
 /**
- * @todo  M_PI Only here to stop vscode annoyance. Can be removed for evaluation. 
- */ 
+ * @todo  M_PI Only here to stop vscode annoyance. Can be removed for evaluation.
+ */
 # define M_PI 3.14159265358979323846
 # define EPSILON 0.00001
 

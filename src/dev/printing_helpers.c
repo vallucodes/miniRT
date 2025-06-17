@@ -52,7 +52,7 @@ void	print_xs(t_xs *xs)
 	printf("print xs\n");
 	size_t i = 0;
 	// int object_type;
-	t_scene_obj *obj = (t_scene_obj *)xs->object;
+	// t_scene_obj *obj = (t_scene_obj *)xs->object;
 
 	printf("xs.count = %zu\n", xs->count);
 	while (i < xs->count)
@@ -99,6 +99,22 @@ void	print_camera(t_camera *cam)
 			printf("%.6f ", cam->transform.m[i][j]);
 		}
 		printf("\n");
+	}
+}
+
+void	show_all_objects_and_related_ids(t_list *objects)
+{
+	t_scene_obj	*obj;
+	size_t		i;
+
+	obj = NULL;
+	i = 0;
+	while (objects != NULL)
+	{
+		obj = objects->content;
+		printf("object type: %i\n", obj->type);
+		printf("object id: %zu\n", obj->id);
+		objects = objects->next;
 	}
 }
 
