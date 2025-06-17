@@ -24,14 +24,14 @@ void	draw_current_thing(t_minirt *minirt, t_camera *c)
 	}
 }
 
-static void	init_light(t_minirt *minirt)
-{
-	t_light	*light;
+// static void	init_light(t_minirt *minirt)
+// {
+// 	t_light	*light;
 
-	light = &minirt->world->lig_s;
-	*light = init_point_light(create_point(light->cx, light->cy, light->cz),
-				color(light->col.r, light->col.g, light->col.b), light->ratio);
-}
+// 	light = &minirt->world->lig_s;
+// 	*light = init_point_light(create_point(light->ori.x, light->ori.y, light->ori.z),
+// 				color(light->col.r, light->col.g, light->col.b), light->ratio);
+// }
 
 t_matrix4	construct_matrix(t_tuple rotation_axis)
 {
@@ -169,8 +169,6 @@ static void	init_objects(t_minirt *minirt)
 
 void	render_world(t_minirt *minirt)
 {
-
-	init_light(minirt);
 	init_objects(minirt);
 	init_camera(minirt);
 	draw_current_thing(minirt, &minirt->world->cam_s);

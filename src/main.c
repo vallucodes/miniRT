@@ -1,5 +1,21 @@
 #include "../inc/minirt.h"
 
+void	set_ids_for_objects(t_list *objects)
+{
+	t_scene_obj	*obj;
+	size_t		i;
+
+	obj = NULL;
+	i = 0;
+	while (objects != NULL)
+	{
+		obj = objects->content;
+		obj->id = i;
+		i++;
+		objects = objects->next;
+	}
+}
+
 int	main(int ac, char **av)
 {
 	t_minirt minirt;
@@ -23,6 +39,7 @@ int	main(int ac, char **av)
 	}
 	// fun_test_parsed_output(av, ps);
 	minirt.world = ps;
+	set_ids_for_objects(minirt.world->objects);
 	// free(ps);
 	// test_point_light_shadows();
 	// test_shadows(&minirt);

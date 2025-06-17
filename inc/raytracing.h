@@ -1,8 +1,8 @@
 #ifndef RAYTRACING_H
 # define RAYTRACING_H
 
-# define WIDTH 300
-# define HEIGHT	300
+# define WIDTH	400
+# define HEIGHT	400
 # define MALLOC	"Memory allocation failed"
 
 //Material default values
@@ -212,6 +212,7 @@ t_ray	create_ray(t_tuple vector, t_tuple point);
 t_tuple	position_ray(t_ray ray, float t);
 void	init_xs(t_xs *xs);
 t_i		hit(t_xs *xs);
+t_i		hit_obj_to_light(t_xs *xs, t_scene_obj *obj);
 t_ray	transform(t_ray r, t_matrix4 m);
 void	set_transform(t_scene_obj *obj, t_matrix4 m);
 t_i		intersection(float intersection, void *obj);
@@ -223,6 +224,7 @@ t_xs		*intersect_world(t_minirt *minirt, t_ray r);
 t_comps		*prepare_computations(t_i i, t_ray r);
 t_color		shade_hit(t_parse *world, t_comps *comps, bool in_shadow);
 t_color		color_at(t_minirt *minirt, t_ray ray);
+bool		is_shadowed_testing(t_minirt *minirt, t_tuple point, t_scene_obj *obj);
 bool		is_shadowed(t_minirt *minirt, t_tuple point);
 
 //camera
@@ -252,6 +254,7 @@ void	print_tuple(t_tuple t);
 void	print_colour(t_color c);
 void	print_comps(t_comps *comps);
 void	print_camera(t_camera *cam);
+void	show_all_objects_and_related_ids(t_list *objects);
 void	fun_test_parsed_output(char **av, t_parse *ps);
 
 //dev

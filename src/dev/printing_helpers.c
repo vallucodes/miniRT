@@ -102,6 +102,22 @@ void	print_camera(t_camera *cam)
 	}
 }
 
+void	show_all_objects_and_related_ids(t_list *objects)
+{
+	t_scene_obj	*obj;
+	size_t		i;
+
+	obj = NULL;
+	i = 0;
+	while (objects != NULL)
+	{
+		obj = objects->content;
+		printf("object type: %i\n", obj->type);
+		printf("object id: %zu\n", obj->id);
+		objects = objects->next;
+	}
+}
+
 void fun_test_parsed_output(char **av, t_parse *ps)
 {
 	printf("Infile: %s\n\n", av[1]);
