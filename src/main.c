@@ -18,7 +18,7 @@ void	set_ids_for_objects(t_list *objects)
 
 int	main(int ac, char **av)
 {
-	setbuf(stdout, NULL);
+	/*setbuf(stdout, NULL);
 	t_minirt minirt;
 	init_minirt(&minirt);
 
@@ -41,13 +41,14 @@ int	main(int ac, char **av)
 	// mlx_loop_hook(minirt.mlx, &draw_hook, &minirt); //dont activate this hook. Its insanely slow because raytracing is very heavy process and this is redrawing everything every frame
 	mlx_loop(minirt.mlx);
 	close(ps->fd);
-	ft_lstclear(&ps->objects, &free);
+	ft_lstclear(&ps->objects, &free);*/
 
 	/**
 	 * Testing chapter 13 material
 	 */
-	
-	 return (0);
+	test_cylinder();
+
+	return (0);
 }
 
 //restriction to be added, allow max amount of objects. Currently this is determining 100 objects max and 200 intersections per ray max

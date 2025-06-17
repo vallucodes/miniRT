@@ -1124,13 +1124,25 @@ void	test_shadows(t_minirt *minirt)
 	printf("expect 0, is shadowed: %i\n", sh);
 }
 
-void	test_cylinder(t_minirt *m)
+void	test_cylinder(void)
 {
-	t_scene_obj	cyl = cylinder(m);
+	t_scene_obj	cyl = cylinder();
 
 	printf("Test #1: A Ray Misses a Cylinder\n");
 	printf("Test #1: | point(1, 0, 0) | vector(0, 1, 0) |\n");
 	t_ray		r1 = create_ray(create_point(1,0,0), create_vector(0,1,0));
-	t_xs		*xs1 = intersect(&cyl, r1, xs1);
-	printf("Test #1: | point(1, 0, 0) | vector(0, 1, 0) |\n");
+	t_xs		*xs1 = malloc(sizeof(t_xs));
+	init_xs(xs1);
+	xs1 = intersect(&cyl, r1, xs1);
+	printf("xs.count: %lu\n", xs1->count);
+	
+	printf("Test #1: | point(0, 0, 0) | vector(0, 1, 0) |\n");
+	r1 = create_ray(create_point(0,0,0), create_vector(0,1,0));
+	xs1 = intersect(&cyl, r1, xs1);
+	printf("xs.count: %lu\n", xs1->count);
+	
+	printf("Test #1: | point(0, 0, -5) | vector(1, 1, 1) |\n");
+	r1 = create_ray(create_point(0,0,-5), create_vector(1,1,1));
+	xs1 = intersect(&cyl, r1, xs1);
+	printf("xs.count: %lu\n", xs1->count);
 }
