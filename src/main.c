@@ -41,10 +41,10 @@ int	main(int ac, char **av)
 	// fun_test_parsed_output(av, ps);
 	minirt.world = ps;
 	set_ids_for_objects(minirt.world->objects);
-	// free(ps);
 	render_world(&minirt);
 	// mlx_loop_hook(minirt.mlx, &draw_hook, &minirt); //dont activate this hook. Its insanely slow because raytracing is very heavy process and this is redrawing everything every frame
 	mlx_loop(minirt.mlx);
+	free(ps);
 	close(ps->fd);
 	ft_lstclear(&ps->objects, &free);
 
