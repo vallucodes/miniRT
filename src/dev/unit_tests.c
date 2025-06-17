@@ -534,28 +534,29 @@ void	test_point_light_reflections(void)
 	light.ori = create_point(0, 0, -10);
 	light.col = color(1, 1, 1);
 	light.ratio = 1;
-	t_color res = lighting(mat, light, position, eyev, normalv);
+	bool in_shadow = 0;
+	t_color res = lighting(mat, light, position, eyev, normalv, in_shadow);
 	printf("Result. Lighting with the eye between the light and the surface.\n");
 	print_colour(res);
 
 	t_tuple eyev2 = create_vector(0, 0.707107, -0.707107);
-	res = lighting(mat, light, position, eyev2, normalv);
+	res = lighting(mat, light, position, eyev2, normalv, in_shadow);
 	printf("Result. Lighting with the eye between light and surface, eye offset 45°\n");
 	print_colour(res);
 
 	light.ori.y = 10;
-	res = lighting(mat, light, position, eyev, normalv);
+	res = lighting(mat, light, position, eyev, normalv, in_shadow);
 	printf("Result. Lighting with eye opposite surface, light offset 45°\n");
 	print_colour(res);
 
 	t_tuple eyev3 = create_vector(0, -0.707107, -0.707107);
-	res = lighting(mat, light, position, eyev3, normalv);
+	res = lighting(mat, light, position, eyev3, normalv, in_shadow);
 	printf("Result. Lighting with eye in the path of the reflection vector\n");
 	print_colour(res);
 
 	light.ori.y = 0;
 	light.ori.z = 10;
-	res = lighting(mat, light, position, eyev, normalv);
+	res = lighting(mat, light, position, eyev, normalv, in_shadow);
 	printf("Result. Lighting with the light behind the surface\n");
 	print_colour(res);
 }
@@ -600,7 +601,7 @@ void	test_prepare_computations_outside(t_minirt *minirt, char **av)
 	t_scene_obj *obj = (t_scene_obj *)temp->content;
 	t_i		i1 = intersection(4, obj); //hard set t value = 4
 	obj->transform = identity();
-	t_comps *comps = prepare_computations(minirt, i1, r);
+	t_comps *comps = prepare_computations(i1, r);
 	print_comps(comps);
 }
 
@@ -616,7 +617,7 @@ void	test_prepare_computations_inside(t_minirt *minirt, char **av)
 	t_scene_obj *obj = (t_scene_obj *)temp->content;
 	t_i		i1 = intersection(1, obj); //hard set t value = 1
 	obj->transform = identity();
-	t_comps *comps = prepare_computations(minirt, i1, r);
+	t_comps *comps = prepare_computations(i1, r);
 	print_comps(comps);
 }
 
@@ -636,10 +637,11 @@ void	test_shading_an_intersection(t_minirt *minirt, char **av)
 	obj->mat.col.r = 0.8;
 	obj->mat.col.g = 1;
 	obj->mat.col.b = 0.6;
-	t_comps *comps = prepare_computations(minirt, i1, r);
+	t_comps *comps = prepare_computations(i1, r);
 	fun_test_parsed_output(av, minirt->world);
 	// print_comps(comps);
-	t_color color = shade_hit(minirt->world, comps);
+	bool in_shadow = 0;
+	t_color color = shade_hit(minirt->world, comps, in_shadow);
 	print_colour(color);
 }
 
@@ -659,10 +661,11 @@ void	test_shading_an_intersection_from_inside(t_minirt *minirt, char **av)
 	obj->mat.col.r = 1;
 	obj->mat.col.g = 1;
 	obj->mat.col.b = 1;
-	t_comps *comps = prepare_computations(minirt, i1, r);
+	t_comps *comps = prepare_computations(i1, r);
 	fun_test_parsed_output(av, minirt->world);
 	// print_comps(comps);
-	t_color color = shade_hit(minirt->world, comps);
+	bool in_shadow = 0;
+	t_color color = shade_hit(minirt->world, comps, in_shadow);
 	print_colour(color);
 }
 
@@ -766,7 +769,7 @@ void	test_intersection_behind_ray(t_minirt *minirt)
 	print_colour(color);
 }
 
-void	test_orientation(t_minirt *minirt)
+void	test_orientation(void)
 {
 	printf("default orientation:\n");
 	t_tuple	from = create_point(0, 0, 0);
@@ -835,11 +838,11 @@ void	test_ray_for_pixel(t_minirt *minirt)
 	print_ray(r);
 }
 
-void	test_shape(t_minirt *minirt)
+void	test_shape(void)
 {
 	t_scene_obj object;
 	t_matrix4 trans;
-	t_material mat;
+	// t_material mat;
 
 	/*//Test 1, set test object's trans to ident
 	object.transform = identity(minirt);
@@ -860,24 +863,25 @@ void	test_shape(t_minirt *minirt)
 	object.type = SPHERE;
 	trans = translation(0, 1, 0);
 	set_transform(&object, trans);
-	t_tuple norm = normal_at(minirt, &object, create_point(0, 1.70711, -0.70711));
+	t_tuple norm = normal_at(&object, create_point(0, 1.70711, -0.70711));
 	printf("Test 4. Normal of translated 0,1,0\n");
 	print_tuple(norm);
 
 	//Test 5, normal on transformed shape
 	trans = multiply_mtrx_by_mtrx(scaling(1, 0.5, 1), rotation_z(0.62832));
 	set_transform(&object, trans);
-	norm = normal_at(minirt, &object, create_point(0, 0.70711, -0.70711));
+	norm = normal_at(&object, create_point(0, 0.70711, -0.70711));
 	printf("Test 5. Normal of transformed sca-rot\n");
 	print_tuple(norm);
 }
 
-void	test_intersect_generic(t_minirt *minirt)
+void	test_intersect_generic(void)
 {
+	t_xs *xs = NULL;
 	t_ray ray = create_ray(create_vector(0,0,1), create_point(0,0,-5));
 	t_scene_obj obj;
 	set_transform(&obj, scaling(2, 2, 2));
-	t_xs *xs = intersect(&obj, ray, xs);
+	xs = intersect(&obj, ray, xs);
 	(void)xs;
 	printf("Scaled 2,2,2 saved_ray\n");
 	print_ray(obj.saved_ray);
@@ -895,15 +899,15 @@ void	test_plane_normal(t_minirt *minirt)
 	printf("Scenario: The normal of a plane is constant everywhere\n");
 	t_scene_obj	p = plane(minirt);
 
-	t_tuple	n1 = normal_at(minirt, &p, create_point(0, 0, 0));
+	t_tuple	n1 = normal_at(&p, create_point(0, 0, 0));
 	printf("Normal at point 0,0,0\n");
 	print_tuple(n1);
 
-	t_tuple	n2 = normal_at(minirt, &p, create_point(10, 0, -10));
+	t_tuple	n2 = normal_at(&p, create_point(10, 0, -10));
 	printf("Normal at point 10,0,-10\n");
 	print_tuple(n2);
 
-	t_tuple	n3 = normal_at(minirt, &p, create_point(-5, 0, 150));
+	t_tuple	n3 = normal_at(&p, create_point(-5, 0, 150));
 	printf("Normal at point -5,0,150\n");
 	print_tuple(n3);
 }
@@ -1047,4 +1051,75 @@ void	test_plane_transformation(void)
 	// | 0.6667  -0.7071   0.2357 |
 	// | 0.7071   0.5     -0.5    |
 	// | 0.2357   0.5      0.8333 |
+}
+
+
+void	test_point_light_shadows(void)
+{
+	t_material mat = init_material();
+	t_tuple	position = create_point(0, 0, 0);
+
+	t_tuple eyev = create_vector(0, 0, -1);
+	t_tuple	normalv = create_vector(0, 0, -1);
+	t_light light;
+	light.ori = create_point(0, 0, -10);
+	light.col = color(1, 1, 1);
+	light.ratio = 1;
+	bool in_shadow = 1;
+	t_color res = lighting(mat, light, position, eyev, normalv, in_shadow);
+	printf("Result. Lighting with the eye between the light and the surface.\n");
+	print_colour(res);
+
+	t_tuple eyev2 = create_vector(0, 0.707107, -0.707107);
+	res = lighting(mat, light, position, eyev2, normalv, in_shadow);
+	printf("Result. Lighting with the eye between light and surface, eye offset 45°\n");
+	print_colour(res);
+
+	light.ori.y = 10;
+	res = lighting(mat, light, position, eyev, normalv, in_shadow);
+	printf("Result. Lighting with eye opposite surface, light offset 45°\n");
+	print_colour(res);
+
+	t_tuple eyev3 = create_vector(0, -0.707107, -0.707107);
+	res = lighting(mat, light, position, eyev3, normalv, in_shadow);
+	printf("Result. Lighting with eye in the path of the reflection vector\n");
+	print_colour(res);
+
+	light.ori.y = 0;
+	light.ori.z = 10;
+	res = lighting(mat, light, position, eyev, normalv, in_shadow);
+	printf("Result. Lighting with the light behind the surface\n");
+	print_colour(res);
+}
+
+void	test_shadows(t_minirt *minirt)
+{
+	t_list	*temp = minirt->world->objects;
+	t_scene_obj *obj = (t_scene_obj *)temp->content;
+
+	obj->transform = identity();
+	obj->mat = init_material();
+	obj->mat.ambient = 1;
+	obj->mat.diffuse = 0.7;
+	obj->mat.specular = 0.2;
+
+	temp = temp->next;
+	obj = (t_scene_obj *)temp->content;
+	obj->transform = scaling(0.5, 0.5, 0.5);
+	obj->mat = init_material();
+	obj->mat.ambient = 1;
+	obj->mat.diffuse = 0.9;
+	obj->mat.specular = 0.9;
+
+	bool sh = is_shadowed(minirt, create_point(0, 10, 0), obj);
+	printf("expect 0, is shadowed: %i\n", sh);
+
+	sh = is_shadowed(minirt, create_point(10, -10, 10), obj);
+	printf("expect 1, is shadowed: %i\n", sh);
+
+	sh = is_shadowed(minirt, create_point(-20, 20, -20), obj);
+	printf("expect 0, is shadowed: %i\n", sh);
+
+	sh = is_shadowed(minirt, create_point(-2, 2, -2), obj);
+	printf("expect 0, is shadowed: %i\n", sh);
 }

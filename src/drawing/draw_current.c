@@ -24,15 +24,6 @@ void	draw_current_thing(t_minirt *minirt, t_camera *c)
 	}
 }
 
-static void	init_light(t_minirt *minirt)
-{
-	t_light	*light;
-
-	light = &minirt->world->lig_s;
-	*light = init_point_light(create_point(light->cx, light->cy, light->cz),
-				color(light->col.r, light->col.g, light->col.b), light->ratio);
-}
-
 t_matrix4	construct_matrix(t_tuple rotation_axis)
 {
 	t_matrix4	m;
@@ -110,7 +101,7 @@ t_matrix4	plane_rotation(t_scene_obj *obj)
 	return(cylinder_rotation(obj));
 }
 
-t_matrix4	generate_transformation_mtrx(t_minirt *minirt, t_scene_obj *obj)
+t_matrix4	generate_transformation_mtrx(t_scene_obj *obj)
 {
 	t_matrix4	res;
 	t_matrix4	rotate;
@@ -136,6 +127,11 @@ t_matrix4	generate_transformation_mtrx(t_minirt *minirt, t_scene_obj *obj)
 		translate = translation(obj->cx, obj->cy, obj->cz);
 		res = multiply_mtrx_by_mtrx(translate, multiply_mtrx_by_mtrx(rotate, scale));
 	}
+	else
+	{
+		matrix_fill_zero(&res);
+		ft_putstr_fd("Error\nUnreachable code: shape unrecognized\n", STDERR_FILENO);
+	}
 	return (res);
 }
 
@@ -150,7 +146,7 @@ static void	init_objects(t_minirt *minirt)
 	i = 0;
 	while(i < minirt->world->obj_count)
 	{
-		obj->transform = generate_transformation_mtrx(minirt, obj);
+		obj->transform = generate_transformation_mtrx(obj);
 		obj->mat = init_material();
 		color_convert(obj);
 		temp = temp->next;
@@ -164,8 +160,6 @@ static void	init_objects(t_minirt *minirt)
 
 void	render_world(t_minirt *minirt)
 {
-
-	init_light(minirt);
 	init_objects(minirt);
 	init_camera(minirt);
 	draw_current_thing(minirt, &minirt->world->cam_s);

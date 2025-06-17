@@ -109,6 +109,7 @@ typedef struct s_light
 typedef struct s_scene_obj
 {
 	t_obj_type		type;
+	size_t			id;
 	float			cx;
 	float			cy;
 	float			cz;
