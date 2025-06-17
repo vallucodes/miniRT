@@ -1111,15 +1111,15 @@ void	test_shadows(t_minirt *minirt)
 	obj->mat.diffuse = 0.9;
 	obj->mat.specular = 0.9;
 
-	bool sh = is_shadowed(minirt, create_point(0, 10, 0));
+	bool sh = is_shadowed(minirt, create_point(0, 10, 0), obj);
 	printf("expect 0, is shadowed: %i\n", sh);
 
-	sh = is_shadowed(minirt, create_point(10, -10, 10));
+	sh = is_shadowed(minirt, create_point(10, -10, 10), obj);
 	printf("expect 1, is shadowed: %i\n", sh);
 
-	sh = is_shadowed(minirt, create_point(-20, 20, -20));
+	sh = is_shadowed(minirt, create_point(-20, 20, -20), obj);
 	printf("expect 0, is shadowed: %i\n", sh);
 
-	sh = is_shadowed(minirt, create_point(-2, 2, -2));
+	sh = is_shadowed(minirt, create_point(-2, 2, -2), obj);
 	printf("expect 0, is shadowed: %i\n", sh);
 }
