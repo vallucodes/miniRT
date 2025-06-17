@@ -29,10 +29,10 @@ t_comps	*prepare_computations(t_i i, t_ray r)
 	comps->eyev = normalize_tuple(negate_tuple(r.dir));
 	comps->normalv = normal_at(comps->obj, comps->point);
 	comps->over_point = addition_tuples(comps->point, scalar_multiply_tuple(comps->normalv, EPSILON));
-	printf("point\n");
-	print_tuple(comps->point);
-	printf("overpoint\n");
-	print_tuple(comps->over_point);
+	// printf("point\n");
+	// print_tuple(comps->point);
+	// printf("overpoint\n");
+	// print_tuple(comps->over_point);
 	if (dot_tuple(comps->normalv, comps->eyev) < 0)
 	{
 		comps->inside = true;
@@ -55,6 +55,10 @@ bool	is_shadowed(t_minirt *minirt, t_tuple point)
 	t_tuple	dir;
 	t_xs	*xs;
 	t_i		hit_p;
+	// printf("light point:\n");
+	// printf("x %f, y %f, z %f\n", minirt->world->lig_s.cx, minirt->world->lig_s.cy, minirt->world->lig_s.cz);
+	// printf("t_tuple point:\n");
+	// print_tuple(point);
 	t_tuple	v = substraction_tuples(create_point(minirt->world->lig_s.cx, minirt->world->lig_s.cy, minirt->world->lig_s.cz), create_point(point.x, point.y, point.z));
 
 	float	distance = magnitude_tuple(v);
@@ -64,6 +68,41 @@ bool	is_shadowed(t_minirt *minirt, t_tuple point)
 	// print_xs(xs);
 	hit_p = hit(xs);
 	// printf("hit %f\n", hit_p.t);
+	// printf("xs->count %zu, hit_p.t %f, distance %f\n", xs->count, hit_p.t, distance);
+	if (xs->count != 0 && hit_p.t < distance && hit_p.t > 0)
+		return (true);
+	else
+		return (false);
+}
+
+bool	is_shadowed_testing(t_minirt *minirt, t_tuple point, t_scene_obj *obj)
+{
+	t_ray	r;
+	t_tuple	dir;
+	t_xs	*xs;
+	t_i		hit_p;
+	// printf("light point:\n");
+	// printf("x %f, y %f, z %f\n", minirt->world->lig_s.cx, minirt->world->lig_s.cy, minirt->world->lig_s.cz);
+	// printf("t_tuple point:\n");
+	// print_tuple(point);
+	t_tuple	v = substraction_tuples(create_point(minirt->world->lig_s.cx, minirt->world->lig_s.cy, minirt->world->lig_s.cz), create_point(point.x, point.y, point.z));
+	// if (obj->type == PLANE)
+	// {
+	// 	printf("vector from point to light:\n");
+	// 	print_tuple(v);
+	// }
+
+	float	distance = magnitude_tuple(v);
+	dir = normalize_tuple(v);
+	r = create_ray(dir, point);
+	xs = intersect_world(minirt, r);
+	// print_xs(xs);
+	hit_p = hit_obj_to_light(xs, obj);
+	// if (obj->type == PLANE)
+	// {
+	// 	printf("hit %f\n", hit_p.t);
+	// 	printf("xs->count %zu, hit_p.t %f, distance %f\n", xs->count, hit_p.t, distance);
+	// }
 	if (xs->count != 0 && hit_p.t < distance && hit_p.t > 0)
 		return (true);
 	else
@@ -77,7 +116,8 @@ t_color	color_at(t_minirt *minirt, t_ray r)
 	if (hit_p.object == NULL)
 		return (color(0, 0, 0));
 	t_comps *comps = prepare_computations(hit_p, r);
-	bool	in_shadow = is_shadowed(minirt, comps->over_point);
+	// t_scene_obj *obj = (t_scene_obj *)hit_p.object;
+	bool	in_shadow = is_shadowed_testing(minirt, comps->over_point, hit_p.object);
 	// if (in_shadow == 1)
 		// printf("yes\n");
 	// bool	in_shadow = 0;
