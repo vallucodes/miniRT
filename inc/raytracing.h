@@ -142,10 +142,10 @@ typedef struct	s_comps
 //lighting.c
 t_light	init_point_light(t_tuple pos, t_color color, float ratio);
 t_tuple	reflect(t_tuple in, t_tuple normal);
-t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple e_v, t_tuple n_v);
+//t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple e_v, t_tuple n_v);
 
 //normal.c
-t_tuple	normal_at(t_minirt *minirt, t_scene_obj *obj, t_tuple point);
+t_tuple	normal_at(t_scene_obj *obj, t_tuple point);
 
 //tuples
 t_tuple	create_vector(float x, float y, float z);
@@ -206,7 +206,7 @@ void	matrix_fill_zero(t_matrix4 *m);
 t_ray	create_ray(t_tuple vector, t_tuple point);
 t_tuple	position_ray(t_ray ray, float t);
 void	init_xs(t_xs *xs);
-t_i		hit(t_xs *xs);
+t_i		hit(t_xs *xs, t_scene_obj *obj_from);
 t_ray	transform(t_ray r, t_matrix4 m);
 void	set_transform(t_scene_obj *obj, t_matrix4 m);
 t_i		intersection(float intersection, void *obj);
@@ -215,15 +215,15 @@ t_xs	*intersect_world(t_minirt *minirt, t_ray r);
 
 //shading
 t_xs		*intersect_world(t_minirt *minirt, t_ray r);
-t_comps		*prepare_computations(t_minirt *minirt, t_i i, t_ray r);
-t_color		shade_hit(t_parse *world, t_comps *comps);
+t_comps		*prepare_computations(t_i i, t_ray r);
+t_color	shade_hit(t_parse *world, t_comps *comps, bool in_shadow);
 t_color		color_at(t_minirt *minirt, t_ray ray);
+bool		is_shadowed(t_minirt *minirt, t_tuple point, t_scene_obj *obj);
 
 //camera
 t_matrix4	view_transform(t_tuple from, t_tuple to, t_tuple up);
-void	init_camera(t_minirt *minirt);
-t_ray	ray_for_pixel(t_camera *c, int px, int py);
-t_i		hit(t_xs *xs);
+void		init_camera(t_minirt *minirt);
+t_ray		ray_for_pixel(t_camera *c, int px, int py);
 
 //intersections
 t_xs		*intersects_sphere(t_scene_obj *obj, t_ray r, t_xs *xs);
@@ -270,13 +270,13 @@ void	test_shading_an_intersection_from_inside(t_minirt *minirt, char **av);
 void	test_ray_misses_obj(t_minirt *minirt);
 void	test_ray_hits_obj(t_minirt *minirt);
 void	test_intersection_behind_ray(t_minirt *minirt);
-void	test_orientation(t_minirt *minirt);
+void	test_orientation(void);
 void	test_camera(t_minirt *minirt);
 void	test_ray_for_pixel(t_minirt *minirt);
 void	test_intersect_two_spheres(t_minirt *minirt);
 void	print_colour(t_color c);
-void	test_shape(t_minirt *minirt);
-void	test_intersect_generic(t_minirt *minirt);
+void	test_shape(void);
+void	test_intersect_generic(void);
 void	test_plane_normal(t_minirt *minirt);
 void	test_plane_intersect(t_minirt *minirt);
 void	test_render_world(t_minirt *minirt);
