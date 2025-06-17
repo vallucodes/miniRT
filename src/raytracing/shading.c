@@ -2,16 +2,18 @@
 
 t_xs	*intersect_world(t_minirt *minirt, t_ray r)
 {
-	t_xs	*xs;
-	int		i;
-	t_list	*temp = minirt->world->objects;
+	t_xs		*xs;
+	int			i;
+	t_scene_obj	*obj;
+	t_list		*temp;
 
 	xs = malloc(sizeof(t_xs));
 	init_xs(xs);
+	temp = minirt->world->objects;
 	i = 0;
 	while (i < minirt->world->obj_count)
 	{
-		t_scene_obj *obj = (t_scene_obj *)temp->content;
+		obj = (t_scene_obj *)temp->content;
 		intersect(obj, r, xs);
 		temp = temp->next;
 		i++;
@@ -47,15 +49,16 @@ t_color	shade_hit(t_parse *world, t_comps *comps, bool in_shadow)
 
 bool	is_shadowed(t_minirt *minirt, t_tuple point, t_scene_obj *obj)
 {
+	t_tuple	point_to_light;
 	t_ray	r;
 	t_tuple	dir;
 	t_xs	*xs;
 	t_i		hit_p;
+	float	distance;
 
-	t_tuple	v = substraction_tuples(create_point(minirt->world->lig_s.cx, minirt->world->lig_s.cy, minirt->world->lig_s.cz), create_point(point.x, point.y, point.z));
-
-	float	distance = magnitude_tuple(v);
-	dir = normalize_tuple(v);
+	point_to_light = substraction_tuples(create_point(minirt->world->lig_s.cx, minirt->world->lig_s.cy, minirt->world->lig_s.cz), create_point(point.x, point.y, point.z));
+	distance = magnitude_tuple(point_to_light);
+	dir = normalize_tuple(point_to_light);
 	r = create_ray(dir, point);
 	xs = intersect_world(minirt, r);
 	hit_p = hit(xs, obj);
@@ -67,14 +70,21 @@ bool	is_shadowed(t_minirt *minirt, t_tuple point, t_scene_obj *obj)
 
 t_color	color_at(t_minirt *minirt, t_ray r)
 {
-	t_xs	*xs = intersect_world(minirt, r);
-	t_i		hit_p = hit(xs, NULL);
+	t_xs	*xs;
+	t_i		hit_p;
+	t_comps	*comps;
+	bool	in_shadow;
+	t_color	color_var;
+
+	xs = intersect_world(minirt, r);
+	hit_p = hit(xs, NULL);
 	if (hit_p.object == NULL)
 		return (color(0, 0, 0));
-	t_comps *comps = prepare_computations(hit_p, r);
-	bool	in_shadow = is_shadowed(minirt, comps->point, hit_p.object);
-	t_color color = shade_hit(minirt->world, comps, in_shadow);
+	comps = prepare_computations(hit_p, r);
+	in_shadow = is_shadowed(minirt, comps->point, hit_p.object);
+	color_var = shade_hit(minirt->world, comps, in_shadow);
 	free(xs);
-	return (color);
+	xs = NULL;
+	return (color_var);
 }
 

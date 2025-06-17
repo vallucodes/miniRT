@@ -137,23 +137,19 @@ t_matrix4	generate_transformation_mtrx(t_scene_obj *obj)
 
 static void	init_objects(t_minirt *minirt)
 {
-	int	i;
-	t_list	*temp;
-	t_scene_obj *obj;
+	int			i;
+	t_list		*temp;
+	t_scene_obj	*obj;
 
 	temp = minirt->world->objects;
-	obj = (t_scene_obj *)temp->content;
 	i = 0;
 	while(i < minirt->world->obj_count)
 	{
+		obj = (t_scene_obj *)temp->content;
 		obj->transform = generate_transformation_mtrx(obj);
 		obj->mat = init_material();
 		color_convert(obj);
 		temp = temp->next;
-		if (temp != NULL)
-			obj = (t_scene_obj *)temp->content;
-		else
-			break ;
 		i++;
 	}
 }
