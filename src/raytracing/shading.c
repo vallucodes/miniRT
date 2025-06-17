@@ -19,7 +19,7 @@ t_xs	*intersect_world(t_minirt *minirt, t_ray r)
 	return (xs);
 }
 
-t_comps	*prepare_computations(t_minirt *minirt, t_i i, t_ray r)
+t_comps	*prepare_computations(t_i i, t_ray r)
 {
 	t_comps	*comps;
 
@@ -27,8 +27,12 @@ t_comps	*prepare_computations(t_minirt *minirt, t_i i, t_ray r)
 	comps->obj = i.object;
 	comps->point = position_ray(r, i.t);
 	comps->eyev = normalize_tuple(negate_tuple(r.dir));
-	comps->normalv = normal_at(minirt, comps->obj, comps->point);
+	comps->normalv = normal_at(comps->obj, comps->point);
 	comps->over_point = addition_tuples(comps->point, scalar_multiply_tuple(comps->normalv, EPSILON));
+	printf("point\n");
+	print_tuple(comps->point);
+	printf("overpoint\n");
+	print_tuple(comps->over_point);
 	if (dot_tuple(comps->normalv, comps->eyev) < 0)
 	{
 		comps->inside = true;
@@ -72,7 +76,7 @@ t_color	color_at(t_minirt *minirt, t_ray r)
 	t_i		hit_p = hit(xs);
 	if (hit_p.object == NULL)
 		return (color(0, 0, 0));
-	t_comps *comps = prepare_computations(minirt, hit_p, r);
+	t_comps *comps = prepare_computations(hit_p, r);
 	bool	in_shadow = is_shadowed(minirt, comps->over_point);
 	// if (in_shadow == 1)
 		// printf("yes\n");

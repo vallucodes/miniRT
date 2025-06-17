@@ -52,7 +52,7 @@ void	print_xs(t_xs *xs)
 	printf("print xs\n");
 	size_t i = 0;
 	// int object_type;
-	t_scene_obj *obj = (t_scene_obj *)xs->object;
+	// t_scene_obj *obj = (t_scene_obj *)xs->object;
 
 	printf("xs.count = %zu\n", xs->count);
 	while (i < xs->count)
