@@ -24,15 +24,6 @@ void	draw_current_thing(t_minirt *minirt, t_camera *c)
 	}
 }
 
-// static void	init_light(t_minirt *minirt)
-// {
-// 	t_light	*light;
-
-// 	light = &minirt->world->lig_s;
-// 	*light = init_point_light(create_point(light->ori.x, light->ori.y, light->ori.z),
-// 				color(light->col.r, light->col.g, light->col.b), light->ratio);
-// }
-
 t_matrix4	construct_matrix(t_tuple rotation_axis)
 {
 	t_matrix4	m;
