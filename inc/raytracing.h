@@ -211,9 +211,7 @@ void	matrix_fill_zero(t_matrix4 *m);
 t_ray	create_ray(t_tuple vector, t_tuple point);
 t_tuple	position_ray(t_ray ray, float t);
 void	init_xs(t_xs *xs);
-// t_i		hit(t_xs *xs);
 t_i		hit(t_xs *xs, t_scene_obj *obj_from);
-// t_i		hit_obj_to_light(t_xs *xs, t_scene_obj *obj);
 t_ray	transform(t_ray r, t_matrix4 m);
 void	set_transform(t_scene_obj *obj, t_matrix4 m);
 t_i		intersection(float intersection, void *obj);
@@ -226,13 +224,11 @@ t_comps		*prepare_computations(t_i i, t_ray r);
 t_color		shade_hit(t_parse *world, t_comps *comps, bool in_shadow);
 t_color		color_at(t_minirt *minirt, t_ray ray);
 bool		is_shadowed(t_minirt *minirt, t_tuple point, t_scene_obj *obj);
-// bool		is_shadowed(t_minirt *minirt, t_tuple point);
 
 //camera
 t_matrix4	view_transform(t_tuple from, t_tuple to, t_tuple up);
-void	init_camera(t_minirt *minirt);
-t_ray	ray_for_pixel(t_camera *c, int px, int py);
-// t_i		hit(t_xs *xs);
+void		init_camera(t_minirt *minirt);
+t_ray		ray_for_pixel(t_camera *c, int px, int py);
 
 //intersections
 t_xs		*intersects_sphere(t_scene_obj *obj, t_ray r, t_xs *xs);

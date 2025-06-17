@@ -51,8 +51,10 @@ void	init_camera(t_minirt *minirt)
 
 	t_tuple	from;
 	t_tuple	to;
+	t_tuple	orientation;
 	from = create_point(minirt->world->cam_s.cx, minirt->world->cam_s.cy, minirt->world->cam_s.cz);
-	to = create_point(minirt->world->cam_s.ox, minirt->world->cam_s.oy, minirt->world->cam_s.oz);
+	orientation = create_vector(minirt->world->cam_s.ox, minirt->world->cam_s.oy, minirt->world->cam_s.oz);
+	to = addition_tuples(from, orientation);
 	t_tuple	up = create_vector(0, 1, 0);
 	minirt->world->cam_s.transform = view_transform(from, to, up);
 }

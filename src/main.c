@@ -18,6 +18,7 @@ void	set_ids_for_objects(t_list *objects)
 
 int	main(int ac, char **av)
 {
+	setbuf(stdout, NULL);
 	t_minirt minirt;
 	init_minirt(&minirt);
 
