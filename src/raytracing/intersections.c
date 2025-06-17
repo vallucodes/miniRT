@@ -67,6 +67,7 @@ t_xs	*intersects_plane(t_scene_obj *p, t_ray r, t_xs *xs)
 
 	if (fabs(r.dir.y) < EPSILON)
 	{
+		return (xs);
 		xs->count = 0;
 	}
 	else

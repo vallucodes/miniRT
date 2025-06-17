@@ -56,4 +56,3 @@ void	set_transform(t_scene_obj *object, t_matrix4 trans_mtrx)
 {
 	object->transform = trans_mtrx;
 }
-
