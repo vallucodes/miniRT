@@ -1,10 +1,10 @@
 #include "minirt.h"
 
-// void	draw_hook(void *param)
-// {
-// 	t_minirt	*minirt;
+void	ft_keyhook(void *param)
+{
+	t_minirt	*minirt;
 
-// 	minirt = (t_minirt *)param;
-// 	reset_background(minirt);
-// 	// draw_current_thing(minirt);
-// }
+	minirt = (t_minirt *)param;
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_ESCAPE))
+		mlx_close_window(minirt->mlx);
+}
