@@ -11,11 +11,6 @@ t_i	intersection(float intersection, void *obj)
 
 void	intersections(t_xs *xs, t_i i1, t_i i2)
 {
-	if (xs->count == 0)
-	{
-		xs->object = malloc(200 * sizeof(void *));
-		xs->t = malloc(200 * sizeof(float));
-	}
 	xs->object[xs->count] = i1.object;
 	xs->object[xs->count + 1] = i2.object;
 	xs->t[xs->count] = i1.t;
@@ -26,8 +21,6 @@ void	intersections(t_xs *xs, t_i i1, t_i i2)
 void	init_xs(t_xs *xs)
 {
 	xs->count = 0;
-	xs->object = NULL;
-	xs->t = NULL;
 }
 
 /**
@@ -90,6 +83,8 @@ t_xs	*intersect(t_scene_obj *obj, t_ray ray, t_xs *xs)
 	bool	success;
 
 	local_ray = transform(ray, inverse_matrix(obj->transform, &success));
+	// if (!success)
+	// 	error_exit(minirt);
 	obj->saved_ray.dir = local_ray.dir;
 	obj->saved_ray.origin = local_ray.origin;
 	if (obj->type == PLANE)
