@@ -1,11 +1,5 @@
 #include "minirt.h"
 
-void	set_colors(t_minirt *minirt)
-{
-	minirt->map->background = 0x000000FF;
-	minirt->map->colored = 0xFF0000FF;
-}
-
 /**
  * @brief Setup viewport 2D size
  * @todo FOV will eventually come from .rt file in submitted project
@@ -22,13 +16,9 @@ void	init_minirt(t_minirt *minirt)
 {
 	// t_map *map;
 
-	init_arena(minirt);
-	minirt->map = arena_alloc(minirt->arena, sizeof(t_map), alignof(t_map));
-	// if (!minirt->map)
+	minirt->vp = malloc(sizeof(t_vp));
+	// if (!minirt->vp)
 		// exit_error();
-	set_colors(minirt);
-	minirt->vp = arena_alloc(minirt->arena, sizeof(t_vp), alignof(t_vp));
-
 	minirt->mlx = mlx_init(WIDTH, HEIGHT, "42Balls", true);
 	// if (!minirt->mlx)
 		// exit_error(minirt.map, NULL, 0, mlx_strerror(mlx_errno));

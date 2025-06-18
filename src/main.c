@@ -18,12 +18,9 @@ void	set_ids_for_objects(t_list *objects)
 
 int	main(int ac, char **av)
 {
-	setbuf(stdout, NULL);
+	// setbuf(stdout, NULL); //this was used just for debugging, when writing to file
 	t_minirt minirt;
-	init_minirt(&minirt);
-
 	t_parse	*ps;
-	ps = ft_arena_calloc(minirt.arena, 1, sizeof(t_parse), alignof(t_parse));
 
 	if (ac != 2)
 	{
@@ -32,6 +29,10 @@ int	main(int ac, char **av)
 		ft_putstr_fd(" <scene file>.rt\n", STDERR_FILENO);
 		return (1);
 	}
+	init_minirt(&minirt);
+	ps = ft_calloc(1, sizeof(t_parse)); //null return is not always malloc fail
+	// if (!ps)
+		// exit_error();
 	file_check(av, ps);
 	if (!parsing_gateway(ps))
 	{
@@ -40,13 +41,14 @@ int	main(int ac, char **av)
 	}
 	// fun_test_parsed_output(av, ps);
 	minirt.world = ps;
-	set_ids_for_objects(minirt.world->objects);
 	render_world(&minirt);
 	// mlx_loop_hook(minirt.mlx, &draw_hook, &minirt); //dont activate this hook. Its insanely slow because raytracing is very heavy process and this is redrawing everything every frame
+	mlx_loop_hook(minirt.mlx, &ft_keyhook, &minirt);
 	mlx_loop(minirt.mlx);
-	free(ps);
-	close(ps->fd);
 	ft_lstclear(&ps->objects, &free);
+	close(ps->fd);
+	free(ps);
+	free(minirt.vp);
 
 	/**
 	 * Testing chapter 9 material
