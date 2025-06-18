@@ -42,7 +42,6 @@ int	main(int ac, char **av)
 	// fun_test_parsed_output(av, ps);
 	minirt.world = ps;
 	render_world(&minirt);
-	// mlx_loop_hook(minirt.mlx, &draw_hook, &minirt); //dont activate this hook. Its insanely slow because raytracing is very heavy process and this is redrawing everything every frame
 	mlx_loop_hook(minirt.mlx, &ft_keyhook, &minirt);
 	mlx_loop(minirt.mlx);
 	ft_lstclear(&ps->objects, &free);
@@ -60,7 +59,7 @@ int	main(int ac, char **av)
 
 	return (0);
 }
+//todo
 
-//restriction to be added, allow max amount of objects. Currently this is determining 100 objects max and 200 intersections per ray max
-// xs->object = malloc(200 * sizeof(void *));
-// xs->t = malloc(200 * sizeof(float));
+//add max object amount = 100
+//add exit_error handling

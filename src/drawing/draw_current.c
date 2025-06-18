@@ -14,7 +14,7 @@ void	draw_current_thing(t_minirt *minirt, t_camera *c)
 		y = 0;
 		while (y < HEIGHT)
 		{
-			ray = ray_for_pixel(c, x, y);
+			ray = ray_for_pixel(minirt, c, x, y);
 			color = color_at(minirt, ray);
 			color_raw = colour_unitrgb_hex(color, 1);
 			mlx_put_pixel(minirt->img, x, y, color_raw);
@@ -42,10 +42,10 @@ t_matrix4	rodrigues_formula(t_tuple rotation_axis, float rotation_angle)
 {
 	t_matrix4	k;
 	t_matrix4	k2;
+	t_matrix4	r;
 	t_matrix4	first_term;
 	t_matrix4	second_term;
 	t_matrix4	third_term;
-	t_matrix4	r;
 
 	k = construct_matrix(rotation_axis);
 	// print_matrix(k, "k", 4);

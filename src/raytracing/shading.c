@@ -20,29 +20,28 @@ t_xs	intersect_world(t_minirt *minirt, t_ray r)
 	return (xs);
 }
 
-t_comps	*prepare_computations(t_i i, t_ray r)
+t_comps	prepare_computations(t_i i, t_ray r)
 {
-	t_comps	*comps;
+	t_comps	comps;
 
-	comps = malloc(sizeof(t_comps));
-	comps->obj = i.object;
-	comps->point = position_ray(r, i.t);
-	comps->eyev = normalize_tuple(negate_tuple(r.dir));
-	comps->normalv = normal_at(comps->obj, comps->point);
-	comps->over_point = addition_tuples(comps->point, scalar_multiply_tuple(comps->normalv, EPSILON));
-	if (dot_tuple(comps->normalv, comps->eyev) < 0)
+	comps.obj = i.object;
+	comps.point = position_ray(r, i.t);
+	comps.eyev = normalize_tuple(negate_tuple(r.dir));
+	comps.normalv = normal_at(comps.obj, comps.point);
+	comps.over_point = addition_tuples(comps.point, scalar_multiply_tuple(comps.normalv, EPSILON));
+	if (dot_tuple(comps.normalv, comps.eyev) < 0)
 	{
-		comps->inside = true;
-		comps->normalv = negate_tuple(comps->normalv);
+		comps.inside = true;
+		comps.normalv = negate_tuple(comps.normalv);
 	}
 	else
-		comps->inside = false;
+		comps.inside = false;
 	return (comps);
 }
 
-t_color	shade_hit(t_parse *world, t_comps *comps, bool in_shadow)
+t_color	shade_hit(t_parse *world, t_comps comps, bool in_shadow)
 {
-	t_color	color = lighting(comps->obj->mat, world->lig_s, comps->over_point, comps->eyev, comps->normalv, in_shadow);
+	t_color	color = lighting(comps.obj->mat, world->lig_s, comps.over_point, comps.eyev, comps.normalv, in_shadow); //send only comps
 	return (color);
 }
 
@@ -81,7 +80,7 @@ t_color	color_at(t_minirt *minirt, t_ray r)
 {
 	t_xs	xs;
 	t_i		hit_p;
-	t_comps	*comps;
+	t_comps	comps;
 	bool	in_shadow;
 	t_color	color_var;
 
@@ -90,9 +89,8 @@ t_color	color_at(t_minirt *minirt, t_ray r)
 	if (hit_p.object == NULL)
 		return (color(0, 0, 0));
 	comps = prepare_computations(hit_p, r);
-	in_shadow = is_shadowed(minirt, comps->over_point, hit_p.object);
+	in_shadow = is_shadowed(minirt, comps.over_point, hit_p.object);
 	color_var = shade_hit(minirt->world, comps, in_shadow);
-	free(comps);
 	return (color_var);
 }
 

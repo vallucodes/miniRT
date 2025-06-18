@@ -1,8 +1,8 @@
 #ifndef RAYTRACING_H
 # define RAYTRACING_H
 
-# define WIDTH			700
-# define HEIGHT			700
+# define WIDTH			500
+# define HEIGHT			500
 # define MAX_OBJECTS	100
 # define MALLOC	"Memory allocation failed"
 
@@ -221,15 +221,15 @@ t_xs	intersect_world(t_minirt *minirt, t_ray r);
 // t_xs	*intersect_world(t_minirt *minirt, t_ray r);
 
 //shading
-t_comps		*prepare_computations(t_i i, t_ray r);
-t_color		shade_hit(t_parse *world, t_comps *comps, bool in_shadow);
+t_comps		prepare_computations(t_i i, t_ray r);
+t_color		shade_hit(t_parse *world, t_comps comps, bool in_shadow);
 t_color		color_at(t_minirt *minirt, t_ray ray);
 bool		is_shadowed(t_minirt *minirt, t_tuple point, t_scene_obj *obj);
 
 //camera
 t_matrix4	view_transform(t_tuple from, t_tuple to, t_tuple up);
 void		init_camera(t_minirt *minirt);
-t_ray		ray_for_pixel(t_camera *c, int px, int py);
+t_ray		ray_for_pixel(t_minirt *minirt, t_camera *c, int px, int py);
 
 //intersections
 t_xs		*intersects_sphere(t_scene_obj *obj, t_ray r, t_xs *xs);

@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-bool	equality_matrix4(t_matrix4 m, t_matrix4 m2, size_t size)
+bool	equality_matrix4(t_matrix4 m, t_matrix4 m2, size_t size) //this is possibly not used
 {
 	size_t	i;
 	size_t	j;
@@ -109,14 +109,17 @@ t_matrix4	transpose_matrix(t_matrix4 m)
 
 t_matrix_result sub_matrix(t_matrix_ctx *ctx, size_t row, size_t col)
 {
-	size_t i, j, k, l;
-	t_matrix_result result;
-	size_t new_size = ctx->size - 1;
+	size_t			i;
+	size_t			j;
+	size_t			k;
+	size_t			l;
+	t_matrix_result	result;
+	size_t			new_size;
 
+	new_size = ctx->size - 1;
 	result.size = new_size;
 	i = 0;
 	k = 0;
-
 	while (i < ctx->size && k < new_size)
 	{
 		if (i == row)
@@ -149,18 +152,19 @@ t_matrix_result sub_matrix(t_matrix_ctx *ctx, size_t row, size_t col)
 
 float	minor_matrix(t_matrix_ctx *ctx, int row, int col)
 {
-	t_matrix_result sub = sub_matrix(ctx, row, col);
+	t_matrix_result	sub;
 
+	sub = sub_matrix(ctx, row, col);
 	if (sub.size == 2)
-		return determinant_matrix2(sub.m.m2);
+		return (determinant_matrix2(sub.m.m2));
 	else if (sub.size == 3)
-		return determinant_matrix3(sub.m.m3);
+		return (determinant_matrix3(sub.m.m3));
 	return (0);
 }
 
 float	cofactor_matrix(t_matrix_ctx *ctx, int row, int col)
 {
-	float minor;
+	float	minor;
 
 	minor = minor_matrix(ctx, row, col);
 	if ((row + col) % 2 == 1)
@@ -170,7 +174,7 @@ float	cofactor_matrix(t_matrix_ctx *ctx, int row, int col)
 
 float	determinant_matrix2(t_matrix2 m)
 {
-	return m.m[0][0] * m.m[1][1] - m.m[0][1] * m.m[1][0];
+	return (m.m[0][0] * m.m[1][1] - m.m[0][1] * m.m[1][0]);
 }
 
 float	determinant_matrix3(t_matrix3 m)
@@ -201,44 +205,29 @@ float	determinant_matrix3(t_matrix3 m)
 
 float	determinant_matrix4(t_matrix4 m)
 {
-	float det;
-	size_t j;
-	t_matrix_ctx ctx;
+	size_t			i;
+	float			det;
+	t_matrix_ctx	ctx;
 
 	ctx.m = m;
 	ctx.size = 4;
 	det = 0;
-	j = 0;
-	while (j < 4)
+	i = 0;
+	while (i < 4)
 	{
-		det += m.m[0][j] * cofactor_matrix(&ctx, 0, j);
-		j++;
+		det += m.m[0][i] * cofactor_matrix(&ctx, 0, i);
+		i++;
 	}
-	return det;
-}
-
-bool	is_invertible_matrix2(t_matrix2 m)
-{
-	return (determinant_matrix2(m) != 0);
-}
-
-bool	is_invertible_matrix3(t_matrix3 m)
-{
-	return (determinant_matrix3(m) != 0);
-}
-
-bool	is_invertible_matrix4(t_matrix4 m)
-{
-	return (determinant_matrix4(m) != 0);
+	return (det);
 }
 
 t_matrix4	inverse_matrix(t_matrix4 m, bool *success)
 {
-	float det;
-	size_t i;
-	size_t j;
-	t_matrix4	m2;
-	t_matrix_ctx ctx;
+	float			det;
+	size_t			i;
+	size_t			j;
+	t_matrix4		m2;
+	t_matrix_ctx	ctx;
 
 	ctx.m = m;
 	ctx.size = 4;
