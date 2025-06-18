@@ -1127,22 +1127,66 @@ void	test_shadows(t_minirt *minirt)
 void	test_cylinder(void)
 {
 	t_scene_obj	cyl = cylinder();
+	t_ray		r1;
+	t_xs		*xs1 = malloc(sizeof(t_xs));
 
 	printf("Test #1: A Ray Misses a Cylinder\n");
 	printf("Test #1: | point(1, 0, 0) | vector(0, 1, 0) |\n");
-	t_ray		r1 = create_ray(create_point(1,0,0), create_vector(0,1,0));
-	t_xs		*xs1 = malloc(sizeof(t_xs));
+	r1 = create_ray(create_point(1,0,0), create_vector(0,1,0));
 	init_xs(xs1);
 	xs1 = intersect(&cyl, r1, xs1);
 	printf("xs.count: %lu\n", xs1->count);
 	
 	printf("Test #1: | point(0, 0, 0) | vector(0, 1, 0) |\n");
 	r1 = create_ray(create_point(0,0,0), create_vector(0,1,0));
+	init_xs(xs1);
 	xs1 = intersect(&cyl, r1, xs1);
 	printf("xs.count: %lu\n", xs1->count);
 	
 	printf("Test #1: | point(0, 0, -5) | vector(1, 1, 1) |\n");
 	r1 = create_ray(create_point(0,0,-5), create_vector(1,1,1));
+	init_xs(xs1);
 	xs1 = intersect(&cyl, r1, xs1);
 	printf("xs.count: %lu\n", xs1->count);
+	
+	printf("\nTest #2: A Ray Hits a Cylinder\n");
+	printf("Test #2: | point(1, 0, -5) | vector(0, 0, 1) | 5 | 5 |\n");
+	r1 = create_ray(create_point(1,0,-5), create_vector(0,0,1));
+	t_xs		*xs2 = malloc(sizeof(t_xs));
+	init_xs(xs2);
+	xs2 = intersect(&cyl, r1, xs2);
+	printf("xs.count: %lu | t0: %f | t1: %f\n", xs2->count, xs2->t[0], xs2->t[1]);
+	
+	/*
+	//Causing trouble. Likely the xs is not being filled properly. 
+	printf("Test #2: | point(0, 0, -5) | vector(0, 0, 1) | 4 | 6 |\n");
+	r1 = create_ray(create_point(0,0,-5), create_vector(0,0,1));
+	t_xs		*xs3 = malloc(sizeof(t_xs));
+	init_xs(xs3);
+	xs3 = intersect(&cyl, r1, xs3);
+	printf("xs.count: %lu | t0: %f | t1: %f\n", xs3->count, xs3->t[0], xs3->t[1]);*/
+	
+	printf("Test #2: | point(0.5, 0, -5) | vector(0.1, 1, 1) | 6.80798 | 7.08872 |\n");
+	r1 = create_ray(create_point(0.5,0,-5), create_vector(0.1,1,1));
+	t_xs		*xs4 = malloc(sizeof(t_xs));
+	init_xs(xs4);
+	xs4 = intersect(&cyl, r1, xs4);
+	printf("xs.count: %lu | t0: %f | t1: %f\n", xs4->count, xs4->t[0], xs4->t[1]);
+	
+	printf("\nTest #3: Normal Vector on a Cylinder\n");
+	printf("Test #3: | point(1, 0, 0) | vector(1, 0, 0) |\n");
+	t_tuple	norm = normal_at_cylinder(create_point(1,0,0));
+	print_tuple(norm);
+	
+	printf("Test #3: | point(0, 5, -1) | vector(0, 0, -1) |\n");
+	norm = normal_at_cylinder(create_point(0,5,-1));
+	print_tuple(norm);
+	
+	printf("Test #3: | point(0, -2, 1) | vector(0, 0, 1) |\n");
+	norm = normal_at_cylinder(create_point(0,-2,1));
+	print_tuple(norm);
+	
+	printf("Test #3: | point(-1, 1, 0) | vector(-1, 0, 0) |\n");
+	norm = normal_at_cylinder(create_point(-1,1,0));
+	print_tuple(norm);
 }
