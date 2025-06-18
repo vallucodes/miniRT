@@ -83,6 +83,8 @@ t_xs	*intersect(t_scene_obj *obj, t_ray ray, t_xs *xs)
 	bool	success;
 
 	local_ray = transform(ray, inverse_matrix(obj->transform, &success));
+	// if (!success)
+	// 	error_exit(minirt);
 	obj->saved_ray.dir = local_ray.dir;
 	obj->saved_ray.origin = local_ray.origin;
 	if (obj->type == PLANE)
