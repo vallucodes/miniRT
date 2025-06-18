@@ -570,7 +570,7 @@ void	test_point_light_reflections(void)
 
 void	test_intersect_two_spheres(t_minirt *minirt)
 {
-	t_xs *xs;
+	t_xs xs;
 	minirt->world->lig_s.col = color(1, 1, 1);
 
 	t_list	*temp = minirt->world->objects;
@@ -586,7 +586,7 @@ void	test_intersect_two_spheres(t_minirt *minirt)
 
 	t_ray r = create_ray(create_vector(0,0,1), create_point(0,0,-5));
 	xs = intersect_world(minirt, r);
-	print_xs(xs);
+	print_xs(&xs);
 }
 
 //run this test with

@@ -1,9 +1,9 @@
 #include "../../inc/minirt.h"
 
 /**
- * @brief Checks current line is a valid pl (plane) line. 
- * @param [in] *line: current line of scene file. 
- * @param [in] ps: t_parse 
+ * @brief Checks current line is a valid pl (plane) line.
+ * @param [in] *line: current line of scene file.
+ * @param [in] ps: t_parse
  * @return True if the line is a proper pl line
  * @note Pattern is: pl [x],[y],[z] [-1,1],[-1,1],[-1,1] [0,255],[0,255],[0,255]
  * @details - allocates memory to *tmp via ft_calloc()
@@ -15,7 +15,7 @@ bool	parse_check_plane(char *line, t_parse *ps)
 	char		**words;
 
 	tmp = ft_calloc(1, sizeof(t_scene_obj));
-	words = line_split_set(line, " \t");
+	words = line_split_set(line, " \t"); //malloc fail not catched here
 	if (fun_words(line, " \t") != 4)
 		return (free_helper(ps, words, tmp, ERR_PLANE));
 	if (!parse_check_coords(words[1], &tmp->cx, &tmp->cy, &tmp->cz))
@@ -34,9 +34,9 @@ bool	parse_check_plane(char *line, t_parse *ps)
 }
 
 /**
- * @brief Checks current line is a valid sp (sphere) line. 
- * @param [in] *line: current line of scene file. 
- * @param [in] ps: t_parse 
+ * @brief Checks current line is a valid sp (sphere) line.
+ * @param [in] *line: current line of scene file.
+ * @param [in] ps: t_parse
  * @return True if the line is a proper sp line
  * @note Pattern is: sp	 [x],[y],[z]	[0.0,?]	[0,255],[0,255],[0,255]
  * @details - allocates memory to *tmp via ft_calloc()
@@ -48,7 +48,7 @@ bool	parse_check_sphere(char *line, t_parse *ps)
 	char		**words;
 
 	tmp = ft_calloc(1, sizeof(t_scene_obj));
-	words = line_split_set(line, " \t");
+	words = line_split_set(line, " \t"); //malloc fail not catched here
 	if (fun_words(line, " \t") != 4)
 		return (free_helper(ps, words, tmp, ERR_PLANE));
 	if (!parse_check_coords(words[1], &tmp->cx, &tmp->cy, &tmp->cz))
@@ -67,9 +67,9 @@ bool	parse_check_sphere(char *line, t_parse *ps)
 }
 
 /**
- * @brief Checks current line is a valid cy (cylinder) line. 
- * @param [in] *line: current line of scene file. 
- * @param [in] ps: t_parse 
+ * @brief Checks current line is a valid cy (cylinder) line.
+ * @param [in] *line: current line of scene file.
+ * @param [in] ps: t_parse
  * @return True if the line is a proper cy line
  * @note Pat: cy [x],[y],[z] [-1,1],[-1,1],[-1,1] [0.0,?] [0.0,?] [r],[g],[b]
  * @details - allocates memory to *tmp via ft_calloc()
@@ -81,7 +81,7 @@ bool	parse_check_cylinder(char *line, t_parse *ps)
 	char		**words;
 
 	tmp = ft_calloc(1, sizeof(t_scene_obj));
-	words = line_split_set(line, " \t");
+	words = line_split_set(line, " \t"); //malloc fail not catched here
 	if (fun_words(line, " \t") != 6)
 		return (free_helper(ps, words, tmp, ERR_PLANE));
 	if (!parse_check_coords(words[1], &tmp->cx, &tmp->cy, &tmp->cz))

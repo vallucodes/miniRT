@@ -1,8 +1,9 @@
 #ifndef RAYTRACING_H
 # define RAYTRACING_H
 
-# define WIDTH	400
-# define HEIGHT	400
+# define WIDTH			700
+# define HEIGHT			700
+# define MAX_OBJECTS	100
 # define MALLOC	"Memory allocation failed"
 
 //Material default values
@@ -60,8 +61,8 @@ typedef struct s_i
 typedef struct s_xs
 {
 	size_t	count;
-	void	**object;
-	float	*t;
+	void	*object[MAX_OBJECTS * 2];
+	float	t[MAX_OBJECTS];
 }	t_xs;
 
 typedef struct s_matrix4
@@ -216,10 +217,10 @@ t_ray	transform(t_ray r, t_matrix4 m);
 void	set_transform(t_scene_obj *obj, t_matrix4 m);
 t_i		intersection(float intersection, void *obj);
 void	intersections(t_xs	*xs, t_i i1, t_i i2);
-t_xs	*intersect_world(t_minirt *minirt, t_ray r);
+t_xs	intersect_world(t_minirt *minirt, t_ray r);
+// t_xs	*intersect_world(t_minirt *minirt, t_ray r);
 
 //shading
-t_xs		*intersect_world(t_minirt *minirt, t_ray r);
 t_comps		*prepare_computations(t_i i, t_ray r);
 t_color		shade_hit(t_parse *world, t_comps *comps, bool in_shadow);
 t_color		color_at(t_minirt *minirt, t_ray ray);
