@@ -146,6 +146,7 @@ t_tuple	reflect(t_tuple in, t_tuple normal);
 
 //normal.c
 t_tuple	normal_at(t_scene_obj *obj, t_tuple point);
+t_tuple	normal_at_cylinder(t_tuple point); //testing only
 
 //tuples
 t_tuple	create_vector(float x, float y, float z);
