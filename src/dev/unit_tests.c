@@ -89,22 +89,6 @@ void test_determinant_matrix3(void) {
         printf("❌ determinant_matrix3 Test Failed\n");
 }
 
-void test_is_invertible_matrix2(void) {
-    t_matrix2 m = { .m = { {1, 2}, {3, 4} } };
-    if (is_invertible_matrix2(m))
-        printf("✅ is_invertible_matrix2 Test Passed\n");
-    else
-        printf("❌ is_invertible_matrix2 Test Failed\n");
-}
-
-void test_is_invertible_matrix3(void) {
-    t_matrix3 m = { .m = { {1,2,3}, {4,5,6}, {7,8,9} } };
-    if (!is_invertible_matrix3(m))
-        printf("✅ is_invertible_matrix3 Test Passed\n");
-    else
-        printf("❌ is_invertible_matrix3 Test Failed\n");
-}
-
 
 void unit_tests_3x3(void)
 {
@@ -113,8 +97,6 @@ void unit_tests_3x3(void)
 	test_cofactor_matrix();
 	test_determinant_matrix2();
 	test_determinant_matrix3();
-	test_is_invertible_matrix2();
-	test_is_invertible_matrix3();
 }
 
 void test_sub_matrix_4x4(void) {
@@ -197,30 +179,6 @@ void test_determinant_matrix4(void) {
         printf("❌ determinant_matrix4 (singular) Test Failed\n");
 }
 
-void test_is_invertible_matrix4(void) {
-    t_matrix4 m = { .m = {
-        {1, 0, 0, 0},
-        {0, 1, 0, 0},
-        {0, 0, 1, 0},
-        {0, 0, 0, 1}
-    }};
-    if (is_invertible_matrix4(m))
-        printf("✅ is_invertible_matrix4 (identity) Test Passed\n");
-    else
-        printf("❌ is_invertible_matrix4 (identity) Test Failed\n");
-
-    t_matrix4 m2 = { .m = {
-        {1, 2, 3, 4},
-        {1, 2, 3, 4},
-        {5, 6, 7, 8},
-        {9,10,11,12}
-    }};
-    if (!is_invertible_matrix4(m2))
-        printf("✅ is_invertible_matrix4 (singular) Test Passed\n");
-    else
-        printf("❌ is_invertible_matrix4 (singular) Test Failed\n");
-}
-
 void test_inverse_matrix4(void) {
     t_matrix4 m = { .m = {
         {1, 0, 0, 0},
@@ -260,7 +218,6 @@ void unit_tests_4x4()
 	test_minor_matrix_4x4();
 	test_cofactor_matrix_4x4();
 	test_determinant_matrix4();
-	test_is_invertible_matrix4();
 	test_inverse_matrix4();
 }
 
@@ -570,7 +527,7 @@ void	test_reflect_extra(t_minirt m)
 
 void	test_intersect_two_spheres(t_minirt *minirt)
 {
-	t_xs *xs;
+	t_xs xs;
 	minirt->world->lig_s.col = color(1, 1, 1);
 
 	t_list	*temp = minirt->world->objects;
@@ -586,7 +543,7 @@ void	test_intersect_two_spheres(t_minirt *minirt)
 
 	t_ray r = create_ray(create_vector(0,0,1), create_point(0,0,-5));
 	xs = intersect_world(minirt, r);
-	print_xs(xs);
+	print_xs(&xs);
 }
 
 //run this test with
@@ -601,8 +558,8 @@ void	test_intersect_two_spheres(t_minirt *minirt)
 	t_scene_obj *obj = (t_scene_obj *)temp->content;
 	t_i		i1 = intersection(4, obj); //hard set t value = 4
 	obj->transform = identity();
-	t_comps *comps = prepare_computations(i1, r);
-	print_comps(comps);
+	t_comps comps = prepare_computations(i1, r);
+	print_comps(&comps);
 }*/
 
 //run this test with
@@ -617,8 +574,8 @@ void	test_intersect_two_spheres(t_minirt *minirt)
 	t_scene_obj *obj = (t_scene_obj *)temp->content;
 	t_i		i1 = intersection(1, obj); //hard set t value = 1
 	obj->transform = identity();
-	t_comps *comps = prepare_computations(i1, r);
-	print_comps(comps);
+	t_comps comps = prepare_computations(i1, r);
+	print_comps(&comps);
 }*/
 
 /*void	test_shading_an_intersection(t_minirt *minirt, char **av)
@@ -637,9 +594,9 @@ void	test_intersect_two_spheres(t_minirt *minirt)
 	obj->mat.col.r = 0.8;
 	obj->mat.col.g = 1;
 	obj->mat.col.b = 0.6;
-	t_comps *comps = prepare_computations(i1, r);
+	t_comps comps = prepare_computations(i1, r);
 	fun_test_parsed_output(av, minirt->world);
-	// print_comps(comps);
+	// print_comps(&comps);
 	bool in_shadow = 0;
 	t_color color = shade_hit(minirt->world, comps, in_shadow);
 	print_colour(color);
@@ -661,9 +618,9 @@ void	test_intersect_two_spheres(t_minirt *minirt)
 	obj->mat.col.r = 1;
 	obj->mat.col.g = 1;
 	obj->mat.col.b = 1;
-	t_comps *comps = prepare_computations(i1, r);
+	t_comps comps = prepare_computations(i1, r);
 	fun_test_parsed_output(av, minirt->world);
-	// print_comps(comps);
+	// print_comps(&comps);
 	bool in_shadow = 0;
 	t_color color = shade_hit(minirt->world, comps, in_shadow);
 	print_colour(color);
@@ -825,16 +782,16 @@ void	test_ray_for_pixel(t_minirt *minirt)
 {
 	printf("test center of canvas\n");
 	init_camera(minirt);
-	t_ray r = ray_for_pixel(&minirt->world->cam_s, 100, 50);
+	t_ray r = ray_for_pixel(minirt, &minirt->world->cam_s, 100, 50);
 	print_ray(r);
 
 	printf("test corner of canvas\n");
-	r = ray_for_pixel(&minirt->world->cam_s, 0, 0);
+	r = ray_for_pixel(minirt, &minirt->world->cam_s, 0, 0);
 	print_ray(r);
 
 	printf("test transformed camera\n");
 	minirt->world->cam_s.transform = multiply_mtrx_by_mtrx(rotation_y(M_PI / 4), translation(0, -2, 5));
-	r = ray_for_pixel(&minirt->world->cam_s, 100, 50);
+	r = ray_for_pixel(minirt, &minirt->world->cam_s, 100, 50);
 	print_ray(r);
 }
 

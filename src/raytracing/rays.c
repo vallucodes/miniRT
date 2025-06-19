@@ -19,9 +19,9 @@ t_tuple	position_ray(t_ray ray, float t)
 
 t_i	hit(t_xs *xs, t_scene_obj *obj_from)
 {
-	size_t	i;
-	t_i		hit;
-	t_scene_obj *obj_to;
+	size_t		i;
+	t_i			hit;
+	t_scene_obj	*obj_to;
 
 	hit.t = -1;
 	hit.object = NULL;

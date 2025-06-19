@@ -14,7 +14,7 @@ void	draw_current_thing(t_minirt *minirt, t_camera *c)
 		y = 0;
 		while (y < HEIGHT)
 		{
-			ray = ray_for_pixel(c, x, y);
+			ray = ray_for_pixel(minirt, c, x, y);
 			color = color_at(minirt, ray);
 			color_raw = colour_unitrgb_hex(color, 1);
 			mlx_put_pixel(minirt->img, x, y, color_raw);
@@ -42,22 +42,22 @@ t_matrix4	rodrigues_formula(t_tuple rotation_axis, float rotation_angle)
 {
 	t_matrix4	k;
 	t_matrix4	k2;
-	t_matrix4	i;
-	t_matrix4	sin_k;
-	t_matrix4	one_minus_neg_cos_k2;
 	t_matrix4	r;
+	t_matrix4	first_term;
+	t_matrix4	second_term;
+	t_matrix4	third_term;
 
 	k = construct_matrix(rotation_axis);
 	// print_matrix(k, "k", 4);
-	i = identity();
+	first_term = identity();
 	// print_matrix(i, "i", 4);
-	sin_k = scalar_multiply_matrix(k, sin(rotation_angle));
+	second_term = scalar_multiply_matrix(k, sin(rotation_angle));
 	// print_matrix(sin_k, "sin_k", 4);
 	k2 = multiply_mtrx_by_mtrx(k, k);
 	// print_matrix(k2, "k2", 4);
-	one_minus_neg_cos_k2 = scalar_multiply_matrix(k2, 1 - cos(rotation_angle));
+	third_term = scalar_multiply_matrix(k2, 1 - cos(rotation_angle));
 	// print_matrix(one_minus_neg_cos_k2, "one_minus_neg_cos_k2", 4);
-	r = addition_matrix(addition_matrix(i, sin_k), one_minus_neg_cos_k2);
+	r = addition_matrix(addition_matrix(first_term, second_term), third_term);
 	// print_matrix(r, "r", 4);
 	return (r);
 }
@@ -101,32 +101,54 @@ t_matrix4	plane_rotation(t_scene_obj *obj)
 	return(cylinder_rotation(obj));
 }
 
-t_matrix4	generate_transformation_mtrx(t_scene_obj *obj)
+t_matrix4	sphere_transformation_mtrx(t_scene_obj *obj)
+{
+	t_matrix4	res;
+	t_matrix4	scale;
+	t_matrix4	translate;
+
+	scale = scaling(obj->dia / 2.0, obj->dia / 2.0, obj->dia / 2.0);
+	translate = translation(obj->cx, obj->cy, obj->cz);
+	res = multiply_mtrx_by_mtrx(translate, scale);
+	return (res);
+}
+
+t_matrix4	plane_transformation_mtrx(t_scene_obj *obj)
+{
+	t_matrix4	res;
+	t_matrix4	rotate;
+	t_matrix4	translate;
+
+	rotate = plane_rotation(obj);
+	translate = translation(obj->cx, obj->cy, obj->cz);
+	res = multiply_mtrx_by_mtrx(translate, rotate);
+	return (res);
+}
+
+t_matrix4	cylinder_transformation_mtrx(t_scene_obj *obj)
 {
 	t_matrix4	res;
 	t_matrix4	rotate;
 	t_matrix4	scale;
 	t_matrix4	translate;
 
+	scale = cylinder_scale(obj);
+	rotate = cylinder_rotation(obj);
+	translate = translation(obj->cx, obj->cy, obj->cz);
+	res = multiply_mtrx_by_mtrx(translate, multiply_mtrx_by_mtrx(rotate, scale));
+	return (res);
+}
+
+t_matrix4	generate_transformation_mtrx(t_scene_obj *obj)
+{
+	t_matrix4	res;
+
 	if (obj->type == SPHERE)
-	{
-		scale = scaling(obj->dia / 2.0, obj->dia / 2.0, obj->dia / 2.0);
-		translate = translation(obj->cx, obj->cy, obj->cz);
-		res = multiply_mtrx_by_mtrx(translate, scale);
-	}
+		res = sphere_transformation_mtrx(obj);
 	else if (obj->type == PLANE)
-	{
-		rotate = plane_rotation(obj);
-		translate = translation(obj->cx, obj->cy, obj->cz);
-		res = multiply_mtrx_by_mtrx(translate, rotate);
-	}
+		res = plane_transformation_mtrx(obj);
 	else if (obj->type == CYLINDER)
-	{
-		scale = cylinder_scale(obj);
-		rotate = cylinder_rotation(obj);
-		translate = translation(obj->cx, obj->cy, obj->cz);
-		res = multiply_mtrx_by_mtrx(translate, multiply_mtrx_by_mtrx(rotate, scale));
-	}
+		res = cylinder_transformation_mtrx(obj);
 	else
 	{
 		matrix_fill_zero(&res);
@@ -137,23 +159,20 @@ t_matrix4	generate_transformation_mtrx(t_scene_obj *obj)
 
 static void	init_objects(t_minirt *minirt)
 {
-	int	i;
-	t_list	*temp;
-	t_scene_obj *obj;
+	int			i;
+	t_list		*temp;
+	t_scene_obj	*obj;
 
 	temp = minirt->world->objects;
-	obj = (t_scene_obj *)temp->content;
 	i = 0;
 	while(i < minirt->world->obj_count)
 	{
+		obj = (t_scene_obj *)temp->content;
+		obj->id = i;
 		obj->transform = generate_transformation_mtrx(obj);
 		obj->mat = init_material();
 		color_convert(obj);
 		temp = temp->next;
-		if (temp != NULL)
-			obj = (t_scene_obj *)temp->content;
-		else
-			break ;
 		i++;
 	}
 }
