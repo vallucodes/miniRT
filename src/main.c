@@ -18,7 +18,7 @@ void	set_ids_for_objects(t_list *objects)
 
 int	main(int ac, char **av)
 {
-	// setbuf(stdout, NULL); //this was used just for debugging, when writing to file
+	/*// setbuf(stdout, NULL); //this was used just for debugging, when writing to file
 	t_minirt minirt;
 	t_parse	*ps;
 
@@ -47,7 +47,7 @@ int	main(int ac, char **av)
 	ft_lstclear(&ps->objects, &free);
 	close(ps->fd);
 	free(ps);
-	free(minirt.vp);
+	free(minirt.vp);*/
 
 	/**
 	 * Testing chapter 13 material
