@@ -13,7 +13,7 @@ t_xs	intersect_world(t_minirt *minirt, t_ray r)
 	while (i < minirt->world->obj_count)
 	{
 		obj = (t_scene_obj *)temp->content;
-		intersect(obj, r, &xs);
+		intersect(minirt, obj, r, &xs);
 		temp = temp->next;
 		i++;
 	}
@@ -55,7 +55,10 @@ t_ray	get_ray_obj_to_light(t_minirt *minirt, t_tuple point, float	*distance)
 	point_to_light = substraction_tuples(create_point(lig->cx, lig->cy, lig->cz),
 						create_point(point.x, point.y, point.z));
 	*distance = magnitude_tuple(point_to_light);
-	dir = normalize_tuple(point_to_light);
+	if (*distance == 0)
+		dir = create_vector(0, 0, 1);
+	else
+		dir = normalize_tuple(point_to_light);
 	return (create_ray(dir, point));
 }
 

@@ -1,10 +1,13 @@
 #ifndef RAYTRACING_H
 # define RAYTRACING_H
 
-# define WIDTH			500
-# define HEIGHT			500
+# define WIDTH			200
+# define HEIGHT			200
 # define MAX_OBJECTS	100
-# define MALLOC	"Memory allocation failed"
+# define MALLOC			"Memory allocation failed"
+# define PARSING		"Exit, parsing failure."
+# define SHAPE			"Unreachable code: shape unrecognized."
+# define INVERSE_MATRIX	"Matrix not invertible."
 
 //Material default values
 # define amb_default 0.1
@@ -218,7 +221,6 @@ void	set_transform(t_scene_obj *obj, t_matrix4 m);
 t_i		intersection(float intersection, void *obj);
 void	intersections(t_xs	*xs, t_i i1, t_i i2);
 t_xs	intersect_world(t_minirt *minirt, t_ray r);
-// t_xs	*intersect_world(t_minirt *minirt, t_ray r);
 
 //shading
 t_comps		prepare_computations(t_i i, t_ray r);
@@ -233,7 +235,7 @@ t_ray		ray_for_pixel(t_minirt *minirt, t_camera *c, int px, int py);
 
 //intersections
 t_xs		*intersects_sphere(t_scene_obj *obj, t_ray r, t_xs *xs);
-t_xs		*intersect(t_scene_obj *obj, t_ray ray, t_xs *xs);
+t_xs		*intersect(t_minirt *minirt, t_scene_obj *obj, t_ray ray, t_xs *xs);
 
 //transformation functions
 t_matrix4	cylinder_rotation(t_scene_obj *obj);
