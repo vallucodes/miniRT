@@ -558,7 +558,7 @@ void	test_prepare_computations_outside(t_minirt *minirt, char **av)
 	t_scene_obj *obj = (t_scene_obj *)temp->content;
 	t_i		i1 = intersection(4, obj); //hard set t value = 4
 	obj->transform = identity();
-	t_comps comps = prepare_computations(i1, r);
+	t_comps comps = prepare_computations(minirt, i1, r);
 	print_comps(&comps);
 }
 
@@ -574,7 +574,7 @@ void	test_prepare_computations_inside(t_minirt *minirt, char **av)
 	t_scene_obj *obj = (t_scene_obj *)temp->content;
 	t_i		i1 = intersection(1, obj); //hard set t value = 1
 	obj->transform = identity();
-	t_comps comps = prepare_computations(i1, r);
+	t_comps comps = prepare_computations(minirt, i1, r);
 	print_comps(&comps);
 }
 
@@ -594,7 +594,7 @@ void	test_shading_an_intersection(t_minirt *minirt, char **av)
 	obj->mat.col.r = 0.8;
 	obj->mat.col.g = 1;
 	obj->mat.col.b = 0.6;
-	t_comps comps = prepare_computations(i1, r);
+	t_comps comps = prepare_computations(minirt, i1, r);
 	fun_test_parsed_output(av, minirt->world);
 	// print_comps(&comps);
 	bool in_shadow = 0;
@@ -618,7 +618,7 @@ void	test_shading_an_intersection_from_inside(t_minirt *minirt, char **av)
 	obj->mat.col.r = 1;
 	obj->mat.col.g = 1;
 	obj->mat.col.b = 1;
-	t_comps comps = prepare_computations(i1, r);
+	t_comps comps = prepare_computations(minirt, i1, r);
 	fun_test_parsed_output(av, minirt->world);
 	// print_comps(&comps);
 	bool in_shadow = 0;
@@ -795,7 +795,7 @@ void	test_ray_for_pixel(t_minirt *minirt)
 	print_ray(r);
 }
 
-void	test_shape(void)
+void	test_shape(t_minirt *minirt)
 {
 	t_scene_obj object;
 	t_matrix4 trans;
@@ -820,14 +820,14 @@ void	test_shape(void)
 	object.type = SPHERE;
 	trans = translation(0, 1, 0);
 	set_transform(&object, trans);
-	t_tuple norm = normal_at(&object, create_point(0, 1.70711, -0.70711));
+	t_tuple norm = normal_at(minirt, &object, create_point(0, 1.70711, -0.70711));
 	printf("Test 4. Normal of translated 0,1,0\n");
 	print_tuple(norm);
 
 	//Test 5, normal on transformed shape
 	trans = multiply_mtrx_by_mtrx(scaling(1, 0.5, 1), rotation_z(0.62832));
 	set_transform(&object, trans);
-	norm = normal_at(&object, create_point(0, 0.70711, -0.70711));
+	norm = normal_at(minirt, &object, create_point(0, 0.70711, -0.70711));
 	printf("Test 5. Normal of transformed sca-rot\n");
 	print_tuple(norm);
 }
@@ -856,15 +856,15 @@ void	test_plane_normal(t_minirt *minirt)
 	printf("Scenario: The normal of a plane is constant everywhere\n");
 	t_scene_obj	p = plane(minirt);
 
-	t_tuple	n1 = normal_at(&p, create_point(0, 0, 0));
+	t_tuple	n1 = normal_at(minirt,&p, create_point(0, 0, 0));
 	printf("Normal at point 0,0,0\n");
 	print_tuple(n1);
 
-	t_tuple	n2 = normal_at(&p, create_point(10, 0, -10));
+	t_tuple	n2 = normal_at(minirt,&p, create_point(10, 0, -10));
 	printf("Normal at point 10,0,-10\n");
 	print_tuple(n2);
 
-	t_tuple	n3 = normal_at(&p, create_point(-5, 0, 150));
+	t_tuple	n3 = normal_at(minirt,&p, create_point(-5, 0, 150));
 	printf("Normal at point -5,0,150\n");
 	print_tuple(n3);
 }

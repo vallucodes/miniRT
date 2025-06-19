@@ -57,7 +57,6 @@ void	init_camera(t_minirt *minirt)
 	to = addition_tuples(from, orientation);
 	t_tuple	up = create_vector(0, 1, 0);
 	minirt->world->cam_s.transform = view_transform(from, to, up);
-	// print_matrix(minirt->world->cam_s.transform, "camera matrix right after creation", 4);
 }
 
 t_ray	ray_for_pixel(t_minirt *minirt, t_camera *c, int px, int py)
@@ -71,8 +70,6 @@ t_ray	ray_for_pixel(t_minirt *minirt, t_camera *c, int px, int py)
 	t_tuple	direction;
 	bool	success;
 
-	// print_matrix(minirt->world->cam_s.transform, "camera in ray for pixel from minirt variable", 4);
-	// print_matrix(c->transform, "camera in ray for pixel as c variable", 4);
 	xoffset = (px + 0.5) * c->pixel_size;
 	yoffset = (py + 0.5) * c->pixel_size;
 
