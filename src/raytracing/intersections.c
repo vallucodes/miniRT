@@ -88,26 +88,26 @@ t_xs	*intersects_cylinder(t_scene_obj *obj, t_ray r, t_xs *xs)
 	t_i		i1[2];
 	t_i		i2[2];
 	float	abcd[4];
-	float	wye[2];
+	float	y[2];
 
-	abcd[0] = (r.dir.x * r.dir.x) + (r.dir.y * r.dir.y);
-	if (abcd[0] < EPSILON)
+	abcd[0] = (r.dir.x * r.dir.x) + (r.dir.z * r.dir.z);
+	if (0 - fabs(abcd[0]) < EPSILON)
 		return (xs);
 	else
 	{
 		abcd[1] = 2 * r.origin.x * r.dir.x + 2 * r.origin.z * r.dir.z;
 		abcd[2] = (r.origin.x * r.origin.x) + (r.origin.z * r.origin.z) - 1;
-		abcd[3] = abcd[1] * abcd[1] - 4 * abcd[0] * abcd[2];
+		abcd[3] = (abcd[1] * abcd[1]) - 4 * abcd[0] * abcd[2];
 		if (abcd[3] < 0)
 			return (xs);
 		i1[0] = intersection((-abcd[1] - sqrt(abcd[3])) / (2 * abcd[0]), obj);
 		i2[0] = intersection((-abcd[1] + sqrt(abcd[3])) / (2 * abcd[0]), obj);
 	}
-	wye[0] = r.origin.y + i1[0].t * r.dir.y;
-	if (obj->wye[0] < wye[0] && wye[0] < obj->wye[1])
+	y[0] = r.origin.y + i1[0].t * r.dir.y;
+	if (obj->min < y[0] && y[0] < obj->max)
 		i1[1] = i1[0];
-	wye[1] = r.origin.y + i2[0].t * r.dir.y;
-	if (obj->wye[0] < wye[1] && wye[1] < obj->wye[1])
+	y[1] = r.origin.y + i2[0].t * r.dir.y;
+	if (obj->min < y[1] && y[1] < obj->max)
 		i2[1] = i2[0];
 	intersections(xs, i1[1], i2[1]);
 	return (xs);

@@ -74,8 +74,8 @@ t_scene_obj	cylinder(void)
 	c.nor = create_point(c.ox, c.oy, c.oz);
 	c.radius = 1;
 	c.height = 10;
-	c.wye[1] = c.height / 2;
-	c.wye[0] = -c.wye[1];
+	c.max = c.height / 2;
+	c.min = -c.max;
 	c.mat = init_material();
 	c.col = c.mat.col;
 	colour_unitrgb_rgba(&c.col);

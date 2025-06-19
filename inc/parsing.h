@@ -122,7 +122,8 @@ typedef struct s_scene_obj
 	float			dia;
 	float			radius;
 	float			height;
-	float			wye[2];
+	float			min;
+	float			max;
 	t_tuple			ori;
 	t_tuple			nor;
 	t_color			col;
