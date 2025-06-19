@@ -1160,41 +1160,41 @@ void	test_cylinder(void)
 	r1 = create_ray(normalize_tuple(create_vector(0.1,1,0)), create_point(0,1.5,0));
 	t_xs		*xs5 = malloc(sizeof(t_xs));
 	init_xs(xs5);
-	xs5 = intersect(&cyl, r1, xs5);
+	xs5 = intersect(&trun, r1, xs5);
 	printf("xs.count: %lu\n", xs5->count);
 	
 	printf("Test #5: | 2 | point(0, 3, -5) | vector(0, 0, 1) | 0 |\n");
 	r1 = create_ray(normalize_tuple(create_vector(0,0,1)), create_point(0,3,-5));
 	t_xs		*xs6 = malloc(sizeof(t_xs));
 	init_xs(xs6);
-	xs6 = intersect(&cyl, r1, xs6);
+	xs6 = intersect(&trun, r1, xs6);
 	printf("xs.count: %lu\n", xs6->count);
 	
 	printf("Test #5: | 3 | point(0, 0, -5) | vector(0, 0, 1) | 0 |\n");
 	r1 = create_ray(normalize_tuple(create_vector(0,0,1)), create_point(0,0,-5));
 	t_xs		*xs7 = malloc(sizeof(t_xs));
 	init_xs(xs7);
-	xs7 = intersect(&cyl, r1, xs7);
+	xs7 = intersect(&trun, r1, xs7);
 	printf("xs.count: %lu\n", xs7->count);
 	
 	printf("Test #5: | 4 | point(0, 2, -5) | vector(0, 0, 1) | 0 |\n");
 	r1 = create_ray(normalize_tuple(create_vector(0,0,1)), create_point(0,2,-5));
 	t_xs		*xs8 = malloc(sizeof(t_xs));
 	init_xs(xs8);
-	xs8 = intersect(&cyl, r1, xs8);
+	xs8 = intersect(&trun, r1, xs8);
 	printf("xs.count: %lu\n", xs8->count);
 	
 	printf("Test #5: | 5 | point(0, 1, -5) | vector(0, 0, 1) | 0 |\n");
 	r1 = create_ray(normalize_tuple(create_vector(0,0,1)), create_point(0,1,-5));
 	t_xs		*xs9 = malloc(sizeof(t_xs));
 	init_xs(xs9);
-	xs9 = intersect(&cyl, r1, xs9);
+	xs9 = intersect(&trun, r1, xs9);
 	printf("xs.count: %lu\n", xs9->count);
 	
 	printf("Test #5: | 6 | point(0, 1.5, -2) | vector(0, 0, 1) | 2 |\n");
 	r1 = create_ray(normalize_tuple(create_vector(0,0,1)), create_point(0,1.5,-2));
 	t_xs		*xs10 = malloc(sizeof(t_xs));
 	init_xs(xs10);
-	xs10 = intersect(&cyl, r1, xs10);
+	xs10 = intersect(&trun, r1, xs10);
 	printf("xs.count: %lu\n", xs10->count);
 }

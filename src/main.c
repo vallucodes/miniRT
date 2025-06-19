@@ -18,8 +18,8 @@ void	set_ids_for_objects(t_list *objects)
 
 int	main(int ac, char **av)
 {
-	/*// setbuf(stdout, NULL); //this was used just for debugging, when writing to file
-	t_minirt minirt;
+	// setbuf(stdout, NULL); //this was used just for debugging, when writing to file
+	/*t_minirt minirt;
 	t_parse	*ps;
 
 	if (ac != 2)
