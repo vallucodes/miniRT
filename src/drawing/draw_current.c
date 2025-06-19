@@ -8,7 +8,6 @@ void	draw_current_thing(t_minirt *minirt, t_camera *c)
 	uint32_t	color_raw;
 	t_ray		ray;
 
-	// print_matrix(minirt->world->cam_s.transform, "camera matrix in draw_current_thing", 4);
 	x = 0;
 	while (x < WIDTH)
 	{

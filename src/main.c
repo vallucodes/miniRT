@@ -44,4 +44,4 @@ int	main(int ac, char **av)
 //todo
 
 //add max object amount = 100 in parsing stage
-//add exit_error handling
+//add check in parsing that does not allow camera to be 0,0,0

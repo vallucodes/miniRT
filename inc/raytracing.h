@@ -1,8 +1,8 @@
 #ifndef RAYTRACING_H
 # define RAYTRACING_H
 
-# define WIDTH			200
-# define HEIGHT			200
+# define WIDTH			400
+# define HEIGHT			400
 # define MAX_OBJECTS	100
 # define MALLOC			"Memory allocation failed"
 # define PARSING		"Exit, parsing failure."
@@ -154,7 +154,7 @@ t_tuple	reflect(t_tuple in, t_tuple normal);
 t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple e_v, t_tuple n_v, bool in_shadow);
 
 //normal.c
-t_tuple	normal_at(t_scene_obj *obj, t_tuple point);
+t_tuple	normal_at(t_minirt *minirt, t_scene_obj *obj, t_tuple point);
 
 //tuples
 t_tuple	create_vector(float x, float y, float z);
@@ -223,7 +223,7 @@ void	intersections(t_xs	*xs, t_i i1, t_i i2);
 t_xs	intersect_world(t_minirt *minirt, t_ray r);
 
 //shading
-t_comps		prepare_computations(t_i i, t_ray r);
+t_comps		prepare_computations(t_minirt *minirt, t_i i, t_ray r);
 t_color		shade_hit(t_parse *world, t_comps comps, bool in_shadow);
 t_color		color_at(t_minirt *minirt, t_ray ray);
 bool		is_shadowed(t_minirt *minirt, t_tuple point, t_scene_obj *obj);
@@ -279,7 +279,7 @@ void	test_camera(t_minirt *minirt);
 void	test_ray_for_pixel(t_minirt *minirt);
 void	test_intersect_two_spheres(t_minirt *minirt);
 void	print_colour(t_color c);
-void	test_shape(void);
+void	test_shape(t_minirt *minirt);
 void	test_intersect_generic(void);
 void	test_plane_normal(t_minirt *minirt);
 void	test_plane_intersect(t_minirt *minirt);
