@@ -139,10 +139,11 @@ t_matrix4	cylinder_transformation_mtrx(t_scene_obj *obj)
 	return (res);
 }
 
-t_matrix4	generate_transformation_mtrx(t_scene_obj *obj)
+t_matrix4	generate_transformation_mtrx(t_minirt *minirt, t_scene_obj *obj)
 {
 	t_matrix4	res;
 
+	matrix_fill_zero(&res);
 	if (obj->type == SPHERE)
 		res = sphere_transformation_mtrx(obj);
 	else if (obj->type == PLANE)
@@ -150,10 +151,7 @@ t_matrix4	generate_transformation_mtrx(t_scene_obj *obj)
 	else if (obj->type == CYLINDER)
 		res = cylinder_transformation_mtrx(obj);
 	else
-	{
-		matrix_fill_zero(&res);
-		ft_putstr_fd("Error\nUnreachable code: shape unrecognized\n", STDERR_FILENO);
-	}
+		exit_error(minirt, SHAPE);
 	return (res);
 }
 
@@ -169,7 +167,7 @@ static void	init_objects(t_minirt *minirt)
 	{
 		obj = (t_scene_obj *)temp->content;
 		obj->id = i;
-		obj->transform = generate_transformation_mtrx(obj);
+		obj->transform = generate_transformation_mtrx(minirt, obj);
 		obj->mat = init_material();
 		color_convert(obj);
 		temp = temp->next;

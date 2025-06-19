@@ -13,21 +13,21 @@ t_xs	intersect_world(t_minirt *minirt, t_ray r)
 	while (i < minirt->world->obj_count)
 	{
 		obj = (t_scene_obj *)temp->content;
-		intersect(obj, r, &xs);
+		intersect(minirt, obj, r, &xs);
 		temp = temp->next;
 		i++;
 	}
 	return (xs);
 }
 
-t_comps	prepare_computations(t_i i, t_ray r)
+t_comps	prepare_computations(t_minirt *minirt, t_i i, t_ray r)
 {
 	t_comps	comps;
 
 	comps.obj = i.object;
 	comps.point = position_ray(r, i.t);
 	comps.eyev = normalize_tuple(negate_tuple(r.dir));
-	comps.normalv = normal_at(comps.obj, comps.point);
+	comps.normalv = normal_at(minirt, comps.obj, comps.point);
 	comps.over_point = addition_tuples(comps.point, scalar_multiply_tuple(comps.normalv, EPSILON));
 	if (dot_tuple(comps.normalv, comps.eyev) < 0)
 	{
@@ -55,7 +55,10 @@ t_ray	get_ray_obj_to_light(t_minirt *minirt, t_tuple point, float	*distance)
 	point_to_light = substraction_tuples(create_point(lig->cx, lig->cy, lig->cz),
 						create_point(point.x, point.y, point.z));
 	*distance = magnitude_tuple(point_to_light);
-	dir = normalize_tuple(point_to_light);
+	if (*distance == 0)
+		dir = create_vector(0, 0, 1);
+	else
+		dir = normalize_tuple(point_to_light);
 	return (create_ray(dir, point));
 }
 
@@ -88,7 +91,7 @@ t_color	color_at(t_minirt *minirt, t_ray r)
 	hit_p = hit(&xs, NULL);
 	if (hit_p.object == NULL)
 		return (color(0, 0, 0));
-	comps = prepare_computations(hit_p, r);
+	comps = prepare_computations(minirt, hit_p, r);
 	in_shadow = is_shadowed(minirt, comps.over_point, hit_p.object);
 	color_var = shade_hit(minirt->world, comps, in_shadow);
 	return (color_var);

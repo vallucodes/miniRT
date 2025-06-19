@@ -1,7 +1,7 @@
 #include "../../inc/minirt.h"
 
 /**
- * @brief Print error message to standard error. 
+ * @brief Print error message to standard error.
  * @param [in] *message
  */
 void	put_error(char *message)
@@ -12,13 +12,13 @@ void	put_error(char *message)
 }
 
 /**
- * @brief Error handling function. Frees and informs depending on parameters.  
+ * @brief Error handling function. Frees and informs depending on parameters.
  * @param [in] *ps: Not required. t_parse
- * @param [in] **matrix: Not required. 
+ * @param [in] **matrix: Not required.
  * @param [in] *vector: Not required.
- * @param [in] *message: Not required. Error message to stderr. 
- * @return Always false. To be used in function return. 
- * @details Catch all annoying function. May change later. 
+ * @param [in] *message: Not required. Error message to stderr.
+ * @return Always false. To be used in function return.
+ * @details Catch all annoying function. May change later.
  */
 bool	free_helper(t_parse *ps, char **matrix, void *vector, char *message)
 {
