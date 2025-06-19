@@ -84,7 +84,7 @@ t_xs	*intersects_cylinder(t_scene_obj *obj, t_ray r, t_xs *xs)
 	float	y[2];
 
 	abcd[0] = (r.dir.x * r.dir.x) + (r.dir.z * r.dir.z);
-	if (0 - fabs(abcd[0]) < EPSILON)
+	if (fabs(abcd[0]) < EPSILON)
 		return (xs);
 	else
 	{
