@@ -286,6 +286,6 @@ void	test_plane_normal(t_minirt *minirt);
 void	test_plane_intersect(t_minirt *minirt);
 void	test_render_world(t_minirt *minirt);
 void	test_cylinder_rotation(void);
-void	test_cylinder(void);
+void	test_cylinder(t_minirt *minirt);
 
 #endif
