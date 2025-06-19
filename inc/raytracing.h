@@ -136,6 +136,7 @@ typedef struct	s_comps
 	bool		inside;
 	t_scene_obj	*obj;
 	t_tuple		point;
+	t_tuple		over_point;
 	t_tuple		eyev;
 	t_tuple		normalv;
 }	t_comps;
