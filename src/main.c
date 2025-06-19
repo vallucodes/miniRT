@@ -1,26 +1,9 @@
 #include "../inc/minirt.h"
 
-void	set_ids_for_objects(t_list *objects)
-{
-	t_scene_obj	*obj;
-	size_t		i;
-
-	obj = NULL;
-	i = 0;
-	while (objects != NULL)
-	{
-		obj = objects->content;
-		obj->id = i;
-		i++;
-		objects = objects->next;
-	}
-}
-
 int	main(int ac, char **av)
 {
 	// setbuf(stdout, NULL); //this was used just for debugging, when writing to file
-	t_minirt minirt;
-	t_parse	*ps;
+	t_minirt	minirt;
 
 	if (ac != 2)
 	{
@@ -30,23 +13,22 @@ int	main(int ac, char **av)
 		return (1);
 	}
 	init_minirt(&minirt);
-	ps = ft_calloc(1, sizeof(t_parse)); //null return is not always malloc fail
-	// if (!ps)
-		// exit_error();
-	file_check(av, ps);
-	if (!parsing_gateway(ps))
+	minirt.world = ft_calloc(1, sizeof(t_parse)); //null return is not always malloc fail
+	if (!minirt.world)
+		exit_error(&minirt, MALLOC);
+	file_check(av, minirt.world);
+	if (!parsing_gateway(minirt.world))
 	{
-		printf("Error\nExit, parsing failure.\n");
-		exit (EXIT_FAILURE);
+		minirt.world = NULL;
+		exit_error(&minirt, NULL);
 	}
 	// fun_test_parsed_output(av, ps);
-	minirt.world = ps;
 	render_world(&minirt);
 	mlx_loop_hook(minirt.mlx, &ft_keyhook, &minirt);
 	mlx_loop(minirt.mlx);
-	ft_lstclear(&ps->objects, &free);
-	close(ps->fd);
-	free(ps);
+	ft_lstclear(&minirt.world->objects, &free);
+	close(minirt.world->fd);
+	free(minirt.world);
 	free(minirt.vp);
 
 	/**
@@ -61,5 +43,5 @@ int	main(int ac, char **av)
 }
 //todo
 
-//add max object amount = 100
+//add max object amount = 100 in parsing stage
 //add exit_error handling

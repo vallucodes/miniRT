@@ -838,14 +838,14 @@ void	test_intersect_generic(void)
 	t_ray ray = create_ray(create_vector(0,0,1), create_point(0,0,-5));
 	t_scene_obj obj;
 	set_transform(&obj, scaling(2, 2, 2));
-	xs = intersect(&obj, ray, xs);
+	xs = intersect(NULL, &obj, ray, xs);
 	(void)xs;
 	printf("Scaled 2,2,2 saved_ray\n");
 	print_ray(obj.saved_ray);
 
 	t_ray ray2 = create_ray(create_vector(0,0,1), create_point(0,0,-5));
 	set_transform(&obj, translation(5, 0, 0));
-	t_xs *xs2 = intersect(&obj, ray2, xs);
+	t_xs *xs2 = intersect(NULL, &obj, ray2, xs);
 	(void)xs2;
 	printf("Translated 5,0,0 saved_ray\n");
 	print_ray(obj.saved_ray);
@@ -871,27 +871,31 @@ void	test_plane_normal(t_minirt *minirt)
 
 /*void	test_plane_intersect(t_minirt *minirt)
 {
+	t_xs *xs1 = NULL;
 	printf("Scenario: Intersect with a ray parallel to the plane\n");
 	t_scene_obj	p = plane(minirt);
 	t_ray r1 = create_ray(create_vector(0,0,1), create_point(0,10,0));
-	t_xs *xs1 = intersect(minirt, &p, r1);
+	intersect(minirt, &p, r1, xs1);
 	printf("t_xs count: %u\n", xs1->count);
 
+	t_xs *xs2 = NULL;
 	printf("Scenario: Intersect with a coplanar ray\n");
 	t_ray r2 = create_ray(create_vector(0,0,0), create_point(0,0,1));
-	t_xs *xs2 = intersect(minirt, &p, r2);
+	intersect(minirt, &p, r2, xs2);
 	printf("t_xs count: %u\n", xs2->count);
 
+	t_xs *xs3 = NULL;
 	printf("Scenario: A ray intersecting a plane from above\n");
 	t_ray r3 = create_ray(create_vector(0,1,0), create_point(0,-1,0));
-	t_xs *xs3 = intersect(minirt, &p, r3);
+	intersect(minirt, &p, r3, xs3);
 	printf("t_xs count: %u\n", xs3->count);
 	printf("t_xs xs1: %f, xs2: %f\n", xs3->t[0], xs3->t[1]);
 	printf("t_xs obj: %d\n", ((t_scene_obj *)xs3->object)->type);
 
+	t_xs *xs4 = NULL;
 	printf("Scenario: A ray intersecting a plane from below\n");
 	t_ray r4 = create_ray(create_vector(0,-1,0), create_point(0,1,0));
-	t_xs *xs4 = intersect(minirt, &p, r4);
+	intersect(minirt, &p, r4, xs4);
 	printf("t_xs count: %u\n", xs4->count);
 	printf("t_xs xs1: %f, xs2: %f\n", xs4->t[0], xs4->t[1]);
 	printf("t_xs obj: %d\n", ((t_scene_obj *)xs4->object)->type);
