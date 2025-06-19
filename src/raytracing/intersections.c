@@ -77,14 +77,14 @@ t_xs	*intersects_plane(t_scene_obj *p, t_ray r, t_xs *xs)
  * @brief Returns intersection information. Selects intersection function.
  * 		  Converts ray to current object space.
  */
-t_xs	*intersect(t_scene_obj *obj, t_ray ray, t_xs *xs)
+t_xs	*intersect(t_minirt *minirt, t_scene_obj *obj, t_ray ray, t_xs *xs)
 {
 	t_ray	local_ray;
 	bool	success;
 
 	local_ray = transform(ray, inverse_matrix(obj->transform, &success));
-	// if (!success)
-	// 	error_exit(minirt);
+	if (!success)
+		exit_error(minirt, INVERSE_MATRIX);
 	obj->saved_ray.dir = local_ray.dir;
 	obj->saved_ray.origin = local_ray.origin;
 	if (obj->type == PLANE)

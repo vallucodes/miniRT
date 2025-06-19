@@ -65,8 +65,6 @@ t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple e_v, t_tuple n_v, b
 	else
 	{
 		lv.l_dot_n = dot_tuple(lv.light_vec, n_v);
-		// printf("light dot normal: %f\n", lv.l_dot_n);
-
 		if (lv.l_dot_n < 0)
 		{
 			lv.dif_col = color(0, 0, 0);
