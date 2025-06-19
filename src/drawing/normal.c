@@ -53,7 +53,7 @@ t_tuple	normal_at_cylinder(t_tuple point)
  * @details Convert point to object space > find appropriate object normal
  * 			> convert object normal to global space and return normalised
  */
-t_tuple	normal_at(t_scene_obj *obj, t_tuple point)
+t_tuple	normal_at(t_minirt *minirt, t_scene_obj *obj, t_tuple point)
 {
 	t_tuple		local_point;
 	t_tuple		local_normal;
@@ -63,8 +63,8 @@ t_tuple	normal_at(t_scene_obj *obj, t_tuple point)
 	bool		success;
 
 	inverse = inverse_matrix(obj->transform, &success);
-	// if (!success)
-	// 	error_exit(minirt);
+	if (!success)
+		exit_error(minirt, INVERSE_MATRIX);
 	//print_matrix(obj->transform, "obj.transform", 4);
 	//print_matrix(inverse, "Inverse obj.transform", 4);
 
