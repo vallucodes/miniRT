@@ -73,7 +73,7 @@ t_scene_obj	cylinder(void)
 	c.oz = 0;
 	c.nor = create_point(c.ox, c.oy, c.oz);
 	c.radius = 1;
-	c.height = 10;
+	c.height = 10000;
 	c.max = c.height / 2;
 	c.min = -c.max;
 	c.mat = init_material();

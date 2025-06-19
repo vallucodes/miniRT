@@ -1167,7 +1167,7 @@ void	test_cylinder(void)
 	r1 = create_ray(normalize_tuple(create_vector(0,0,1)), create_point(0,3,-5));
 	t_xs		*xs6 = malloc(sizeof(t_xs));
 	init_xs(xs6);
-	xs5 = intersect(&cyl, r1, xs6);
+	xs6 = intersect(&cyl, r1, xs6);
 	printf("xs.count: %lu\n", xs6->count);
 	
 	printf("Test #5: | 3 | point(0, 0, -5) | vector(0, 0, 1) | 0 |\n");
