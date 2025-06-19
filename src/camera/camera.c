@@ -77,11 +77,11 @@ t_ray	ray_for_pixel(t_minirt *minirt, t_camera *c, int px, int py)
 	world_y = c->half_height - yoffset;
 
 	pixel = multiply_mtrx_by_tuple(inverse_matrix(c->transform, &success), create_point(world_x, world_y, -1));
-	// if (!success)
-	// 	error_exit(minirt);
+	if (!success)
+		exit_error(minirt, INVERSE_MATRIX);
 	origin = multiply_mtrx_by_tuple(inverse_matrix(c->transform, &success), create_point(0, 0, 0));
-	// if (!success)
-	// 	error_exit(minirt);
+	if (!success)
+		exit_error(minirt, INVERSE_MATRIX);
 	direction = normalize_tuple(substraction_tuples(pixel, origin));
 	return (create_ray(direction, origin));
 }

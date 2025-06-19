@@ -558,7 +558,7 @@ void	test_intersect_two_spheres(t_minirt *minirt)
 	t_scene_obj *obj = (t_scene_obj *)temp->content;
 	t_i		i1 = intersection(4, obj); //hard set t value = 4
 	obj->transform = identity();
-	t_comps comps = prepare_computations(i1, r);
+	t_comps comps = prepare_computations(minirt, i1, r);
 	print_comps(&comps);
 }*/
 
@@ -574,7 +574,7 @@ void	test_intersect_two_spheres(t_minirt *minirt)
 	t_scene_obj *obj = (t_scene_obj *)temp->content;
 	t_i		i1 = intersection(1, obj); //hard set t value = 1
 	obj->transform = identity();
-	t_comps comps = prepare_computations(i1, r);
+	t_comps comps = prepare_computations(minirt, i1, r);
 	print_comps(&comps);
 }*/
 
@@ -594,7 +594,7 @@ void	test_intersect_two_spheres(t_minirt *minirt)
 	obj->mat.col.r = 0.8;
 	obj->mat.col.g = 1;
 	obj->mat.col.b = 0.6;
-	t_comps comps = prepare_computations(i1, r);
+	t_comps comps = prepare_computations(minirt, i1, r);
 	fun_test_parsed_output(av, minirt->world);
 	// print_comps(&comps);
 	bool in_shadow = 0;
@@ -618,7 +618,7 @@ void	test_intersect_two_spheres(t_minirt *minirt)
 	obj->mat.col.r = 1;
 	obj->mat.col.g = 1;
 	obj->mat.col.b = 1;
-	t_comps comps = prepare_computations(i1, r);
+	t_comps comps = prepare_computations(minirt, i1, r);
 	fun_test_parsed_output(av, minirt->world);
 	// print_comps(&comps);
 	bool in_shadow = 0;
@@ -795,7 +795,7 @@ void	test_ray_for_pixel(t_minirt *minirt)
 	print_ray(r);
 }
 
-void	test_shape(void)
+void	test_shape(t_minirt *minirt)
 {
 	t_scene_obj object;
 	t_matrix4 trans;
@@ -838,14 +838,14 @@ void	test_intersect_generic(void)
 	t_ray ray = create_ray(create_vector(0,0,1), create_point(0,0,-5));
 	t_scene_obj obj;
 	set_transform(&obj, scaling(2, 2, 2));
-	xs = intersect(&obj, ray, xs);
+	xs = intersect(NULL, &obj, ray, xs);
 	(void)xs;
 	printf("Scaled 2,2,2 saved_ray\n");
 	print_ray(obj.saved_ray);
 
 	t_ray ray2 = create_ray(create_vector(0,0,1), create_point(0,0,-5));
 	set_transform(&obj, translation(5, 0, 0));
-	t_xs *xs2 = intersect(&obj, ray2, xs);
+	t_xs *xs2 = intersect(NULL, &obj, ray2, xs);
 	(void)xs2;
 	printf("Translated 5,0,0 saved_ray\n");
 	print_ray(obj.saved_ray);
@@ -856,42 +856,46 @@ void	test_intersect_generic(void)
 	printf("Scenario: The normal of a plane is constant everywhere\n");
 	t_scene_obj	p = plane(minirt);
 
-	t_tuple	n1 = normal_at(&p, create_point(0, 0, 0));
+	t_tuple	n1 = normal_at(minirt,&p, create_point(0, 0, 0));
 	printf("Normal at point 0,0,0\n");
 	print_tuple(n1);
 
-	t_tuple	n2 = normal_at(&p, create_point(10, 0, -10));
+	t_tuple	n2 = normal_at(minirt,&p, create_point(10, 0, -10));
 	printf("Normal at point 10,0,-10\n");
 	print_tuple(n2);
 
-	t_tuple	n3 = normal_at(&p, create_point(-5, 0, 150));
+	t_tuple	n3 = normal_at(minirt,&p, create_point(-5, 0, 150));
 	printf("Normal at point -5,0,150\n");
 	print_tuple(n3);
 }*/
 
 /*void	test_plane_intersect(t_minirt *minirt)
 {
+	t_xs *xs1 = NULL;
 	printf("Scenario: Intersect with a ray parallel to the plane\n");
 	t_scene_obj	p = plane(minirt);
 	t_ray r1 = create_ray(create_vector(0,0,1), create_point(0,10,0));
-	t_xs *xs1 = intersect(minirt, &p, r1);
+	intersect(minirt, &p, r1, xs1);
 	printf("t_xs count: %u\n", xs1->count);
 
+	t_xs *xs2 = NULL;
 	printf("Scenario: Intersect with a coplanar ray\n");
 	t_ray r2 = create_ray(create_vector(0,0,0), create_point(0,0,1));
-	t_xs *xs2 = intersect(minirt, &p, r2);
+	intersect(minirt, &p, r2, xs2);
 	printf("t_xs count: %u\n", xs2->count);
 
+	t_xs *xs3 = NULL;
 	printf("Scenario: A ray intersecting a plane from above\n");
 	t_ray r3 = create_ray(create_vector(0,1,0), create_point(0,-1,0));
-	t_xs *xs3 = intersect(minirt, &p, r3);
+	intersect(minirt, &p, r3, xs3);
 	printf("t_xs count: %u\n", xs3->count);
 	printf("t_xs xs1: %f, xs2: %f\n", xs3->t[0], xs3->t[1]);
 	printf("t_xs obj: %d\n", ((t_scene_obj *)xs3->object)->type);
 
+	t_xs *xs4 = NULL;
 	printf("Scenario: A ray intersecting a plane from below\n");
 	t_ray r4 = create_ray(create_vector(0,-1,0), create_point(0,1,0));
-	t_xs *xs4 = intersect(minirt, &p, r4);
+	intersect(minirt, &p, r4, xs4);
 	printf("t_xs count: %u\n", xs4->count);
 	printf("t_xs xs1: %f, xs2: %f\n", xs4->t[0], xs4->t[1]);
 	printf("t_xs obj: %d\n", ((t_scene_obj *)xs4->object)->type);
