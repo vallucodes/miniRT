@@ -72,6 +72,8 @@ void	print_comps(t_comps *comps)
 	printf("obj: %p\n", (void *)comps->obj); // pointer address
 	printf("point: \n");
 	print_tuple(comps->point);
+	printf("over_point: \n");
+	print_tuple(comps->over_point);
 	printf("eyev: \n");
 	print_tuple(comps->eyev);
 	printf("normalv: \n");

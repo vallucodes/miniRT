@@ -63,6 +63,8 @@ t_tuple	normal_at(t_scene_obj *obj, t_tuple point)
 	bool		success;
 
 	inverse = inverse_matrix(obj->transform, &success);
+	// if (!success)
+	// 	error_exit(minirt);
 	//print_matrix(obj->transform, "obj.transform", 4);
 	//print_matrix(inverse, "Inverse obj.transform", 4);
 
