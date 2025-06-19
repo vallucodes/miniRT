@@ -78,8 +78,8 @@ t_xs	*intersects_plane(t_scene_obj *p, t_ray r, t_xs *xs)
  */
 t_xs	*intersects_cylinder(t_scene_obj *obj, t_ray r, t_xs *xs)
 {
-	t_i		i1[2];
-	t_i		i2[2];
+	t_i		i1;
+	t_i		i2;
 	float	abcd[4];
 	float	y[2];
 
@@ -93,16 +93,20 @@ t_xs	*intersects_cylinder(t_scene_obj *obj, t_ray r, t_xs *xs)
 		abcd[3] = (abcd[1] * abcd[1]) - 4 * abcd[0] * abcd[2];
 		if (abcd[3] < 0)
 			return (xs);
-		i1[0] = intersection((-abcd[1] - sqrt(abcd[3])) / (2 * abcd[0]), obj);
-		i2[0] = intersection((-abcd[1] + sqrt(abcd[3])) / (2 * abcd[0]), obj);
 	}
-	y[0] = r.origin.y + i1[0].t * r.dir.y;
+	if (i1.t > i2.t)
+		{
+			float	a = i1.t;
+			i1.t = i2.t;
+			i2.t = a;
+		}
+	y[0] = r.origin.y + i1.t * r.dir.y;
 	if (obj->min < y[0] && y[0] < obj->max)
-		i1[1] = i1[0];
-	y[1] = r.origin.y + i2[0].t * r.dir.y;
+		i1 = intersection((-abcd[1] - sqrt(abcd[3])) / (2 * abcd[0]), obj);
+	y[1] = r.origin.y + i2.t * r.dir.y;
 	if (obj->min < y[1] && y[1] < obj->max)
-		i2[1] = i2[0];
-	intersections(xs, i1[1], i2[1]);
+		i2 = intersection((-abcd[1] + sqrt(abcd[3])) / (2 * abcd[0]), obj);
+	intersections(xs, i1, i2);
 	return (xs);
 }
 
