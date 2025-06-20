@@ -13,7 +13,7 @@ int	main(int ac, char **av)
 		return (1);
 	}
 	init_minirt(&minirt);
-	/*minirt.world = ft_calloc(1, sizeof(t_parse)); //null return is not always malloc fail
+	minirt.world = ft_calloc(1, sizeof(t_parse)); //null return is not always malloc fail
 	if (!minirt.world)
 		exit_error(&minirt, MALLOC);
 	file_check(av, minirt.world);
@@ -29,7 +29,7 @@ int	main(int ac, char **av)
 	ft_lstclear(&minirt.world->objects, &free);
 	close(minirt.world->fd);
 	free(minirt.world);
-	free(minirt.vp);*/
+	free(minirt.vp);
 
 	/**
 	 * Testing chapter 13 material
