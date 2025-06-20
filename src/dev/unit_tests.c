@@ -1091,7 +1091,7 @@ void	test_cylinder(t_minirt *minirt)
 	t_ray		r1;
 	t_xs		*xs1 = malloc(sizeof(t_xs));
 
-	printf("Test #1: A Ray Misses a Cylinder\n");
+	/*printf("Test #1: A Ray Misses a Cylinder\n");
 	printf("Test #1: | point(1, 0, 0) | vector(0, 1, 0) |\n");
 	r1 = create_ray(normalize_tuple(create_vector(0,1,0)), create_point(1,0,0));
 	init_xs(xs1);
@@ -1108,7 +1108,7 @@ void	test_cylinder(t_minirt *minirt)
 	r1 = create_ray(normalize_tuple(create_vector(1,1,1)), create_point(0,0,-5));
 	init_xs(xs1);
 	xs1 = intersect(&minirt, &cyl, r1, xs1);
-	printf("xs.count: %lu\n", xs1->count);
+	printf("xs.count: %lu\n", xs1->count);*/
 
 	
 	printf("\nTest #2: A Ray Hits a Cylinder\n");

@@ -100,6 +100,15 @@ typedef struct s_matrix_result
 	size_t size;
 } t_matrix_result;
 
+typedef struct s_quad
+{
+	float	a;
+	float	b;
+	float	c;
+	float	d;
+}	t_quad;
+
+
 //Material light properties
 typedef struct	s_material
 {
