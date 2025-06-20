@@ -18,11 +18,6 @@ void	intersections(t_xs *xs, t_i i1, t_i i2)
 	xs->count += 2;
 }
 
-void	init_xs(t_xs *xs)
-{
-	xs->count = 0;
-}
-
 /**
  * @brief Returns intersection information for given sphere and ray
  * @todo discriminant can probably be a function
@@ -66,44 +61,6 @@ t_xs	*intersects_plane(t_scene_obj *p, t_ray r, t_xs *xs)
 		i1 = intersection(t, p);
 		intersections(xs, i1, i1);
 	}
-	return (xs);
-}
-
-/**
- * @brief Returns intersection information for given cylinder and ray
- * @todo will need breaking up for norm
- */
-t_xs	*intersects_cylinder(t_scene_obj *obj, t_ray r, t_xs *xs)
-{
-	t_i		i1;
-	t_i		i2;
-	t_quad	q;
-	float	t[2];
-	float	y[2];
-
-	q.a = (r.dir.x * r.dir.x) + (r.dir.z * r.dir.z);
-	if (fabs(q.a) < EPSILON)
-		return (xs);
-	q.b = 2 * r.origin.x * r.dir.x + 2 * r.origin.z * r.dir.z;
-	q.c = (r.origin.x * r.origin.x) + (r.origin.z * r.origin.z) - 1;
-	q.d = (q.b * q.b) - 4 * q.a * q.c;
-	if (q.a < EPSILON)
-		return (xs);
-	t[0] = (-q.b - sqrt(q.d)) / (2 * q.a);
-	t[1] = (-q.b + sqrt(q.d)) / (2 * q.a);
-	if (t[0] > t[1])
-		{
-			float	a = t[0];
-			t[0] = t[1];
-			t[1] = a;
-		}
-	y[0] = r.origin.y + t[0] * r.dir.y;
-	if (obj->min < y[0] && y[0] < obj->max)
-		i1 = intersection(t[0], obj);
-	y[1] = r.origin.y + t[1] * r.dir.y;
-	if (obj->min < y[1] && y[1] < obj->max)
-		i2 = intersection(t[1], obj);
-	intersections(xs, i1, i2);
 	return (xs);
 }
 
