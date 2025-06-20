@@ -13,7 +13,7 @@ static void	init_i(t_i *i1, t_i *i2)
  * @param [in] r: t_ray to be tested
  * @param [in] *q: t_quad - pointer to struct for quadratic values 
  */
-bool	cylinder_determinant(t_ray r, t_quad *q)
+bool	cylinder_discriminant(t_ray r, t_quad *q)
 {
 	q->a = (r.dir.x * r.dir.x) + (r.dir.z * r.dir.z);
 	if (q->a < 0)
@@ -65,7 +65,7 @@ t_xs	*intersects_cylinder(t_scene_obj *obj, t_ray r, t_xs *xs)
 	float	y[2];
 
 	init_i(&i1, &i2);
-	if (!cylinder_determinant(r, &q))
+	if (!cylinder_discriminant(r, &q))
 		return (xs);
 
 	t[0] = (-q.b - sqrt(q.d)) / (2 * q.a);
