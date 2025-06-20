@@ -20,7 +20,6 @@ void	intersections(t_xs *xs, t_i i1, t_i i2)
 
 /**
  * @brief Returns intersection information for given sphere and ray
- * @todo discriminant can probably be a function
  */
 t_xs	*intersects_sphere(t_scene_obj *obj, t_ray r, t_xs *xs)
 {
