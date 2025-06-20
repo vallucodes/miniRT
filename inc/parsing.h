@@ -105,6 +105,7 @@ typedef struct s_light
  * @note Plane (0): cx,cy,cz[CO_MIN,CO_MAX] ox,oy,oz[OR_MIN,OR_MAX] r,g,b[0,255]
  * @note Sphere (1): cx,cy,cz[CO_MIN,CO_MAX] dia r,g,b[0,255]
  * @note Cylinder (2): cx,cy,cz ox,oy,oz dia height r,g,b
+ * @details We will always use truncated closed cylinders. 
  */
 typedef struct s_scene_obj
 {
@@ -122,6 +123,9 @@ typedef struct s_scene_obj
 	float			dia;
 	float			radius;
 	float			height;
+	float			min;
+	float			max;
+	bool			closed;
 	t_tuple			ori;
 	t_tuple			nor;
 	t_color			col;

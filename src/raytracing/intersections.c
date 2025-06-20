@@ -18,35 +18,25 @@ void	intersections(t_xs *xs, t_i i1, t_i i2)
 	xs->count += 2;
 }
 
-void	init_xs(t_xs *xs)
-{
-	xs->count = 0;
-}
-
 /**
  * @brief Returns intersection information for given sphere and ray
- * @todo discriminant can probably be a function
- * 		 t_i may not be needed when we can just use a float
  */
 t_xs	*intersects_sphere(t_scene_obj *obj, t_ray r, t_xs *xs)
 {
 	t_i		i1;
 	t_i		i2;
-	float	a;
-	float	b;
-	float	c;
-	float	discriminant;
+	t_quad	q;
 	t_tuple	sphere_to_ray;
 
 	sphere_to_ray = substraction_tuples(r.origin, create_point(0,0,0));
-	a = dot_tuple(r.dir, r.dir);
-	b = 2 * dot_tuple(sphere_to_ray, r.dir);
-	c = dot_tuple(sphere_to_ray, sphere_to_ray) - 1;
-	discriminant = b * b - 4 * a * c;
-	if (discriminant < 0)
+	q.a = dot_tuple(r.dir, r.dir);
+	q.b = 2 * dot_tuple(sphere_to_ray, r.dir);
+	q.c = dot_tuple(sphere_to_ray, sphere_to_ray) - 1;
+	q.d = q.b * q.b - 4 * q.a * q.c;
+	if (q.d < 0)
 		return (xs);
-	i1 = intersection((-b - sqrt(discriminant)) / (2 * a), obj);
-	i2 = intersection((-b + sqrt(discriminant)) / (2 * a), obj);
+	i1 = intersection((-q.b - sqrt(q.d)) / (2 * q.a), obj);
+	i2 = intersection((-q.b + sqrt(q.d)) / (2 * q.a), obj);
 	intersections(xs, i1, i2);
 	return (xs);
 }
@@ -97,7 +87,7 @@ t_xs	*intersect(t_minirt *minirt, t_scene_obj *obj, t_ray ray, t_xs *xs)
 	}
 	else if (obj->type == CYLINDER)
 	{
-		/* cylinder */
+		xs = intersects_cylinder(obj, local_ray, xs);
 	}
 	return (xs);
 }
