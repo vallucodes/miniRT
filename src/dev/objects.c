@@ -76,6 +76,7 @@ t_scene_obj	cylinder(void)
 	c.height = 10000;
 	c.max = c.height / 2;
 	c.min = -c.max;
+	c.closed = true;
 	c.mat = init_material();
 	c.col = c.mat.col;
 	colour_unitrgb_rgba(&c.col);
