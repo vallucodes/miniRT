@@ -31,21 +31,18 @@ t_xs	*intersects_sphere(t_scene_obj *obj, t_ray r, t_xs *xs)
 {
 	t_i		i1;
 	t_i		i2;
-	float	a;
-	float	b;
-	float	c;
-	float	discriminant;
+	t_quad	q;
 	t_tuple	sphere_to_ray;
 
 	sphere_to_ray = substraction_tuples(r.origin, create_point(0,0,0));
-	a = dot_tuple(r.dir, r.dir);
-	b = 2 * dot_tuple(sphere_to_ray, r.dir);
-	c = dot_tuple(sphere_to_ray, sphere_to_ray) - 1;
-	discriminant = b * b - 4 * a * c;
-	if (discriminant < 0)
+	q.a = dot_tuple(r.dir, r.dir);
+	q.b = 2 * dot_tuple(sphere_to_ray, r.dir);
+	q.c = dot_tuple(sphere_to_ray, sphere_to_ray) - 1;
+	q.d = q.b * q.b - 4 * q.a * q.c;
+	if (q.d < 0)
 		return (xs);
-	i1 = intersection((-b - sqrt(discriminant)) / (2 * a), obj);
-	i2 = intersection((-b + sqrt(discriminant)) / (2 * a), obj);
+	i1 = intersection((-q.b - sqrt(q.d)) / (2 * q.a), obj);
+	i2 = intersection((-q.b + sqrt(q.d)) / (2 * q.a), obj);
 	intersections(xs, i1, i2);
 	return (xs);
 }
@@ -74,38 +71,38 @@ t_xs	*intersects_plane(t_scene_obj *p, t_ray r, t_xs *xs)
 
 /**
  * @brief Returns intersection information for given cylinder and ray
- * @todo discriminant can probably be a function
+ * @todo will need breaking up for norm
  */
 t_xs	*intersects_cylinder(t_scene_obj *obj, t_ray r, t_xs *xs)
 {
 	t_i		i1;
 	t_i		i2;
-	float	abcd[4];
+	t_quad	q;
+	float	t[2];
 	float	y[2];
 
-	abcd[0] = (r.dir.x * r.dir.x) + (r.dir.z * r.dir.z);
-	if (fabs(abcd[0]) < EPSILON)
+	q.a = (r.dir.x * r.dir.x) + (r.dir.z * r.dir.z);
+	if (fabs(q.a) < EPSILON)
 		return (xs);
-	else
-	{
-		abcd[1] = 2 * r.origin.x * r.dir.x + 2 * r.origin.z * r.dir.z;
-		abcd[2] = (r.origin.x * r.origin.x) + (r.origin.z * r.origin.z) - 1;
-		abcd[3] = (abcd[1] * abcd[1]) - 4 * abcd[0] * abcd[2];
-		if (abcd[3] < 0)
-			return (xs);
-	}
-	if (i1.t > i2.t)
+	q.b = 2 * r.origin.x * r.dir.x + 2 * r.origin.z * r.dir.z;
+	q.c = (r.origin.x * r.origin.x) + (r.origin.z * r.origin.z) - 1;
+	q.d = (q.b * q.b) - 4 * q.a * q.c;
+	if (q.a < EPSILON)
+		return (xs);
+	t[0] = (-q.b - sqrt(q.d)) / (2 * q.a);
+	t[1] = (-q.b + sqrt(q.d)) / (2 * q.a);
+	if (t[0] > t[1])
 		{
-			float	a = i1.t;
-			i1.t = i2.t;
-			i2.t = a;
+			float	a = t[0];
+			t[0] = t[1];
+			t[1] = a;
 		}
-	y[0] = r.origin.y + i1.t * r.dir.y;
+	y[0] = r.origin.y + t[0] * r.dir.y;
 	if (obj->min < y[0] && y[0] < obj->max)
-		i1 = intersection((-abcd[1] - sqrt(abcd[3])) / (2 * abcd[0]), obj);
-	y[1] = r.origin.y + i2.t * r.dir.y;
+		i1 = intersection(t[0], obj);
+	y[1] = r.origin.y + t[1] * r.dir.y;
 	if (obj->min < y[1] && y[1] < obj->max)
-		i2 = intersection((-abcd[1] + sqrt(abcd[3])) / (2 * abcd[0]), obj);
+		i2 = intersection(t[1], obj);
 	intersections(xs, i1, i2);
 	return (xs);
 }
