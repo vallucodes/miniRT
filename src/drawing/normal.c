@@ -38,6 +38,17 @@ t_tuple	normal_at_plane(t_tuple point)
 }
 
 /**
+ * @brief Return the normal of a cylinder for a given local [point] 
+ */
+t_tuple	normal_at_cylinder(t_tuple point)
+{
+	t_tuple	nor;
+
+	nor = create_vector(point.x, 0, point.z);
+	return (nor);
+}
+
+/**
  * @brief Return the global normal at a given [point] for a given [obj]ect
  * @details Convert point to object space > find appropriate object normal
  * 			> convert object normal to global space and return normalised
@@ -73,6 +84,7 @@ t_tuple	normal_at(t_minirt *minirt, t_scene_obj *obj, t_tuple point)
 	else if (obj->type == CYLINDER)
 	{
 		/* cylinder */
+		local_normal = normal_at_cylinder(local_point);
 	}
 	//printf("local_normal\n");
 	//print_tuple(local_normal);
