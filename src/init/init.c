@@ -46,7 +46,29 @@ t_material	init_material(void)
 	return (new);
 }
 
+/**
+ * @brief Set: xs.count = 0
+ */
 void	init_xs(t_xs *xs)
 {
 	xs->count = 0;
 }
+
+/**
+ * @brief For i1 & i2. Set: i.t = 0, i.object = NULL
+ * @todo May not be needed, check later
+ */
+void	init_i_to_zeroes(t_i *i1, t_i *i2)
+{
+	i1->t = 0;
+	i1->object = NULL;
+	i2->t = 0;
+	i2->object = NULL;
+}
+/*void	init_i_to_zeroes(t_i_t *i)
+{
+	i->i1.t = 0;
+	i->i1.object = NULL;
+	i->i2.t = 0;
+	i->i2.object = NULL;
+}*/
