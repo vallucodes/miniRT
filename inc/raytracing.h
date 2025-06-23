@@ -246,7 +246,7 @@ t_matrix4	cylinder_scale(t_scene_obj *obj);
 t_matrix4	plane_rotation(t_scene_obj *obj);
 
 //utils
-int			is_equal(float a, float b);
+bool		is_equal(float a, float b);
 uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y);
 
 //print utils

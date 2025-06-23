@@ -1,12 +1,10 @@
 #include "minirt.h"
 
-int	is_equal(float a, float b)
+inline bool	is_equal(float a, float b)
 {
 	float	res;
 
-	res = a - b;
-	if (res < 0)
-		res = -res;
+	res = fabs(a - b);
 	if (res < EPSILON)
 		return (true);
 	return (false);

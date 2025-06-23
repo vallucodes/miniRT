@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-static void	swap_t_values(float *t)
+static inline void	swap_t_values(float *t)
 {
 	float	tmp;
 	tmp = t[0];
@@ -16,7 +16,7 @@ static void	swap_t_values(float *t)
 static bool	cylinder_discriminant(t_ray r, t_quad *q)
 {
 	q->a = (r.dir.x * r.dir.x) + (r.dir.z * r.dir.z);
-	if (q->a < 0)
+	if (is_equal(q->a, 0))
 		return (false);
 	q->b = 2 * r.origin.x * r.dir.x + 2 * r.origin.z * r.dir.z;
 	q->c = (r.origin.x * r.origin.x) + (r.origin.z * r.origin.z) - 1;
@@ -57,16 +57,16 @@ t_xs	*cyl_intersect_caps(t_scene_obj *obj, t_xs *xs, t_ray r, t_i *i1, t_i *i2)
 {
 	float	t;
 
-	if (obj->closed == false)
+	if (obj->closed == false) //Only for tests
 		return (xs);
 
 	if (r.dir.y < EPSILON)
 		return (xs);
 	t = (obj->min - r.origin.y) / r.dir.y;
-	if (cylinder_check_cap(r, t))
+	if (t > 0 && cylinder_check_cap(r, t))
 		*i1 = intersection(t, obj);
 	t = (obj->max - r.origin.y) / r.dir.y;
-	if (cylinder_check_cap(r, t))
+	if (t > 0 && cylinder_check_cap(r, t))
 		*i2 = intersection(t, obj);
 
 	cylinder_fill_intersections(xs, *i1, *i2);
