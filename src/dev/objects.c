@@ -28,7 +28,7 @@ t_scene_obj	sphere(t_minirt *minirt)
 }
 
 /**
- * @brief Create and give default attributes to a sphere type t_scene_obj
+ * @brief Create and give default attributes to a plane type t_scene_obj
  * @returns t_scene_obj: type = PLANE (0)
  */
 t_scene_obj	plane(t_minirt *minirt)
@@ -53,4 +53,37 @@ t_scene_obj	plane(t_minirt *minirt)
 	p.b = p.col.b;
 	p.transform = identity();
 	return (p);
+}
+
+/**
+ * @brief Create and give default attributes to a cylinder type t_scene_obj
+ * @returns t_scene_obj: type = CYLINDER (2)
+ */
+t_scene_obj	cylinder(void)
+{
+	t_scene_obj	c;
+
+	c.type = CYLINDER;
+	c.cx = 0;
+	c.cy = 0;
+	c.cz = 0;
+	c.ori = create_point(c.cx, c.cy, c.cz);
+	c.ox = 0;
+	c.oy = 0;
+	c.oz = 0;
+	c.nor = create_point(c.ox, c.oy, c.oz);
+	c.radius = 1;
+	c.height = 10000;
+	c.max = c.height / 2;
+	c.min = -c.max;
+	c.closed = true;
+	c.mat = init_material();
+	c.col = c.mat.col;
+	colour_unitrgb_rgba(&c.col);
+	c.col.hex = colour_unitrgb_hex(c.col, 1);
+	c.r = c.col.r;
+	c.g = c.col.g;
+	c.b = c.col.b;
+	c.transform = identity();
+	return (c);
 }

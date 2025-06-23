@@ -32,12 +32,9 @@ int	main(int ac, char **av)
 	free(minirt.vp);
 
 	/**
-	 * Testing chapter 9 material
+	 * Testing chapter 13 material
 	 */
-	// test_shape(&minirt);
-	//test_intersect_generic(&minirt);
-	//test_plane_normal(&minirt);
-	//test_plane_intersect(&minirt);
+	test_cylinder(&minirt);
 
 	return (0);
 }

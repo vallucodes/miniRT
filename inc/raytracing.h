@@ -100,6 +100,14 @@ typedef struct s_matrix_result
 	size_t size;
 } t_matrix_result;
 
+typedef struct s_quad
+{
+	float	a;
+	float	b;
+	float	c;
+	float	d;
+}	t_quad;
+
 //Material light properties
 typedef struct	s_material
 {
@@ -109,17 +117,6 @@ typedef struct	s_material
 	float	specular;
 	float	shininess;
 }	t_material;
-
-/**
- * @todo this is probably superfluous and redundant.
- */
-/*typedef struct s_sphere
-{
-	t_tuple		center;
-	float		radius;
-	float		**transform;
-	t_material	mat;
-}	t_sphere;*/
 
 typedef struct	s_light_vars
 {
@@ -144,17 +141,14 @@ typedef struct	s_comps
 	t_tuple		normalv;
 }	t_comps;
 
-//objects.c
-t_scene_obj	sphere(t_minirt *minirt);
-t_scene_obj	plane(t_minirt *minirt);
-
 //lighting.c
 t_light	init_point_light(t_tuple pos, t_color color, float ratio);
 t_tuple	reflect(t_tuple in, t_tuple normal);
-t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple e_v, t_tuple n_v, bool in_shadow);
+//t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple e_v, t_tuple n_v);
 
 //normal.c
 t_tuple	normal_at(t_minirt *minirt, t_scene_obj *obj, t_tuple point);
+t_tuple	normal_at_cylinder(t_tuple point); //testing only
 
 //tuples
 t_tuple	create_vector(float x, float y, float z);
@@ -214,7 +208,6 @@ void	matrix_fill_zero(t_matrix4 *m);
 //rays
 t_ray	create_ray(t_tuple vector, t_tuple point);
 t_tuple	position_ray(t_ray ray, float t);
-void	init_xs(t_xs *xs);
 t_i		hit(t_xs *xs, t_scene_obj *obj_from);
 t_ray	transform(t_ray r, t_matrix4 m);
 void	set_transform(t_scene_obj *obj, t_matrix4 m);
@@ -233,9 +226,12 @@ t_matrix4	view_transform(t_tuple from, t_tuple to, t_tuple up);
 void		init_camera(t_minirt *minirt);
 t_ray		ray_for_pixel(t_minirt *minirt, t_camera *c, int px, int py);
 
-//intersections
+//intersections.c
 t_xs		*intersects_sphere(t_scene_obj *obj, t_ray r, t_xs *xs);
 t_xs		*intersect(t_minirt *minirt, t_scene_obj *obj, t_ray ray, t_xs *xs);
+
+//intersect_cylinder.c
+t_xs	*intersects_cylinder(t_scene_obj *obj, t_ray r, t_xs *xs);
 
 //transformation functions
 t_matrix4	cylinder_rotation(t_scene_obj *obj);
@@ -254,8 +250,12 @@ void	print_tuple(t_tuple t);
 void	print_colour(t_color c);
 void	print_comps(t_comps *comps);
 void	print_camera(t_camera *cam);
-void	show_all_objects_and_related_ids(t_list *objects);
 void	fun_test_parsed_output(char **av, t_parse *ps);
+
+//objects.c
+t_scene_obj	sphere(t_minirt *minirt);
+t_scene_obj	plane(t_minirt *minirt);
+t_scene_obj	cylinder(void);
 
 //dev
 float	**create_matrix(size_t size, int flag);
@@ -285,7 +285,6 @@ void	test_plane_normal(t_minirt *minirt);
 void	test_plane_intersect(t_minirt *minirt);
 void	test_render_world(t_minirt *minirt);
 void	test_cylinder_rotation(void);
-void	test_point_light_shadows(void);
-void	test_shadows(t_minirt *minirt);
+void	test_cylinder(t_minirt *minirt);
 
 #endif
