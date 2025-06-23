@@ -45,3 +45,8 @@ t_material	init_material(void)
 	new.shininess = shine_default;
 	return (new);
 }
+
+void	init_xs(t_xs *xs)
+{
+	xs->count = 0;
+}
