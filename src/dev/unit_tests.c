@@ -1112,7 +1112,8 @@ void	test_cylinder(void)
 
 	free(xs1);
 
-	
+
+	cyl.closed = true;
 	printf("\nTest #2: A Ray Hits a Cylinder\n");
 	printf("Test #2: | point(1, 0, -5) | vector(0, 0, 1) | 5 | 5 |\n");
 	r1 = create_ray(normalize_tuple(create_vector(0,0,1)), create_point(1,0,-5));
