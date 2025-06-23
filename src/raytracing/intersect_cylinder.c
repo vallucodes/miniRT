@@ -91,7 +91,7 @@ t_xs	*intersects_cylinder(t_scene_obj *obj, t_ray r, t_xs *xs)
 	if (!cylinder_discriminant(r, &q))
 	{
 		//return (xs);
-		return (cyl_intersect_caps(obj, &xs, r, &i1, &i2));
+		return (cyl_intersect_caps(obj, xs, r, &i1, &i2));
 	}
 
 	t[0] = (-q.b - sqrt(q.d)) / (2 * q.a);
@@ -108,5 +108,5 @@ t_xs	*intersects_cylinder(t_scene_obj *obj, t_ray r, t_xs *xs)
 	//cylinder_fill_intersections(xs, i1, i2);
 	//return (xs);
 
-	return (cyl_intersect_caps(obj, &xs, r, &i1, &i2));
+	return (cyl_intersect_caps(obj, xs, r, &i1, &i2));
 }
