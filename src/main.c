@@ -3,7 +3,7 @@
 int	main(int ac, char **av)
 {
 	// setbuf(stdout, NULL); //this was used just for debugging, when writing to file
-	t_minirt	minirt;
+	/*t_minirt	minirt;
 
 	if (ac != 2)
 	{
@@ -29,12 +29,13 @@ int	main(int ac, char **av)
 	ft_lstclear(&minirt.world->objects, &free);
 	close(minirt.world->fd);
 	free(minirt.world);
-	free(minirt.vp);
+	free(minirt.vp);*/
 
 	/**
 	 * Testing chapter 13 material
 	 */
-	test_cylinder(&minirt);
+	test_cylinder();
+	test_cylinder2();
 
 	return (0);
 }

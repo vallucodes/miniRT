@@ -61,6 +61,13 @@ typedef struct s_i
 	void	*object;
 }	t_i;
 
+typedef struct	s_i_t
+{
+	t_i	i1;
+	t_i	i2;
+}	t_i_t;
+
+
 typedef struct s_xs
 {
 	size_t	count;
@@ -285,6 +292,7 @@ void	test_plane_normal(t_minirt *minirt);
 void	test_plane_intersect(t_minirt *minirt);
 void	test_render_world(t_minirt *minirt);
 void	test_cylinder_rotation(void);
-void	test_cylinder(t_minirt *minirt);
+void	test_cylinder(void);
+void	test_cylinder2(void);
 
 #endif
