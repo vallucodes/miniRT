@@ -37,11 +37,11 @@ t_tuple	reflect(t_tuple in, t_tuple normal)
  * @param [in] m: Object material
  * @param [in] l: Light source
  * @param [in] p: Point of hit
- * @param [in] e_v: Eye vector
+ * @param [in] c_v: Camera vector
  * @param [in] n_v: Normal vector
  * @todo Needs to take into account the scene file's ambient value.
  */
-t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple e_v, t_tuple n_v, bool in_shadow)
+t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple c_v, t_tuple n_v, bool in_shadow)
 {
 	t_light_vars	lv;
 

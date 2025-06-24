@@ -22,7 +22,6 @@ int	main(int ac, char **av)
 		minirt.world = NULL;
 		exit_error(&minirt, NULL);
 	}
-	// fun_test_parsed_output(av, ps);
 	render_world(&minirt);
 	mlx_loop_hook(minirt.mlx, &ft_keyhook, &minirt);
 	mlx_loop(minirt.mlx);
@@ -31,14 +30,18 @@ int	main(int ac, char **av)
 	free(minirt.world);
 	free(minirt.vp);
 
+	//Testing parsing again after alterations.
+	fun_test_parsed_output(av, minirt.world);
+
 	/**
 	 * Testing chapter 13 material
 	 */
-	test_cylinder(&minirt);
+	test_cylinder();
+	test_cylinder2();
 
 	return (0);
 }
-//todo
+//todo:DONE
 
-//add max object amount = 100 in parsing stage
-//add check in parsing that does not allow camera to be 0,0,0
+//DONE:add max object amount = 100 in parsing stage
+//DONE:add check in parsing that does not allow camera to be 0,0,0

@@ -61,6 +61,13 @@ typedef struct s_i
 	void	*object;
 }	t_i;
 
+typedef struct	s_i_t
+{
+	t_i	i1;
+	t_i	i2;
+}	t_i_t;
+
+
 typedef struct s_xs
 {
 	size_t	count;
@@ -148,7 +155,7 @@ t_tuple	reflect(t_tuple in, t_tuple normal);
 
 //normal.c
 t_tuple	normal_at(t_minirt *minirt, t_scene_obj *obj, t_tuple point);
-t_tuple	normal_at_cylinder(t_tuple point); //testing only
+t_tuple	normal_at_cylinder(t_scene_obj *cylinder, t_tuple point); //testing only
 
 //tuples
 t_tuple	create_vector(float x, float y, float z);
@@ -239,7 +246,7 @@ t_matrix4	cylinder_scale(t_scene_obj *obj);
 t_matrix4	plane_rotation(t_scene_obj *obj);
 
 //utils
-int			is_equal(float a, float b);
+bool		is_equal(float a, float b);
 uint32_t	calculate_hit(t_minirt *minirt, size_t x, size_t y);
 
 //print utils
@@ -285,6 +292,7 @@ void	test_plane_normal(t_minirt *minirt);
 void	test_plane_intersect(t_minirt *minirt);
 void	test_render_world(t_minirt *minirt);
 void	test_cylinder_rotation(void);
-void	test_cylinder(t_minirt *minirt);
+void	test_cylinder(void);
+void	test_cylinder2(void);
 
 #endif

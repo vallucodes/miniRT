@@ -40,12 +40,16 @@ t_tuple	normal_at_plane(t_tuple point)
 /**
  * @brief Return the normal of a cylinder for a given local [point] 
  */
-t_tuple	normal_at_cylinder(t_tuple point)
+t_tuple	normal_at_cylinder(t_scene_obj *cylinder, t_tuple point)
 {
-	t_tuple	nor;
+	float	dist;
 
-	nor = create_vector(point.x, 0, point.z);
-	return (nor);
+	dist = (point.x * point.x) + (point.z * point.z);
+	if (dist < 1 && point.y >= cylinder->max - EPSILON)
+		return (create_vector(0, 1, 0));
+	else if (dist < 1 && point.y <= cylinder->min + EPSILON)
+		return (create_vector(0, -1, 0));
+	return (create_vector(point.x, 0, point.z));
 }
 
 /**
@@ -84,7 +88,7 @@ t_tuple	normal_at(t_minirt *minirt, t_scene_obj *obj, t_tuple point)
 	else if (obj->type == CYLINDER)
 	{
 		/* cylinder */
-		local_normal = normal_at_cylinder(local_point);
+		local_normal = normal_at_cylinder(obj, local_point);
 	}
 	//printf("local_normal\n");
 	//print_tuple(local_normal);
