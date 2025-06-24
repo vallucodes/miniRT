@@ -1,14 +1,12 @@
 #include "../../inc/minirt.h"
 
 /**
- * @brief Launchpad for parsing operations.
- * @param [in] ps: t_parse
- * @return True on successful parse
+ * @brief Fills objects in t_parse [ps] from given input .rt file. 
  * @details Allocates memory to *line via get_next_line().
  *
- * Not worried about lines at the moment. This function will probably change a lot.
- * If it even exists in this form when we are done.
- * Also, my GNL is the leaky kind. Will fix that in future or swap for Vallu's
+ * @todo Not worried about lines at the moment. This function will probably change a lot.
+ * 		 If it even exists in this form when we are done.
+ *		 Also, my GNL is the leaky kind. Will fix that in future or swap for Vallu's
  */
 bool	parsing_gateway(t_parse *ps)
 {
@@ -53,5 +51,7 @@ bool	parsing_gateway(t_parse *ps)
 		free(line);
 	}
 	free(line);
+	if (ps->obj_count > OBJ_MAX)
+		return (free_helper(ps, NULL, NULL, ERR_NUM_OBJ));
 	return (true);
 }

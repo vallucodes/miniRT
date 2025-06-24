@@ -3,7 +3,7 @@
 int	main(int ac, char **av)
 {
 	// setbuf(stdout, NULL); //this was used just for debugging, when writing to file
-	/*t_minirt	minirt;
+	t_minirt	minirt;
 
 	if (ac != 2)
 	{
@@ -22,14 +22,15 @@ int	main(int ac, char **av)
 		minirt.world = NULL;
 		exit_error(&minirt, NULL);
 	}
-	// fun_test_parsed_output(av, ps);
 	render_world(&minirt);
 	mlx_loop_hook(minirt.mlx, &ft_keyhook, &minirt);
 	mlx_loop(minirt.mlx);
 	ft_lstclear(&minirt.world->objects, &free);
 	close(minirt.world->fd);
 	free(minirt.world);
-	free(minirt.vp);*/
+	free(minirt.vp);
+
+	// fun_test_parsed_output(av, ps);
 
 	/**
 	 * Testing chapter 13 material
@@ -39,7 +40,7 @@ int	main(int ac, char **av)
 
 	return (0);
 }
-//todo
+//todo:DONE
 
-//add max object amount = 100 in parsing stage
-//add check in parsing that does not allow camera to be 0,0,0
+//DONE:add max object amount = 100 in parsing stage
+//DONE:add check in parsing that does not allow camera to be 0,0,0
