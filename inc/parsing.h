@@ -13,7 +13,8 @@ typedef enum e_limit_vals
 	OR_MIN	= -1,
 	OR_MAX	= 1,
 	CO_MIN	= -10000,
-	CO_MAX	= 10000
+	CO_MAX	= 10000,
+	OBJ_MAX	= 97
 }	t_limit_vals;
 
 /**
@@ -45,6 +46,8 @@ typedef enum e_obj_type
 # define ERR_GEO "Incorrect geometry value given in scene file."
 # define ERR_FOV "Incorrect field-of-view value given in scene file."
 # define ERR_RAT "Incorrect ratio value given in scene file."
+# define ERR_NUM_OBJ "Too many objects defined in scene file."
+# define ERR_CAM_CO "Camera can not be located at 0,0,0."
 
 /**
  * @brief Ambient optical object.
