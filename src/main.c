@@ -30,7 +30,8 @@ int	main(int ac, char **av)
 	free(minirt.world);
 	free(minirt.vp);
 
-	// fun_test_parsed_output(av, ps);
+	//Testing parsing again after alterations.
+	fun_test_parsed_output(av, minirt.world);
 
 	/**
 	 * Testing chapter 13 material
