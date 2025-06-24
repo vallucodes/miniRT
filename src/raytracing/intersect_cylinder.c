@@ -50,7 +50,7 @@ static bool	cylinder_check_cap(t_ray r, float t)
 	x = r.origin.x + t * r.dir.x;
 	z = r.origin.z + t * r.dir.z;
 	res = (x * x) + (z * z);
-	return (res <= 1.0f);
+	return (res <= 1);
 }
 
 t_xs	*cyl_intersect_caps(t_scene_obj *obj, t_xs *xs, t_ray r, t_i *i1, t_i *i2)

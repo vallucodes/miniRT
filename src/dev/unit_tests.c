@@ -1140,7 +1140,7 @@ void	test_cylinder(void)
 	free(xs4);
 
 	
-	printf("\nTest #3: Normal Vector on a Cylinder\n");
+	/*printf("\nTest #3: Normal Vector on a Cylinder\n");
 	printf("Test #3: | point(1, 0, 0) | vector(1, 0, 0) |\n");
 	t_tuple	norm = normal_at_cylinder(create_point(1,0,0));
 	print_tuple(norm);
@@ -1155,7 +1155,7 @@ void	test_cylinder(void)
 	
 	printf("Test #3: | point(-1, 1, 0) | vector(-1, 0, 0) |\n");
 	norm = normal_at_cylinder(create_point(-1,1,0));
-	print_tuple(norm);
+	print_tuple(norm);*/
 
 	
 	printf("\nTest #4: Minimum and Maximum Bounds\n");
@@ -1263,4 +1263,48 @@ void	test_cylinder2(void)
 	xs1 = intersect(NULL, &cyl, r1, xs1);
 	printf("xs.count: %lu\n", xs1->count);
 	free(xs1);
+
+
+	printf("\nTest #3 redo: Normal Vector on a Cylinder (curved)\n");
+	printf("Test #3: | point(1, 0, 0) | vector(1, 0, 0) |\n");
+	t_tuple	norm = normal_at_cylinder(&cyl, create_point(1,0,0));
+	print_tuple(norm);
+	
+	printf("Test #3: | point(0, 5, -1) | vector(0, 0, -1) |\n");
+	norm = normal_at_cylinder(&cyl, create_point(0,5,-1));
+	print_tuple(norm);
+	
+	printf("Test #3: | point(0, -2, 1) | vector(0, 0, 1) |\n");
+	norm = normal_at_cylinder(&cyl, create_point(0,-2,1));
+	print_tuple(norm);
+	
+	printf("Test #3: | point(-1, 1, 0) | vector(-1, 0, 0) |\n");
+	norm = normal_at_cylinder(&cyl, create_point(-1,1,0));
+	print_tuple(norm);
+
+	
+	printf("\nTest #8: Computing the Normal Vector at the End Caps\n");
+	printf("| point(0, 1, 0) | vector(0, -1, 0) |\n");
+	norm = normal_at_cylinder(&cyl, create_point(0,1,0));
+	print_tuple(norm);
+	
+	printf("| point(0.5, 1, 0) | vector(0, -1, 0) |\n");
+	norm = normal_at_cylinder(&cyl, create_point(0.5,1,0));
+	print_tuple(norm);
+	
+	printf("| point(0, 1, 0.5) | vector(0, -1, 0) |\n");
+	norm = normal_at_cylinder(&cyl, create_point(0,1,0.5));
+	print_tuple(norm);
+	
+	printf("| point(0, 2, 0) | vector(0, 1, 0) |\n");
+	norm = normal_at_cylinder(&cyl, create_point(0,2,0));
+	print_tuple(norm);
+	
+	printf("| point(0.5, 2, 0) | vector(0, 1, 0) |\n");
+	norm = normal_at_cylinder(&cyl, create_point(0.5,2,0));
+	print_tuple(norm);
+	
+	printf("| point(0, 2, 0.5) | vector(0, 1, 0) |\n");
+	norm = normal_at_cylinder(&cyl, create_point(0,2,0.5));
+	print_tuple(norm);
 }
