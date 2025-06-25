@@ -57,18 +57,17 @@ t_xs	*cyl_intersect_caps(t_scene_obj *obj, t_xs *xs, t_ray r, t_i *i1, t_i *i2)
 {
 	float	t;
 
-	if (obj->closed == false) //Only for tests
+	if (is_equal(r.dir.y, 0) || obj->closed == false)
+	{
+		cylinder_fill_intersections(xs, *i1, *i2);
 		return (xs);
-
-	if (r.dir.y < EPSILON)
-		return (xs);
+	}
 	t = (obj->min - r.origin.y) / r.dir.y;
 	if (t > 0 && cylinder_check_cap(r, t))
 		*i1 = intersection(t, obj);
 	t = (obj->max - r.origin.y) / r.dir.y;
 	if (t > 0 && cylinder_check_cap(r, t))
 		*i2 = intersection(t, obj);
-
 	cylinder_fill_intersections(xs, *i1, *i2);
 	return (xs);
 }
@@ -89,11 +88,7 @@ t_xs	*intersects_cylinder(t_scene_obj *obj, t_ray r, t_xs *xs)
 	//init_i_to_zeroes(i);
 	init_i_to_zeroes(&i1,&i2);
 	if (!cylinder_discriminant(r, &q))
-	{
-		//return (xs);
 		return (cyl_intersect_caps(obj, xs, r, &i1, &i2));
-	}
-
 	t[0] = (-q.b - sqrt(q.d)) / (2 * q.a);
 	t[1] = (-q.b + sqrt(q.d)) / (2 * q.a);
 	if (t[0] > t[1])

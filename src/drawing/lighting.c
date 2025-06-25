@@ -74,7 +74,7 @@ t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple c_v, t_tuple n_v, b
 		{
 			lv.dif_col = multiply_color_scalar(lv.eff_col, m.diffuse * lv.l_dot_n);
 			lv.reflect_vec = reflect(negate_tuple(lv.light_vec), n_v);
-			lv.r_dot_e = dot_tuple(lv.reflect_vec, e_v);
+			lv.r_dot_e = dot_tuple(lv.reflect_vec, c_v);
 			if (lv.r_dot_e <= 0)
 				lv.spec_col = color(0, 0, 0);
 			else

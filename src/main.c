@@ -31,13 +31,13 @@ int	main(int ac, char **av)
 	free(minirt.vp);
 
 	//Testing parsing again after alterations.
-	fun_test_parsed_output(av, minirt.world);
+	//fun_test_parsed_output(av, &minirt.world);
 
 	/**
 	 * Testing chapter 13 material
 	 */
-	test_cylinder();
-	test_cylinder2();
+	//test_cylinder();
+	//test_cylinder2();
 
 	return (0);
 }
