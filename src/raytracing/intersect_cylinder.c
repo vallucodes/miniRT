@@ -12,7 +12,7 @@ static inline void	swap_t_values(float *t)
  * @brief Returns true if [r]ay intersects curved portion of cylinder. 
  * @param [in] r: t_ray to be tested
  * @param [in] *q: t_quad - pointer to struct for quadratic values 
- *
+ */
 static bool	cylinder_discriminant(t_ray r, t_quad *q)
 {
 	q->a = (r.dir.x * r.dir.x) + (r.dir.z * r.dir.z);
@@ -24,7 +24,7 @@ static bool	cylinder_discriminant(t_ray r, t_quad *q)
 	if (q->d < 0)
 		return (false);
 	return (true);
-}*/
+}
 
 /**
  * @brief Fill pointed xs with i1,i2 depending on actual cylinder intersections 
@@ -87,16 +87,8 @@ t_xs	*intersects_cylinder(t_scene_obj *obj, t_ray r, t_xs *xs)
 
 	//init_i_to_zeroes(i);
 	init_i_to_zeroes(&i1,&i2);
-
-	q.a = (r.dir.x * r.dir.x) + (r.dir.z * r.dir.z);
-	if (is_equal(q.a, 0))
+	if (!cylinder_discriminant(r, &q))
 		return (cyl_intersect_caps(obj, xs, r, &i1, &i2));
-	q.b = 2 * r.origin.x * r.dir.x + 2 * r.origin.z * r.dir.z;
-	q.c = (r.origin.x * r.origin.x) + (r.origin.z * r.origin.z) - 1;
-	q.d = (q.b * q.b) - 4 * q.a * q.c;
-	if (q.d < 0)
-		return (cyl_intersect_caps(obj, xs, r, &i1, &i2));
-
 	t[0] = (-q.b - sqrt(q.d)) / (2 * q.a);
 	t[1] = (-q.b + sqrt(q.d)) / (2 * q.a);
 	if (t[0] > t[1])
