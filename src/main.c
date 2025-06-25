@@ -22,13 +22,13 @@ int	main(int ac, char **av)
 		minirt.world = NULL;
 		exit_error(&minirt, NULL);
 	}
-	/*render_world(&minirt);
+	render_world(&minirt);
 	mlx_loop_hook(minirt.mlx, &ft_keyhook, &minirt);
 	mlx_loop(minirt.mlx);
 	ft_lstclear(&minirt.world->objects, &free);
 	close(minirt.world->fd);
 	free(minirt.world);
-	free(minirt.vp);*/
+	free(minirt.vp);
 
 	//Testing parsing again after alterations.
 	//fun_test_parsed_output(av, &minirt.world);
