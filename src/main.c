@@ -36,8 +36,8 @@ int	main(int ac, char **av)
 	/**
 	 * Testing chapter 13 material
 	 */
-	test_cylinder();
-	test_cylinder2();
+	//test_cylinder();
+	//test_cylinder2();
 
 	return (0);
 }
