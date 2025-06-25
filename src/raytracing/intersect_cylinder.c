@@ -57,7 +57,7 @@ t_xs	*cyl_intersect_caps(t_scene_obj *obj, t_xs *xs, t_ray r, t_i *i1, t_i *i2)
 {
 	float	t;
 
-	if (r.dir.y < EPSILON || obj->closed == false)
+	if (is_equal(r.dir.y, 0) || obj->closed == false)
 	{
 		cylinder_fill_intersections(xs, *i1, *i2);
 		return (xs);
