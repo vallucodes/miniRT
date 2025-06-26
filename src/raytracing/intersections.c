@@ -50,16 +50,10 @@ t_xs	*intersects_plane(t_scene_obj *p, t_ray r, t_xs *xs)
 	float	t;
 
 	if (fabs(r.dir.y) < EPSILON)
-	{
 		return (xs);
-		xs->count = 0;
-	}
-	else
-	{
-		t = -r.origin.y / r.dir.y;
-		i1 = intersection(t, p);
-		intersections(xs, i1, i1);
-	}
+	t = -r.origin.y / r.dir.y;
+	i1 = intersection(t, p);
+	intersections(xs, i1, i1);
 	return (xs);
 }
 
