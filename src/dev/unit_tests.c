@@ -636,7 +636,7 @@ void	test_ray_misses_obj(t_minirt *minirt)
 	t_scene_obj *obj = (t_scene_obj *)temp->content;
 
 	obj->transform = identity();
-	obj->mat = init_material();
+	obj->mat = init_material(minirt->world->amb_s.ratio);
 	obj->mat.ambient = 0.1;
 	obj->mat.diffuse = 0.7;
 	obj->mat.specular = 0.2;
@@ -647,7 +647,7 @@ void	test_ray_misses_obj(t_minirt *minirt)
 	temp = temp->next;
 	obj = (t_scene_obj *)temp->content;
 	obj->transform = scaling(0.5, 0.5, 0.5);
-	obj->mat = init_material();
+	obj->mat = init_material(minirt->world->amb_s.ratio);
 	obj->mat.ambient = 0.1;
 	obj->mat.diffuse = 0.9;
 	obj->mat.specular = 0.9;
@@ -668,7 +668,7 @@ void	test_ray_hits_obj(t_minirt *minirt)
 	t_scene_obj *obj = (t_scene_obj *)temp->content;
 
 	obj->transform = identity();
-	obj->mat = init_material();
+	obj->mat = init_material(minirt->world->amb_s.ratio);
 	obj->mat.ambient = 0.1;
 	obj->mat.diffuse = 0.7;
 	obj->mat.specular = 0.2;
@@ -679,7 +679,7 @@ void	test_ray_hits_obj(t_minirt *minirt)
 	temp = temp->next;
 	obj = (t_scene_obj *)temp->content;
 	obj->transform = scaling(0.5, 0.5, 0.5);
-	obj->mat = init_material();
+	obj->mat = init_material(minirt->world->amb_s.ratio);
 	obj->mat.ambient = 0.1;
 	obj->mat.diffuse = 0.9;
 	obj->mat.specular = 0.9;
@@ -700,7 +700,7 @@ void	test_intersection_behind_ray(t_minirt *minirt)
 	t_scene_obj *obj = (t_scene_obj *)temp->content;
 
 	obj->transform = identity();
-	obj->mat = init_material();
+	obj->mat = init_material(minirt->world->amb_s.ratio);
 	obj->mat.ambient = 1;
 	obj->mat.diffuse = 0.7;
 	obj->mat.specular = 0.2;
@@ -711,7 +711,7 @@ void	test_intersection_behind_ray(t_minirt *minirt)
 	temp = temp->next;
 	obj = (t_scene_obj *)temp->content;
 	obj->transform = scaling(0.5, 0.5, 0.5);
-	obj->mat = init_material();
+	obj->mat = init_material(minirt->world->amb_s.ratio);
 	obj->mat.ambient = 1;
 	obj->mat.diffuse = 0.9;
 	obj->mat.specular = 0.9;
@@ -912,7 +912,7 @@ void	test_render_world(t_minirt *minirt)
 	t_scene_obj *obj = (t_scene_obj *)temp->content;
 
 	obj->transform = identity();
-	obj->mat = init_material();
+	obj->mat = init_material(minirt->world->amb_s.ratio);
 	obj->mat.ambient = 0.1;
 	obj->mat.diffuse = 0.7;
 	obj->mat.specular = 0.2;
@@ -923,7 +923,7 @@ void	test_render_world(t_minirt *minirt)
 	temp = temp->next;
 	obj = (t_scene_obj *)temp->content;
 	obj->transform = scaling(0.5, 0.5, 0.5);
-	obj->mat = init_material();
+	obj->mat = init_material(minirt->world->amb_s.ratio);
 	obj->mat.ambient = 0.1;
 	obj->mat.diffuse = 0.9;
 	obj->mat.specular = 0.9;
@@ -1059,7 +1059,7 @@ void	test_shadows(t_minirt *minirt)
 	t_scene_obj *obj = (t_scene_obj *)temp->content;
 
 	obj->transform = identity();
-	obj->mat = init_material();
+	obj->mat = init_material(minirt->world->amb_s.ratio);
 	obj->mat.ambient = 1;
 	obj->mat.diffuse = 0.7;
 	obj->mat.specular = 0.2;
@@ -1067,7 +1067,7 @@ void	test_shadows(t_minirt *minirt)
 	temp = temp->next;
 	obj = (t_scene_obj *)temp->content;
 	obj->transform = scaling(0.5, 0.5, 0.5);
-	obj->mat = init_material();
+	obj->mat = init_material(minirt->world->amb_s.ratio);
 	obj->mat.ambient = 1;
 	obj->mat.diffuse = 0.9;
 	obj->mat.specular = 0.9;
@@ -1085,9 +1085,9 @@ void	test_shadows(t_minirt *minirt)
 	printf("expect 0, is shadowed: %i\n", sh);
 }
 
-void	test_cylinder(void)
+void	test_cylinder(t_minirt *minirt)
 {
-	t_scene_obj	cyl = cylinder();
+	t_scene_obj	cyl = cylinder(minirt);
 	t_ray		r1;
 	t_xs		*xs1 = calloc(1,sizeof(t_xs));
 
@@ -1163,7 +1163,7 @@ void	test_cylinder(void)
 
 	
 	printf("\nTest #5: Truncated cylinder\n");
-	t_scene_obj	trun = cylinder();
+	t_scene_obj	trun = cylinder(minirt);
 	trun.min = 1;
 	trun.max = 2;
 	printf("Test #5: | 1 | point(0, 1.5, 0) | vector(0.1, 1, 0) | 0 |\n");
@@ -1215,9 +1215,9 @@ void	test_cylinder(void)
 	free(xs10);
 }
 
-void	test_cylinder2(void)
+void	test_cylinder2(t_minirt *minirt)
 {
-	t_scene_obj	cyl = cylinder();
+	t_scene_obj	cyl = cylinder(minirt);
 	cyl.min = 1;
 	cyl.max = 2;
 	cyl.closed = true; //Is not necessary, all cylinders are capped in miniRT

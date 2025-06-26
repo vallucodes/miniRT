@@ -174,7 +174,7 @@ static void	init_objects(t_minirt *minirt)
 			obj->closed = true;
 		}
 		obj->transform = generate_transformation_mtrx(minirt, obj);
-		obj->mat = init_material();
+		obj->mat = init_material(minirt->world->amb_s.ratio);
 		color_convert(obj);
 		temp = temp->next;
 		i++;

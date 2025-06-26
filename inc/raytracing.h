@@ -263,7 +263,7 @@ void	fun_test_parsed_output(char **av, t_parse *ps);
 //objects.c
 t_scene_obj	sphere(t_minirt *minirt);
 t_scene_obj	plane(t_minirt *minirt);
-t_scene_obj	cylinder(void);
+t_scene_obj	cylinder(t_minirt *minirt);
 
 //dev
 float	**create_matrix(size_t size, int flag);
@@ -293,7 +293,7 @@ void	test_plane_normal(t_minirt *minirt);
 void	test_plane_intersect(t_minirt *minirt);
 void	test_render_world(t_minirt *minirt);
 void	test_cylinder_rotation(void);
-void	test_cylinder(void);
-void	test_cylinder2(void);
+void	test_cylinder(t_minirt *minirt);
+void	test_cylinder2(t_minirt *minirt);
 
 #endif
