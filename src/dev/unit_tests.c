@@ -1085,71 +1085,77 @@ void	test_shadows(t_minirt *minirt)
 	printf("expect 0, is shadowed: %i\n", sh);
 }
 
-void	test_cylinder(t_minirt *minirt)
+void	test_cylinder(void)
 {
 	t_scene_obj	cyl = cylinder();
 	t_ray		r1;
-	t_xs		*xs1 = malloc(sizeof(t_xs));
+	t_xs		*xs1 = calloc(1,sizeof(t_xs));
 
-	/*printf("Test #1: A Ray Misses a Cylinder\n");
+	printf("Test #1: A Ray Misses a Cylinder\n");
 	printf("Test #1: | point(1, 0, 0) | vector(0, 1, 0) |\n");
 	r1 = create_ray(normalize_tuple(create_vector(0,1,0)), create_point(1,0,0));
 	init_xs(xs1);
-	xs1 = intersect(&minirt, &cyl, r1, xs1);
+	xs1 = intersect(NULL, &cyl, r1, xs1);
 	printf("xs.count: %lu\n", xs1->count);
 	
 	printf("Test #1: | point(0, 0, 0) | vector(0, 1, 0) |\n");
 	r1 = create_ray(normalize_tuple(create_vector(0,1,0)), create_point(0,0,0));
 	init_xs(xs1);
-	xs1 = intersect(&minirt, &cyl, r1, xs1);
+	xs1 = intersect(NULL, &cyl, r1, xs1);
 	printf("xs.count: %lu\n", xs1->count);
 	
 	printf("Test #1: | point(0, 0, -5) | vector(1, 1, 1) |\n");
 	r1 = create_ray(normalize_tuple(create_vector(1,1,1)), create_point(0,0,-5));
 	init_xs(xs1);
-	xs1 = intersect(&minirt, &cyl, r1, xs1);
-	printf("xs.count: %lu\n", xs1->count);*/
+	xs1 = intersect(NULL, &cyl, r1, xs1);
+	printf("xs.count: %lu\n", xs1->count);
 
-	
+	free(xs1);
+
+
+	cyl.closed = true;
 	printf("\nTest #2: A Ray Hits a Cylinder\n");
 	printf("Test #2: | point(1, 0, -5) | vector(0, 0, 1) | 5 | 5 |\n");
 	r1 = create_ray(normalize_tuple(create_vector(0,0,1)), create_point(1,0,-5));
-	t_xs		*xs2 = malloc(sizeof(t_xs));
+	t_xs		*xs2 = calloc(1, sizeof(t_xs));
 	init_xs(xs2);
-	xs2 = intersect(&minirt, &cyl, r1, xs2);
+	xs2 = intersect(NULL, &cyl, r1, xs2);
 	printf("xs.count: %lu | t0: %f | t1: %f\n", xs2->count, xs2->t[0], xs2->t[1]);
+	free(xs2);
 	
 	printf("Test #2: | point(0, 0, -5) | vector(0, 0, 1) | 4 | 6 |\n");
 	r1 = create_ray(normalize_tuple(create_vector(0,0,1)), create_point(0,0,-5));
-	t_xs		*xs3 = malloc(sizeof(t_xs));
+	t_xs		*xs3 = calloc(1, sizeof(t_xs));
 	init_xs(xs3);
-	xs3 = intersect(&minirt, &cyl, r1, xs3);
+	xs3 = intersect(NULL, &cyl, r1, xs3);
 	printf("xs.count: %lu | t0: %f | t1: %f\n", xs3->count, xs3->t[0], xs3->t[1]);
+	free(xs3);
 	
 	printf("Test #2: | point(0.5, 0, -5) | vector(0.1, 1, 1) | 6.80798 | 7.08872 |\n");
 	r1 = create_ray(normalize_tuple(create_vector(0.1,1,1)), create_point(0.5,0,-5));
-	t_xs		*xs4 = malloc(sizeof(t_xs));
+	t_xs		*xs4 = calloc(1, sizeof(t_xs));
 	init_xs(xs4);
-	xs4 = intersect(&minirt, &cyl, r1, xs4);
+	xs4 = intersect(NULL, &cyl, r1, xs4);
 	printf("xs.count: %lu | t0: %f | t1: %f\n", xs4->count, xs4->t[0], xs4->t[1]);
+	free(xs4);
 
 	
-	printf("\nTest #3: Normal Vector on a Cylinder\n");
-	printf("Test #3: | point(1, 0, 0) | vector(1, 0, 0) |\n");
-	t_tuple	norm = normal_at_cylinder(create_point(1,0,0));
-	print_tuple(norm);
+	//printf("\nTest #3: Normal Vector on a Cylinder\n");
+	//printf("Test #3: | point(1, 0, 0) | vector(1, 0, 0) |\n");
+	//t_tuple	norm = normal_at_cylinder(create_point(1,0,0));
+	//print_tuple(norm);
 	
-	printf("Test #3: | point(0, 5, -1) | vector(0, 0, -1) |\n");
-	norm = normal_at_cylinder(create_point(0,5,-1));
-	print_tuple(norm);
+	//printf("Test #3: | point(0, 5, -1) | vector(0, 0, -1) |\n");
+	//norm = normal_at_cylinder(create_point(0,5,-1));
+	//print_tuple(norm);
 	
-	printf("Test #3: | point(0, -2, 1) | vector(0, 0, 1) |\n");
-	norm = normal_at_cylinder(create_point(0,-2,1));
-	print_tuple(norm);
+	//printf("Test #3: | point(0, -2, 1) | vector(0, 0, 1) |\n");
+	//norm = normal_at_cylinder(create_point(0,-2,1));
+	//print_tuple(norm);
 	
-	printf("Test #3: | point(-1, 1, 0) | vector(-1, 0, 0) |\n");
-	norm = normal_at_cylinder(create_point(-1,1,0));
-	print_tuple(norm);
+	//printf("Test #3: | point(-1, 1, 0) | vector(-1, 0, 0) |\n");
+	//norm = normal_at_cylinder(create_point(-1,1,0));
+	//print_tuple(norm);
 
 	
 	printf("\nTest #4: Minimum and Maximum Bounds\n");
@@ -1162,43 +1168,143 @@ void	test_cylinder(t_minirt *minirt)
 	trun.max = 2;
 	printf("Test #5: | 1 | point(0, 1.5, 0) | vector(0.1, 1, 0) | 0 |\n");
 	r1 = create_ray(normalize_tuple(create_vector(0.1,1,0)), create_point(0,1.5,0));
-	t_xs		*xs5 = malloc(sizeof(t_xs));
+	t_xs		*xs5 = calloc(1, sizeof(t_xs));
 	init_xs(xs5);
-	xs5 = intersect(&minirt, &trun, r1, xs5);
+	xs5 = intersect(NULL, &trun, r1, xs5);
 	printf("xs.count: %lu\n", xs5->count);
+	free(xs5);
 	
 	printf("Test #5: | 2 | point(0, 3, -5) | vector(0, 0, 1) | 0 |\n");
 	r1 = create_ray(normalize_tuple(create_vector(0,0,1)), create_point(0,3,-5));
-	t_xs		*xs6 = malloc(sizeof(t_xs));
+	t_xs		*xs6 = calloc(1, sizeof(t_xs));
 	init_xs(xs6);
-	xs6 = intersect(&minirt, &trun, r1, xs6);
+	xs6 = intersect(NULL, &trun, r1, xs6);
 	printf("xs.count: %lu\n", xs6->count);
+	free(xs6);
 	
 	printf("Test #5: | 3 | point(0, 0, -5) | vector(0, 0, 1) | 0 |\n");
 	r1 = create_ray(normalize_tuple(create_vector(0,0,1)), create_point(0,0,-5));
-	t_xs		*xs7 = malloc(sizeof(t_xs));
+	t_xs		*xs7 = calloc(1,sizeof(t_xs));
 	init_xs(xs7);
-	xs7 = intersect(&minirt, &trun, r1, xs7);
+	xs7 = intersect(NULL, &trun, r1, xs7);
 	printf("xs.count: %lu\n", xs7->count);
+	free(xs7);
 	
 	printf("Test #5: | 4 | point(0, 2, -5) | vector(0, 0, 1) | 0 |\n");
 	r1 = create_ray(normalize_tuple(create_vector(0,0,1)), create_point(0,2,-5));
-	t_xs		*xs8 = malloc(sizeof(t_xs));
+	t_xs		*xs8 = calloc(1,sizeof(t_xs));
 	init_xs(xs8);
-	xs8 = intersect(&minirt, &trun, r1, xs8);
+	xs8 = intersect(NULL, &trun, r1, xs8);
 	printf("xs.count: %lu\n", xs8->count);
+	free(xs8);
 	
 	printf("Test #5: | 5 | point(0, 1, -5) | vector(0, 0, 1) | 0 |\n");
 	r1 = create_ray(normalize_tuple(create_vector(0,0,1)), create_point(0,1,-5));
-	t_xs		*xs9 = malloc(sizeof(t_xs));
+	t_xs		*xs9 = calloc(1,sizeof(t_xs));
 	init_xs(xs9);
-	xs9 = intersect(&minirt, &trun, r1, xs9);
+	xs9 = intersect(NULL, &trun, r1, xs9);
 	printf("xs.count: %lu\n", xs9->count);
+	free(xs9);
 	
 	printf("Test #5: | 6 | point(0, 1.5, -2) | vector(0, 0, 1) | 2 |\n");
 	r1 = create_ray(normalize_tuple(create_vector(0,0,1)), create_point(0,1.5,-2));
-	t_xs		*xs10 = malloc(sizeof(t_xs));
+	t_xs		*xs10 = calloc(1,sizeof(t_xs));
 	init_xs(xs10);
-	xs10 = intersect(&minirt, &trun, r1, xs10);
+	xs10 = intersect(NULL, &trun, r1, xs10);
 	printf("xs.count: %lu\n", xs10->count);
+	free(xs10);
+}
+
+void	test_cylinder2(void)
+{
+	t_scene_obj	cyl = cylinder();
+	cyl.min = 1;
+	cyl.max = 2;
+	cyl.closed = true; //Is not necessary, all cylinders are capped in miniRT
+	t_ray		r1;
+
+	printf("\nTest #7: Intersecting a Cylinder’s End Caps\n");
+	printf("| 1 | point(0, 3, 0) | vector(0, -1, 0) | 2 |\n");
+	r1 = create_ray(normalize_tuple(create_vector(0,-1,0)), create_point(0,3,0));
+	t_xs		*xs1 = calloc(1,sizeof(t_xs));
+	init_xs(xs1);
+	xs1 = intersect(NULL, &cyl, r1, xs1);
+	printf("xs.count: %lu\n", xs1->count);
+	free(xs1);
+
+	printf("| 2 | point(0, 3, -2) | vector(0, -1, 2) | 2 |\n");
+	r1 = create_ray(normalize_tuple(create_vector(0,-1,2)), create_point(0,3,-2));
+	xs1 = calloc(1,sizeof(t_xs));
+	init_xs(xs1);
+	xs1 = intersect(NULL, &cyl, r1, xs1);
+	printf("xs.count: %lu\n", xs1->count);
+	free(xs1);
+
+	printf("| 3 | point(0, 4, -2) | vector(0, -1, 1) | 2 |\n");
+	r1 = create_ray(normalize_tuple(create_vector(0,-1,1)), create_point(0,4,-2));
+	xs1 = calloc(1,sizeof(t_xs));
+	init_xs(xs1);
+	xs1 = intersect(NULL, &cyl, r1, xs1);
+	printf("xs.count: %lu\n", xs1->count);
+	free(xs1);
+
+	printf("| 4 | point(0, 0, -2) | vector(0, 1, 2) | 2 |\n");
+	r1 = create_ray(normalize_tuple(create_vector(0,1,2)), create_point(0,0,-2));
+	xs1 = calloc(1,sizeof(t_xs));
+	init_xs(xs1);
+	xs1 = intersect(NULL, &cyl, r1, xs1);
+	printf("xs.count: %lu\n", xs1->count);
+	free(xs1);
+
+	printf("| 5 | point(0, -1, -2) | vector(0, 1, 1) | 2 |\n");
+	r1 = create_ray(normalize_tuple(create_vector(0,1,1)), create_point(0,-1,-2));
+	xs1 = calloc(1,sizeof(t_xs));
+	init_xs(xs1);
+	xs1 = intersect(NULL, &cyl, r1, xs1);
+	printf("xs.count: %lu\n", xs1->count);
+	free(xs1);
+
+
+	printf("\nTest #3 redo: Normal Vector on a Cylinder (curved)\n");
+	printf("Test #3: | point(1, 0, 0) | vector(1, 0, 0) |\n");
+	t_tuple	norm = normal_at_cylinder(&cyl, create_point(1,0,0));
+	print_tuple(norm);
+	
+	printf("Test #3: | point(0, 5, -1) | vector(0, 0, -1) |\n");
+	norm = normal_at_cylinder(&cyl, create_point(0,5,-1));
+	print_tuple(norm);
+	
+	printf("Test #3: | point(0, -2, 1) | vector(0, 0, 1) |\n");
+	norm = normal_at_cylinder(&cyl, create_point(0,-2,1));
+	print_tuple(norm);
+	
+	printf("Test #3: | point(-1, 1, 0) | vector(-1, 0, 0) |\n");
+	norm = normal_at_cylinder(&cyl, create_point(-1,1,0));
+	print_tuple(norm);
+
+	
+	printf("\nTest #8: Computing the Normal Vector at the End Caps\n");
+	printf("| point(0, 1, 0) | vector(0, -1, 0) |\n");
+	norm = normal_at_cylinder(&cyl, create_point(0,1,0));
+	print_tuple(norm);
+	
+	printf("| point(0.5, 1, 0) | vector(0, -1, 0) |\n");
+	norm = normal_at_cylinder(&cyl, create_point(0.5,1,0));
+	print_tuple(norm);
+	
+	printf("| point(0, 1, 0.5) | vector(0, -1, 0) |\n");
+	norm = normal_at_cylinder(&cyl, create_point(0,1,0.5));
+	print_tuple(norm);
+	
+	printf("| point(0, 2, 0) | vector(0, 1, 0) |\n");
+	norm = normal_at_cylinder(&cyl, create_point(0,2,0));
+	print_tuple(norm);
+	
+	printf("| point(0.5, 2, 0) | vector(0, 1, 0) |\n");
+	norm = normal_at_cylinder(&cyl, create_point(0.5,2,0));
+	print_tuple(norm);
+	
+	printf("| point(0, 2, 0.5) | vector(0, 1, 0) |\n");
+	norm = normal_at_cylinder(&cyl, create_point(0,2,0.5));
+	print_tuple(norm);
 }

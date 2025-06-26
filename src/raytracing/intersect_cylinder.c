@@ -1,11 +1,11 @@
 #include "minirt.h"
 
-static void	init_i(t_i *i1, t_i *i2)
+static inline void	swap_t_values(float *t)
 {
-	i1->t = 0;
-	i1->object = NULL;
-	i2->t = 0;
-	i2->object = NULL;
+	float	tmp;
+	tmp = t[0];
+	t[0] = t[1];
+	t[1] = tmp;
 }
 
 /**
@@ -13,10 +13,10 @@ static void	init_i(t_i *i1, t_i *i2)
  * @param [in] r: t_ray to be tested
  * @param [in] *q: t_quad - pointer to struct for quadratic values 
  */
-bool	cylinder_discriminant(t_ray r, t_quad *q)
+static bool	cylinder_discriminant(t_ray r, t_quad *q)
 {
 	q->a = (r.dir.x * r.dir.x) + (r.dir.z * r.dir.z);
-	if (q->a < 0)
+	if (is_equal(q->a, 0))
 		return (false);
 	q->b = 2 * r.origin.x * r.dir.x + 2 * r.origin.z * r.dir.z;
 	q->c = (r.origin.x * r.origin.x) + (r.origin.z * r.origin.z) - 1;
@@ -31,7 +31,7 @@ bool	cylinder_discriminant(t_ray r, t_quad *q)
  * @details This is to ensure we always pass 2 intersections to xs, regardless
  * 			of which intersections are filled or not 
  */
-void	cylinder_fill_intersections(t_xs *xs, t_i i1, t_i i2)
+static void	cylinder_fill_intersections(t_xs *xs, t_i i1, t_i i2)
 {
 	if (i1.object && i2.object)
 		intersections(xs, i1, i2);
@@ -41,33 +41,54 @@ void	cylinder_fill_intersections(t_xs *xs, t_i i1, t_i i2)
 		intersections(xs, i2, i2);
 }
 
-/**
- * @brief Swap the order of t values 
- */
-void	swap_t_values(float *t)
+static bool	cylinder_check_cap(t_ray r, float t)
 {
-	float	tmp;
-	tmp = t[0];
-	t[0] = t[1];
-	t[1] = tmp;
+	float	x;
+	float	z;
+	float	res;
+
+	x = r.origin.x + t * r.dir.x;
+	z = r.origin.z + t * r.dir.z;
+	res = (x * x) + (z * z);
+	return (res <= 1);
+}
+
+t_xs	*cyl_intersect_caps(t_scene_obj *obj, t_xs *xs, t_ray r, t_i *i1, t_i *i2)
+{
+	float	t;
+
+	if (is_equal(r.dir.y, 0) || obj->closed == false)
+	{
+		cylinder_fill_intersections(xs, *i1, *i2);
+		return (xs);
+	}
+	t = (obj->min - r.origin.y) / r.dir.y;
+	if (t > 0 && cylinder_check_cap(r, t))
+		*i1 = intersection(t, obj);
+	t = (obj->max - r.origin.y) / r.dir.y;
+	if (t > 0 && cylinder_check_cap(r, t))
+		*i2 = intersection(t, obj);
+	cylinder_fill_intersections(xs, *i1, *i2);
+	return (xs);
 }
 
 /**
- * @brief Returns intersection information for given cylinder and ray
+ * @brief Add information to [xs] for given cylinder [obj] & [r]ay intersection 
  * @todo will need breaking up for norm
  */
 t_xs	*intersects_cylinder(t_scene_obj *obj, t_ray r, t_xs *xs)
 {
 	t_i		i1;
 	t_i		i2;
+	//t_i_t	*i;
 	t_quad	q;
 	float	t[2];
 	float	y[2];
 
-	init_i(&i1, &i2);
+	//init_i_to_zeroes(i);
+	init_i_to_zeroes(&i1,&i2);
 	if (!cylinder_discriminant(r, &q))
-		return (xs);
-
+		return (cyl_intersect_caps(obj, xs, r, &i1, &i2));
 	t[0] = (-q.b - sqrt(q.d)) / (2 * q.a);
 	t[1] = (-q.b + sqrt(q.d)) / (2 * q.a);
 	if (t[0] > t[1])
@@ -79,8 +100,8 @@ t_xs	*intersects_cylinder(t_scene_obj *obj, t_ray r, t_xs *xs)
 	if (obj->min < y[1] && y[1] < obj->max)
 		i2 = intersection(t[1], obj);
 
-	cylinder_fill_intersections(xs, i1, i2);
+	//cylinder_fill_intersections(xs, i1, i2);
+	//return (xs);
 
-	return (xs);
+	return (cyl_intersect_caps(obj, xs, r, &i1, &i2));
 }
-
