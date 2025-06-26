@@ -71,7 +71,7 @@ void	ft_keyhook(void *param);
 
 //init.c
 void		init_minirt(t_minirt *minirt);
-t_material	init_material(void);
+t_material	init_material(float amb_col);
 void	init_xs(t_xs *xs);
 
 //error & cleanup
