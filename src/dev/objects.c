@@ -16,7 +16,7 @@ t_scene_obj	sphere(t_minirt *minirt)
 	s.cz = 0;
 	s.ori = create_point(s.cx, s.cy, s.cz);
 	s.radius = 1;
-	s.mat = init_material();
+	s.mat = init_material(minirt->world->amb_s.ratio);
 	s.col = s.mat.col;
 	colour_unitrgb_rgba(&s.col);
 	s.col.hex = colour_unitrgb_hex(s.col, 1);
@@ -44,7 +44,7 @@ t_scene_obj	plane(t_minirt *minirt)
 	p.oy = 0;
 	p.oz = 0;
 	p.nor = create_point(p.ox, p.oy, p.oz);
-	p.mat = init_material();
+	p.mat = init_material(minirt->world->amb_s.ratio);
 	p.col = p.mat.col;
 	colour_unitrgb_rgba(&p.col);
 	p.col.hex = colour_unitrgb_hex(p.col, 1);
@@ -59,7 +59,7 @@ t_scene_obj	plane(t_minirt *minirt)
  * @brief Create and give default attributes to a cylinder type t_scene_obj
  * @returns t_scene_obj: type = CYLINDER (2)
  */
-t_scene_obj	cylinder(void)
+t_scene_obj	cylinder(t_minirt *minirt)
 {
 	t_scene_obj	c;
 
@@ -77,7 +77,7 @@ t_scene_obj	cylinder(void)
 	c.max = c.height / 2;
 	c.min = -c.max;
 	c.closed = false;
-	c.mat = init_material();
+	c.mat = init_material(minirt->world->amb_s.ratio);
 	c.col = c.mat.col;
 	colour_unitrgb_rgba(&c.col);
 	c.col.hex = colour_unitrgb_hex(c.col, 1);

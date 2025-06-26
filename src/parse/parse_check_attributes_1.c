@@ -83,10 +83,9 @@ bool	parse_check_coords(char *str, float *cx, float *cy, float *cz)
 }
 
 /**
- * @brief Checks given orientation tuple is within range [-1,1][-1,1][-1,1].  
+ * @brief Checks given orientation tuple is normalised and within range [-1,1]
  * @param [in] *str: string containing comma separated orientation vector. 
  * @param [in] *ox, oy or oz: pointer to where the values should be stored. 
- * @return True if orientation values were valid and set 
  * @details Allocates memory to **tuple via ft_split(). 
  */
 bool	parse_check_orient(char *str, float *ox, float *oy, float *oz)
@@ -109,6 +108,8 @@ bool	parse_check_orient(char *str, float *ox, float *oy, float *oz)
 	if (tmp < OR_MIN || tmp > OR_MAX)
 		return (free_helper(NULL, tuple, NULL, ERR_OO));
 	*oz = tmp;
+	if (!is_equal(sqrt(fabs((*ox * *ox) + (*oy * *oy) + (*oz * *oz))), 1))
+		return (free_helper(NULL, tuple, NULL, ERR_OO_NORM));
 	free_matrix(tuple);
 	return (true);
 }
