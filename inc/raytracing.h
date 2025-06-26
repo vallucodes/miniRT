@@ -239,6 +239,7 @@ t_xs		*intersect(t_minirt *minirt, t_scene_obj *obj, t_ray ray, t_xs *xs);
 
 //intersect_cylinder.c
 t_xs	*intersects_cylinder(t_scene_obj *obj, t_ray r, t_xs *xs);
+void	init_i_to_zeroes(t_i *i1, t_i *i2);
 
 //transformation functions
 t_matrix4	cylinder_rotation(t_scene_obj *obj);

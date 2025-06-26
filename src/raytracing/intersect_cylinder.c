@@ -9,9 +9,9 @@ static inline void	swap_t_values(float *t)
 }
 
 /**
- * @brief Returns true if [r]ay intersects curved portion of cylinder. 
+ * @brief Returns true if [r]ay intersects curved portion of cylinder.
  * @param [in] r: t_ray to be tested
- * @param [in] *q: t_quad - pointer to struct for quadratic values 
+ * @param [in] *q: t_quad - pointer to struct for quadratic values
  */
 static bool	cylinder_discriminant(t_ray r, t_quad *q)
 {
@@ -27,9 +27,9 @@ static bool	cylinder_discriminant(t_ray r, t_quad *q)
 }
 
 /**
- * @brief Fill pointed xs with i1,i2 depending on actual cylinder intersections 
+ * @brief Fill pointed xs with i1,i2 depending on actual cylinder intersections
  * @details This is to ensure we always pass 2 intersections to xs, regardless
- * 			of which intersections are filled or not 
+ * 			of which intersections are filled or not
  */
 static void	cylinder_fill_intersections(t_xs *xs, t_i i1, t_i i2)
 {
@@ -73,7 +73,7 @@ t_xs	*cyl_intersect_caps(t_scene_obj *obj, t_xs *xs, t_ray r, t_i *i1, t_i *i2)
 }
 
 /**
- * @brief Add information to [xs] for given cylinder [obj] & [r]ay intersection 
+ * @brief Add information to [xs] for given cylinder [obj] & [r]ay intersection
  * @todo will need breaking up for norm
  */
 t_xs	*intersects_cylinder(t_scene_obj *obj, t_ray r, t_xs *xs)
@@ -92,7 +92,7 @@ t_xs	*intersects_cylinder(t_scene_obj *obj, t_ray r, t_xs *xs)
 	t[0] = (-q.b - sqrt(q.d)) / (2 * q.a);
 	t[1] = (-q.b + sqrt(q.d)) / (2 * q.a);
 	if (t[0] > t[1])
-		swap_t_values(&t);
+		swap_t_values(t);
 	y[0] = r.origin.y + t[0] * r.dir.y;
 	if (obj->min < y[0] && y[0] < obj->max)
 		i1 = intersection(t[0], obj);
@@ -100,8 +100,7 @@ t_xs	*intersects_cylinder(t_scene_obj *obj, t_ray r, t_xs *xs)
 	if (obj->min < y[1] && y[1] < obj->max)
 		i2 = intersection(t[1], obj);
 
-	//cylinder_fill_intersections(xs, i1, i2);
-	//return (xs);
 
+	cylinder_fill_intersections(xs, i1, i2);
 	return (cyl_intersect_caps(obj, xs, r, &i1, &i2));
 }

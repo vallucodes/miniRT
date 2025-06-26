@@ -33,6 +33,8 @@ void	init_camera(t_minirt *minirt)
 	float		aspect_ratio;
 
 	c = &minirt->world->cam_s;
+	if (c->fov == 180)
+		c->fov = 179; // 179.9 would be probably better, lets see how we solve this
 	c->fov_r = c->fov * (M_PI / 180.0f);
 	half_view = tan(c->fov_r / 2);
 	aspect_ratio = (float)c->hsize / (float)c->vsize;

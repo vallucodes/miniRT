@@ -82,6 +82,8 @@ t_xs	*intersect(t_minirt *minirt, t_scene_obj *obj, t_ray ray, t_xs *xs)
 	else if (obj->type == CYLINDER)
 	{
 		xs = intersects_cylinder(obj, local_ray, xs);
+		// if (xs->count != 0)
+			// print_xs(xs);
 	}
 	return (xs);
 }
