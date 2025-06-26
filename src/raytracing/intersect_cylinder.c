@@ -93,20 +93,14 @@ t_xs	*intersects_cylinder(t_scene_obj *obj, t_ray r, t_xs *xs)
 	t[1] = (-q.b + sqrt(q.d)) / (2 * q.a);
 	if (t[0] > t[1])
 		swap_t_values(t);
-	// printf("t[0]: %f, t[1]: %f\n", t[0], t[1]);
-	// printf("obj->min: %f, obj->max: %f\n", obj->min, obj->max);
 	y[0] = r.origin.y + t[0] * r.dir.y;
-	// printf("y[0]: %f\n", y[0]);
 	if (obj->min < y[0] && y[0] < obj->max)
 		i1 = intersection(t[0], obj);
 	y[1] = r.origin.y + t[1] * r.dir.y;
-	// printf("y[1]: %f\n", y[1]);
 	if (obj->min < y[1] && y[1] < obj->max)
 		i2 = intersection(t[1], obj);
 
 
 	cylinder_fill_intersections(xs, i1, i2);
-	//return (xs);
-	// print_xs(xs);
 	return (cyl_intersect_caps(obj, xs, r, &i1, &i2));
 }
