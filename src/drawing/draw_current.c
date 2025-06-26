@@ -81,7 +81,7 @@ t_matrix4	cylinder_rotation(t_scene_obj *obj)
 	default_axis = create_vector(0, 1, 0);
 	// printf("default axis\n");
 	// print_tuple(default_axis);
-	target_axis = create_vector(obj->ox, obj->oy, obj->oz);
+	target_axis = normalize_tuple(create_vector(obj->ox, obj->oy, obj->oz));
 	// printf("target axis\n");
 	// print_tuple(target_axis);
 	rotation_axis = cross_tuple(default_axis, target_axis);
@@ -134,6 +134,7 @@ t_matrix4	cylinder_transformation_mtrx(t_scene_obj *obj)
 
 	scale = cylinder_scale(obj);
 	rotate = cylinder_rotation(obj);
+	// print_matrix(rotate, "rotational", 4);
 	translate = translation(obj->cx, obj->cy, obj->cz);
 	res = multiply_mtrx_by_mtrx(translate, multiply_mtrx_by_mtrx(rotate, scale));
 	return (res);
@@ -149,7 +150,10 @@ t_matrix4	generate_transformation_mtrx(t_minirt *minirt, t_scene_obj *obj)
 	else if (obj->type == PLANE)
 		res = plane_transformation_mtrx(obj);
 	else if (obj->type == CYLINDER)
+	{
 		res = cylinder_transformation_mtrx(obj);
+		// print_matrix(res, "cylinder", 4);
+	}
 	else
 		exit_error(minirt, SHAPE);
 	return (res);
@@ -167,6 +171,12 @@ static void	init_objects(t_minirt *minirt)
 	{
 		obj = (t_scene_obj *)temp->content;
 		obj->id = i;
+		if (obj->type == CYLINDER)
+		{
+			obj->min = -0.5;
+			obj->max = 0.5;
+			obj->closed = true;
+		}
 		obj->transform = generate_transformation_mtrx(minirt, obj);
 		obj->mat = init_material();
 		color_convert(obj);
@@ -181,3 +191,4 @@ void	render_world(t_minirt *minirt)
 	init_camera(minirt);
 	draw_current_thing(minirt, &minirt->world->cam_s);
 }
+
