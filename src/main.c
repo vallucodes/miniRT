@@ -25,6 +25,7 @@ int	main(int ac, char **av)
 	render_world(&minirt);
 	mlx_loop_hook(minirt.mlx, &ft_keyhook, &minirt);
 	mlx_loop(minirt.mlx);
+
 	ft_lstclear(&minirt.world->objects, &free);
 	close(minirt.world->fd);
 	free(minirt.world);

@@ -81,7 +81,7 @@ t_matrix4	cylinder_rotation(t_scene_obj *obj)
 	default_axis = create_vector(0, 1, 0);
 	// printf("default axis\n");
 	// print_tuple(default_axis);
-	target_axis = create_vector(obj->ox, obj->oy, obj->oz);
+	target_axis = normalize_tuple(create_vector(obj->ox, obj->oy, obj->oz));
 	// printf("target axis\n");
 	// print_tuple(target_axis);
 	rotation_axis = cross_tuple(default_axis, target_axis);
@@ -167,6 +167,12 @@ static void	init_objects(t_minirt *minirt)
 	{
 		obj = (t_scene_obj *)temp->content;
 		obj->id = i;
+		if (obj->type == CYLINDER)
+		{
+			obj->min = -0.5;
+			obj->max = 0.5;
+			obj->closed = true;
+		}
 		obj->transform = generate_transformation_mtrx(minirt, obj);
 		obj->mat = init_material();
 		color_convert(obj);
@@ -181,3 +187,4 @@ void	render_world(t_minirt *minirt)
 	init_camera(minirt);
 	draw_current_thing(minirt, &minirt->world->cam_s);
 }
+
