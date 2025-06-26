@@ -134,7 +134,6 @@ t_matrix4	cylinder_transformation_mtrx(t_scene_obj *obj)
 
 	scale = cylinder_scale(obj);
 	rotate = cylinder_rotation(obj);
-	// print_matrix(rotate, "rotational", 4);
 	translate = translation(obj->cx, obj->cy, obj->cz);
 	res = multiply_mtrx_by_mtrx(translate, multiply_mtrx_by_mtrx(rotate, scale));
 	return (res);
@@ -150,10 +149,7 @@ t_matrix4	generate_transformation_mtrx(t_minirt *minirt, t_scene_obj *obj)
 	else if (obj->type == PLANE)
 		res = plane_transformation_mtrx(obj);
 	else if (obj->type == CYLINDER)
-	{
 		res = cylinder_transformation_mtrx(obj);
-		// print_matrix(res, "cylinder", 4);
-	}
 	else
 		exit_error(minirt, SHAPE);
 	return (res);
