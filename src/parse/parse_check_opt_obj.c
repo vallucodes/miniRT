@@ -46,8 +46,6 @@ bool	parse_check_cam(char *line, t_parse *ps)
 		return (free_helper(ps, w, NULL, ERR_CAM));
 	if (!parse_check_fov(w[3], &ps->cam_s.fov))
 		return (free_helper(ps, w, NULL, ERR_CAM));
-	if (ps->cam_s.cx == 0 && ps->cam_s.cy == 0 && ps->cam_s.cz == 0)
-		return (free_helper(ps, w, NULL, ERR_CAM_CO));
 	ps->cam_b++;
 	parse_fill_origin(&ps->cam_s.ori, ps->cam_s.cx, ps->cam_s.cy, ps->cam_s.cz);
 	parse_fill_norm(&ps->cam_s.nor, ps->cam_s.ox, ps->cam_s.oy, ps->cam_s.oz);
