@@ -40,9 +40,9 @@ t_material	init_material(float amb_col)
 
 	// new.col = color(1, 1, 1);
 	new.ambient = amb_col;
-	new.diffuse = dif_default;
-	new.specular = spec_default;
-	new.shininess = shine_default;
+	new.diffuse = DIF_DEFAULT;
+	new.specular = SPEC_DEFAULT;
+	new.shininess = SHINE_DEFAULT;
 	return (new);
 }
 
