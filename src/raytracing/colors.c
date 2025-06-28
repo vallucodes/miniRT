@@ -50,5 +50,5 @@ t_color	multiply_color_scalar(t_color colour, float scalar)
 	new_colour.r = colour.r * scalar;
 	new_colour.g = colour.g * scalar;
 	new_colour.b = colour.b * scalar;
-	return(new_colour);
+	return (new_colour);
 }

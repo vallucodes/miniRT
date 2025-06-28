@@ -39,8 +39,7 @@ uint32_t	colour_unitrgb_hex(t_color c, float alpha)
 	else
 		c.a = alpha;
 	colour_unitrgb_rgba(&c);
-	c.hex =  c.rgba[0] << 24 | c.rgba[1] << 16 | c.rgba[2] << 8 | c.rgba[3];
-
+	c.hex = c.rgba[0] << 24 | c.rgba[1] << 16 | c.rgba[2] << 8 | c.rgba[3];
 	return (c.hex);
 }
 

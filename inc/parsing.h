@@ -47,7 +47,8 @@ typedef enum e_obj_type
 # define ERR_FOV "Incorrect field-of-view value given in scene file."
 # define ERR_RAT "Incorrect ratio value given in scene file."
 # define ERR_NUM_OBJ "Too many objects defined in scene file."
-# define ERR_OO_NORM "Orientation vector not a normalised unit vector."
+# define ERR_OO_NORM "Orientation vector not a unit vector."
+# define ERR_ALLOC "Memory allocation failed."
 
 /**
  * @brief Ambient optical object.

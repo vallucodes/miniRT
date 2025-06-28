@@ -10,10 +10,9 @@
 # define INVERSE_MATRIX	"Matrix not invertible."
 
 //Material default values
-# define amb_default 0.1
-# define dif_default 0.9
-# define spec_default 0.9
-# define shine_default 200
+# define DIF_DEFAULT 0.9
+# define SPEC_DEFAULT 0.9
+# define SHINE_DEFAULT 200
 
 typedef struct s_tuple
 {
@@ -45,14 +44,14 @@ typedef struct s_color
 typedef struct s_env
 {
 	t_tuple	g;
-	t_tuple w;
+	t_tuple	w;
 }	t_env;
 
 //dev
 typedef struct s_proj
 {
 	t_tuple	pos;
-	t_tuple v;
+	t_tuple	v;
 }	t_proj;
 
 typedef struct s_i
@@ -67,7 +66,6 @@ typedef struct	s_i_t
 	t_i	i2;
 }	t_i_t;
 
-
 typedef struct s_xs
 {
 	size_t	count;
@@ -77,17 +75,17 @@ typedef struct s_xs
 
 typedef struct s_matrix4
 {
-	float m[4][4];
+	float	m[4][4];
 }	t_matrix4;
 
 typedef struct s_matrix3
 {
-	float m[3][3];
+	float	m[3][3];
 }	t_matrix3;
 
 typedef struct s_matrix2
 {
-	float m[2][2];
+	float	m[2][2];
 }	t_matrix2;
 typedef struct s_matrix_ctx
 {
@@ -97,15 +95,15 @@ typedef struct s_matrix_ctx
 
 typedef union s_matrix_union
 {
-	t_matrix2 m2;
-	t_matrix3 m3;
-} t_matrix_union;
+	t_matrix2	m2;
+	t_matrix3	m3;
+}	t_matrix_union;
 
 typedef struct s_matrix_result
 {
-	t_matrix_union m;
-	size_t size;
-} t_matrix_result;
+	t_matrix_union	m;
+	size_t			size;
+}	t_matrix_result;
 
 typedef struct s_quad
 {
@@ -136,6 +134,7 @@ typedef struct	s_light_vars
 	float	l_dot_n;
 	float	r_dot_e;
 	float	fac;
+	bool	skip;
 }	t_light_vars;
 
 typedef struct	s_comps
@@ -163,10 +162,10 @@ t_tuple	create_point(float x, float y, float z);
 
 //tuple operations
 t_tuple	addition_tuples(t_tuple tuple1, t_tuple tuple2);
-t_tuple substraction_tuples(t_tuple tuple1, t_tuple tuple2);
-t_tuple negate_tuple(t_tuple tuple1);
-t_tuple scalar_multiply_tuple(t_tuple tuple1, float scalar);
-t_tuple scalar_divide_tuple(t_tuple tuple1, float scalar);
+t_tuple	substraction_tuples(t_tuple tuple1, t_tuple tuple2);
+t_tuple	negate_tuple(t_tuple tuple1);
+t_tuple	scalar_multiply_tuple(t_tuple tuple1, float scalar);
+t_tuple	scalar_divide_tuple(t_tuple tuple1, float scalar);
 float	magnitude_tuple(t_tuple tuple);
 t_tuple	normalize_tuple(t_tuple tuple);
 float	dot_tuple(t_tuple tuple1, t_tuple tuple2);
@@ -174,7 +173,7 @@ t_tuple	cross_tuple(t_tuple tuple1, t_tuple tuple2);
 
 //colors
 t_color		addition_color(t_color color1, t_color color2);
-t_color 	substraction_color(t_color color1, t_color color2);
+t_color		substraction_color(t_color color1, t_color color2);
 t_color		multiply_color(t_color color1, t_color color2);
 t_color		multiply_color_scalar(t_color col, float sca);
 uint32_t	colour_unitrgb_hex(t_color c, float alpha);
@@ -224,7 +223,7 @@ t_xs	intersect_world(t_minirt *minirt, t_ray r);
 
 //shading
 t_comps		prepare_computations(t_minirt *minirt, t_i i, t_ray r);
-t_color		shade_hit(t_parse *world, t_comps comps, bool in_shadow);
+t_color		shade_hit(t_minirt *minirt, t_comps comps, bool in_shadow);
 t_color		color_at(t_minirt *minirt, t_ray ray);
 bool		is_shadowed(t_minirt *minirt, t_tuple point, t_scene_obj *obj);
 
@@ -267,13 +266,13 @@ t_scene_obj	cylinder(t_minirt *minirt);
 
 //dev
 float	**create_matrix(size_t size, int flag);
-void	unit_tests_3x3();
-void	unit_tests_4x4();
-void	unit_tests_transform_matrices();
+void	unit_tests_3x3(void);
+void	unit_tests_4x4(void);
+void	unit_tests_transform_matrices(void);
 void	test_normal_at_sphere(t_minirt *m);
 void	test_reflect(t_minirt m);
 void	test_reflect_extra(t_minirt m);
-void	test_point_light_material();
+void	test_point_light_material(void);
 void	test_point_light_reflections(void);
 void	test_prepare_computations_outside(t_minirt *minirt, char **av);
 void	test_prepare_computations_inside(t_minirt *minirt, char **av);
