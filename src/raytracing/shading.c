@@ -39,10 +39,29 @@ t_comps	prepare_computations(t_minirt *minirt, t_i i, t_ray r)
 	return (comps);
 }
 
-t_color	shade_hit(t_parse *world, t_comps comps, bool in_shadow)
+/**
+ * @brief	Return the desired colour at current location.
+ * @details	Doing some precalculations for the lighting() function for norm. 
+ */
+t_color	shade_hit(t_minirt *m, t_comps c, bool in_shadow)
 {
-	t_color	color = lighting(comps.obj->mat, world->lig_s, comps.over_point, comps.eyev, comps.normalv, in_shadow); //send only comps
-	return (color);
+	t_light_vars	lv;
+	t_color			res_color;
+
+	lv.eff_col = multiply_color_scalar(c.obj->mat.col, m->world->lig_s.ratio);
+	lv.light_vec = normalize_tuple(substraction_tuples(m->world->lig_s.ori,
+			c.over_point));
+	lv.amb_col = multiply_color_scalar(lv.eff_col, c.obj->mat.ambient);
+	lv.l_dot_n = dot_tuple(lv.light_vec, c.normalv);
+	lv.skip = false;
+	if (in_shadow == true || lv.l_dot_n < 0)
+	{
+		lv.dif_col = color(0, 0, 0);
+		lv.spec_col = color(0, 0, 0);
+		lv.skip = true;
+	}
+	res_color = lighting(*m, c, in_shadow, &lv);
+	return (res_color);
 }
 
 t_ray	get_ray_obj_to_light(t_minirt *minirt, t_tuple point, float	*distance)
@@ -78,7 +97,6 @@ bool	is_shadowed(t_minirt *minirt, t_tuple point, t_scene_obj *obj)
 		return (false);
 }
 
-
 t_color	color_at(t_minirt *minirt, t_ray r)
 {
 	t_xs	xs;
@@ -93,7 +111,6 @@ t_color	color_at(t_minirt *minirt, t_ray r)
 		return (color(0, 0, 0));
 	comps = prepare_computations(minirt, hit_p, r);
 	in_shadow = is_shadowed(minirt, comps.over_point, hit_p.object);
-	color_var = shade_hit(minirt->world, comps, in_shadow);
+	color_var = shade_hit(minirt, comps, in_shadow);
 	return (color_var);
 }
-

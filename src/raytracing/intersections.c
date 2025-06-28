@@ -2,7 +2,7 @@
 
 t_i	intersection(float intersection, void *obj)
 {
-	t_i i;
+	t_i	i;
 
 	i.object = obj;
 	i.t = intersection;
@@ -28,7 +28,7 @@ t_xs	*intersects_sphere(t_scene_obj *obj, t_ray r, t_xs *xs)
 	t_quad	q;
 	t_tuple	sphere_to_ray;
 
-	sphere_to_ray = substraction_tuples(r.origin, create_point(0,0,0));
+	sphere_to_ray = substraction_tuples(r.origin, create_point(0, 0, 0));
 	q.a = dot_tuple(r.dir, r.dir);
 	q.b = 2 * dot_tuple(sphere_to_ray, r.dir);
 	q.c = dot_tuple(sphere_to_ray, sphere_to_ray) - 1;
@@ -82,8 +82,6 @@ t_xs	*intersect(t_minirt *minirt, t_scene_obj *obj, t_ray ray, t_xs *xs)
 	else if (obj->type == CYLINDER)
 	{
 		xs = intersects_cylinder(obj, local_ray, xs);
-		// if (xs->count != 0)
-			// print_xs(xs);
 	}
 	return (xs);
 }
