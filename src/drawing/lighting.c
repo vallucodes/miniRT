@@ -20,69 +20,35 @@ t_tuple	reflect(t_tuple in, t_tuple normal)
 	float	tmp;
 
 	tmp = 2 * dot_tuple(in, normal);
-	// printf("tmp: %f\n", tmp);
-
 	out = scalar_multiply_tuple(normal, tmp);
-	//print_tuple(out);
-
 	out = substraction_tuples(in, out);
-
 	return (out);
 }
 
 /**
- * @brief Returns combined shading for given light conditions and contributions
+ * @brief Returns combined shading for given light conditions and contributions.
  * @details ambient + specular + diffuse weighted depending on relative position
  * 			between light, camera and object(s)
- * @param [in] m: Object material
- * @param [in] l: Light source
- * @param [in] p: Point of hit
- * @param [in] c_v: Camera vector
- * @param [in] n_v: Normal vector
- * @todo Needs to take into account the scene file's ambient value.
  */
-t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple c_v, t_tuple n_v, bool in_shadow)
+t_color	lighting(t_minirt m, t_comps c, bool in_shadow, t_light_vars *l)
 {
-	t_light_vars	lv;
+	t_color	res;
 
-	lv.eff_col = multiply_color_scalar(m.col, l.ratio);
-	// printf("effective colour\n");
-	// print_colour(lv.eff_col);
-
-	lv.light_vec = normalize_tuple(substraction_tuples(l.ori, p));
-	// printf("light vector\n");
-	// print_tuple(lv.light_vec);
-
-	lv.amb_col = multiply_color_scalar(lv.eff_col, m.ambient);
-	// printf("ambient colour\n");
-	// print_colour(lv.amb_col);
-
-	if (in_shadow == true)
+	if (l->skip == false)
 	{
-		lv.dif_col = color(0, 0, 0);
-		lv.spec_col = color(0, 0, 0);
-	}
-	else
-	{
-		lv.l_dot_n = dot_tuple(lv.light_vec, n_v);
-		if (lv.l_dot_n < 0)
-		{
-			lv.dif_col = color(0, 0, 0);
-			lv.spec_col = color(0, 0, 0);
-		}
+		l->dif_col = multiply_color_scalar(l->eff_col, c.obj->mat.diffuse
+				* l->l_dot_n);
+		l->reflect_vec = reflect(negate_tuple(l->light_vec), c.normalv);
+		l->r_dot_e = dot_tuple(l->reflect_vec, c.eyev);
+		if (l->r_dot_e <= 0)
+			l->spec_col = color(0, 0, 0);
 		else
 		{
-			lv.dif_col = multiply_color_scalar(lv.eff_col, m.diffuse * lv.l_dot_n);
-			lv.reflect_vec = reflect(negate_tuple(lv.light_vec), n_v);
-			lv.r_dot_e = dot_tuple(lv.reflect_vec, c_v);
-			if (lv.r_dot_e <= 0)
-				lv.spec_col = color(0, 0, 0);
-			else
-			{
-				lv.fac = pow(lv.r_dot_e, m.shininess);
-				lv.spec_col = multiply_color_scalar(lv.eff_col, m.specular * lv.fac);
-			}
+			l->fac = pow(l->r_dot_e, c.obj->mat.shininess);
+			l->spec_col = multiply_color_scalar(l->eff_col,
+					c.obj->mat.specular * l->fac);
 		}
 	}
-	return (addition_color(addition_color(lv.amb_col, lv.dif_col), lv.spec_col));
+	res = addition_color(addition_color(l->amb_col, l->dif_col), l->spec_col);
+	return (res);
 }

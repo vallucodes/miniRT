@@ -6,7 +6,7 @@
 static bool	parse_choose_type(char *ph, t_parse *ps)
 {
 	if (*ph && ft_isalnum(*ph) && ft_isspace(*(ph + 1)))
-		return(parse_optical_object(ph, ps));
+		return (parse_optical_object(ph, ps));
 	else if (*ph && ft_isalnum(*ph) && ft_isalnum(*(ph + 1))
 		&& ft_isspace(*(ph + 2)))
 		return (parse_scene_object(ph, ps));
@@ -40,7 +40,7 @@ bool	parsing_gateway(t_parse *ps)
 		if (*ph == '\n')
 			;
 		else if (*ph && ft_isalnum(*ph) && (ft_isspace(*(ph + 1))
-			|| ft_isalnum(*(ph + 1)) && ft_isspace(*(ph + 2))))
+				|| ft_isalnum(*(ph + 1)) && ft_isspace(*(ph + 2))))
 		{
 			if (!parse_choose_type(ph, ps))
 			{

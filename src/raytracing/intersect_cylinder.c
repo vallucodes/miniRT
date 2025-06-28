@@ -3,6 +3,7 @@
 static inline void	swap_t_values(float *t)
 {
 	float	tmp;
+
 	tmp = t[0];
 	t[0] = t[1];
 	t[1] = tmp;
@@ -78,15 +79,15 @@ t_xs	*cyl_intersect_caps(t_scene_obj *obj, t_xs *xs, t_ray r, t_i *i1, t_i *i2)
  */
 t_xs	*intersects_cylinder(t_scene_obj *obj, t_ray r, t_xs *xs)
 {
+	//t_i_t	*i;
 	t_i		i1;
 	t_i		i2;
-	//t_i_t	*i;
 	t_quad	q;
 	float	t[2];
 	float	y[2];
 
 	//init_i_to_zeroes(i);
-	init_i_to_zeroes(&i1,&i2);
+	init_i_to_zeroes(&i1, &i2);
 	if (!cylinder_discriminant(r, &q))
 		return (cyl_intersect_caps(obj, xs, r, &i1, &i2));
 	t[0] = (-q.b - sqrt(q.d)) / (2 * q.a);
@@ -99,8 +100,6 @@ t_xs	*intersects_cylinder(t_scene_obj *obj, t_ray r, t_xs *xs)
 	y[1] = r.origin.y + t[1] * r.dir.y;
 	if (obj->min < y[1] && y[1] < obj->max)
 		i2 = intersection(t[1], obj);
-
-
 	cylinder_fill_intersections(xs, i1, i2);
 	return (cyl_intersect_caps(obj, xs, r, &i1, &i2));
 }

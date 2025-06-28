@@ -1,7 +1,7 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
-#include <assert.h>
+# include <assert.h>
 
 //System includes.
 # include <math.h>
@@ -19,16 +19,18 @@
 # include "../lib/libft/inc/libft.h"
 
 //Prototypes to prevent breaking of dependencies
-typedef struct s_parse t_parse;
-typedef struct s_minirt t_minirt;
-typedef struct s_color t_color;
-typedef struct s_tuple t_tuple;
-typedef struct s_light t_light;
-typedef struct	s_material t_material;
-typedef struct	s_scene_obj t_scene_obj;
-typedef struct	s_camera t_camera;
+typedef struct s_parse	t_parse;
+typedef struct s_minirt	t_minirt;
+typedef struct s_color	t_color;
+typedef struct s_tuple	t_tuple;
+typedef struct s_light	t_light;
+typedef struct s_material	t_material;
+typedef struct s_scene_obj	t_scene_obj;
+typedef struct s_camera	t_camera;
+typedef struct s_comps	t_comps;
+typedef struct s_light_vars	t_light_vars;
 t_color	color(float r, float g, float b);
-t_color	lighting(t_material m, t_light l, t_tuple p, t_tuple c_v, t_tuple n_v, bool in_shadow);
+t_color	lighting(t_minirt m, t_comps c, bool in_shadow, t_light_vars *lv);
 
 //Project includes.
 # include "raytracing.h"
@@ -72,7 +74,7 @@ void	ft_keyhook(void *param);
 //init.c
 void		init_minirt(t_minirt *minirt);
 t_material	init_material(float amb_col);
-void	init_xs(t_xs *xs);
+void		init_xs(t_xs *xs);
 
 //error & cleanup
 void	exit_error(t_minirt *minirt, const char *msg);
