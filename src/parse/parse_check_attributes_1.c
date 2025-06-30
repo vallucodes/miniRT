@@ -108,7 +108,7 @@ bool	parse_check_orient(char *str, float *ox, float *oy, float *oz)
 	if (tmp < OR_MIN || tmp > OR_MAX)
 		return (free_helper(NULL, tuple, NULL, ERR_OO));
 	*oz = tmp;
-	if (!is_equal(sqrt(fabs((*ox * *ox) + (*oy * *oy) + (*oz * *oz))), 1))
+	if (sqrt(fabs((*ox * *ox) + (*oy * *oy) + (*oz * *oz))) - 1 > EPS_ORIENT)
 		return (free_helper(NULL, tuple, NULL, ERR_OO_NORM));
 	free_matrix(tuple);
 	return (true);
