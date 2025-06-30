@@ -13,6 +13,8 @@ bool	parse_check_amb(char *line, t_parse *ps)
 	char	**words;
 
 	words = line_split_set(line, " \t"); //malloc fail not catched here
+	if (!words)
+		return (free_helper(ps, NULL, NULL, ERR_ALLOC));
 	if (fun_words(line, " \t") != 3)
 		return (free_helper(ps, words, NULL, ERR_AMB));
 	if (!parse_check_ratio(words[1], &ps->amb_s.ratio))
@@ -38,6 +40,8 @@ bool	parse_check_cam(char *line, t_parse *ps)
 	char	**w;
 
 	w = line_split_set(line, " \t"); //malloc fail not catched here
+	if (!w)
+		return (free_helper(ps, NULL, NULL, ERR_ALLOC));
 	if (fun_words(line, " \t") != 4)
 		return (free_helper(ps, w, NULL, ERR_CAM));
 	if (!parse_check_coords(w[1], &ps->cam_s.cx, &ps->cam_s.cy, &ps->cam_s.cz))
@@ -67,6 +71,8 @@ bool	parse_check_light(char *line, t_parse *ps)
 	char	**w;
 
 	w = line_split_set(line, " \t"); //malloc fail not catched here
+	if (!w)
+		return (free_helper(ps, NULL, NULL, ERR_ALLOC));
 	if (fun_words(line, " \t") != 3)
 		return (free_helper(ps, w, NULL, ERR_DIFF));
 	if (!parse_check_coords(w[1], &ps->lig_s.cx, &ps->lig_s.cy, &ps->lig_s.cz))
