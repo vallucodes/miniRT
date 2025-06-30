@@ -2,27 +2,24 @@
 
 t_ray	ray_for_pixel(t_minirt *minirt, t_camera *c, int px, int py)
 {
-	float	xoffset;
-	float	yoffset;
-	float	world_x;
-	float	world_y;
-	t_tuple	pixel;
-	t_tuple	origin;
-	t_tuple	direction;
-	bool	success;
+	t_calc_vars	vars;
+	t_tuple		pixel;
+	t_tuple		origin;
+	t_tuple		direction;
+	bool		success;
 
-	xoffset = (px + 0.5) * c->pixel_size;
-	yoffset = (py + 0.5) * c->pixel_size;
+	vars.xoffset = (px + 0.5) * c->pixel_size;
+	vars.yoffset = (py + 0.5) * c->pixel_size;
 
-	world_x = c->half_width - xoffset;
-	world_y = c->half_height - yoffset;
+	vars.world_x = c->half_width - vars.xoffset;
+	vars.world_y = c->half_height - vars.yoffset;
 
 	pixel = multiply_mtrx_by_tuple(inverse_matrix(c->transform, &success),
-									create_point(world_x, world_y, -1));
+								create_point(vars.world_x, vars.world_y, -1));
 	if (!success)
 		exit_error(minirt, INVERSE_MATRIX);
 	origin = multiply_mtrx_by_tuple(inverse_matrix(c->transform, &success),
-									create_point(0, 0, 0));
+								create_point(0, 0, 0));
 	if (!success)
 		exit_error(minirt, INVERSE_MATRIX);
 	direction = normalize_tuple(substraction_tuples(pixel, origin));
@@ -50,32 +47,6 @@ void	set_pixel_color(t_minirt *minirt)
 			y++;
 		}
 		x++;
-	}
-}
-
-static void	init_objects(t_minirt *minirt)
-{
-	int			i;
-	t_list		*temp;
-	t_scene_obj	*obj;
-
-	temp = minirt->world->objects;
-	i = 0;
-	while(i < minirt->world->obj_count)
-	{
-		obj = (t_scene_obj *)temp->content;
-		obj->id = i;
-		if (obj->type == CYLINDER)
-		{
-			obj->min = -0.5;
-			obj->max = 0.5;
-			obj->closed = true;
-		}
-		obj->transform = generate_transformation_mtrx(minirt, obj);
-		obj->mat = init_material(minirt->world->amb_s.ratio);
-		color_convert(obj);
-		temp = temp->next;
-		i++;
 	}
 }
 

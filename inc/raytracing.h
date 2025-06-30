@@ -147,12 +147,20 @@ typedef struct	s_comps
 	t_tuple		normalv;
 }	t_comps;
 
-typedef struct s_row_copy_params
+typedef struct	s_row_copy_params
 {
 	size_t src_row;
 	size_t dest_row;
 	size_t skip_col;
 }	t_row_copy_params;
+
+typedef struct	s_calc_vars
+{
+	float	xoffset;
+	float	yoffset;
+	float	world_x;
+	float	world_y;
+}	t_calc_vars;
 
 //lighting.c
 t_light	init_point_light(t_tuple pos, t_color color, float ratio);
