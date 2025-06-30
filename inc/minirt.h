@@ -67,7 +67,7 @@ typedef struct s_minirt
 	mlx_t		*mlx;
 }		t_minirt;
 
-void	draw_current_thing(t_minirt *minirt, t_camera *c);
+void	set_pixel_color(t_minirt *minirt);
 void	render_world(t_minirt *minirt);
 void	ft_keyhook(void *param);
 

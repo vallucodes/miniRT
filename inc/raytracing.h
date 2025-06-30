@@ -147,6 +147,13 @@ typedef struct	s_comps
 	t_tuple		normalv;
 }	t_comps;
 
+typedef struct s_row_copy_params
+{
+	size_t src_row;
+	size_t dest_row;
+	size_t skip_col;
+}	t_row_copy_params;
+
 //lighting.c
 t_light	init_point_light(t_tuple pos, t_color color, float ratio);
 t_tuple	reflect(t_tuple in, t_tuple normal);
@@ -182,8 +189,6 @@ void		colour_rgba_unitrgb(t_color *c);
 void		color_convert(t_scene_obj *obj);
 
 //matrix math
-bool		equality_matrix3(const t_matrix3 *a, const t_matrix3 *b);
-bool		equality_matrix4(t_matrix4 m, t_matrix4 m2, size_t size);
 t_matrix4	multiply_mtrx_by_mtrx(t_matrix4 m, t_matrix4 m2);
 t_tuple		multiply_mtrx_by_tuple(t_matrix4 m, t_tuple t1);
 t_matrix4	transpose_matrix(t_matrix4 m);
@@ -241,6 +246,7 @@ t_xs	*intersects_cylinder(t_scene_obj *obj, t_ray r, t_xs *xs);
 void	init_i_to_zeroes(t_i *i1, t_i *i2);
 
 //transformation functions
+t_matrix4	generate_transformation_mtrx(t_minirt *minirt, t_scene_obj *obj);
 t_matrix4	cylinder_rotation(t_scene_obj *obj);
 t_matrix4	cylinder_scale(t_scene_obj *obj);
 t_matrix4	plane_rotation(t_scene_obj *obj);
