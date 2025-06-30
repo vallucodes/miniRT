@@ -937,7 +937,7 @@ void	test_render_world(t_minirt *minirt)
 	t_tuple	up = create_vector(0, 1, 0);
 	minirt->world->cam_s.transform = view_transform(from, to, up);
 	// print_matrix(minirt->world->cam_s.transform, "camera", 4);
-	draw_current_thing(minirt, &minirt->world->cam_s);
+	set_pixel_color(minirt);
 }
 
 void	test_cylinder_rotation(void)
@@ -975,7 +975,7 @@ void	test_cylinder_transformation(void)
 	obj.cx = 3;
 	obj.cy = 0.5;
 	obj.cz = -4;
-	t_matrix4 scale = cylinder_scale(&obj);
+	t_matrix4 scale = scaling(obj.dia / 2.0, obj.height, obj.dia / 2.0);
 	print_matrix(scale, "cylinder scale", 4);
 	t_matrix4 rotate = cylinder_rotation(&obj);
 	print_matrix(rotate, "cylinder rotation", 4);
@@ -1097,13 +1097,13 @@ void	test_cylinder(t_minirt *minirt)
 	init_xs(xs1);
 	xs1 = intersect(NULL, &cyl, r1, xs1);
 	printf("xs.count: %lu\n", xs1->count);
-	
+
 	printf("Test #1: | point(0, 0, 0) | vector(0, 1, 0) |\n");
 	r1 = create_ray(normalize_tuple(create_vector(0,1,0)), create_point(0,0,0));
 	init_xs(xs1);
 	xs1 = intersect(NULL, &cyl, r1, xs1);
 	printf("xs.count: %lu\n", xs1->count);
-	
+
 	printf("Test #1: | point(0, 0, -5) | vector(1, 1, 1) |\n");
 	r1 = create_ray(normalize_tuple(create_vector(1,1,1)), create_point(0,0,-5));
 	init_xs(xs1);
@@ -1122,7 +1122,7 @@ void	test_cylinder(t_minirt *minirt)
 	xs2 = intersect(NULL, &cyl, r1, xs2);
 	printf("xs.count: %lu | t0: %f | t1: %f\n", xs2->count, xs2->t[0], xs2->t[1]);
 	free(xs2);
-	
+
 	printf("Test #2: | point(0, 0, -5) | vector(0, 0, 1) | 4 | 6 |\n");
 	r1 = create_ray(normalize_tuple(create_vector(0,0,1)), create_point(0,0,-5));
 	t_xs		*xs3 = calloc(1, sizeof(t_xs));
@@ -1130,7 +1130,7 @@ void	test_cylinder(t_minirt *minirt)
 	xs3 = intersect(NULL, &cyl, r1, xs3);
 	printf("xs.count: %lu | t0: %f | t1: %f\n", xs3->count, xs3->t[0], xs3->t[1]);
 	free(xs3);
-	
+
 	printf("Test #2: | point(0.5, 0, -5) | vector(0.1, 1, 1) | 6.80798 | 7.08872 |\n");
 	r1 = create_ray(normalize_tuple(create_vector(0.1,1,1)), create_point(0.5,0,-5));
 	t_xs		*xs4 = calloc(1, sizeof(t_xs));
@@ -1139,29 +1139,29 @@ void	test_cylinder(t_minirt *minirt)
 	printf("xs.count: %lu | t0: %f | t1: %f\n", xs4->count, xs4->t[0], xs4->t[1]);
 	free(xs4);
 
-	
+
 	//printf("\nTest #3: Normal Vector on a Cylinder\n");
 	//printf("Test #3: | point(1, 0, 0) | vector(1, 0, 0) |\n");
 	//t_tuple	norm = normal_at_cylinder(create_point(1,0,0));
 	//print_tuple(norm);
-	
+
 	//printf("Test #3: | point(0, 5, -1) | vector(0, 0, -1) |\n");
 	//norm = normal_at_cylinder(create_point(0,5,-1));
 	//print_tuple(norm);
-	
+
 	//printf("Test #3: | point(0, -2, 1) | vector(0, 0, 1) |\n");
 	//norm = normal_at_cylinder(create_point(0,-2,1));
 	//print_tuple(norm);
-	
+
 	//printf("Test #3: | point(-1, 1, 0) | vector(-1, 0, 0) |\n");
 	//norm = normal_at_cylinder(create_point(-1,1,0));
 	//print_tuple(norm);
 
-	
+
 	printf("\nTest #4: Minimum and Maximum Bounds\n");
 	printf("Test #4: cyl.min: %f | cyl.max: %f\n", cyl.min, cyl.max);
 
-	
+
 	printf("\nTest #5: Truncated cylinder\n");
 	t_scene_obj	trun = cylinder(minirt);
 	trun.min = 1;
@@ -1173,7 +1173,7 @@ void	test_cylinder(t_minirt *minirt)
 	xs5 = intersect(NULL, &trun, r1, xs5);
 	printf("xs.count: %lu\n", xs5->count);
 	free(xs5);
-	
+
 	printf("Test #5: | 2 | point(0, 3, -5) | vector(0, 0, 1) | 0 |\n");
 	r1 = create_ray(normalize_tuple(create_vector(0,0,1)), create_point(0,3,-5));
 	t_xs		*xs6 = calloc(1, sizeof(t_xs));
@@ -1181,7 +1181,7 @@ void	test_cylinder(t_minirt *minirt)
 	xs6 = intersect(NULL, &trun, r1, xs6);
 	printf("xs.count: %lu\n", xs6->count);
 	free(xs6);
-	
+
 	printf("Test #5: | 3 | point(0, 0, -5) | vector(0, 0, 1) | 0 |\n");
 	r1 = create_ray(normalize_tuple(create_vector(0,0,1)), create_point(0,0,-5));
 	t_xs		*xs7 = calloc(1,sizeof(t_xs));
@@ -1189,7 +1189,7 @@ void	test_cylinder(t_minirt *minirt)
 	xs7 = intersect(NULL, &trun, r1, xs7);
 	printf("xs.count: %lu\n", xs7->count);
 	free(xs7);
-	
+
 	printf("Test #5: | 4 | point(0, 2, -5) | vector(0, 0, 1) | 0 |\n");
 	r1 = create_ray(normalize_tuple(create_vector(0,0,1)), create_point(0,2,-5));
 	t_xs		*xs8 = calloc(1,sizeof(t_xs));
@@ -1197,7 +1197,7 @@ void	test_cylinder(t_minirt *minirt)
 	xs8 = intersect(NULL, &trun, r1, xs8);
 	printf("xs.count: %lu\n", xs8->count);
 	free(xs8);
-	
+
 	printf("Test #5: | 5 | point(0, 1, -5) | vector(0, 0, 1) | 0 |\n");
 	r1 = create_ray(normalize_tuple(create_vector(0,0,1)), create_point(0,1,-5));
 	t_xs		*xs9 = calloc(1,sizeof(t_xs));
@@ -1205,7 +1205,7 @@ void	test_cylinder(t_minirt *minirt)
 	xs9 = intersect(NULL, &trun, r1, xs9);
 	printf("xs.count: %lu\n", xs9->count);
 	free(xs9);
-	
+
 	printf("Test #5: | 6 | point(0, 1.5, -2) | vector(0, 0, 1) | 2 |\n");
 	r1 = create_ray(normalize_tuple(create_vector(0,0,1)), create_point(0,1.5,-2));
 	t_xs		*xs10 = calloc(1,sizeof(t_xs));
@@ -1269,41 +1269,41 @@ void	test_cylinder2(t_minirt *minirt)
 	printf("Test #3: | point(1, 0, 0) | vector(1, 0, 0) |\n");
 	t_tuple	norm = normal_at_cylinder(&cyl, create_point(1,0,0));
 	print_tuple(norm);
-	
+
 	printf("Test #3: | point(0, 5, -1) | vector(0, 0, -1) |\n");
 	norm = normal_at_cylinder(&cyl, create_point(0,5,-1));
 	print_tuple(norm);
-	
+
 	printf("Test #3: | point(0, -2, 1) | vector(0, 0, 1) |\n");
 	norm = normal_at_cylinder(&cyl, create_point(0,-2,1));
 	print_tuple(norm);
-	
+
 	printf("Test #3: | point(-1, 1, 0) | vector(-1, 0, 0) |\n");
 	norm = normal_at_cylinder(&cyl, create_point(-1,1,0));
 	print_tuple(norm);
 
-	
+
 	printf("\nTest #8: Computing the Normal Vector at the End Caps\n");
 	printf("| point(0, 1, 0) | vector(0, -1, 0) |\n");
 	norm = normal_at_cylinder(&cyl, create_point(0,1,0));
 	print_tuple(norm);
-	
+
 	printf("| point(0.5, 1, 0) | vector(0, -1, 0) |\n");
 	norm = normal_at_cylinder(&cyl, create_point(0.5,1,0));
 	print_tuple(norm);
-	
+
 	printf("| point(0, 1, 0.5) | vector(0, -1, 0) |\n");
 	norm = normal_at_cylinder(&cyl, create_point(0,1,0.5));
 	print_tuple(norm);
-	
+
 	printf("| point(0, 2, 0) | vector(0, 1, 0) |\n");
 	norm = normal_at_cylinder(&cyl, create_point(0,2,0));
 	print_tuple(norm);
-	
+
 	printf("| point(0.5, 2, 0) | vector(0, 1, 0) |\n");
 	norm = normal_at_cylinder(&cyl, create_point(0.5,2,0));
 	print_tuple(norm);
-	
+
 	printf("| point(0, 2, 0.5) | vector(0, 1, 0) |\n");
 	norm = normal_at_cylinder(&cyl, create_point(0,2,0.5));
 	print_tuple(norm);
