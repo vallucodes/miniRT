@@ -34,12 +34,12 @@ void	init_minirt(t_minirt *minirt)
  * @brief Return t_material initialised with default values.
  * @note Default colour is 255,50,255 bluey/pinky/purpley type thing, for now.
  */
-t_material	init_material(float amb_col)
+t_material	init_material(float amb_ratio)
 {
 	t_material	new;
 
 	// new.col = color(1, 1, 1);
-	new.ambient = amb_col;
+	new.ambient = amb_ratio;
 	new.diffuse = DIF_DEFAULT;
 	new.specular = SPEC_DEFAULT;
 	new.shininess = SHINE_DEFAULT;

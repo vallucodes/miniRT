@@ -64,30 +64,3 @@ void	init_camera(t_minirt *minirt)
 		up = create_vector(0, 1, 0);
 	minirt->world->cam_s.transform = view_transform(from, to, up);
 }
-
-t_ray	ray_for_pixel(t_minirt *minirt, t_camera *c, int px, int py)
-{
-	float	xoffset;
-	float	yoffset;
-	float	world_x;
-	float	world_y;
-	t_tuple	pixel;
-	t_tuple	origin;
-	t_tuple	direction;
-	bool	success;
-
-	xoffset = (px + 0.5) * c->pixel_size;
-	yoffset = (py + 0.5) * c->pixel_size;
-
-	world_x = c->half_width - xoffset;
-	world_y = c->half_height - yoffset;
-
-	pixel = multiply_mtrx_by_tuple(inverse_matrix(c->transform, &success), create_point(world_x, world_y, -1));
-	if (!success)
-		exit_error(minirt, INVERSE_MATRIX);
-	origin = multiply_mtrx_by_tuple(inverse_matrix(c->transform, &success), create_point(0, 0, 0));
-	if (!success)
-		exit_error(minirt, INVERSE_MATRIX);
-	direction = normalize_tuple(substraction_tuples(pixel, origin));
-	return (create_ray(direction, origin));
-}
