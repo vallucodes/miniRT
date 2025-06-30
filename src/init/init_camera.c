@@ -49,7 +49,7 @@ void	set_camera_vars(t_minirt *minirt)
 		c->half_height = half_view;
 	}
 	minirt->world->cam_s.pixel_size = (c->half_width * 2) / c->hsize;
-	minirt->world->cam_s.transform = identity();
+	// minirt->world->cam_s.transform = identity();
 }
 
 void	set_camera_tranformation_matrix(t_minirt *minirt)

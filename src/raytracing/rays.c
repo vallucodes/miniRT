@@ -11,10 +11,10 @@ t_ray	create_ray(t_tuple vector, t_tuple point)
 
 t_tuple	position_ray(t_ray ray, float t)
 {
-	t_tuple	new_vector;
+	t_tuple	new_point;
 
-	new_vector = addition_tuples(scalar_multiply_tuple(ray.dir, t), ray.origin);
-	return (new_vector);
+	new_point = addition_tuples(scalar_multiply_tuple(ray.dir, t), ray.origin);
+	return (new_point);
 }
 
 t_ray	transform(t_ray r, t_matrix4 m)

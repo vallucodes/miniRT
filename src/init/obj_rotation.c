@@ -43,7 +43,7 @@ t_matrix4	cylinder_rotation(t_scene_obj *obj)
 	default_axis = create_vector(0, 1, 0);
 	target_axis = normalize_tuple(create_vector(obj->ox, obj->oy, obj->oz));
 	rotation_axis = cross_tuple(default_axis, target_axis);
-	if (magnitude_tuple(rotation_axis) < 1e-9f)
+	if (magnitude_tuple(rotation_axis) < EPSILON)
 		return (identity());
 	rotation_axis = normalize_tuple(rotation_axis);
 	rotation_angle = acos(dot_tuple(default_axis, target_axis));
