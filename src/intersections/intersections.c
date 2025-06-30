@@ -72,16 +72,10 @@ t_xs	*intersect(t_minirt *minirt, t_scene_obj *obj, t_ray ray, t_xs *xs)
 	obj->saved_ray.dir = local_ray.dir;
 	obj->saved_ray.origin = local_ray.origin;
 	if (obj->type == PLANE)
-	{
 		xs = intersects_plane(obj, local_ray, xs);
-	}
 	else if (obj->type == SPHERE)
-	{
 		xs = intersects_sphere(obj, local_ray, xs);
-	}
 	else if (obj->type == CYLINDER)
-	{
 		xs = intersects_cylinder(obj, local_ray, xs);
-	}
 	return (xs);
 }

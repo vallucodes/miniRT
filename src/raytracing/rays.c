@@ -17,31 +17,6 @@ t_tuple	position_ray(t_ray ray, float t)
 	return (new_vector);
 }
 
-t_i	hit(t_xs *xs, t_scene_obj *obj_from)
-{
-	size_t		i;
-	t_i			hit;
-	t_scene_obj	*obj_to;
-
-	hit.t = -1;
-	hit.object = NULL;
-	i = 0;
-	while(i < xs->count)
-	{
-		obj_to = xs->object[i];
-		if (xs->t[i] > 0 && (!obj_from || obj_to->id != obj_from->id))
-		{
-			if (hit.t == -1 || xs->t[i] < hit.t)
-			{
-				hit.t = xs->t[i];
-				hit.object = xs->object[i];
-			}
-		}
-		i++;
-	}
-	return(hit);
-}
-
 t_ray	transform(t_ray r, t_matrix4 m)
 {
 	r.dir = multiply_mtrx_by_tuple(m, r.dir);

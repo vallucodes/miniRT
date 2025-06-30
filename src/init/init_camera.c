@@ -26,7 +26,7 @@ t_matrix4	view_transform(t_tuple from, t_tuple to, t_tuple up)
 	return(t);
 }
 
-void	init_camera(t_minirt *minirt)
+void	set_camera_vars(t_minirt *minirt)
 {
 	t_camera	*c;
 	float		half_view;
@@ -50,11 +50,15 @@ void	init_camera(t_minirt *minirt)
 	}
 	minirt->world->cam_s.pixel_size = (c->half_width * 2) / c->hsize;
 	minirt->world->cam_s.transform = identity();
+}
 
+void	set_camera_tranformation_matrix(t_minirt *minirt)
+{
 	t_tuple	from;
 	t_tuple	to;
 	t_tuple	orientation;
 	t_tuple	up;
+
 	from = create_point(minirt->world->cam_s.cx, minirt->world->cam_s.cy, minirt->world->cam_s.cz);
 	orientation = create_vector(minirt->world->cam_s.ox, minirt->world->cam_s.oy, minirt->world->cam_s.oz);
 	to = addition_tuples(from, orientation);
@@ -63,4 +67,10 @@ void	init_camera(t_minirt *minirt)
 	else
 		up = create_vector(0, 1, 0);
 	minirt->world->cam_s.transform = view_transform(from, to, up);
+}
+
+void	init_camera(t_minirt *minirt)
+{
+	set_camera_vars(minirt);
+	set_camera_tranformation_matrix(minirt);
 }
