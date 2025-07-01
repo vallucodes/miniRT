@@ -117,6 +117,16 @@ typedef struct	s_calc_vars
 	float	view_port_y;
 }	t_calc_vars;
 
+typedef struct	s_calc_vars2
+{
+	t_matrix4	k;
+	t_matrix4	k2;
+	t_matrix4	r;
+	t_matrix4	first_term;
+	t_matrix4	second_term;
+	t_matrix4	third_term;
+}	t_calc_vars2;
+
 //lighting.c
 t_tuple		reflect(t_tuple in, t_tuple normal);
 t_color		lighting(t_minirt m, t_comps c, bool in_shadow, t_light_vars *lv);
@@ -170,10 +180,5 @@ t_matrix4	plane_rotation(t_scene_obj *obj);
 
 //utils
 bool		is_equal(float a, float b);
-
-//objects.c
-t_scene_obj	sphere(t_minirt *minirt);
-t_scene_obj	plane(t_minirt *minirt);
-t_scene_obj	cylinder(t_minirt *minirt);
 
 #endif

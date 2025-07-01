@@ -3,6 +3,11 @@
 
 # include "raytracing.h"
 
+//objects.c
+t_scene_obj	sphere(t_minirt *minirt);
+t_scene_obj	plane(t_minirt *minirt);
+t_scene_obj	cylinder(t_minirt *minirt);
+
 //print utils
 void	print_ray(t_ray r);
 void	print_xs(t_xs *xs);

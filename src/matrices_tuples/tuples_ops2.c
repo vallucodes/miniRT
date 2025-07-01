@@ -4,10 +4,10 @@ float	magnitude_tuple(t_tuple tuple)
 {
 	float	magnitude;
 
-	magnitude = sqrtf(tuple.x * tuple.x +
-					tuple.y * tuple.y +
-					tuple.z * tuple.z +
-					tuple.w * tuple.w);
+	magnitude = sqrtf(tuple.x * tuple.x
+			+ tuple.y * tuple.y
+			+ tuple.z * tuple.z
+			+ tuple.w * tuple.w);
 	return (magnitude);
 }
 
@@ -26,15 +26,15 @@ float	dot_tuple(t_tuple tuple1, t_tuple tuple2)
 {
 	float	dot;
 
-	dot = tuple1.x * tuple2.x +
-			tuple1.y * tuple2.y +
-			tuple1.z * tuple2.z;
+	dot = tuple1.x * tuple2.x
+		+ tuple1.y * tuple2.y
+		+ tuple1.z * tuple2.z;
 	return (dot);
 }
 
 t_tuple	cross_tuple(t_tuple tuple1, t_tuple tuple2)
 {
 	return (create_vector(tuple1.y * tuple2.z - tuple1.z * tuple2.y,
-						tuple1.z * tuple2.x - tuple1.x * tuple2.z,
-						tuple1.x * tuple2.y - tuple1.y * tuple2.x));
+			tuple1.z * tuple2.x - tuple1.x * tuple2.z,
+			tuple1.x * tuple2.y - tuple1.y * tuple2.x));
 }

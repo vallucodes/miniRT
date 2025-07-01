@@ -8,7 +8,8 @@ static t_matrix_result	init_submatrix_result(size_t original_size)
 	return (result);
 }
 
-static void	copy_matrix_row(t_matrix_ctx *ctx, t_matrix_result *result, t_row_copy_params params)
+static void	copy_matrix_row(t_matrix_ctx *ctx,
+			t_matrix_result *result, t_row_copy_params params)
 {
 	size_t	j;
 	size_t	l;
@@ -20,7 +21,7 @@ static void	copy_matrix_row(t_matrix_ctx *ctx, t_matrix_result *result, t_row_co
 		if (j == params.skip_col)
 		{
 			j++;
-			continue;
+			continue ;
 		}
 		if (result->size == 2)
 			result->m.m2.m[params.dest_row][l] = ctx->m.m[params.src_row][j];
@@ -31,7 +32,8 @@ static void	copy_matrix_row(t_matrix_ctx *ctx, t_matrix_result *result, t_row_co
 	}
 }
 
-static void	copy_matrix_rows(t_matrix_ctx *ctx, t_matrix_result *result, size_t skip_row, size_t skip_col)
+static void	copy_matrix_rows(t_matrix_ctx *ctx,
+			t_matrix_result *result, size_t skip_row, size_t skip_col)
 {
 	t_row_copy_params	params;
 	size_t				i;
@@ -45,7 +47,7 @@ static void	copy_matrix_rows(t_matrix_ctx *ctx, t_matrix_result *result, size_t 
 		if (i == skip_row)
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		params.src_row = i;
 		params.dest_row = k;
