@@ -44,7 +44,7 @@ t_tuple	scalar_multiply_tuple(t_tuple tuple, float scalar)
 	return (new_tuple);
 }
 
-t_tuple	scalar_divide_tuple(t_tuple tuple, float scalar)
+t_tuple	scalar_divide_tuple(t_tuple tuple, float scalar) //never used
 {
 	t_tuple	new_tuple;
 

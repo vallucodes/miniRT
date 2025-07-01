@@ -19,7 +19,7 @@ t_tuple	normalize_tuple(t_tuple tuple)
 	new_tuple.y = tuple.y / magnitude_tuple(tuple);
 	new_tuple.z = tuple.z / magnitude_tuple(tuple);
 	new_tuple.w = tuple.w / magnitude_tuple(tuple);
-	return(new_tuple);
+	return (new_tuple);
 }
 
 float	dot_tuple(t_tuple tuple1, t_tuple tuple2)

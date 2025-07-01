@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-static t_matrix_result init_submatrix_result(size_t original_size)
+static t_matrix_result	init_submatrix_result(size_t original_size)
 {
 	t_matrix_result	result;
 
@@ -8,7 +8,7 @@ static t_matrix_result init_submatrix_result(size_t original_size)
 	return (result);
 }
 
-static void copy_matrix_row(t_matrix_ctx *ctx, t_matrix_result *result, t_row_copy_params params)
+static void	copy_matrix_row(t_matrix_ctx *ctx, t_matrix_result *result, t_row_copy_params params)
 {
 	size_t	j;
 	size_t	l;
@@ -31,7 +31,7 @@ static void copy_matrix_row(t_matrix_ctx *ctx, t_matrix_result *result, t_row_co
 	}
 }
 
-static void copy_matrix_rows(t_matrix_ctx *ctx, t_matrix_result *result, size_t skip_row, size_t skip_col)
+static void	copy_matrix_rows(t_matrix_ctx *ctx, t_matrix_result *result, size_t skip_row, size_t skip_col)
 {
 	t_row_copy_params	params;
 	size_t				i;
@@ -40,8 +40,10 @@ static void copy_matrix_rows(t_matrix_ctx *ctx, t_matrix_result *result, size_t 
 	i = 0;
 	k = 0;
 	params.skip_col = skip_col;
-	while (i < ctx->size && k < result->size) {
-		if (i == skip_row) {
+	while (i < ctx->size && k < result->size)
+	{
+		if (i == skip_row)
+		{
 			i++;
 			continue;
 		}
@@ -53,7 +55,7 @@ static void copy_matrix_rows(t_matrix_ctx *ctx, t_matrix_result *result, size_t 
 	}
 }
 
-t_matrix_result sub_matrix(t_matrix_ctx *ctx, size_t row, size_t col)
+t_matrix_result	sub_matrix(t_matrix_ctx *ctx, size_t row, size_t col)
 {
 	t_matrix_result	result;
 

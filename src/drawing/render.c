@@ -11,11 +11,11 @@ t_ray	ray_for_pixel(t_minirt *minirt, t_camera *c, int px, int py)
 	vars.xoffset = (px + 0.5) * c->pixel_size;
 	vars.yoffset = (py + 0.5) * c->pixel_size;
 
-	vars.world_x = c->half_width - vars.xoffset;
-	vars.world_y = c->half_height - vars.yoffset;
+	vars.view_port_x = c->half_width - vars.xoffset;
+	vars.view_port_y = c->half_height - vars.yoffset;
 
 	pixel = multiply_mtrx_by_tuple(inverse_matrix(c->transform, &success),
-								create_point(vars.world_x, vars.world_y, -1));
+								create_point(vars.view_port_x, vars.view_port_y, -1));
 	if (!success)
 		exit_error(minirt, INVERSE_MATRIX);
 	origin = multiply_mtrx_by_tuple(inverse_matrix(c->transform, &success),
