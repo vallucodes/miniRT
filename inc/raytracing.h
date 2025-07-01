@@ -118,7 +118,6 @@ typedef struct	s_calc_vars
 }	t_calc_vars;
 
 //lighting.c
-t_light		init_point_light(t_tuple pos, t_color color, float ratio);
 t_tuple		reflect(t_tuple in, t_tuple normal);
 t_color		lighting(t_minirt m, t_comps c, bool in_shadow, t_light_vars *lv);
 
@@ -134,7 +133,7 @@ t_color		multiply_color(t_color color1, t_color color2);
 t_color		multiply_color_scalar(t_color col, float sca);
 uint32_t	colour_unitrgb_hex(t_color c, float alpha);
 void		colour_unitrgb_rgba(t_color *c);
-void		colour_rgba_unitrgb(t_color *c);
+// void		colour_rgba_unitrgb(t_color *c); //not used
 void		color_convert(t_scene_obj *obj);
 
 //rays
@@ -167,7 +166,6 @@ void		init_i_to_zeroes(t_i *i1, t_i *i2);
 //transformation functions
 t_matrix4	generate_transformation_mtrx(t_minirt *minirt, t_scene_obj *obj);
 t_matrix4	cylinder_rotation(t_scene_obj *obj);
-t_matrix4	cylinder_scale(t_scene_obj *obj);
 t_matrix4	plane_rotation(t_scene_obj *obj);
 
 //utils

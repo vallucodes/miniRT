@@ -1,15 +1,5 @@
 #include "minirt.h"
 
-t_light	init_point_light(t_tuple pos, t_color color, float ratio)
-{
-	t_light	light;
-
-	light.ori = pos;
-	light.col = color;
-	light.ratio = ratio;
-	return (light);
-}
-
 /**
  * @brief Returns vector, result of reflecting vector [in] about vector [normal]
  * @todo Maybe work with rays rather than vector tuples?

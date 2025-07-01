@@ -26,7 +26,7 @@ t_matrix4	view_transform(t_tuple from, t_tuple to, t_tuple up)
 	return(t);
 }
 
-void	set_camera_vars(t_minirt *minirt)
+static void	set_camera_vars(t_minirt *minirt)
 {
 	t_camera	*c;
 	float		half_view;
