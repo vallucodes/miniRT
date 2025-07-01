@@ -16,20 +16,16 @@ t_matrix4	construct_matrix(t_tuple rotation_axis)
 
 t_matrix4	rodrigues_formula(t_tuple rotation_axis, float rotation_angle)
 {
-	t_matrix4	k;
-	t_matrix4	k2;
-	t_matrix4	r;
-	t_matrix4	first_term;
-	t_matrix4	second_term;
-	t_matrix4	third_term;
+	t_calc_vars2	vars;
 
-	k = construct_matrix(rotation_axis);
-	first_term = identity();
-	second_term = scalar_multiply_matrix(k, sin(rotation_angle));
-	k2 = multiply_mtrx_by_mtrx(k, k);
-	third_term = scalar_multiply_matrix(k2, 1 - cos(rotation_angle));
-	r = addition_matrix(addition_matrix(first_term, second_term), third_term);
-	return (r);
+	vars.k = construct_matrix(rotation_axis);
+	vars.first_term = identity();
+	vars.second_term = scalar_multiply_matrix(vars.k, sin(rotation_angle));
+	vars.k2 = multiply_mtrx_by_mtrx(vars.k, vars.k);
+	vars.third_term = scalar_multiply_matrix(vars.k2, 1 - cos(rotation_angle));
+	vars.r = addition_matrix(addition_matrix(vars.first_term, vars.second_term),
+			vars.third_term);
+	return (vars.r);
 }
 
 t_matrix4	cylinder_rotation(t_scene_obj *obj)
@@ -53,5 +49,5 @@ t_matrix4	cylinder_rotation(t_scene_obj *obj)
 
 t_matrix4	plane_rotation(t_scene_obj *obj)
 {
-	return(cylinder_rotation(obj));
+	return (cylinder_rotation(obj));
 }

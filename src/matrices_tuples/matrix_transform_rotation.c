@@ -11,7 +11,7 @@ t_matrix4	rotation_x(float theta)
 	m.m[2][1] = sin(theta);
 	m.m[2][2] = cos(theta);
 	m.m[3][3] = 1;
-	return(m);
+	return (m);
 }
 
 t_matrix4	rotation_y(float theta)
@@ -25,7 +25,7 @@ t_matrix4	rotation_y(float theta)
 	m.m[2][2] = cos(theta);
 	m.m[2][0] = -sin(theta);
 	m.m[3][3] = 1;
-	return(m);
+	return (m);
 }
 
 t_matrix4	rotation_z(float theta)
@@ -39,5 +39,5 @@ t_matrix4	rotation_z(float theta)
 	m.m[1][1] = cos(theta);
 	m.m[2][2] = 1;
 	m.m[3][3] = 1;
-	return(m);
+	return (m);
 }

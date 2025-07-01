@@ -8,7 +8,7 @@ void	init_objects(t_minirt *minirt)
 
 	temp = minirt->world->objects;
 	i = 0;
-	while(i < minirt->world->obj_count)
+	while (i < minirt->world->obj_count)
 	{
 		obj = (t_scene_obj *)temp->content;
 		obj->id = i;

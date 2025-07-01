@@ -38,7 +38,7 @@ t_matrix4	identity(void)
 		}
 		i++;
 	}
-	return(m);
+	return (m);
 }
 
 t_matrix4	translation(float x, float y, float z)
@@ -53,7 +53,7 @@ t_matrix4	translation(float x, float y, float z)
 	m.m[2][2] = 1;
 	m.m[2][3] = z;
 	m.m[3][3] = 1;
-	return(m);
+	return (m);
 }
 
 t_matrix4	scaling(float x, float y, float z)
@@ -65,5 +65,5 @@ t_matrix4	scaling(float x, float y, float z)
 	m.m[1][1] = y;
 	m.m[2][2] = z;
 	m.m[3][3] = 1;
-	return(m);
+	return (m);
 }

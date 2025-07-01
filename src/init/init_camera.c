@@ -10,7 +10,6 @@ t_matrix4	view_transform(t_tuple from, t_tuple to, t_tuple up)
 	forward = normalize_tuple(substraction_tuples(to, from));
 	left = cross_tuple(forward, normalize_tuple(up));
 	true_up = cross_tuple(left, forward);
-
 	matrix_fill_zero(&t);
 	t.m[0][0] = left.x;
 	t.m[0][1] = left.y;
@@ -23,7 +22,7 @@ t_matrix4	view_transform(t_tuple from, t_tuple to, t_tuple up)
 	t.m[2][2] = -forward.z;
 	t.m[3][3] = 1;
 	t = multiply_mtrx_by_mtrx(t, translation(-from.x, -from.y, -from.z));
-	return(t);
+	return (t);
 }
 
 static void	set_camera_vars(t_minirt *minirt)
@@ -34,11 +33,11 @@ static void	set_camera_vars(t_minirt *minirt)
 
 	c = &minirt->world->cam_s;
 	if (c->fov == 180)
-		c->fov = 179.9; // 179.9 would be probably better, lets see how we solve this
+		c->fov = 179.9; // 179.9 would be probably better, still issue: unsigned char	fov;
 	c->fov_r = c->fov * (M_PI / 180.0f);
 	half_view = tan(c->fov_r / 2);
 	aspect_ratio = (float)c->hsize / (float)c->vsize;
-	if (aspect_ratio >=1)
+	if (aspect_ratio >= 1)
 	{
 		c->half_width = half_view;
 		c->half_height = half_view / aspect_ratio;
@@ -49,7 +48,6 @@ static void	set_camera_vars(t_minirt *minirt)
 		c->half_height = half_view;
 	}
 	minirt->world->cam_s.pixel_size = (c->half_width * 2) / c->hsize;
-	// minirt->world->cam_s.transform = identity();
 }
 
 void	set_camera_tranformation_matrix(t_minirt *minirt)
@@ -59,8 +57,10 @@ void	set_camera_tranformation_matrix(t_minirt *minirt)
 	t_tuple	orientation;
 	t_tuple	up;
 
-	from = create_point(minirt->world->cam_s.cx, minirt->world->cam_s.cy, minirt->world->cam_s.cz);
-	orientation = create_vector(minirt->world->cam_s.ox, minirt->world->cam_s.oy, minirt->world->cam_s.oz);
+	from = create_point(minirt->world->cam_s.cx, minirt->world->cam_s.cy,
+			minirt->world->cam_s.cz);
+	orientation = create_vector(minirt->world->cam_s.ox,
+			minirt->world->cam_s.oy, minirt->world->cam_s.oz);
 	to = addition_tuples(from, orientation);
 	if (minirt->world->cam_s.ox == 0 && minirt->world->cam_s.oz == 0)
 		up = create_vector(0, 0, -1);

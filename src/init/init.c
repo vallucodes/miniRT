@@ -13,9 +13,9 @@ void	init_minirt(t_minirt *minirt)
 	if (!minirt->mlx)
 		exit_error(minirt, mlx_strerror(mlx_errno));
 	minirt->img = mlx_new_image(minirt->mlx, WIDTH, HEIGHT);
-	if (!minirt->img || (mlx_image_to_window(minirt->mlx, minirt->img, 0, 0) < 0))
+	if (!minirt->img
+		|| (mlx_image_to_window(minirt->mlx, minirt->img, 0, 0) < 0))
 		exit_error(minirt, mlx_strerror(mlx_errno));
-	// init_vp_attributes(minirt);
 }
 
 /**
@@ -26,7 +26,6 @@ t_material	init_material(float amb_ratio)
 {
 	t_material	new;
 
-	// new.col = color(1, 1, 1);
 	new.ambient = amb_ratio;
 	new.diffuse = DIF_DEFAULT;
 	new.specular = SPEC_DEFAULT;
