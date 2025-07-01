@@ -15,7 +15,9 @@ bool	parse_check_plane(char *line, t_parse *ps)
 	char		**words;
 
 	tmp = ft_calloc(1, sizeof(t_scene_obj));
-	words = line_split_set(line, " \t"); //malloc fail not catched here
+	words = line_split_set(line, " \t");
+	if (!tmp || !words)
+		return (free_helper(ps, words, tmp, ERR_ALLOC));
 	if (fun_words(line, " \t") != 4)
 		return (free_helper(ps, words, tmp, ERR_PLANE));
 	if (!parse_check_coords(words[1], &tmp->cx, &tmp->cy, &tmp->cz))
@@ -48,7 +50,9 @@ bool	parse_check_sphere(char *line, t_parse *ps)
 	char		**words;
 
 	tmp = ft_calloc(1, sizeof(t_scene_obj));
-	words = line_split_set(line, " \t"); //malloc fail not catched here
+	words = line_split_set(line, " \t");
+	if (!tmp || !words)
+		return (free_helper(ps, words, tmp, ERR_ALLOC));
 	if (fun_words(line, " \t") != 4)
 		return (free_helper(ps, words, tmp, ERR_PLANE));
 	if (!parse_check_coords(words[1], &tmp->cx, &tmp->cy, &tmp->cz))
@@ -66,6 +70,12 @@ bool	parse_check_sphere(char *line, t_parse *ps)
 	return (parse_add_obj_list(tmp, ps));
 }
 
+void	parse_dumb(t_obj_type *type, t_parse *ps)
+{
+	*type = 2;
+	ps->obj_count++;
+}
+
 /**
  * @brief Checks current line is a valid cy (cylinder) line.
  * @param [in] *line: current line of scene file.
@@ -81,7 +91,9 @@ bool	parse_check_cylinder(char *line, t_parse *ps)
 	char		**words;
 
 	tmp = ft_calloc(1, sizeof(t_scene_obj));
-	words = line_split_set(line, " \t"); //malloc fail not catched here
+	words = line_split_set(line, " \t");
+	if (!tmp || !words)
+		return (free_helper(ps, words, tmp, ERR_ALLOC));
 	if (fun_words(line, " \t") != 6)
 		return (free_helper(ps, words, tmp, ERR_PLANE));
 	if (!parse_check_coords(words[1], &tmp->cx, &tmp->cy, &tmp->cz))
@@ -94,8 +106,7 @@ bool	parse_check_cylinder(char *line, t_parse *ps)
 		return (free_helper(ps, words, tmp, ERR_CYL));
 	if (!parse_check_rgb(words[5], &tmp->r, &tmp->g, &tmp->b))
 		return (free_helper(ps, words, tmp, ERR_CYL));
-	tmp->type = 2;
-	ps->obj_count++;
+	parse_dumb(&tmp->type, ps);
 	parse_fill_origin(&tmp->ori, tmp->cx, tmp->cy, tmp->cz);
 	parse_fill_norm(&tmp->nor, tmp->ox, tmp->oy, tmp->oz);
 	parse_fill_colour(&tmp->col, tmp->r, tmp->g, tmp->b);

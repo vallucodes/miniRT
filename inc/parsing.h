@@ -195,5 +195,6 @@ void	parse_fill_colour(t_color *col, int r, int g, int b);
 void	parse_fill_origin(t_tuple *origin, float cx, float cy, float cz);
 void	parse_fill_norm(t_tuple *norm, float ox, float oy, float oz);
 void	parse_fill_size(t_camera *camera);
+bool	parse__alloc(t_scene_obj *tmp, char **words, char *line);
 
 #endif
