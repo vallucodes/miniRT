@@ -12,7 +12,7 @@ bool	parse_check_amb(char *line, t_parse *ps)
 {
 	char	**words;
 
-	words = line_split_set(line, " \t"); //malloc fail not catched here
+	words = line_split_set(line, " \t");
 	if (!words)
 		return (free_helper(ps, NULL, NULL, ERR_ALLOC));
 	if (fun_words(line, " \t") != 3)
@@ -39,7 +39,7 @@ bool	parse_check_cam(char *line, t_parse *ps)
 {
 	char	**w;
 
-	w = line_split_set(line, " \t"); //malloc fail not catched here
+	w = line_split_set(line, " \t");
 	if (!w)
 		return (free_helper(ps, NULL, NULL, ERR_ALLOC));
 	if (fun_words(line, " \t") != 4)
@@ -70,7 +70,7 @@ bool	parse_check_light(char *line, t_parse *ps)
 {
 	char	**w;
 
-	w = line_split_set(line, " \t"); //malloc fail not catched here
+	w = line_split_set(line, " \t");
 	if (!w)
 		return (free_helper(ps, NULL, NULL, ERR_ALLOC));
 	if (fun_words(line, " \t") != 3)
