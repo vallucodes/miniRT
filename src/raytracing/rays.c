@@ -23,11 +23,3 @@ t_ray	transform(t_ray r, t_matrix4 m)
 	r.origin = multiply_mtrx_by_tuple(m, r.origin);
 	return (r);
 }
-
-/**
- * @brief Sets the transformation matrix of a t_scene_obj
- */
-void	set_transform(t_scene_obj *object, t_matrix4 trans_mtrx)
-{
-	object->transform = trans_mtrx;
-}

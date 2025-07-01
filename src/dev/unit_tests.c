@@ -342,6 +342,11 @@ void unit_tests_transform_matrices()
 	test_rotation_z_matrix();
 }
 
+void	set_transform(t_scene_obj *object, t_matrix4 trans_mtrx)
+{
+	object->transform = trans_mtrx;
+}
+
 /*void test_normal_at_sphere(t_minirt *m)
 {
 	printf("Testing normal at sphere point. \n");
