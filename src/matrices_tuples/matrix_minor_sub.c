@@ -23,10 +23,7 @@ static void	copy_matrix_row(t_matrix_ctx *ctx, t_matrix_result *result, t_row_co
 			continue;
 		}
 		if (result->size == 2)
-		{
-			printf("yes\n");
 			result->m.m2.m[params.dest_row][l] = ctx->m.m[params.src_row][j];
-		}
 		else if (result->size == 3)
 			result->m.m3.m[params.dest_row][l] = ctx->m.m[params.src_row][j];
 		j++;
