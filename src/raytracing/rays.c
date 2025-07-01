@@ -11,10 +11,10 @@ t_ray	create_ray(t_tuple vector, t_tuple point)
 
 t_tuple	position_ray(t_ray ray, float t)
 {
-	t_tuple	new_vector;
+	t_tuple	new_point;
 
-	new_vector = addition_tuples(scalar_multiply_tuple(ray.dir, t), ray.origin);
-	return (new_vector);
+	new_point = addition_tuples(scalar_multiply_tuple(ray.dir, t), ray.origin);
+	return (new_point);
 }
 
 t_ray	transform(t_ray r, t_matrix4 m)
@@ -22,12 +22,4 @@ t_ray	transform(t_ray r, t_matrix4 m)
 	r.dir = multiply_mtrx_by_tuple(m, r.dir);
 	r.origin = multiply_mtrx_by_tuple(m, r.origin);
 	return (r);
-}
-
-/**
- * @brief Sets the transformation matrix of a t_scene_obj
- */
-void	set_transform(t_scene_obj *object, t_matrix4 trans_mtrx)
-{
-	object->transform = trans_mtrx;
 }

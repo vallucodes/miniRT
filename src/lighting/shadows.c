@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-t_ray	get_ray_obj_to_light(t_minirt *minirt, t_tuple point, float	*distance)
+static t_ray	get_ray_obj_to_light(t_minirt *minirt, t_tuple point, float	*distance)
 {
 	t_tuple	point_to_light;
 	t_tuple	dir;

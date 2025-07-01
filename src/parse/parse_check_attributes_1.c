@@ -1,10 +1,10 @@
 #include "../../inc/minirt.h"
 
 /**
- * @brief Checks a given ratio is within the range [0.0,1.0].  
+ * @brief Checks a given ratio is within the range [0.0,1.0].
  * @param [in] *str
- * @param [in] *num: pointer to where the number should be stored. 
- * @return True if ratio was valid and set 
+ * @param [in] *num: pointer to where the number should be stored.
+ * @return True if ratio was valid and set
  */
 bool	parse_check_ratio(char *str, float *num)
 {
@@ -21,11 +21,11 @@ bool	parse_check_ratio(char *str, float *num)
 }
 
 /**
- * @brief Checks a given RGB tuple is within the range [0,255][0,255][0,255].  
- * @param [in] *str: string containing comma separated values. 
- * @param [in] *R, G or B: pointer to where the values should be stored. 
- * @return True if RGB values were valid and set 
- * @details Allocates memory to **tuple via ft_split(). 
+ * @brief Checks a given RGB tuple is within the range [0,255][0,255][0,255].
+ * @param [in] *str: string containing comma separated values.
+ * @param [in] *R, G or B: pointer to where the values should be stored.
+ * @return True if RGB values were valid and set
+ * @details Allocates memory to **tuple via ft_split().
  */
 bool	parse_check_rgb(char *str, int *r, int *g, int *b)
 {
@@ -52,11 +52,11 @@ bool	parse_check_rgb(char *str, int *r, int *g, int *b)
 }
 
 /**
- * @brief Checks a given coordinate tuple is valid. 
- * @param [in] *str: string containing comma separated coordinates. 
- * @param [in] *cx, xy or xz: pointer to where the values should be stored. 
- * @return True if coordinate values were valid and set 
- * @details Allocates memory to **tuple via ft_split(). 
+ * @brief Checks a given coordinate tuple is valid.
+ * @param [in] *str: string containing comma separated coordinates.
+ * @param [in] *cx, xy or xz: pointer to where the values should be stored.
+ * @return True if coordinate values were valid and set
+ * @details Allocates memory to **tuple via ft_split().
  */
 bool	parse_check_coords(char *str, float *cx, float *cy, float *cz)
 {
@@ -84,9 +84,9 @@ bool	parse_check_coords(char *str, float *cx, float *cy, float *cz)
 
 /**
  * @brief Checks given orientation tuple is normalised and within range [-1,1]
- * @param [in] *str: string containing comma separated orientation vector. 
- * @param [in] *ox, oy or oz: pointer to where the values should be stored. 
- * @details Allocates memory to **tuple via ft_split(). 
+ * @param [in] *str: string containing comma separated orientation vector.
+ * @param [in] *ox, oy or oz: pointer to where the values should be stored.
+ * @details Allocates memory to **tuple via ft_split().
  */
 bool	parse_check_orient(char *str, float *ox, float *oy, float *oz)
 {
@@ -108,17 +108,17 @@ bool	parse_check_orient(char *str, float *ox, float *oy, float *oz)
 	if (tmp < OR_MIN || tmp > OR_MAX)
 		return (free_helper(NULL, tuple, NULL, ERR_OO));
 	*oz = tmp;
-	if (!is_equal(sqrt(fabs((*ox * *ox) + (*oy * *oy) + (*oz * *oz))), 1))
-		return (free_helper(NULL, tuple, NULL, ERR_OO_NORM));
+	// if (!is_equal(sqrt(fabs((*ox * *ox) + (*oy * *oy) + (*oz * *oz))), 1))
+	// 	return (free_helper(NULL, tuple, NULL, ERR_OO_NORM));
 	free_matrix(tuple);
 	return (true);
 }
 
 /**
- * @brief Checks a given field of view is within the range [0,180].  
+ * @brief Checks a given field of view is within the range [0,180].
  * @param [in] *str
- * @param [in] *num: pointer to where the number should be stored. 
- * @return True if FOV was valid and set 
+ * @param [in] *num: pointer to where the number should be stored.
+ * @return True if FOV was valid and set
  */
 bool	parse_check_fov(char *str, unsigned char *num)
 {

@@ -26,12 +26,10 @@ t_xs	*intersects_sphere(t_scene_obj *obj, t_ray r, t_xs *xs)
 	t_i		i1;
 	t_i		i2;
 	t_quad	q;
-	t_tuple	sphere_to_ray;
 
-	sphere_to_ray = substraction_tuples(r.origin, create_point(0, 0, 0));
 	q.a = dot_tuple(r.dir, r.dir);
-	q.b = 2 * dot_tuple(sphere_to_ray, r.dir);
-	q.c = dot_tuple(sphere_to_ray, sphere_to_ray) - 1;
+	q.b = 2 * dot_tuple(r.origin, r.dir);
+	q.c = dot_tuple(r.origin, r.origin) - 1;
 	q.d = q.b * q.b - 4 * q.a * q.c;
 	if (q.d < 0)
 		return (xs);
