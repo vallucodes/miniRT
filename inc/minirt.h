@@ -29,13 +29,13 @@ typedef struct s_scene_obj	t_scene_obj;
 typedef struct s_camera	t_camera;
 typedef struct s_comps	t_comps;
 typedef struct s_light_vars	t_light_vars;
-t_color	color(float r, float g, float b);
-t_color	lighting(t_minirt m, t_comps c, bool in_shadow, t_light_vars *lv);
 
 //Project includes.
+# include "linear_algebra.h"
 # include "raytracing.h"
 # include "parsing.h"
 # include "utils.h"
+# include "dev.h" // remove before submitting
 
 //Constant defines
 /**
@@ -67,9 +67,11 @@ typedef struct s_minirt
 	mlx_t		*mlx;
 }		t_minirt;
 
-void	set_pixel_color(t_minirt *minirt);
-void	render_world(t_minirt *minirt);
-void	ft_keyhook(void *param);
+//drawing
+t_ray		ray_for_pixel(t_minirt *minirt, t_camera *c, int px, int py);
+void		set_pixel_color(t_minirt *minirt);
+void		render_world(t_minirt *minirt);
+void		ft_keyhook(void *param);
 
 //init.c
 void		init_minirt(t_minirt *minirt);
@@ -78,7 +80,7 @@ void		init_xs(t_xs *xs);
 void		init_objects(t_minirt *minirt);
 
 //error & cleanup
-void	exit_error(t_minirt *minirt, const char *msg);
-void	cleanup(t_minirt *minirt);
+void		exit_error(t_minirt *minirt, const char *msg);
+void		cleanup(t_minirt *minirt);
 
 #endif

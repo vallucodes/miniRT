@@ -79,14 +79,12 @@ t_xs	*cyl_intersect_caps(t_scene_obj *obj, t_xs *xs, t_ray r, t_i *i1, t_i *i2)
  */
 t_xs	*intersects_cylinder(t_scene_obj *obj, t_ray r, t_xs *xs)
 {
-	//t_i_t	*i;
 	t_i		i1;
 	t_i		i2;
 	t_quad	q;
 	float	t[2];
 	float	y[2];
 
-	//init_i_to_zeroes(i);
 	init_i_to_zeroes(&i1, &i2);
 	if (!cylinder_discriminant(r, &q))
 		return (cyl_intersect_caps(obj, xs, r, &i1, &i2));
