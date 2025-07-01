@@ -583,6 +583,16 @@ void	test_intersect_two_spheres(t_minirt *minirt)
 	print_comps(&comps);
 }*/
 
+t_light	init_point_light(t_tuple pos, t_color color, float ratio)
+{
+	t_light	light;
+
+	light.ori = pos;
+	light.col = color;
+	light.ratio = ratio;
+	return (light);
+}
+
 /*void	test_shading_an_intersection(t_minirt *minirt, char **av)
 {
 	t_ray	r = create_ray(create_vector(0,0,1), create_point(0,0,-5));
