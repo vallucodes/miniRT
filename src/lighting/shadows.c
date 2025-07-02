@@ -1,14 +1,16 @@
 #include "minirt.h"
 
-static t_ray	get_ray_obj_to_light(t_minirt *minirt, t_tuple point, float	*distance)
+static t_ray	get_ray_obj_to_light(t_minirt *minirt,
+				t_tuple point, float *distance)
 {
 	t_tuple	point_to_light;
 	t_tuple	dir;
+	t_tuple	light_pos;
 	t_light	*lig;
 
 	lig = &minirt->world->lig_s;
-	point_to_light = substraction_tuples(create_point(lig->cx, lig->cy, lig->cz),
-						create_point(point.x, point.y, point.z));
+	light_pos = create_point(lig->cx, lig->cy, lig->cz);
+	point_to_light = substraction_tuples(light_pos, point);
 	*distance = magnitude_tuple(point_to_light);
 	if (*distance == 0)
 		dir = create_vector(0, 0, 1);
