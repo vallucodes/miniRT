@@ -33,6 +33,8 @@ bool	parse_check_rgb(char *str, int *r, int *g, int *b)
 	int		tmp;
 
 	tuple = ft_split(str, ',');
+	if (!tuple)
+		return (free_helper(NULL, NULL, NULL, ERR_ALLOC));
 	if (fun_words(str, ",") != 3)
 		return (free_helper(NULL, tuple, NULL, ERR_RGB));
 	tmp = strict_atoi(tuple[0]);
@@ -64,6 +66,8 @@ bool	parse_check_coords(char *str, float *cx, float *cy, float *cz)
 	double	tmp;
 
 	tuple = ft_split(str, ',');
+	if (!tuple)
+		return (free_helper(NULL, NULL, NULL, ERR_ALLOC));
 	if (fun_words(str, ",") != 3)
 		return (free_helper(NULL, tuple, NULL, ERR_CO));
 	tmp = string_to_double(tuple[0]);
@@ -94,6 +98,8 @@ bool	parse_check_orient(char *str, float *ox, float *oy, float *oz)
 	double	tmp;
 
 	tuple = ft_split(str, ',');
+	if (!tuple)
+		return (free_helper(NULL, NULL, NULL, ERR_ALLOC));
 	if (fun_words(str, ",") != 3)
 		return (free_helper(NULL, tuple, NULL, ERR_OO));
 	tmp = string_to_double(tuple[0]);
@@ -108,8 +114,8 @@ bool	parse_check_orient(char *str, float *ox, float *oy, float *oz)
 	if (tmp < OR_MIN || tmp > OR_MAX)
 		return (free_helper(NULL, tuple, NULL, ERR_OO));
 	*oz = tmp;
-	// if (!is_equal(sqrt(fabs((*ox * *ox) + (*oy * *oy) + (*oz * *oz))), 1))
-	// 	return (free_helper(NULL, tuple, NULL, ERR_OO_NORM));
+	if (sqrt(fabs((*ox * *ox) + (*oy * *oy) + (*oz * *oz))) - 1 > EPS_ORIENT)
+		return (free_helper(NULL, tuple, NULL, ERR_OO_NORM));
 	free_matrix(tuple);
 	return (true);
 }
