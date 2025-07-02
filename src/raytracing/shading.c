@@ -11,7 +11,7 @@ t_color	shade_hit(t_minirt *m, t_comps c, bool in_shadow)
 
 	lv.eff_col = multiply_color_scalar(c.obj->mat.col, m->world->lig_s.ratio);
 	lv.light_vec = normalize_tuple(substraction_tuples(m->world->lig_s.ori,
-			c.over_point));
+				c.over_point));
 	lv.amb_col = multiply_color_scalar(lv.eff_col, c.obj->mat.ambient);
 	lv.l_dot_n = dot_tuple(lv.light_vec, c.normalv);
 	lv.skip = false;

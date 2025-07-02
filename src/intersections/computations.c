@@ -19,6 +19,7 @@ t_xs	intersect_world(t_minirt *minirt, t_ray r)
 	}
 	return (xs);
 }
+
 t_i	hit(t_xs *xs, t_scene_obj *obj_from)
 {
 	size_t		i;
@@ -28,7 +29,7 @@ t_i	hit(t_xs *xs, t_scene_obj *obj_from)
 	hit.t = -1;
 	hit.object = NULL;
 	i = 0;
-	while(i < xs->count)
+	while (i < xs->count)
 	{
 		obj_to = xs->object[i];
 		if (xs->t[i] > 0 && (!obj_from || obj_to->id != obj_from->id))
@@ -41,7 +42,7 @@ t_i	hit(t_xs *xs, t_scene_obj *obj_from)
 		}
 		i++;
 	}
-	return(hit);
+	return (hit);
 }
 
 t_comps	prepare_computations(t_minirt *minirt, t_i i, t_ray r)
@@ -52,7 +53,8 @@ t_comps	prepare_computations(t_minirt *minirt, t_i i, t_ray r)
 	comps.point = position_ray(r, i.t);
 	comps.eyev = normalize_tuple(negate_tuple(r.dir));
 	comps.normalv = normal_at(minirt, comps.obj, comps.point);
-	comps.over_point = addition_tuples(comps.point, scalar_multiply_tuple(comps.normalv, EPSILON));
+	comps.over_point = addition_tuples(comps.point,
+			scalar_multiply_tuple(comps.normalv, EPSILON));
 	if (dot_tuple(comps.normalv, comps.eyev) < 0)
 	{
 		comps.inside = true;
