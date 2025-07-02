@@ -43,6 +43,7 @@ typedef struct s_light_vars	t_light_vars;
  */
 # define M_PI			3.14159265358979323846
 # define EPSILON		0.0001
+# define EPS_ORIENT		0.1
 
 typedef enum e_exit
 {
