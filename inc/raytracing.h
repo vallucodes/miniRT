@@ -6,7 +6,7 @@
 /*   By: elehtone <elehtone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 19:12:46 by vlopatin          #+#    #+#             */
-/*   Updated: 2025/07/03 22:17:24 by elehtone         ###   ########.fr       */
+/*   Updated: 2025/07/03 22:42:35 by elehtone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,12 @@ typedef struct	s_normal_vars
 	t_tuple		world_normal;	
 }	t_normal_vars;
 
+typedef struct	s_is
+{
+	t_i	i1;
+	t_i	i2;
+}	t_is;
+
 
 //lighting.c
 t_tuple		reflect(t_tuple in, t_tuple normal);
@@ -191,6 +197,9 @@ void		intersections(t_xs	*xs, t_i i1, t_i i2);
 //intersect_cylinder.c
 t_xs		*intersects_cylinder(t_scene_obj *obj, t_ray r, t_xs *xs);
 void		init_i_to_zeroes(t_i *i1, t_i *i2);
+
+//intersect_utils.c
+void	swap_t_values(float *t);
 
 //transformation functions
 t_matrix4	generate_transformation_mtrx(t_minirt *minirt, t_scene_obj *obj);
