@@ -6,7 +6,7 @@
 /*   By: elehtone <elehtone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 21:53:38 by elehtone          #+#    #+#             */
-/*   Updated: 2025/07/03 21:53:39 by elehtone         ###   ########.fr       */
+/*   Updated: 2025/07/03 22:16:28 by elehtone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,25 +56,23 @@ t_tuple	normal_at_cylinder(t_scene_obj *cylinder, t_tuple point)
  */
 t_tuple	normal_at(t_minirt *minirt, t_scene_obj *obj, t_tuple point)
 {
-	t_tuple		local_point;
-	t_tuple		local_normal;
-	t_tuple		world_normal;
-	t_matrix4	inverse;
-	t_matrix4	tmp;
-	bool		success;
+	t_normal_vars	nv;
+	t_matrix4		inverse;
+	t_matrix4		tmp;
+	bool			success;
 
 	inverse = inverse_matrix(obj->transform, &success);
 	if (!success)
 		exit_error(minirt, INVERSE_MATRIX);
-	local_point = multiply_mtrx_by_tuple(inverse, point);
+	nv.local_point = multiply_mtrx_by_tuple(inverse, point);
 	if (obj->type == PLANE)
-		local_normal = normal_at_plane(point);
+		nv.local_normal = normal_at_plane(point);
 	else if (obj->type == SPHERE)
-		local_normal = normal_at_sphere(local_point);
+		nv.local_normal = normal_at_sphere(nv.local_point);
 	else if (obj->type == CYLINDER)
-		local_normal = normal_at_cylinder(obj, local_point);
+		nv.local_normal = normal_at_cylinder(obj, nv.local_point);
 	tmp = transpose_matrix(inverse);
-	world_normal = multiply_mtrx_by_tuple(tmp, local_normal);
-	world_normal.w = 0;
-	return (normalize_tuple(world_normal));
+	nv.world_normal = multiply_mtrx_by_tuple(tmp, nv.local_normal);
+	nv.world_normal.w = 0;
+	return (normalize_tuple(nv.world_normal));
 }

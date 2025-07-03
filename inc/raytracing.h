@@ -6,7 +6,7 @@
 /*   By: elehtone <elehtone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 19:12:46 by vlopatin          #+#    #+#             */
-/*   Updated: 2025/07/03 21:47:54 by elehtone         ###   ########.fr       */
+/*   Updated: 2025/07/03 22:17:24 by elehtone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,14 @@ typedef struct	s_calc_vars2
 	t_matrix4	second_term;
 	t_matrix4	third_term;
 }	t_calc_vars2;
+
+typedef struct	s_normal_vars
+{
+	t_tuple		local_point;
+	t_tuple		local_normal;
+	t_tuple		world_normal;	
+}	t_normal_vars;
+
 
 //lighting.c
 t_tuple		reflect(t_tuple in, t_tuple normal);
