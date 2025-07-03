@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raytracing.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlopatin <vlopatin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: elehtone <elehtone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 19:12:46 by vlopatin          #+#    #+#             */
-/*   Updated: 2025/07/03 19:18:32 by vlopatin         ###   ########.fr       */
+/*   Updated: 2025/07/03 21:47:54 by elehtone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ typedef struct s_xs
 	float	t[MAX_OBJECTS];
 }	t_xs;
 
-
-
 typedef struct s_quad
 {
 	float	a;
@@ -92,6 +90,7 @@ typedef struct	s_material
 
 typedef struct	s_light_vars
 {
+	t_color	com;
 	t_color	eff_col;
 	t_color	amb_col;
 	t_color	dif_col;
