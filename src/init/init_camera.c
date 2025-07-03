@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_camera.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vlopatin <vlopatin@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/03 19:09:10 by vlopatin          #+#    #+#             */
+/*   Updated: 2025/07/03 19:09:18 by vlopatin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 t_matrix4	view_transform(t_tuple from, t_tuple to, t_tuple up)
@@ -33,7 +45,7 @@ static void	set_camera_vars(t_minirt *minirt)
 
 	c = &minirt->world->cam_s;
 	if (c->fov == 180)
-		c->fov = 179.9; // 179.9 would be probably better, still issue: unsigned char	fov;
+		c->fov = 179;
 	c->fov_r = c->fov * (M_PI / 180.0f);
 	half_view = tan(c->fov_r / 2);
 	aspect_ratio = (float)c->hsize / (float)c->vsize;
