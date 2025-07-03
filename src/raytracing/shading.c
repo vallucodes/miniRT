@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shading.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlopatin <vlopatin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: elehtone <elehtone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 19:08:25 by vlopatin          #+#    #+#             */
-/*   Updated: 2025/07/03 19:08:26 by vlopatin         ###   ########.fr       */
+/*   Updated: 2025/07/03 21:48:14 by elehtone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@ t_color	shade_hit(t_minirt *m, t_comps c, bool in_shadow)
 	t_light_vars	lv;
 	t_color			res_color;
 
-	lv.eff_col = multiply_color_scalar(c.obj->mat.col, m->world->lig_s.ratio);
+	lv.com = multiply_color_scalar(m->world->amb_s.col, m->world->amb_s.ratio);
+	lv.com = multiply_color(c.obj->mat.col, lv.com);
+	lv.eff_col = multiply_color_scalar(lv.com, m->world->lig_s.ratio);
+	lv.amb_col = multiply_color_scalar(lv.com, c.obj->mat.ambient);
 	lv.light_vec = normalize_tuple(substraction_tuples(m->world->lig_s.ori,
 				c.over_point));
-	lv.amb_col = multiply_color_scalar(lv.eff_col, c.obj->mat.ambient);
 	lv.l_dot_n = dot_tuple(lv.light_vec, c.normalv);
 	lv.skip = false;
 	if (in_shadow == true || lv.l_dot_n < 0)
