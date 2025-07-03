@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vlopatin <vlopatin@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/03 19:11:47 by vlopatin          #+#    #+#             */
+/*   Updated: 2025/07/03 19:18:41 by vlopatin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minirt.h"
 
 int	main(int ac, char **av)
 {
-	// setbuf(stdout, NULL); //this was used just for debugging, when writing to file
 	t_minirt	minirt;
 
 	if (ac != 2)
@@ -25,24 +36,6 @@ int	main(int ac, char **av)
 	render_world(&minirt);
 	mlx_loop_hook(minirt.mlx, &ft_keyhook, &minirt);
 	mlx_loop(minirt.mlx);
-
-	ft_lstclear(&minirt.world->objects, &free);
-	close(minirt.world->fd);
-	free(minirt.world);
-	free(minirt.vp);
-
-	//Testing parsing again after alterations.
-	//fun_test_parsed_output(av, &minirt.world);
-
-	/**
-	 * Testing chapter 13 material
-	 */
-	//test_cylinder();
-	//test_cylinder2();
-
+	cleanup(&minirt);
 	return (0);
 }
-//todo:DONE
-
-//DONE:add max object amount = 100 in parsing stage
-//DONE:add check in parsing that does not allow camera to be 0,0,0
