@@ -6,7 +6,7 @@
 /*   By: elehtone <elehtone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 19:12:46 by vlopatin          #+#    #+#             */
-/*   Updated: 2025/07/03 22:42:35 by elehtone         ###   ########.fr       */
+/*   Updated: 2025/07/03 23:25:34 by elehtone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ typedef struct	s_material
 
 typedef struct	s_light_vars
 {
-	t_color	com;
 	t_color	eff_col;
 	t_color	amb_col;
 	t_color	dif_col;
