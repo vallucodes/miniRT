@@ -6,20 +6,11 @@
 /*   By: elehtone <elehtone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 21:52:26 by elehtone          #+#    #+#             */
-/*   Updated: 2025/07/03 21:52:28 by elehtone         ###   ########.fr       */
+/*   Updated: 2025/07/03 22:40:13 by elehtone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-static inline void	swap_t_values(float *t)
-{
-	float	tmp;
-
-	tmp = t[0];
-	t[0] = t[1];
-	t[1] = tmp;
-}
 
 /**
  * @brief Returns true if [r]ay intersects curved portion of cylinder.
@@ -66,22 +57,22 @@ static bool	cylinder_check_cap(t_ray r, float t)
 	return (res <= 1);
 }
 
-t_xs	*cyl_intersect_caps(t_scene_obj *obj, t_xs *xs, t_ray r, t_i *i1, t_i *i2)
+t_xs	*cyl_intersect_caps(t_scene_obj *obj, t_xs *xs, t_ray r, t_is i)
 {
 	float	t;
 
 	if (is_equal(r.dir.y, 0) || obj->closed == false)
 	{
-		cylinder_fill_intersections(xs, *i1, *i2);
+		cylinder_fill_intersections(xs, i.i1, i.i2);
 		return (xs);
 	}
 	t = (obj->min - r.origin.y) / r.dir.y;
 	if (t > 0 && cylinder_check_cap(r, t))
-		*i1 = intersection(t, obj);
+		i.i1 = intersection(t, obj);
 	t = (obj->max - r.origin.y) / r.dir.y;
 	if (t > 0 && cylinder_check_cap(r, t))
-		*i2 = intersection(t, obj);
-	cylinder_fill_intersections(xs, *i1, *i2);
+		i.i2 = intersection(t, obj);
+	cylinder_fill_intersections(xs, i.i1, i.i2);
 	return (xs);
 }
 
@@ -91,25 +82,24 @@ t_xs	*cyl_intersect_caps(t_scene_obj *obj, t_xs *xs, t_ray r, t_i *i1, t_i *i2)
  */
 t_xs	*intersects_cylinder(t_scene_obj *obj, t_ray r, t_xs *xs)
 {
-	t_i		i1;
-	t_i		i2;
+	t_is	i;
 	t_quad	q;
 	float	t[2];
 	float	y[2];
 
-	init_i_to_zeroes(&i1, &i2);
+	init_i_to_zeroes(&i.i1, &i.i2);
 	if (!cylinder_discriminant(r, &q))
-		return (cyl_intersect_caps(obj, xs, r, &i1, &i2));
+		return (cyl_intersect_caps(obj, xs, r, i));
 	t[0] = (-q.b - sqrt(q.d)) / (2 * q.a);
 	t[1] = (-q.b + sqrt(q.d)) / (2 * q.a);
 	if (t[0] > t[1])
 		swap_t_values(t);
 	y[0] = r.origin.y + t[0] * r.dir.y;
 	if (obj->min < y[0] && y[0] < obj->max)
-		i1 = intersection(t[0], obj);
+		i.i1 = intersection(t[0], obj);
 	y[1] = r.origin.y + t[1] * r.dir.y;
 	if (obj->min < y[1] && y[1] < obj->max)
-		i2 = intersection(t[1], obj);
-	cylinder_fill_intersections(xs, i1, i2);
-	return (cyl_intersect_caps(obj, xs, r, &i1, &i2));
+		i.i2 = intersection(t[1], obj);
+	cylinder_fill_intersections(xs, i.i1, i.i2);
+	return (cyl_intersect_caps(obj, xs, r, i));
 }
