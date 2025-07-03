@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlopatin <vlopatin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: elehtone <elehtone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 19:11:47 by vlopatin          #+#    #+#             */
-/*   Updated: 2025/07/03 19:18:41 by vlopatin         ###   ########.fr       */
+/*   Updated: 2025/07/03 22:21:18 by elehtone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int ac, char **av)
 		return (1);
 	}
 	init_minirt(&minirt);
-	minirt.world = ft_calloc(1, sizeof(t_parse)); //null return is not always malloc fail
+	minirt.world = ft_calloc(1, sizeof(t_parse));
 	if (!minirt.world)
 		exit_error(&minirt, MALLOC);
 	file_check(av, minirt.world);
