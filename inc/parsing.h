@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elehtone <elehtone@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vlopatin <vlopatin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 21:57:02 by elehtone          #+#    #+#             */
-/*   Updated: 2025/07/04 11:14:18 by elehtone         ###   ########.fr       */
+/*   Updated: 2025/07/04 16:40:23 by vlopatin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
+
+# include "raytracing.h"
 
 /**
  * @brief Min and max values for RGB, FOV, orientation, coordinate.
@@ -124,7 +126,7 @@ typedef struct s_light
  * @note Plane (0): cx,cy,cz[CO_MIN,CO_MAX] ox,oy,oz[OR_MIN,OR_MAX] r,g,b[0,255]
  * @note Sphere (1): cx,cy,cz[CO_MIN,CO_MAX] dia r,g,b[0,255]
  * @note Cylinder (2): cx,cy,cz ox,oy,oz dia height r,g,b
- * @details We will always use truncated closed cylinders. 
+ * @details We will always use truncated closed cylinders.
  */
 typedef struct s_scene_obj
 {

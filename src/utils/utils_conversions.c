@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   utils_conversions.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elehtone <elehtone@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vlopatin <vlopatin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 21:54:39 by elehtone          #+#    #+#             */
-/*   Updated: 2025/07/03 21:54:41 by elehtone         ###   ########.fr       */
+/*   Updated: 2025/07/04 16:11:53 by vlopatin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minirt.h"
 
 /**
- * @brief Counts only leading digits in a string. 
+ * @brief Counts only leading digits in a string.
  * @param [in] *str
- * @return 0 if string NULL. 
+ * @return 0 if string NULL.
  */
 static int	count_digits(const char *str)
 {
@@ -30,11 +30,11 @@ static int	count_digits(const char *str)
 }
 
 /**
- * @brief Attempts to extract a double from a string. 
+ * @brief Attempts to extract a double from a string.
  * @param [in] *str
- * @return On failure, returns an out of (project) limit negative value 
- * @details Allocates memory to **sides via ft_split(). 
- * 			- Failure return is linked to coordinate min/max, negative sum. 
+ * @return On failure, returns an out of (project) limit negative value
+ * @details Allocates memory to **sides via ft_split().
+ * 			- Failure return is linked to coordinate min/max, negative sum.
  */
 double	string_to_double(const char *str)
 {
@@ -65,9 +65,9 @@ double	string_to_double(const char *str)
 }
 
 /**
- * @brief Attempts to extract an int from a string. 
+ * @brief Attempts to extract an int from a string.
  * @param [in] *nptr
- * @return Positive int on success, -1 on fail. 
+ * @return Positive int on success, -1 on fail.
  * @details In current project use, there are no negative ints, if the result is
  * 			negative, then the conversion failed.
  * 			Failure occurs on any non-digit in string, regardless of position.

@@ -3,9 +3,9 @@ NAME = miniRT
 
 # compile and link
 CC = cc
-# CFLAGS = -g -O3 -flto -Wall -Wextra -march=native -ffast-math -funroll-loops #-Werror
+CFLAGS = -O3 -flto -Wall -Wextra -Werror -march=native -ffast-math -funroll-loops
 #Leaving optimisations disabled for debugging
-CFLAGS = -g -O0 #-Wall -Wextra #-Werror
+# CFLAGS = -g -O0 -Wall -Wextra -Werror
 
 # libft specifics
 MLX_DIR		= ./lib/MLX42
