@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlopatin <vlopatin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: elehtone <elehtone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 15:10:38 by vlopatin          #+#    #+#             */
-/*   Updated: 2025/05/12 20:12:55 by elehtone         ###   ########.fr       */
+/*   Updated: 2025/07/04 13:10:42 by elehtone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,14 @@
 # define LIBFT_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 5
+#  define BUFFER_SIZE 10
 # endif
 
 # include <stdlib.h>
 # include <unistd.h>
 # include <limits.h>
 # include <stdint.h>
+# include <stdbool.h>
 
 typedef struct s_list
 {
@@ -92,7 +93,6 @@ t_list	*ft_lstlast(t_list *lst);
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 // Get next line (elehtone)
-char	*get_next_line(int fd);
-int		fun_findnl(const char *s);
+char	*get_next_line(int fd, bool clean);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: elehtone <elehtone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 19:11:47 by vlopatin          #+#    #+#             */
-/*   Updated: 2025/07/03 22:21:18 by elehtone         ###   ########.fr       */
+/*   Updated: 2025/07/04 12:35:12 by elehtone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int	main(int ac, char **av)
 	file_check(av, minirt.world);
 	if (!parsing_gateway(minirt.world))
 	{
-		minirt.world = NULL;
 		exit_error(&minirt, NULL);
+		minirt.world = NULL;
 	}
 	render_world(&minirt);
 	mlx_loop_hook(minirt.mlx, &ft_keyhook, &minirt);

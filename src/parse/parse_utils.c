@@ -6,7 +6,7 @@
 /*   By: elehtone <elehtone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 21:55:26 by elehtone          #+#    #+#             */
-/*   Updated: 2025/07/03 21:56:10 by elehtone         ###   ########.fr       */
+/*   Updated: 2025/07/04 13:55:10 by elehtone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,19 @@ void	parse_fill_size(t_camera *camera)
 {
 	camera->hsize = WIDTH;
 	camera->vsize = HEIGHT;
+}
+
+/**
+ * @brief Checks if given orientation values make a unit vector. 
+ */
+bool	parse_check_ori_norm(float *ox, float *oy, float *oz)
+{
+	float	res;
+
+	res = fabs((*ox * *ox) + (*oy * *oy) + (*oz * *oz));
+	res = fabs(sqrt(res - 1));
+	if (res > EPS_ORIENT)
+		return (true);
+	else
+		return (false);
 }
