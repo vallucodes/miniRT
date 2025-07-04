@@ -3,28 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   raytracing.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elehtone <elehtone@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vlopatin <vlopatin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 19:12:46 by vlopatin          #+#    #+#             */
-/*   Updated: 2025/07/04 15:08:17 by elehtone         ###   ########.fr       */
+/*   Updated: 2025/07/04 16:31:15 by vlopatin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RAYTRACING_H
 # define RAYTRACING_H
 
-# define WIDTH			400
-# define HEIGHT			400
 # define MAX_OBJECTS	100
-# define MALLOC			"Memory allocation failed"
-# define PARSING		"Exit, parsing failure."
-# define SHAPE			"Unreachable code: shape unrecognized."
-# define INVERSE_MATRIX	"Matrix not invertible."
-
-//Material default values
-# define DIF_DEFAULT 0.9
-# define SPEC_DEFAULT 0.9
-# define SHINE_DEFAULT 200
 
 typedef struct s_ray
 {
@@ -141,7 +130,7 @@ typedef struct s_normal_vars
 {
 	t_tuple		local_point;
 	t_tuple		local_normal;
-	t_tuple		world_normal;	
+	t_tuple		world_normal;
 }	t_normal_vars;
 
 typedef struct s_is
@@ -152,7 +141,7 @@ typedef struct s_is
 
 //lighting.c
 t_tuple		reflect(t_tuple in, t_tuple normal);
-t_color		lighting(t_minirt m, t_comps c, bool in_shadow, t_light_vars *lv);
+t_color		lighting(t_comps c, t_light_vars *lv);
 
 //normal.c
 t_tuple		normal_at(t_minirt *minirt, t_scene_obj *obj, t_tuple point);
