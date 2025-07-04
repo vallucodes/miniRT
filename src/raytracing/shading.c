@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shading.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elehtone <elehtone@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vlopatin <vlopatin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 19:08:25 by vlopatin          #+#    #+#             */
-/*   Updated: 2025/07/03 23:18:02 by elehtone         ###   ########.fr       */
+/*   Updated: 2025/07/04 15:55:49 by vlopatin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_color	shade_hit(t_minirt *m, t_comps c, bool in_shadow)
 		lv.spec_col = color(0, 0, 0);
 		lv.skip = true;
 	}
-	res_color = lighting(*m, c, in_shadow, &lv);
+	res_color = lighting(c, &lv);
 	return (res_color);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lighting.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elehtone <elehtone@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vlopatin <vlopatin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 21:52:50 by elehtone          #+#    #+#             */
-/*   Updated: 2025/07/03 21:52:51 by elehtone         ###   ########.fr       */
+/*   Updated: 2025/07/04 15:55:30 by vlopatin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_tuple	reflect(t_tuple in, t_tuple normal)
  * @details ambient + specular + diffuse weighted depending on relative position
  * 			between light, camera and object(s)
  */
-t_color	lighting(t_minirt m, t_comps c, bool in_shadow, t_light_vars *l)
+t_color	lighting(t_comps c, t_light_vars *l)
 {
 	t_color	res;
 
