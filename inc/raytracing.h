@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raytracing.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlopatin <vlopatin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: elehtone <elehtone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 19:12:46 by vlopatin          #+#    #+#             */
-/*   Updated: 2025/07/03 19:18:32 by vlopatin         ###   ########.fr       */
+/*   Updated: 2025/07/04 15:08:17 by elehtone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ typedef struct s_i
 	void	*object;
 }	t_i;
 
-typedef struct	s_i_t
+typedef struct s_i_t
 {
 	t_i	i1;
 	t_i	i2;
@@ -70,8 +70,6 @@ typedef struct s_xs
 	float	t[MAX_OBJECTS];
 }	t_xs;
 
-
-
 typedef struct s_quad
 {
 	float	a;
@@ -81,7 +79,7 @@ typedef struct s_quad
 }	t_quad;
 
 //Material light properties
-typedef struct	s_material
+typedef struct s_material
 {
 	t_color	col;
 	float	ambient;
@@ -90,7 +88,7 @@ typedef struct	s_material
 	float	shininess;
 }	t_material;
 
-typedef struct	s_light_vars
+typedef struct s_light_vars
 {
 	t_color	eff_col;
 	t_color	amb_col;
@@ -104,7 +102,7 @@ typedef struct	s_light_vars
 	bool	skip;
 }	t_light_vars;
 
-typedef struct	s_comps
+typedef struct s_comps
 {
 	bool		inside;
 	t_scene_obj	*obj;
@@ -114,14 +112,14 @@ typedef struct	s_comps
 	t_tuple		normalv;
 }	t_comps;
 
-typedef struct	s_row_copy_params
+typedef struct s_row_copy_params
 {
-	size_t src_row;
-	size_t dest_row;
-	size_t skip_col;
+	size_t	src_row;
+	size_t	dest_row;
+	size_t	skip_col;
 }	t_row_copy_params;
 
-typedef struct	s_calc_vars
+typedef struct s_calc_vars
 {
 	float	xoffset;
 	float	yoffset;
@@ -129,7 +127,7 @@ typedef struct	s_calc_vars
 	float	view_port_y;
 }	t_calc_vars;
 
-typedef struct	s_calc_vars2
+typedef struct s_calc_vars2
 {
 	t_matrix4	k;
 	t_matrix4	k2;
@@ -138,6 +136,19 @@ typedef struct	s_calc_vars2
 	t_matrix4	second_term;
 	t_matrix4	third_term;
 }	t_calc_vars2;
+
+typedef struct s_normal_vars
+{
+	t_tuple		local_point;
+	t_tuple		local_normal;
+	t_tuple		world_normal;	
+}	t_normal_vars;
+
+typedef struct s_is
+{
+	t_i	i1;
+	t_i	i2;
+}	t_is;
 
 //lighting.c
 t_tuple		reflect(t_tuple in, t_tuple normal);
@@ -184,6 +195,9 @@ void		intersections(t_xs	*xs, t_i i1, t_i i2);
 //intersect_cylinder.c
 t_xs		*intersects_cylinder(t_scene_obj *obj, t_ray r, t_xs *xs);
 void		init_i_to_zeroes(t_i *i1, t_i *i2);
+
+//intersect_utils.c
+void		swap_t_values(float *t);
 
 //transformation functions
 t_matrix4	generate_transformation_mtrx(t_minirt *minirt, t_scene_obj *obj);

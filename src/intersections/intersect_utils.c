@@ -1,33 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   intersect_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: elehtone <elehtone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/14 09:13:20 by elehtone          #+#    #+#             */
-/*   Updated: 2025/05/16 13:06:44 by elehtone         ###   ########.fr       */
+/*   Created: 2025/07/03 22:41:35 by elehtone          #+#    #+#             */
+/*   Updated: 2025/07/03 22:41:38 by elehtone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/libft.h"
+#include "minirt.h"
 
-//Different to libft strchr in that it outputs an int and adds 1 to the count.
-//Oh and it only searches for '\n'.
-int	fun_findnl(const char *s)
+inline void	swap_t_values(float *t)
 {
-	int	count;
-	int	slen;
+	float	tmp;
 
-	if (!s)
-		return (0);
-	count = 0;
-	slen = ft_strlen(s);
-	while (count <= slen)
-	{
-		if (s[count] == '\n')
-			return (count + 1);
-		count++;
-	}
-	return (0);
+	tmp = t[0];
+	t[0] = t[1];
+	t[1] = tmp;
 }

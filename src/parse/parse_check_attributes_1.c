@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_check_attributes_1.c                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elehtone <elehtone@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/03 21:55:54 by elehtone          #+#    #+#             */
+/*   Updated: 2025/07/04 10:02:16 by elehtone         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minirt.h"
 
 /**
@@ -114,7 +126,7 @@ bool	parse_check_orient(char *str, float *ox, float *oy, float *oz)
 	if (tmp < OR_MIN || tmp > OR_MAX)
 		return (free_helper(NULL, tuple, NULL, ERR_OO));
 	*oz = tmp;
-	if (sqrt(fabs((*ox * *ox) + (*oy * *oy) + (*oz * *oz))) - 1 > EPS_ORIENT)
+	if (parse_check_ori_norm(ox, oy, oz))
 		return (free_helper(NULL, tuple, NULL, ERR_OO_NORM));
 	free_matrix(tuple);
 	return (true);
