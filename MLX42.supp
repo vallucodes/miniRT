@@ -83,3 +83,9 @@
    fun:_dl_catch_exception
    fun:dl_open_worker
 }
+{
+   param sendmsg
+   Memcheck:Param
+   sendmsg(msg.msg_iov[0])
+   fun:sendmsg
+}

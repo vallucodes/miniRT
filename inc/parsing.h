@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elehtone <elehtone@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/03 21:57:02 by elehtone          #+#    #+#             */
+/*   Updated: 2025/07/04 11:14:18 by elehtone         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PARSING_H
 # define PARSING_H
 
@@ -35,7 +47,7 @@ typedef enum e_obj_type
 # define ERR_OPTICAL "Invalid optical object designation in scene file."
 # define ERR_SCENE "Invalid scene object designation in scene file."
 # define ERR_AMB "Incorrect ambient light designation."
-# define ERR_DIFF "Incorrect diffuse light designation."
+# define ERR_DIFF "Incorrect point light designation."
 # define ERR_CAM "Incorrect camera designation."
 # define ERR_PLANE "Incorrect plane object designation."
 # define ERR_SPHERE "Incorrect sphere object designation."
@@ -49,6 +61,9 @@ typedef enum e_obj_type
 # define ERR_NUM_OBJ "Too many objects defined in scene file."
 # define ERR_OO_NORM "Orientation vector not a unit vector."
 # define ERR_ALLOC "Memory allocation failed."
+# define ERR_AMB_NUM "More than one ambient light defined."
+# define ERR_DIFF_NUM "More than one point light defined."
+# define ERR_CAM_NUM "More than one camera defined."
 
 /**
  * @brief Ambient optical object.
@@ -195,6 +210,7 @@ void	parse_fill_colour(t_color *col, int r, int g, int b);
 void	parse_fill_origin(t_tuple *origin, float cx, float cy, float cz);
 void	parse_fill_norm(t_tuple *norm, float ox, float oy, float oz);
 void	parse_fill_size(t_camera *camera);
+bool	parse_check_ori_norm(float *ox, float *oy, float *oz);
 bool	parse__alloc(t_scene_obj *tmp, char **words, char *line);
 
 #endif
