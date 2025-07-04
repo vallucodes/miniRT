@@ -6,7 +6,7 @@
 /*   By: elehtone <elehtone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 21:54:49 by elehtone          #+#    #+#             */
-/*   Updated: 2025/07/03 21:54:53 by elehtone         ###   ########.fr       */
+/*   Updated: 2025/07/04 11:28:04 by elehtone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ bool	free_helper(t_parse *ps, char **matrix, void *vector, char *message)
 	{
 		ft_lstclear(&ps->objects, &free);
 		close(ps->fd);
-		free(ps);
 	}
 	if (matrix && *matrix && **matrix)
 		free_matrix(matrix);
