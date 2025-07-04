@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlopatin <vlopatin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: elehtone <elehtone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 19:13:07 by vlopatin          #+#    #+#             */
-/*   Updated: 2025/07/03 19:13:08 by vlopatin         ###   ########.fr       */
+/*   Updated: 2025/07/04 15:10:53 by elehtone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,15 @@
 # include "../lib/libft/inc/libft.h"
 
 //Prototypes to prevent breaking of dependencies
-typedef struct s_parse	t_parse;
-typedef struct s_minirt	t_minirt;
-typedef struct s_color	t_color;
-typedef struct s_tuple	t_tuple;
-typedef struct s_light	t_light;
+typedef struct s_parse		t_parse;
+typedef struct s_minirt		t_minirt;
+typedef struct s_color		t_color;
+typedef struct s_tuple		t_tuple;
+typedef struct s_light		t_light;
 typedef struct s_material	t_material;
 typedef struct s_scene_obj	t_scene_obj;
-typedef struct s_camera	t_camera;
-typedef struct s_comps	t_comps;
+typedef struct s_camera		t_camera;
+typedef struct s_comps		t_comps;
 typedef struct s_light_vars	t_light_vars;
 
 //Project includes.
@@ -51,7 +51,7 @@ typedef struct s_light_vars	t_light_vars;
 
 //Constant defines
 /**
- * @todo  M_PI Only here to stop vscode annoyance. Can be removed for evaluation.
+ * @todo  M_PI Only here to stop vscode annoyance. 
  */
 # define M_PI			3.14159265358979323846
 # define EPSILON		0.0001

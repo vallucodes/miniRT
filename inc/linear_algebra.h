@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linear_algebra.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlopatin <vlopatin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: elehtone <elehtone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 19:13:01 by vlopatin          #+#    #+#             */
-/*   Updated: 2025/07/03 19:13:02 by vlopatin         ###   ########.fr       */
+/*   Updated: 2025/07/04 15:10:11 by elehtone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,27 +54,27 @@ typedef struct s_matrix_result
 }	t_matrix_result;
 
 //tuples operators
-t_tuple		create_vector(float x, float y, float z);
-t_tuple		create_point(float x, float y, float z);
+t_tuple			create_vector(float x, float y, float z);
+t_tuple			create_point(float x, float y, float z);
 
 //tuple operations
-t_tuple		addition_tuples(t_tuple tuple1, t_tuple tuple2);
-t_tuple		substraction_tuples(t_tuple tuple1, t_tuple tuple2);
-t_tuple		negate_tuple(t_tuple tuple1);
-t_tuple		scalar_multiply_tuple(t_tuple tuple1, float scalar);
-t_tuple		scalar_divide_tuple(t_tuple tuple1, float scalar);
-float		magnitude_tuple(t_tuple tuple);
-t_tuple		normalize_tuple(t_tuple tuple);
-float		dot_tuple(t_tuple tuple1, t_tuple tuple2);
-t_tuple		cross_tuple(t_tuple tuple1, t_tuple tuple2);
+t_tuple			addition_tuples(t_tuple tuple1, t_tuple tuple2);
+t_tuple			substraction_tuples(t_tuple tuple1, t_tuple tuple2);
+t_tuple			negate_tuple(t_tuple tuple1);
+t_tuple			scalar_multiply_tuple(t_tuple tuple1, float scalar);
+t_tuple			scalar_divide_tuple(t_tuple tuple1, float scalar);
+float			magnitude_tuple(t_tuple tuple);
+t_tuple			normalize_tuple(t_tuple tuple);
+float			dot_tuple(t_tuple tuple1, t_tuple tuple2);
+t_tuple			cross_tuple(t_tuple tuple1, t_tuple tuple2);
 
 //matrix operators
-t_matrix4	identity(void);
-t_matrix4	translation(float x, float y, float z);
-t_matrix4	scaling(float x, float y, float z);
-t_matrix4	rotation_x(float theta);
-t_matrix4	rotation_y(float theta);
-t_matrix4	rotation_z(float theta);
+t_matrix4		identity(void);
+t_matrix4		translation(float x, float y, float z);
+t_matrix4		scaling(float x, float y, float z);
+t_matrix4		rotation_x(float theta);
+t_matrix4		rotation_y(float theta);
+t_matrix4		rotation_z(float theta);
 
 //matrix oprations
 t_matrix4		multiply_mtrx_by_mtrx(t_matrix4 m, t_matrix4 m2);
@@ -91,6 +91,6 @@ t_matrix4		scalar_multiply_matrix(t_matrix4 m, float scalar);
 t_matrix4		addition_matrix(t_matrix4 a, t_matrix4 b);
 
 //matrix utils
-void		matrix_fill_zero(t_matrix4 *m);
+void			matrix_fill_zero(t_matrix4 *m);
 
 #endif
