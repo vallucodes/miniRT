@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   normal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elehtone <elehtone@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vlopatin <vlopatin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 21:53:38 by elehtone          #+#    #+#             */
-/*   Updated: 2025/07/03 22:16:28 by elehtone         ###   ########.fr       */
+/*   Updated: 2025/07/06 10:36:55 by vlopatin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_tuple	normal_at_plane(t_tuple point)
 }
 
 /**
- * @brief Return the normal of a cylinder for a given local [point] 
+ * @brief Return the normal of a cylinder for a given local [point]
  */
 t_tuple	normal_at_cylinder(t_scene_obj *cylinder, t_tuple point)
 {
@@ -71,6 +71,8 @@ t_tuple	normal_at(t_minirt *minirt, t_scene_obj *obj, t_tuple point)
 		nv.local_normal = normal_at_sphere(nv.local_point);
 	else if (obj->type == CYLINDER)
 		nv.local_normal = normal_at_cylinder(obj, nv.local_point);
+	else
+		exit_error(minirt, SHAPE);
 	tmp = transpose_matrix(inverse);
 	nv.world_normal = multiply_mtrx_by_tuple(tmp, nv.local_normal);
 	nv.world_normal.w = 0;
