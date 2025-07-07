@@ -6,7 +6,7 @@
 /*   By: vlopatin <vlopatin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 19:11:47 by vlopatin          #+#    #+#             */
-/*   Updated: 2025/07/07 14:37:14 by vlopatin         ###   ########.fr       */
+/*   Updated: 2025/07/07 15:13:38 by vlopatin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,3 @@ int	main(int ac, char **av)
 //todo
 
 // unit vector checker not correct
-// ambient 255,0,0 and obj being 0,255,255 should be black object

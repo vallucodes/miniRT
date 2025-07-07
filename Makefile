@@ -114,7 +114,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: all, clean, fclean, re
-
-# .PHONY tells make that the commands are not files.
-# Make doesn't worry about whether they are actual files or not. It will always
-#     run these unless other targets are present and up-to-date.
