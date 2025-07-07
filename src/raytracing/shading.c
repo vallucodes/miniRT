@@ -6,7 +6,7 @@
 /*   By: vlopatin <vlopatin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 19:08:25 by vlopatin          #+#    #+#             */
-/*   Updated: 2025/07/07 14:50:54 by vlopatin         ###   ########.fr       */
+/*   Updated: 2025/07/07 15:07:15 by vlopatin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,11 @@ t_color	shade_hit(t_minirt *m, t_comps c, bool in_shadow)
 	t_color			tmp;
 	t_color			res_color;
 
-	lv.eff_col = multiply_color(c.obj->col, m->world->lig_s.col);
-	// printf("eff_color1:\n");
-	// print_colour(lv.eff_col);
-	lv.eff_col = multiply_color_scalar(lv.eff_col, m->world->lig_s.ratio);
-	// printf("eff_color2:\n");
-	// print_colour(lv.eff_col);
+	lv.eff_col = multiply_color_scalar(c.obj->col, m->world->lig_s.ratio);
+
 	tmp = multiply_color_scalar(m->world->amb_s.col, m->world->amb_s.ratio);
 	lv.amb_col = multiply_color(tmp, c.obj->col);
 	lv.amb_col = multiply_color_scalar(lv.amb_col, c.obj->mat.ambient);
-	// printf("amb_col\n");
-	// print_colour(lv.amb_col);
 	lv.light_vec = normalize_tuple(substraction_tuples(m->world->lig_s.ori,
 				c.over_point));
 	lv.l_dot_n = dot_tuple(lv.light_vec, c.normalv);
