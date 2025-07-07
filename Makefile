@@ -3,7 +3,7 @@ NAME = miniRT
 
 # compile and link
 CC = cc
-CFLAGS = -O3 -flto -Wall -Wextra -Werror -march=native -ffast-math -funroll-loops
+CFLAGS = -O3 -flto -march=native -ffast-math -funroll-loops #-Wall -Wextra -Werror
 
 # libft specifics
 MLX_DIR		= ./lib/MLX42
@@ -26,7 +26,8 @@ HEADERS		= inc/minirt.h \
 				inc/parsing.h \
 				inc/raytracing.h \
 				inc/typedefs.h \
-				inc/utils.h
+				inc/utils.h \
+				inc/dev.h
 
 SRCS		= src/main.c \
 				src/colors/colors_ops.c \
@@ -70,7 +71,10 @@ SRCS		= src/main.c \
 				src/utils/is_equal.c \
 				src/utils/utils_conversions.c \
 				src/utils/utils_error.c \
-				src/utils/utils_matrix.c
+				src/utils/utils_matrix.c \
+				src/dev/objects.c \
+				src/dev/printing_helpers.c \
+				src/dev/unit_tests.c
 
 OBJS		= $(SRCS:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 

@@ -6,7 +6,7 @@
 /*   By: vlopatin <vlopatin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 19:13:07 by vlopatin          #+#    #+#             */
-/*   Updated: 2025/07/07 09:15:57 by vlopatin         ###   ########.fr       */
+/*   Updated: 2025/07/07 14:45:25 by vlopatin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # include "utils.h"
 # include "parsing.h"
 # include "raytracing.h"
+# include "dev.h"
 
 //Constant defines
 /**

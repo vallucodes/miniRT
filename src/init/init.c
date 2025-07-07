@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elehtone <elehtone@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vlopatin <vlopatin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 21:51:07 by elehtone          #+#    #+#             */
-/*   Updated: 2025/07/03 21:51:09 by elehtone         ###   ########.fr       */
+/*   Updated: 2025/07/07 14:36:19 by vlopatin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,3 @@ void	init_i_to_zeroes(t_i *i1, t_i *i2)
 	i2->t = 0;
 	i2->object = NULL;
 }
-/*void	init_i_to_zeroes(t_i_t *i)
-{
-	i->i1.t = 0;
-	i->i1.object = NULL;
-	i->i2.t = 0;
-	i->i2.object = NULL;
-}*/
